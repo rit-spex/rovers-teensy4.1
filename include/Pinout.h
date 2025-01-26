@@ -11,13 +11,13 @@ enum PWM_PINS {
     PWM_PIN_0 = 2,
     PWM_PIN_1 = 3,
     PWM_PIN_2 = 4,
-    PWM_PIN_3 = 12,//5, // is 12 on proto-board
-    PWM_PIN_4 = 10,//6, // is 10 on proto-board
-    PWM_PIN_5 = 11//7  // is 11 on proto-board
+    PWM_PIN_3 = 5, // is 12 on proto-board
+    PWM_PIN_4 = 6, // is 10 on proto-board
+    PWM_PIN_5 = 7  // is 11 on proto-board
 };
 
 enum ENC_A_PINS {
-    ENC_A_PIN_0 = 31,//8, // is 31 on proto-board
+    ENC_A_PIN_0 = 8, // is 31 on proto-board
     ENC_A_PIN_1 = 10,
     ENC_A_PIN_2 = 12,
     ENC_A_PIN_3 = 22,
@@ -26,7 +26,7 @@ enum ENC_A_PINS {
 };
 
 enum ENC_B_PINS {
-    ENC_B_PIN_0 = 30,//9, // is 30 on proto-board
+    ENC_B_PIN_0 = 9, // is 30 on proto-board
     ENC_B_PIN_1 = 11,
     ENC_B_PIN_2 = 23,
     ENC_B_PIN_3 = 21,

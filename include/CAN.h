@@ -18,7 +18,12 @@
 
 class CAN
 {
-    public: 
+    public:
+
+        // temp
+        bool m_recievedMsg;
+        uint8_t m_lastRecievedMsgCycle; 
+
         typedef enum {
             E_STOP           = (uint32_t) 0,
             TARGET_RPM       = (uint32_t) 1,
@@ -50,7 +55,8 @@ class CAN
         typedef std::unordered_map<Message_ID, bool> MessageFlag;
 
         // constructor for the class
-        CAN();
+        // @param pointer to the programs main cycle 
+        CAN(unsigned long *currentCycle);
 
         // start the CAN only call this once
         void startCAN();
@@ -62,7 +68,7 @@ class CAN
         int getUnpackedMessage(Message_ID id, int index = 0);
 
         // emptys out the mailbox in the hardware buffer
-        void readMsgBuffer(void);
+        void readMsgBuffer();
 
         // checks if there has been a new msg on the id
         bool isNewMessage(Message_ID id);
@@ -70,6 +76,7 @@ class CAN
         // if the msg is EStop
         static bool IsEStop(const CANMessage &msg);
     private:
+        unsigned long *m_currentCyclePtr;
         static ObjectDictionary m_objectDict;
         static MessageFlag m_messageFlag;
         static void CANSniff(const CANMessage &msg);

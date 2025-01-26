@@ -24,7 +24,7 @@ QuadratureDecoder demo_encoder{ENC_A_PIN_0, ENC_B_PIN_0};
 unsigned long currentRunCycle = 0;
 
 // create the main body board
-MainBodyBoard mbb;
+MainBodyBoard mbb {&currentRunCycle};
 
 void setup()
 {

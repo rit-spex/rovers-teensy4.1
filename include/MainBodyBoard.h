@@ -42,8 +42,9 @@ class MainBodyBoard {
         /*
         * Constructor for the main body board class.
         * Initializes the drive base, temp subsystem, and LiDAR.
+        @param pointer to the currentRunCycle
         */
-        MainBodyBoard();
+        MainBodyBoard(unsigned long *currentCycle);
         ~MainBodyBoard();
 
         // startup for all of the subsystems
@@ -56,7 +57,7 @@ class MainBodyBoard {
         void updateSubsystems(int timeInterval_ms);
 
         // run any background process while it is not doing main tasks
-        void runBackgroundProcess(void);
+        void runBackgroundProcess();
 
         // disables the teensy
         void disable();
@@ -77,8 +78,10 @@ class MainBodyBoard {
         bool m_disabled = false;
 
         #if ENABLE_CAN
-            CAN m_can = CAN();
+            CAN m_can;
         #endif
+
+        unsigned long *m_currentCyclePtr;
 
         #if ENABLE_DRIVEBASE
             #if ENABLE_CAN

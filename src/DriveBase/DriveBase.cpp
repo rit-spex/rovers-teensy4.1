@@ -132,6 +132,8 @@ void DriveBase::setTargetRPM()
 #else // DISABLE_ENCODER
 void DriveBase::drive(float left_axis, float right_axis)
 {
+    Serial.print(left_axis);
+    Serial.println(right_axis);
     // If the difference between the left and right axis is less than the max difference use normal values
     // this is to prevent the rover from tipping over
     if (fabs(fabs(left_axis) - fabs(right_axis)) < (float)(MAX_DIFFERENCE_PERCENT/PERCENT_MAX))

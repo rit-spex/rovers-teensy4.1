@@ -1,6 +1,9 @@
 #include "../include/MainBodyBoard.h"
 
-MainBodyBoard::MainBodyBoard(){}
+MainBodyBoard::MainBodyBoard(unsigned long *currentCycle)
+:m_can(currentCycle), m_currentCyclePtr(currentCycle){
+
+}
 MainBodyBoard::~MainBodyBoard(){}
 
 void MainBodyBoard::startUp()
@@ -43,10 +46,19 @@ void MainBodyBoard::BlinkStatusLight()
 
 void MainBodyBoard::updateSubsystems(int timeInterval_ms)
 {
-    #if ENABLE_CAN
-    m_disabled = m_can.getUnpackedMessage(CAN::Message_ID::E_STOP, 0);
-    #endif
+    if(!m_disabled)
+    {
+        #if ENABLE_CAN
+        m_disabled = m_can.getUnpackedMessage(CAN::Message_ID::E_STOP, 0);
+        #endif
 
+    }
+    if(!m_disabled)
+    {
+        // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) && m_can.m_recievedMsg;
+        // Serial.println(m_can.m_lastRecievedMsgCycle);
+        // Serial.println(m_can.m_recievedMsg);
+    }
     if(!m_disabled)
     {
         BlinkStatusLight();
@@ -55,6 +67,7 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
             m_drive_base.updateRPM(timeInterval_ms);
             #else
                 #if ENABLE_CAN
+                Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
                 float leftPower  = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0)/100;
                 float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0)/100;
 
@@ -78,7 +91,7 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
     }
 }
 
-void MainBodyBoard::runBackgroundProcess(void)
+void MainBodyBoard::runBackgroundProcess()
 {
     #if ENABLE_CAN
     m_can.readMsgBuffer();

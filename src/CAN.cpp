@@ -6,8 +6,10 @@ CAN::ObjectDictionary CAN::m_objectDict;
 // Create a message flag map to track new messages
 CAN::MessageFlag CAN::m_messageFlag; 
 
-CAN::CAN()
+CAN::CAN(unsigned long *currentCycle)
 {  
+  m_recievedMsg = false;
+  m_currentCyclePtr = currentCycle;
   // Set stop message to 0
   CANMessage stopMessage;
   stopMessage.id = CAN::E_STOP;
@@ -23,8 +25,8 @@ CAN::CAN()
   CANMessage speedMessage;
   speedMessage.id = CAN::Message_ID::DRIVE_POWER;
   speedMessage.len = MSG_LENGTH;
-  stopMessage.data[0] = 100;
-  stopMessage.data[1] = 100;
+  speedMessage.data[0] = 100;
+  speedMessage.data[1] = 100;
 
   m_objectDict[CAN::Message_ID::DRIVE_POWER] = speedMessage;
 }
@@ -101,8 +103,9 @@ void CAN::CANSniff(const CANMessage &msg)
   #endif
 }
 
-void CAN::readMsgBuffer(void)
+void CAN::readMsgBuffer()
 {
+
   // the current msg
   CANMessage message;
 
@@ -132,6 +135,9 @@ void CAN::readMsgBuffer(void)
     }
   }
 
+
+  m_lastRecievedMsgCycle = *m_currentCyclePtr;
+  m_recievedMsg = true;
   CANSniff(message);
 }
 
