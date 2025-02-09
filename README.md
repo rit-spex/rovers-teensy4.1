@@ -1,2 +1,4 @@
-# rover-teensy4.1
-This contains the teensy code for the Spex rover 2025
+# Subsystem Code
+
+This repo hosts all projects we use for our subsystems.
+Each subsystem has their own project because each subsystem is on their own teensy.

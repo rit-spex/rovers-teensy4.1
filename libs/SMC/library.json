@@ -1,0 +1,8 @@
+{
+	"$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+	"name": "SMC",
+	"version": "1.0.0",
+	"description": "To intreface with Pololu's High-Power Simple Motor Controller G2 18v25 found here: https://www.pololu.com/product/1366",
+	"frameworks": "arduino",
+	"platforms": ["teensy"]
+  }
