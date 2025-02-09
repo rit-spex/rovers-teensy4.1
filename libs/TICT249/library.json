@@ -3,6 +3,12 @@
 	"name": "TICT249",
 	"version": "1.0.0",
 	"description": "To intreface with Pololu's Tic T249 USB Multi-Interface Stepper Motor Controller found here: https://www.pololu.com/product/3138",
+	"authors": [
+		{
+			"name": "Glenn",
+			"url": "https://github.com/GlennTatum"
+		}
+	],
 	"frameworks": "arduino",
 	"platforms": ["teensy"]
   }

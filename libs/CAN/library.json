@@ -1,12 +1,12 @@
 {
 	"$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
-	"name": "SMC",
+	"name": "CAN",
 	"version": "1.0.0",
-	"description": "To intreface with Pololu's High-Power Simple Motor Controller G2 18v25 found here: https://www.pololu.com/product/1366",
+	"description": "A Wrapper of the pierremolinaro's ACAN_T4 library for our use.",
 	"authors": [
 		{
-			"name": "Glenn",
-			"url": "https://github.com/GlennTatum"
+			"name": "Tyler",
+			"url": "https://github.com/coolly1"
 		}
 	],
 	"frameworks": "arduino",
