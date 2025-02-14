@@ -9,6 +9,10 @@
 			"url": "https://github.com/GlennTatum"
 		}
 	],
-	"frameworks": "arduino",
-	"platforms": ["teensy"]
-  }
+	"frameworks": ["arduino"],
+	"platforms": ["teensy"],
+	"dependencies": {
+		"pololu/Tic": "^2.1.1",
+		"Wire": "*"
+	}
+}

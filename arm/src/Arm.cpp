@@ -1,4 +1,4 @@
-#include "../include/Extra/Arm.h"
+#include "Arm.h"
 
 Arm::Arm()
 {
@@ -109,27 +109,27 @@ void Arm::moveBase(Direction direction)
 
 void Arm::moveClaw(Direction direction)
 {
-  // if disabled then end function
-  if(m_disabled){return;}
+  // // if disabled then end function
+  // if(m_disabled){return;}
 
-  if(direction == FORWARD)
-  {
-    #if ENABLE_SERIAL
-    Serial.println("Moving claw");
-    #endif
-    tic.setTargetVelocity(CLAW_MAX_SPEED);
-  }
-  else if(direction == REVERSE)
-  {
-    #if ENABLE_SERIAL
-    Serial.println("Moving claw");
-    #endif
-    tic.setTargetVelocity(-CLAW_MAX_SPEED);
-  }
-  else if(direction == OFF)
-  {
-    tic.haltAndHold();
-  }
+  // if(direction == FORWARD)
+  // {
+  //   #if ENABLE_SERIAL
+  //   Serial.println("Moving claw");
+  //   #endif
+  //   tic.setTargetVelocity(CLAW_MAX_SPEED);
+  // }
+  // else if(direction == REVERSE)
+  // {
+  //   #if ENABLE_SERIAL
+  //   Serial.println("Moving claw");
+  //   #endif
+  //   tic.setTargetVelocity(-CLAW_MAX_SPEED);
+  // }
+  // else if(direction == OFF)
+  // {
+  //   tic.haltAndHold();
+  // }
 }
 
 void Arm::moveArm(Direction shoulderDirection, Direction wristDirection, Direction elbowDirection, Direction clawDirection)

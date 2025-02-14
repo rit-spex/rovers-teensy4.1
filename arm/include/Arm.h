@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include <TimerThree.h>
 #include <Wire.h>
-#include <Tic.h>
+#include "TICT249.h"
 #endif
 
 class Arm
