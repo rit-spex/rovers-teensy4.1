@@ -15,7 +15,7 @@ void MainBodyBoard::startUp()
     digitalWrite(STATUS_LIGHT_PIN, HIGH);
     m_statusLightWait = floor(STATUS_LIGHT_FREQUENCY_MS/UPDATE_RATE_MS);
     m_statusLightOn = true;
-    
+
     #if ENABLE_CAN
     m_can.startCAN();
     #endif
@@ -73,7 +73,7 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
 
                 m_drive_base.drive(leftPower, rightPower);
                 #endif
-            
+
             #endif
 
         #endif
@@ -126,5 +126,5 @@ void MainBodyBoard::disable()
 
 bool MainBodyBoard::isDisabled()
 {
-    return m_disabled; 
+    return m_disabled;
 }
