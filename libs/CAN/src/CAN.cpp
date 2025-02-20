@@ -19,7 +19,7 @@ CAN::CAN(unsigned long *currentCycle)
 		stopMessage.data[i] = 0;
 	}
 
-	m_objectDict[CAN::E_STOP] = stopMessage;
+	m_objectDict[CAN::Message_ID::E_STOP] = stopMessage;
 
 	// set default speed to 100
 	CANMessage speedMessage;
@@ -142,7 +142,7 @@ void CAN::readMsgBuffer()
 }
 
 // Send a message to the CAN bus
-void CAN::sendMessage(CAN_MB mailBox, Message_ID id, uint8_t message[MSG_LENGTH])
+void CAN::sendMessage(Message_ID id, uint8_t message[MSG_LENGTH])
 {
 	// Create a message
 	CANMessage msg;

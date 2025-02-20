@@ -10,5 +10,8 @@
 		}
 	],
 	"frameworks": "arduino",
-	"platforms": ["teensy"]
+	"platforms": ["teensy"],
+	"dependencies": {
+		"pierremolinaro/ACAN_T4": "^1.1.6"
+	}
   }

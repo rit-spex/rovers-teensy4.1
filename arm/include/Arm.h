@@ -4,46 +4,65 @@
 #include "Pinout.h"
 #include "Constants.h"
 
-#if ENABLE_SIMULATOR
-#include "../TestSystem/Simulator.h"
-#else
 #include <Arduino.h>
 #include <TimerThree.h>
 #include <Wire.h>
+#include <Dynamixel2Arduino.h>
 #include "TICT249.h"
-#endif
 
 class Arm
 {
-    public:
-        enum Direction
-        {
-            FORWARD = 1,
-            REVERSE = 0,
-            OFF = 2
-        };
-        Arm();
-        ~Arm();
-        void startUp();
-        // functions to move the harmonic drives. These are the exact same but with different pin outputs
-        // Functions work by setting timer output at either 50% duty cycle
-        void moveShoulder(Direction direction);
-        void moveWrist(Direction direction);
-        void moveBase(Direction direction);
-        void moveClaw(Direction direction);
-        void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection, Direction clawDirection);
+public:
+	enum Direction
+	{
+		FORWARD = 1,
+		REVERSE = 0,
+		OFF = 2
+	};
+	Arm();
+	~Arm();
+	void startUp();
+	// functions to move the harmonic drives. These are the exact same but with different pin outputs
+	// Functions work by setting timer output at either 50% duty cycle
+	void moveShoulder(Direction direction);
+	void moveElbow(Direction direction);
+	void moveBase(Direction direction);
+	void moveClaw(Direction direction);
 
-        void disable();
+	// void moveWrist(Direction direction); // OLD
+	// doesn't work with new setup as their is no "moveWrist"
+	// void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection, Direction clawDirection);
 
-        // stepper motor
-        TicI2C tic{CLAW_I2C_ID};
-    private:
+	void disable();
 
-        // if disable flag is true then stop all arm motion and prevent the arm from moving
-        bool m_disabled = false;
+	void bendWrist(Direction direction);
+	void twistWrist(Direction direction);
 
-        // Changing this time will change the motor speeds 30 us seems to be a good starting speed
-        int time = 80; // time in microseconds <- lower num mean faster fun
+	bool changeDynamixelMotorID(uint8_t oldId, uint8_t newId);
+
+	// // stepper motor
+	// TicI2C tic{CLAW_I2C_ID};
+private:
+	// if disable flag is true then stop all arm motion and prevent the arm from moving
+	bool m_disabled = false;
+
+	// Changing this time will change the motor speeds 30 us seems to be a good starting speed
+	int time = 80; // time in microseconds <- lower num mean faster fun
+
+	float diffAPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
+
+	float diffBPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
+
+	float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
+
+	Dynamixel2Arduino dyna;
+
+	enum Dynamixel2MotorIDs
+	{
+		DIFFERENCIAL_A = 1,
+		DIFFERENCIAL_B = 2,
+		CLAW = 3
+	};
 };
 
 #endif
