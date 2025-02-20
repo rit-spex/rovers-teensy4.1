@@ -45,6 +45,18 @@ public:
 		BEND_WRIST = (uint32_t)13,
 		TWIST_WRIST = (uint32_t)14,
 		MOVE_CLAW = (uint32_t)15
+
+		/*
+			how to send can message to arm
+			send with correct message id to correct arm part
+			then, first index (index 0) if its 1, that means turn off
+			if the second index (index 1) is a 0, it will move in "reverse"
+			if the second index (index 1) is a 1, it will move "forward"
+			ex:
+				sendMessage(CAN::MOVE_BASE, [0,1,0,0,0,0,0,0]) will move the base forward
+				sendMessage(CAN::MOVE_CLAW, [0,0,0,0,0,0,0,0]) will move the claw in reverse
+				sendMessage(CAN::TWIST_WRIST, [1,0,0,0,0,0,0,0]) will stop the claw from twisting
+		*/
 	} Message_ID;
 
 	typedef enum

@@ -184,8 +184,9 @@ void Arm::bendWrist(Direction direction)
 #if ENABLE_SERIAL
 		Serial.println("Bending Wrist Forward");
 #endif
+		// opposite directions because the differentials face opposite directions on the arm
 		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed * -1, UNIT_PERCENT);
 		dyna.torqueOn(DIFFERENCIAL_A);
 		dyna.torqueOn(DIFFERENCIAL_B);
 	}
@@ -195,7 +196,7 @@ void Arm::bendWrist(Direction direction)
 		Serial.println("Bending Wrist Reverse");
 #endif
 		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed * -1, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed * -1, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed, UNIT_PERCENT);
 		dyna.torqueOn(DIFFERENCIAL_A);
 		dyna.torqueOn(DIFFERENCIAL_B);
 	}
@@ -219,8 +220,9 @@ void Arm::twistWrist(Direction direction)
 #if ENABLE_SERIAL
 		Serial.println("Twist Wrist 'Forward'");
 #endif
+		// same direction because the motors face differentials ways so they rotate the other way naturally
 		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed * -1, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed, UNIT_PERCENT);
 		dyna.torqueOn(DIFFERENCIAL_A);
 		dyna.torqueOn(DIFFERENCIAL_B);
 	}
@@ -230,7 +232,7 @@ void Arm::twistWrist(Direction direction)
 		Serial.println("Twist Wrist 'Reverse'");
 #endif
 		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed * -1, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed * -1, UNIT_PERCENT);
 		dyna.torqueOn(DIFFERENCIAL_A);
 		dyna.torqueOn(DIFFERENCIAL_B);
 	}

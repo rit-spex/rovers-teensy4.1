@@ -8,8 +8,8 @@
 #include "Arm.h"
 #include "CAN.h"
 
-static Arm *arm;
-static unsigned long currentRunCycle = 0;
-static CAN *can;
+Arm *arm;
+unsigned long currentRunCycle = 0;
+CAN *can;
 
 #endif

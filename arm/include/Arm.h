@@ -6,9 +6,7 @@
 
 #include <Arduino.h>
 #include <TimerThree.h>
-#include <Wire.h>
 #include <Dynamixel2Arduino.h>
-#include "TICT249.h"
 
 class Arm
 {
