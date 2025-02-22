@@ -3,7 +3,7 @@
 
 #include <Tic.h>
 
-TicI2C tic;
+static TicI2C tic;
 
 void delayWhileResettingCommandTimeout(uint32_t ms);
 

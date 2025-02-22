@@ -6,7 +6,7 @@
 
 #include <Arduino.h>
 #include "CAN.h"
-#include "science.h"
+#include "Science.h"
 
 unsigned long currentRunCycle = 0;
 CAN *can;
