@@ -2,14 +2,14 @@
 #define MAIN
 
 // Debugging
-#define ENABLE_SERIAL true
+#define ENABLE_SERIAL 1
 
 #include <Arduino.h>
 #include "Arm.h"
-#include "CAN.h"
+// #include "CAN.h"
 
-Arm *arm;
+// static Arm *arm;
 unsigned long currentRunCycle = 0;
-CAN *can;
+// CAN *can;
 
 #endif
