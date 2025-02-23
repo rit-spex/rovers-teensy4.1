@@ -39,11 +39,13 @@
 // 	Timer3.start();
 
 // dyna.torqueOn(CLAW);
-// dyna.torqueOn(DIFFERENCIAL_A);
-// dyna.torqueOn(DIFFERENCIAL_B);
+// dyna.torqueOn(DIFFERENCIAL_1);
+// dyna.torqueOn(DIFFERENCIAL_2);
 // }
 
-void startUp()
+// using namespace ControlTableItem;
+
+void startUp(Dynamixel2Arduino dyna)
 {
 	pinMode(SHOULDER_DIR_PIN, OUTPUT);
 	pinMode(SHOULDER_SPEED_PIN, OUTPUT);
@@ -51,33 +53,56 @@ void startUp()
 	pinMode(BASE_SPEED_PIN, OUTPUT);
 	pinMode(ELBOW_DIR_PIN, OUTPUT);
 	pinMode(ELBOW_SPEED_PIN, OUTPUT);
+	pinMode(GRIPPER_PWM_PIN, OUTPUT);
+	pinMode(SOLENOID_PIN, OUTPUT);
 
 	Timer1.initialize(TIME);
 	Timer1.start();
 	Timer3.initialize(TIME);
 	Timer3.start();
 
-	dyna = Dynamixel2Arduino(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
-	dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION);
+	SARGripper.attach(GRIPPER_PWM_PIN);
+
+	// dyna = Dynamixel2Arduino(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
+	// Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 	dyna.begin(DYNAMIXEL_BAUD_RATE);
-	printf("ping: %d\n", dyna.ping(1));
-	dyna.torqueOn(CLAW);
-	dyna.torqueOn(DIFFERENCIAL_A);
-	dyna.torqueOn(DIFFERENCIAL_B);
+	Serial.printf("set protocol ver: %d\n", dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
+	Serial.printf("set torque off 1: %d\n", dyna.torqueOff(1));
+	Serial.printf("set torque off 2: %d\n", dyna.torqueOff(2));
+	delay(10);
+	Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(1, OP_PWM));
+	Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(2, OP_PWM));
+	delay(10);
+	Serial.printf("set torque on 1: %d\n", dyna.torqueOn(1));
+	Serial.printf("set torque on 2: %d\n", dyna.torqueOn(2));
+	delay(10);
+	dyna.ping();
+	delay(10);
+	Serial.printf("ping 1: %d\n", dyna.ping(1));
+	Serial.printf("ping 2: %d\n", dyna.ping(2));
+	delay(10);
+	// dyna.torqueOn(CLAW);
+	// dyna.torqueOn(DIFFERENCIAL_1);
+	// dyna.torqueOn(DIFFERENCIAL_2);
+	// dyna.ping();
+	// if (dyna.writeControlTableItem(PROFILE_VELOCITY, 1, 0))
+	// {
+	// 	Serial.println("wrote to control table");
+	// }
 }
 
-void disable()
+void disable(Dynamixel2Arduino dyna)
 {
 	moveBase(OFF);
 	moveShoulder(OFF);
 	moveElbow(OFF);
-	dyna.torqueOff(DIFFERENCIAL_A);
-	dyna.torqueOff(DIFFERENCIAL_B);
+	dyna.torqueOff(DIFFERENCIAL_1);
+	dyna.torqueOff(DIFFERENCIAL_2);
 	dyna.torqueOff(CLAW);
 	is_disabled = true;
 }
 
-bool changeDynamixelMotorID(uint8_t oldID, uint8_t newID)
+bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID)
 {
 	return dyna.setID(oldID, newID);
 }
@@ -182,7 +207,83 @@ void moveElbow(Direction direction)
 
 // dynamixel 2.0 controls
 
-void moveClaw(Direction direction)
+void bendWrist(Dynamixel2Arduino dyna, Direction direction)
+{
+	// return if disabled
+	if (is_disabled)
+	{
+		return;
+	}
+
+	if (direction == FORWARD)
+	{
+#if ENABLE_SERIAL
+		Serial.println("Bending Wrist Forward");
+#endif
+		// opposite directions because the differentials face opposite directions on the arm
+		dyna.setGoalPWM(DIFFERENCIAL_1, diff1PercentSpeed, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_2, diff2PercentSpeed * -1, UNIT_PERCENT);
+		dyna.torqueOn(DIFFERENCIAL_1);
+		dyna.torqueOn(DIFFERENCIAL_2);
+	}
+	else if (direction == REVERSE)
+	{
+#if ENABLE_SERIAL
+		Serial.println("Bending Wrist Reverse");
+#endif
+		dyna.setGoalPWM(DIFFERENCIAL_1, diff1PercentSpeed * -1, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_2, diff2PercentSpeed, UNIT_PERCENT);
+		dyna.torqueOn(DIFFERENCIAL_1);
+		dyna.torqueOn(DIFFERENCIAL_2);
+	}
+	else if (direction == OFF)
+	{
+		dyna.setGoalPWM(DIFFERENCIAL_1, 0, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_2, 0, UNIT_PERCENT);
+		// dyna.torqueOff(DIFFERENCIAL_1);
+		// dyna.torqueOff(DIFFERENCIAL_2);
+	}
+}
+
+void twistWrist(Dynamixel2Arduino dyna, Direction direction)
+{
+	// return if disabled
+	if (is_disabled)
+	{
+		return;
+	}
+
+	if (direction == FORWARD)
+	{
+#if ENABLE_SERIAL
+		Serial.println("Twist Wrist 'Forward'");
+#endif
+		// same direction because the motors face differentials ways so they rotate the other way naturally
+		dyna.setGoalPWM(DIFFERENCIAL_1, diff1PercentSpeed, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_2, diff2PercentSpeed, UNIT_PERCENT);
+		dyna.torqueOn(DIFFERENCIAL_1);
+		dyna.torqueOn(DIFFERENCIAL_2);
+	}
+	else if (direction == REVERSE)
+	{
+#if ENABLE_SERIAL
+		Serial.println("Twist Wrist 'Reverse'");
+#endif
+		dyna.setGoalPWM(DIFFERENCIAL_1, diff1PercentSpeed * -1, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_2, diff2PercentSpeed * -1, UNIT_PERCENT);
+		dyna.torqueOn(DIFFERENCIAL_1);
+		dyna.torqueOn(DIFFERENCIAL_2);
+	}
+	else if (direction == OFF)
+	{
+		dyna.setGoalPWM(DIFFERENCIAL_1, 0, UNIT_PERCENT);
+		dyna.setGoalPWM(DIFFERENCIAL_2, 0, UNIT_PERCENT);
+		// dyna.torqueOff(DIFFERENCIAL_1);
+		// dyna.torqueOff(DIFFERENCIAL_2);
+	}
+}
+
+void moveClaw(Dynamixel2Arduino dyna, Direction direction)
 {
 	// if disabled then end function
 	if (is_disabled)
@@ -212,76 +313,33 @@ void moveClaw(Direction direction)
 	}
 }
 
-void bendWrist(Direction direction)
+void moveSARClaw(int pos)
 {
-	// return if disabled
 	if (is_disabled)
 	{
 		return;
 	}
 
-	if (direction == FORWARD)
+	if (pos > 180)
 	{
-#if ENABLE_SERIAL
-		Serial.println("Bending Wrist Forward");
-#endif
-		// opposite directions because the differentials face opposite directions on the arm
-		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed * -1, UNIT_PERCENT);
-		dyna.torqueOn(DIFFERENCIAL_A);
-		dyna.torqueOn(DIFFERENCIAL_B);
+		pos = 180;
 	}
-	else if (direction == REVERSE)
+	else if (pos < 0)
 	{
-#if ENABLE_SERIAL
-		Serial.println("Bending Wrist Reverse");
-#endif
-		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed * -1, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed, UNIT_PERCENT);
-		dyna.torqueOn(DIFFERENCIAL_A);
-		dyna.torqueOn(DIFFERENCIAL_B);
+		pos = 0;
 	}
-	else if (direction == OFF)
-	{
-		dyna.torqueOff(DIFFERENCIAL_A);
-		dyna.torqueOff(DIFFERENCIAL_B);
-	}
+
+	// analogWrite(GRIPPER_PWM_PIN, pos);
+	SARGripper.write(pos);
 }
 
-void twistWrist(Direction direction)
+void moveSolenoid(int state)
 {
-	// return if disabled
 	if (is_disabled)
 	{
 		return;
 	}
-
-	if (direction == FORWARD)
-	{
-#if ENABLE_SERIAL
-		Serial.println("Twist Wrist 'Forward'");
-#endif
-		// same direction because the motors face differentials ways so they rotate the other way naturally
-		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed, UNIT_PERCENT);
-		dyna.torqueOn(DIFFERENCIAL_A);
-		dyna.torqueOn(DIFFERENCIAL_B);
-	}
-	else if (direction == REVERSE)
-	{
-#if ENABLE_SERIAL
-		Serial.println("Twist Wrist 'Reverse'");
-#endif
-		dyna.setGoalPWM(DIFFERENCIAL_A, diffAPercentSpeed * -1, UNIT_PERCENT);
-		dyna.setGoalPWM(DIFFERENCIAL_B, diffBPercentSpeed * -1, UNIT_PERCENT);
-		dyna.torqueOn(DIFFERENCIAL_A);
-		dyna.torqueOn(DIFFERENCIAL_B);
-	}
-	else if (direction == OFF)
-	{
-		dyna.torqueOff(DIFFERENCIAL_A);
-		dyna.torqueOff(DIFFERENCIAL_B);
-	}
+	digitalWrite(SOLENOID_PIN, state);
 }
 
 // others
