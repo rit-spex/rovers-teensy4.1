@@ -5,7 +5,7 @@ Date Created: 1/23/2024
 
 This file defines the drive base class for the rover.
 
-This class is responsible for controlling the rover's wheels based on 
+This class is responsible for controlling the rover's wheels based on
 the target velocity transmitted over CAN.
 */
 
@@ -52,7 +52,7 @@ class DriveBase {
         #endif
 
         #if ENABLE_ENCODER
-        
+
         // An array of the target RPMs corresponding to each wheel
         float m_targetRPM[NUM_WHEELS];
 

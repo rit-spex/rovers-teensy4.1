@@ -25,3 +25,6 @@ If debug is defined, the corresponding subsystem will be serial printed
 #define ENABLE_DRIVEBASE true
 #define ENABLE_TEMP      false
 #define ENABLE_SERIAL    true
+
+// enables code that attempts to prevent the rover from tipping
+#define PREVENT_TIPPING 0

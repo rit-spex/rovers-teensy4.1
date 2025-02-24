@@ -15,7 +15,7 @@ void MainBodyBoard::startUp()
     digitalWrite(STATUS_LIGHT_PIN, HIGH);
     m_statusLightWait = floor(STATUS_LIGHT_FREQUENCY_MS/UPDATE_RATE_MS);
     m_statusLightOn = true;
-    
+
     #if ENABLE_CAN
     m_can.startCAN();
     #endif
@@ -67,13 +67,18 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
             m_drive_base.updateRPM(timeInterval_ms);
             #else
                 #if ENABLE_CAN
-                Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
+                // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
                 float leftPower  = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0)/100;
                 float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0)/100;
 
+				Serial.println("\n\nABOUT TO DRIVE\n\n");
+
+				Serial.printf("left_power: %d\n", leftPower);
+				Serial.printf("right_power: %d\n", rightPower);
+
                 m_drive_base.drive(leftPower, rightPower);
                 #endif
-            
+
             #endif
 
         #endif
@@ -126,5 +131,5 @@ void MainBodyBoard::disable()
 
 bool MainBodyBoard::isDisabled()
 {
-    return m_disabled; 
+    return m_disabled;
 }

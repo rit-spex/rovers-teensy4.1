@@ -123,7 +123,7 @@ void DriveBase::setTargetRPM()
     {
         for (int i = 0; i < NUM_WHEELS; i++)
         {
-            m_targetRPM[i] = m_CAN->getUnpackedMessage(CAN::Message_ID::TARGET_RPM, i);    
+            m_targetRPM[i] = m_CAN->getUnpackedMessage(CAN::Message_ID::TARGET_RPM, i);
         }
     }
 }
@@ -132,10 +132,13 @@ void DriveBase::setTargetRPM()
 #else // DISABLE_ENCODER
 void DriveBase::drive(float left_axis, float right_axis)
 {
-    Serial.print(left_axis);
+    Serial.println(left_axis);
     Serial.println(right_axis);
     // If the difference between the left and right axis is less than the max difference use normal values
     // this is to prevent the rover from tipping over
+
+	#if PREVENT_TIPPING
+
     if (fabs(fabs(left_axis) - fabs(right_axis)) < (float)(MAX_DIFFERENCE_PERCENT/PERCENT_MAX))
     {
         updateSingleWheelSpeed(0, left_axis);
@@ -168,6 +171,17 @@ void DriveBase::drive(float left_axis, float right_axis)
         updateSingleWheelSpeed(4, right_axis);
         updateSingleWheelSpeed(5, right_axis);
     }
+
+	#else
+
+	updateSingleWheelSpeed(0, left_axis);
+	updateSingleWheelSpeed(1, left_axis);
+	updateSingleWheelSpeed(2, left_axis);
+	updateSingleWheelSpeed(3, right_axis);
+	updateSingleWheelSpeed(4, right_axis);
+	updateSingleWheelSpeed(5, right_axis);
+
+	#endif
 }
 
 void DriveBase::updateSingleWheelSpeed(int wheelIndex, float targetSpeed)

@@ -32,9 +32,7 @@ void setup()
 	// *mbb = MainBodyBoard{&currentRunCycle};
 	mbb = std::make_shared<MainBodyBoard>(&currentRunCycle);
 	//   start up the main body board, this will turn the status light off
-	Serial.println("before startup");
 	mbb->startUp();
-	Serial.println("finished startup");
 
 #if ENABLE_SERIAL
 	// this is the connection to the computer
