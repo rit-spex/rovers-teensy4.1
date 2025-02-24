@@ -1,26 +1,20 @@
-#include "main.h"
+// Debugging
+#define ENABLE_SERIAL 1
 
-// void moveBase(int direction)
-// {
-// 	Serial.println("starting base");
-// 	Serial.printf("direction: %d\n", direction);
-// 	Serial.printf("duty_cycle: %d\n", FIFTY_PERCENT_DUTY_CYCLE);
-// 	if (direction != 2)
-// 	{
-// 		// Serial.println("writing to pins");
-// 		Serial.println("IM DOING TRICKS!!!!");
-// 		digitalWrite(BASE_DIR_PIN, direction);
-// 		Timer3.pwm(BASE_SPEED_PIN, FIFTY_PERCENT_DUTY_CYCLE);
-// 	}
-// 	else
-// 	{
-// 		Serial.println("stopping pins");
-// 		Timer3.pwm(BASE_SPEED_PIN, 0);
-// 	}
-// }
+#include "memory"
 
-// using namespace ControlTableItem;
+#include <Arduino.h>
+#include "Arm.h"
+#include <Dynamixel2Arduino.h>
+#include "CAN.h"
 
+#include "Pinout.h"
+#include "Constants.h"
+
+// static Arm *arm;
+unsigned long currentRunCycle = 0;
+// CAN *can;
+std::shared_ptr<CAN> can;
 Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 
 void setup()
@@ -32,116 +26,74 @@ void setup()
 #endif
 	startUp(dyna);
 
-	// startUpPos();
+	can = std::make_shared<CAN>(&currentRunCycle);
 	// *can = CAN(&currentRunCycle);
-	// can.startCAN();
-
-	// Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
-	// dyna.begin(DYNAMIXEL_BAUD_RATE);
-	// Serial.printf("set protocol ver: %d\n", dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
-	// Serial.printf("set torque off 1: %d\n", dyna.torqueOff(1));
-	// Serial.printf("set torque off 2: %d\n", dyna.torqueOff(2));
-	// delay(10);
-	// Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(1, OP_PWM));
-	// Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(2, OP_PWM));
-	// delay(10);
-	// Serial.printf("set torque on 1: %d\n", dyna.torqueOn(1));
-	// Serial.printf("set torque on 2: %d\n", dyna.torqueOn(2));
-	// delay(10);
-	// dyna.ping();
-	// delay(10);
-	// Serial.printf("ping 1: %d\n", dyna.ping(1));
-	// Serial.printf("ping 2: %d\n", dyna.ping(2));
-	// delay(10);
-	// Serial.begin(9600);
-	// dyna.begin(57600);
-	// Serial.printf("set port protocol %d\n", dyna.setPortProtocolVersion(2.0));
-	// Serial.printf("set torque off 1 %d\n", dyna.torqueOff(1));
-	// Serial.printf("set torque off 2 %d\n", dyna.torqueOff(2));
-	// delay(10);
-	// if (dyna.setOperatingMode(1, OP_PWM))
-	// {
-	// 	Serial.println("set operating mode");
-	// };
-	// if (dyna.setOperatingMode(2, OP_PWM))
-	// {
-	// 	Serial.println("set operating mode");
-	// };
-	// delay(10);
-	// Serial.printf("set torque on 1 %d\n", dyna.torqueOn(1));
-	// Serial.printf("set torque on 2 %d\n", dyna.torqueOn(2));
-	// delay(10);
-
-	// dyna.ping();
-	// delay(10);
-
-	// // if (dyna.writeControlTableItem(PROFILE_VELOCITY, 1, 0))
-	// // {
-	// // 	Serial.println("wrote to control table");
-	// // }
-
-	// printf("ping 1: %d\n", dyna.ping(1));
-	// printf("ping 2: %d\n", dyna.ping(2));
+	can->startCAN();
 }
 
 void loop()
 {
-	Serial.println("turning on...");
-	moveSolenoid(1);
-	delay(1000);
-	Serial.println("turning off...");
-	moveSolenoid(0);
-	delay(1000);
-	return;
 	// need to call this to read and "sniff" each message
-	// 	can.readMsgBuffer();
-	// 	if (can.isNewMessage(CAN::E_STOP))
-	// 	{
-	// 		arm.disable();
-	// 	}
-	// 	for (int i = 10; i < 16; ++i)
-	// 	{
-	// 		if (can.isNewMessage((CAN::Message_ID)i))
-	// 		{
-	// 			// declare arm specific function variable on the stack with param of Arm::Direction
-	// 			void (Arm::*func)(Arm::Direction);
-	// 			switch (i)
-	// 			{
-	// 			case 10:
-	// 				// sets func variable to the correct arm function based on the can message id thats new
-	// 				func = &Arm::moveBase;
-	// 				break;
-	// 			case 11:
-	// 				func = &Arm::moveShoulder;
-	// 				break;
-	// 			case 12:
-	// 				func = &Arm::moveElbow;
-	// 				break;
-	// 			case 13:
-	// 				func = &Arm::bendWrist;
-	// 				break;
-	// 			case 14:
-	// 				func = &Arm::twistWrist;
-	// 				break;
-	// 			case 15:
-	// 				func = &Arm::moveClaw;
-	// 				break;
-	// 			default:
-	// #if ENABLE_SERIAL
-	// 				Serial.printf("message type not accounted for %d\n", i);
-	// #endif
-	// 				arm.disable();
-	// 				break;
-	// 			}
-	// 			// if the message at index 0 is 1, then that part of the arm will stop
-	// 			if(can.getUnpackedMessage((CAN::Message_ID)i,0)){
-	// 				(arm.*func)(Arm::Direction::OFF);
-	// 			} else {
-	// 			// if the message at index 1 is 0, it will move in reverse, if the message is 1, then it will move forward
-	// 				(arm.*func)(static_cast<Arm::Direction>(can.getUnpackedMessage((CAN::Message_ID)i,1)));
-	// 			}
-	// 		}
-	// 	}
+	can->readMsgBuffer();
+	if (can->isNewMessage(CAN::ARM_E_STOP))
+	{
+		disable(dyna);
+	}
+	for (int i = 10; i < 16; ++i)
+	{
+		if (can->isNewMessage((CAN::Message_ID)i))
+		{
+			// declare arm specific function variable on the stack with param of Direction
+			// void (*func)(Direction);
+			switch (i)
+			{
+			case 11:
+				// sets func variable to the correct arm function based on the can message id thats new
+				// func = &moveBase;
+				moveBase(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			case 12:
+				// func = &moveShoulder;
+				moveShoulder(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			case 13:
+				// func = &moveElbow;
+				moveElbow(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			case 14:
+				// func = &bendWrist;
+				bendWrist(dyna, can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			case 15:
+				// func = &twistWrist;
+				twistWrist(dyna, can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			case 16:
+				// func = &moveClaw;
+				moveClaw(dyna, can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			case 17:
+				moveSolenoid(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				break;
+			default:
+#if ENABLE_SERIAL
+				Serial.printf("message type not accounted for %d\n", i);
+#endif
+				disable(dyna);
+				break;
+			}
+			// if the message at index 0 is 1, then that part of the arm will stop
+			// if (can->getUnpackedMessage((CAN::Message_ID)i, 0))
+			// {
+			// 	(*func)(Direction::OFF);
+			// }
+			// else
+			// {
+			// 	// if the message at index 1 is 0, it will move in reverse, if the message is 1, then it will move forward
+			// 	(*func)(static_cast<Direction>(can->getUnpackedMessage((CAN::Message_ID)i, 1)));
+			// }
+		}
+	}
 
 	/* Test */
 	// Serial.println("base");

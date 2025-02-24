@@ -6,6 +6,8 @@
 #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8
 
+#define ENABLE_SERIAL 1
+
 // Pinout
 enum CAN_PINS
 {
@@ -39,12 +41,13 @@ public:
 		DRIVE_POWER = (uint32_t)3, // this will be left then right power of the wheel, used until encoders are finished
 
 		// Arm
-		MOVE_BASE = (uint32_t)10,
-		MOVE_SHOULDER = (uint32_t)11,
-		MOVE_ELBOW = (uint32_t)12,
-		BEND_WRIST = (uint32_t)13,
-		TWIST_WRIST = (uint32_t)14,
-		MOVE_CLAW = (uint32_t)15
+		ARM_E_STOP = (uint32_t)10,
+		MOVE_BASE = (uint32_t)11,
+		MOVE_SHOULDER = (uint32_t)12,
+		MOVE_ELBOW = (uint32_t)13,
+		BEND_WRIST = (uint32_t)14,
+		TWIST_WRIST = (uint32_t)15,
+		MOVE_CLAW = (uint32_t)16
 
 		/*
 			how to send can message to arm
