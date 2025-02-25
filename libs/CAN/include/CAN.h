@@ -88,6 +88,9 @@ public:
 	// get message out of object dictionary, unpacked. For some unpackage index will matter otherwise not important
 	int getUnpackedMessage(Message_ID id, int index = 0);
 
+	// get the full data from the object dictionary
+	uint8_t *getUnpackedData(Message_ID id);
+
 	// emptys out the mailbox in the hardware buffer
 	void readMsgBuffer();
 
