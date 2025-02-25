@@ -45,32 +45,39 @@ void loop()
 		{
 			// declare arm specific function variable on the stack with param of Direction
 			// void (*func)(Direction);
+			uint8_t *data;
+			data = can->getUnpackedData((CAN::Message_ID)i);
+			Direction direction = (Direction)data[1];
+			if (!data[0])
+			{
+				direction = OFF;
+			}
 			switch (i)
 			{
 			case 11:
 				// sets func variable to the correct arm function based on the can message id thats new
 				// func = &moveBase;
-				moveBase(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				moveBase(direction);
 				break;
 			case 12:
 				// func = &moveShoulder;
-				moveShoulder(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				moveShoulder(direction);
 				break;
 			case 13:
 				// func = &moveElbow;
-				moveElbow(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				moveElbow(direction);
 				break;
 			case 14:
 				// func = &bendWrist;
-				bendWrist(dyna, can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				bendWrist(dyna, direction);
 				break;
 			case 15:
 				// func = &twistWrist;
-				twistWrist(dyna, can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				twistWrist(dyna, direction);
 				break;
 			case 16:
 				// func = &moveClaw;
-				moveClaw(dyna, can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				moveClaw(dyna, direction);
 				break;
 			case 17:
 				moveSolenoid(can->getUnpackedMessage((CAN::Message_ID)i, 1));
