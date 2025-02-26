@@ -80,7 +80,7 @@ void loop()
 				moveClaw(dyna, direction);
 				break;
 			case 17:
-				moveSolenoid(can->getUnpackedMessage((CAN::Message_ID)i, 1));
+				moveSolenoid(can->getUnpackedMessage((CAN::Message_ID)i, 0));
 				break;
 			default:
 #if ENABLE_SERIAL
