@@ -19,11 +19,11 @@ Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 
 void setup()
 {
-#if ENABLE_SERIAL
+// #if ENABLE_SERIAL
 	Serial.begin(9600);
 	Serial.println("Arm");
 	delay(1000);
-#endif
+// #endif
 	startUp(dyna);
 
 	can = std::make_shared<CAN>(&currentRunCycle);
@@ -47,6 +47,7 @@ void loop()
 			// void (*func)(Direction);
 			uint8_t *data;
 			data = can->getUnpackedData((CAN::Message_ID)i);
+			Serial.printf("ID %d: %p", i, data);
 			Direction direction = (Direction)data[1];
 			if (!data[0])
 			{
@@ -80,7 +81,7 @@ void loop()
 				moveClaw(dyna, direction);
 				break;
 			case 17:
-				moveSolenoid(can->getUnpackedMessage((CAN::Message_ID)i, 0));
+				moveSolenoid(data[0]);
 				break;
 			default:
 #if ENABLE_SERIAL
