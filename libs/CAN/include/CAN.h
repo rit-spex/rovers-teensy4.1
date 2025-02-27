@@ -47,7 +47,8 @@ public:
 		MOVE_ELBOW = (uint32_t)13,
 		BEND_WRIST = (uint32_t)14,
 		TWIST_WRIST = (uint32_t)15,
-		MOVE_CLAW = (uint32_t)16
+		MOVE_CLAW = (uint32_t)16,
+		MOVE_SOLENOID = (uint32_t)17
 
 		/*
 			how to send can message to arm
