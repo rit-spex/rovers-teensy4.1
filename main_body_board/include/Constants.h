@@ -35,8 +35,13 @@
 #define RIGHTDIRECTION 1 //positive 1 or negitive -1
 
 // the time it takes to go from 0 to 100
+#if AUTO
+#define RAMP_UP_TIME   100 //milliseconds
+#define RAMP_DOWN_TIME 100  //milliseconds
+#else
 #define RAMP_UP_TIME   2000 //milliseconds
 #define RAMP_DOWN_TIME 2000  //milliseconds
+#endif
 
 // The percent Increase or Decrease per cycle
 #define RAMP_UP_RATE_PERCENT   ((1.00)/(RAMP_UP_TIME/UPDATE_RATE_MS))
