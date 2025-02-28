@@ -47,7 +47,7 @@ void loop()
 			// void (*func)(Direction);
 			uint8_t *data;
 			data = can->getUnpackedData((CAN::Message_ID)i);
-			Serial.printf("ID %d: [%d, %d]", i, data[0], data[1]);
+			Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
 			Direction direction = (Direction)data[1];
 			if (!data[0])
 			{
