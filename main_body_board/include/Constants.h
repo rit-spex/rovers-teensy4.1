@@ -15,7 +15,7 @@
 
 //********************************************************* DRIVETRAIN CONSTANTS *******************************************************
 //The max speed of the motors
-#define PERCENT_MAX 0.5
+#define PERCENT_MAX 0.4
 
 // Max RPM of the motors max 1100 with no load
 #define MAX_RPM 1100
@@ -38,8 +38,8 @@
 
 // the time it takes to go from 0 to 100
 #if AUTO
-#define RAMP_UP_TIME   100 //milliseconds
-#define RAMP_DOWN_TIME 100  //milliseconds
+#define RAMP_UP_TIME   2000 //milliseconds
+#define RAMP_DOWN_TIME 2000  //milliseconds
 #else
 #define RAMP_UP_TIME   2000 //milliseconds
 #define RAMP_DOWN_TIME 2000  //milliseconds
