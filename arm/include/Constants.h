@@ -11,6 +11,10 @@
 #define DYNAMIXEL_SPEED_PERCENT 100.0
 #define FULL_DUPLEX_DIR_PIN -1 // lets the D2A library know that we don't have a shield for the arduino also isn't actually a pinout so thats why its in here
 
+#define MAX_GRIPPER_POS 100
+#define MIN_GRIPPER_POS 90
+#define GRIPPER_SPEED 1
+
 #define TIME 80
 
 // Old definitions:

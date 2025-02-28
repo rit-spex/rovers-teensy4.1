@@ -78,7 +78,8 @@ void loop()
 				break;
 			case 16:
 				// func = &moveClaw;
-				moveClaw(dyna, direction);
+				Serial.println("CLAW");
+				// moveSARClaw(direction);
 				break;
 			case 17:
 				moveSolenoid(data[0]);

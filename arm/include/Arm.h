@@ -57,6 +57,9 @@ static float diff1PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 static float diff2PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 static float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 
+static int gripper_pos = MIN_GRIPPER_POS;
+
+
 // class Arm
 // {
 // public:

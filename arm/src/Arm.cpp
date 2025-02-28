@@ -134,11 +134,9 @@ void moveShoulder(Direction direction)
 
 void moveBase(Direction direction)
 {
-	Serial.println("gaming?");
 	// if disabled then end function
 	if (is_disabled)
 	{
-		Serial.println("shit is disabed");
 		return;
 	}
 
@@ -149,33 +147,25 @@ void moveBase(Direction direction)
 		Serial.println("Moving base");
 #endif
 		// Write direction, HIGH is one way LOW is the other
-		Serial.println("doing shit");
 		digitalWrite(BASE_DIR_PIN, (int)direction);
 		Timer3.pwm(BASE_SPEED_PIN, FIFTY_PERCENT_DUTY_CYCLE);
 	}
 	// If direction is OFF, stop motor
 	else if (direction == OFF)
 	{
-		Serial.println("shit was off");
 		Timer3.pwm(BASE_SPEED_PIN, 0);
 	}
 }
 
 void newMoveBase(Direction direction)
 {
-	Serial.println("starting base");
-	Serial.printf("direction: %d\n", direction);
-	Serial.printf("duty_cycle: %d\n", FIFTY_PERCENT_DUTY_CYCLE);
 	if (direction != OFF)
 	{
-		// Serial.println("writing to pins");
-		Serial.println("TROLLING ON DIDDY!");
 		digitalWrite(BASE_DIR_PIN, direction);
 		Timer3.pwm(BASE_SPEED_PIN, FIFTY_PERCENT_DUTY_CYCLE);
 	}
 	else
 	{
-		Serial.println("stopping pins");
 		Timer3.pwm(BASE_SPEED_PIN, 0);
 	}
 }
@@ -313,24 +303,27 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction)
 	}
 }
 
-void moveSARClaw(int pos)
+void moveSARClaw(Direction direction)
 {
-	if (is_disabled)
+	Serial.println("MOVE SAR CLAW");
+	if (is_disabled || direction == Direction::OFF || gripper_pos >= MAX_GRIPPER_POS || gripper_pos <= MIN_GRIPPER_POS)
 	{
+		Serial.println("returning");
+		Serial.printf("is disabled?: %d\n", is_disabled);
+		Serial.printf("pos return: %d\n", gripper_pos);
 		return;
 	}
 
-	if (pos > 180)
+	int mod = 1;
+	if (direction == Direction::REVERSE)
 	{
-		pos = 180;
+		mod = -1;
 	}
-	else if (pos < 0)
-	{
-		pos = 0;
-	}
+	gripper_pos += GRIPPER_SPEED * mod;
 
-	// analogWrite(GRIPPER_PWM_PIN, pos);
-	SARGripper.write(pos);
+	Serial.printf("pos: %d\n", gripper_pos);
+
+	SARGripper.write(gripper_pos);
 }
 
 void moveSolenoid(int state)
