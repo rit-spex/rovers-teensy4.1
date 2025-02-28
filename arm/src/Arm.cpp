@@ -305,12 +305,19 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction)
 
 void moveSARClaw(Direction direction)
 {
-	Serial.println("MOVE SAR CLAW");
-	if (is_disabled || direction == Direction::OFF || gripper_pos >= MAX_GRIPPER_POS || gripper_pos <= MIN_GRIPPER_POS)
+	// Serial.println("MOVE SAR CLAW");
+	if (is_disabled || direction == Direction::OFF)
 	{
-		Serial.println("returning");
-		Serial.printf("is disabled?: %d\n", is_disabled);
-		Serial.printf("pos return: %d\n", gripper_pos);
+		return;
+	}
+
+	// Check for Bounds
+	if (direction == Direction::FORWARD && gripper_pos >= MAX_GRIPPER_POS)
+	{
+		return;
+	}
+	if (direction == Direction::REVERSE && gripper_pos <= MIN_GRIPPER_POS)
+	{
 		return;
 	}
 

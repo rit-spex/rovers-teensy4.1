@@ -39,7 +39,7 @@ void loop()
 	{
 		disable(dyna);
 	}
-	for (int i = 10; i < 16; ++i)
+	for (int i = 10; i < 18; ++i)
 	{
 		if (can->isNewMessage((CAN::Message_ID)i))
 		{
@@ -78,8 +78,7 @@ void loop()
 				break;
 			case 16:
 				// func = &moveClaw;
-				Serial.println("CLAW");
-				// moveSARClaw(direction);
+				moveSARClaw(direction);
 				break;
 			case 17:
 				moveSolenoid(data[0]);

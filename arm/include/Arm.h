@@ -46,7 +46,7 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction);
  * 45deg:  closed
  * 110deg: open
  */
-void moveSARClaw(int pos);
+void moveSARClaw(Direction direction);
 void moveSolenoid(int state);
 
 static bool is_disabled = false;
