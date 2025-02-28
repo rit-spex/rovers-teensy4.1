@@ -206,7 +206,8 @@ int CAN::getUnpackedMessage(Message_ID id, int index)
 
 uint8_t *CAN::getUnpackedData(Message_ID id)
 {
-	return m_objectDict.at(id).data;
+	uint8_t *data = m_objectDict.at(id).data;
+	return data;
 }
 
 // checks if there has been a new msg on the id
