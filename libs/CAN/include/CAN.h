@@ -6,6 +6,8 @@
 #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8
 
+#define ENABLE_SERIAL 1
+
 // Pinout
 enum CAN_PINS
 {
@@ -39,12 +41,26 @@ public:
 		DRIVE_POWER = (uint32_t)3, // this will be left then right power of the wheel, used until encoders are finished
 
 		// Arm
-		MOVE_BASE = (uint32_t)10,
-		MOVE_SHOULDER = (uint32_t)11,
-		MOVE_ELBOW = (uint32_t)12,
-		BEND_WRIST = (uint32_t)13,
-		TWIST_WRIST = (uint32_t)14,
-		MOVE_CLAW = (uint32_t)15
+		ARM_E_STOP = (uint32_t)10,
+		MOVE_BASE = (uint32_t)11,
+		MOVE_SHOULDER = (uint32_t)12,
+		MOVE_ELBOW = (uint32_t)13,
+		BEND_WRIST = (uint32_t)14,
+		TWIST_WRIST = (uint32_t)15,
+		MOVE_CLAW = (uint32_t)16,
+		MOVE_SOLENOID = (uint32_t)17
+
+		/*
+			how to send can message to arm
+			send with correct message id to correct arm part
+			then, first index (index 0) if its 1, that means turn off
+			if the second index (index 1) is a 0, it will move in "reverse"
+			if the second index (index 1) is a 1, it will move "forward"
+			ex:
+				sendMessage(CAN::MOVE_BASE, [0,1,0,0,0,0,0,0]) will move the base forward
+				sendMessage(CAN::MOVE_CLAW, [0,0,0,0,0,0,0,0]) will move the claw in reverse
+				sendMessage(CAN::TWIST_WRIST, [1,0,0,0,0,0,0,0]) will stop the claw from twisting
+		*/
 	} Message_ID;
 
 	typedef enum
@@ -72,6 +88,9 @@ public:
 
 	// get message out of object dictionary, unpacked. For some unpackage index will matter otherwise not important
 	int getUnpackedMessage(Message_ID id, int index = 0);
+
+	// get the full data from the object dictionary
+	uint8_t *getUnpackedData(Message_ID id);
 
 	// emptys out the mailbox in the hardware buffer
 	void readMsgBuffer();
