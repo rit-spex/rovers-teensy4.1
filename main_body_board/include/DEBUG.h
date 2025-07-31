@@ -18,7 +18,7 @@ If debug is defined, the corresponding subsystem will be serial printed
 #define MASTER_TEENSY    false
 
 // this will disable all hardware and simulate the rover. DO NOT ENABLE ON THE ROVER
-#define ENABLE_SIMULATOR false
+#define ENABLE_SIMULATOR true
 
 // enable each subsystem
 #define ENABLE_CAN       true
