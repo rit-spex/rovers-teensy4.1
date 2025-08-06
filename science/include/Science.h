@@ -1,7 +1,7 @@
 #ifndef SCIENCE
 #define SCIENCE
 
-#include "TICT249.h"
+//#include "TICT249.h"
 #include "SMC.h"
 
 class Science
@@ -12,7 +12,8 @@ public:
 		FORWARD = 1,
 		REVERSE = 0,
 		OFF = 2
-	} Science();
+	};
+	Science();
 	~Science();
 	void startUp();
 
@@ -40,6 +41,6 @@ public:
 	int readSpectrometerModule();
 
 private:
-}
+};
 
 #endif

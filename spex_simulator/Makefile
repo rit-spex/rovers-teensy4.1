@@ -8,17 +8,32 @@
 # last modified: 7/16/2025 - Tyler
 # --------------------------------------------------------------------
 
-TARGET_EXEC := final_program
+# the subsystem name
+TARGET_SUBSYSTEM:= arm
 
-BUILD_DIR := ./build/build
-INC_DIRS  := ./build/include
-SRC_DIRS  := ./build/src
+# the exe name
+TARGET_EXEC := $(TARGET_SUBSYSTEM)
+
+# the libs folder
+TARGET_LIBS:= ./libs
+
+SUBSYSTEM_PATH:= ../$(TARGET_SUBSYSTEM)
+BUILD_DIR := ./build
+INC_DIRS  := $(SUBSYSTEM_PATH)/include
+SRC_DIRS  := $(SUBSYSTEM_PATH)/src
 SRC_DIRS2 := ./src
+BIN_DIR   := ./bin
 
 # Find all the C and C++ files we want to compile
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 SRCS := $(SRCS) $(shell find $(SRC_DIRS2) -name '*.cpp' -or -name '*.c' -or -name '*.s')
+
+# add the libs sources
+SRCS := $(SRCS) $(shell find ../libs/CAN/src -name '*.cpp' -or -name '*.c' -or -name '*.s')
+SRCS := $(SRCS) $(shell find ../libs/SMC/src -name '*.cpp' -or -name '*.c' -or -name '*.s')
+SRCS := $(SRCS) $(shell find ../libs/SPARKMAX/src -name '*.cpp' -or -name '*.c' -or -name '*.s')
+SRCS := $(SRCS) $(shell find ../libs/TICT249/src -name '*.cpp' -or -name '*.c' -or -name '*.s')
 
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
@@ -31,14 +46,14 @@ DEPS := $(OBJS:.o=.d)
 # Every folder in ./src will need to be passed to GCC so that it can find header files
 INC_DIRS := $(shell find $(INC_DIRS) -type d)
 # Add a prefix to INC_DIRS. So moduleA would become -ImoduleA. GCC understands this -I flag
-INC_FLAGS := $(addprefix -I,$(INC_DIRS)) -I./include
+INC_FLAGS := $(addprefix -I,$(INC_DIRS)) -I./include -I../libs/CAN/include -I../libs/SMC/include -I../libs/SPARKMAX/include -I../libs/TICT249/include
 
 # The -MMD and -MP flags together generate Makefiles for us!
 # These files will have .d instead of .o as the output.
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
 # The final build step.
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+$(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 # Build step for C source
@@ -55,78 +70,11 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
+	rm -r ./$(TARGET_SUBSYSTEM)
+	rm -r $(TARGET_LIBS)
+
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
 # errors to show up.
 -include $(DEPS)
-
-# CXX ?= g++
-
-# # executable # 
-# BIN_NAME = runner
-
-# # path #
-# LIBS_PATH  = ../libs # the global libaries
-# BIN_PATH   = ../bin  # the compiled executable
-# BUILD_PATH = build   # a temp folder for building each subsystem
-
-# # extensions #
-# SRC_EXT = cpp
-
-# # code lists #
-# # Find all source files in the source directory
-# SOURCES = $(shell find $(BUILD_PATH) -name "*.cpp")
-
-# # Set the object file names, with the source directory stripped
-# # from the path, and the build path prepended in its place
-# OBJECTS = $(SOURCES:$(BUILD_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
-
-# # Set the dependency files that will be used to add header dependencies
-# DEPS = $(OBJECTS:.o=.d)
-
-# # flags #
-# COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g
-# INCLUDES = -I build/
-
-# # Space-separated pkg-config libraries used by this project
-# .PHONY: default_target
-# default_target: release
-
-# .PHONY: release
-# release: export CXXFLAGS := $(CXXFLAGS) $(COMPILE_FLAGS)
-# release: dirs
-# 	@$(MAKE) all
-
-# .PHONY: dirs
-# dirs:
-
-
-# .PHONY: clean
-# clean:
-# 	@echo "Deleting build and bin directories"
-# 	@$(RM) -r $(BIN_PATH)
-
-# # checks the executable
-# .PHONY: all
-# all: $(BIN_PATH)/$(BIN_NAME)
-# 	@echo "Making executable: $(BIN_NAME) -> $<"
-# 	@$(RM) $(BIN_NAME)
-# 	@ln -s $(BIN_PATH)/$(BIN_NAME) $(BIN_NAME)
-
-# # Creation of the executable
-# $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
-# 	@echo "Linking: $@"
-# 	$(CXX) $(OBJECTS) -o $@ 
-
-# 	@echo "Creating directories"
-# 	@mkdir -p $(BIN_PATH)
-# # Add dependency files, if they exist
-# # -include $(DEPS)
-
-# # Source file rules
-# # After the first compilation they will be joined with the rules from the
-# # dependency files to provide header dependencies
-# $(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
-# 	@echo "Compiling: $< -> $@"
-# 	$(CXX) $(CXXFLAGS) $(INCLUDES) -MP -MMD -c $< -o $@
