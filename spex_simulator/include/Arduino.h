@@ -12,6 +12,7 @@
 
 #include <string>
 #include <iostream>
+#include <stdio.h>
 #include <chrono>
 #include <thread>
 
@@ -20,6 +21,9 @@
 
 #define INPUT_PULLUP 1
 #define INPUT_PULLDOWN 0
+
+#define INPUT  0
+#define OUTPUT 1
 
 class Serial_Class
 {
@@ -37,6 +41,9 @@ class Serial_Class
         void println(const int message);
         void println(std::string message);
 
+        // printf
+        void printf(const char* message, int val);
+        void printf(const char* message, int val1, int val2, int val3);
 };
 
 // define global functions

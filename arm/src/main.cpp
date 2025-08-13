@@ -1,15 +1,5 @@
-// Debugging
-#define ENABLE_SERIAL 1
 
-#include "memory"
-
-#include "Arm.h"
-#include "CAN.h"
-#include <Arduino.h>
-#include <Dynamixel2Arduino.h>
-
-#include "Constants.h"
-#include "Pinout.h"
+#include "main.h"
 
 unsigned long currentRunCycle = 0;
 std::shared_ptr<CAN> can;

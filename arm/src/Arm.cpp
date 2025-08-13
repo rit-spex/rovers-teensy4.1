@@ -1,50 +1,5 @@
 #include "Arm.h"
 
-// Arm::Arm()
-// {
-// 	// Initializing Dynamixel2.0 Protocol Stuff for Differential A, B and Claw
-// dyna = Dynamixel2Arduino(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
-
-// 	// pinMode(WRIST_DIR_PIN,      OUTPUT); // OLD
-// 	// pinMode(WRIST_SPEED_PIN,    OUTPUT); // OLD
-
-// 	// Set used pins to output
-// 	pinMode(SHOULDER_DIR_PIN, OUTPUT);
-// 	pinMode(SHOULDER_SPEED_PIN, OUTPUT);
-// 	pinMode(BASE_DIR_PIN, OUTPUT);
-// 	pinMode(BASE_SPEED_PIN, OUTPUT);
-// 	pinMode(ELBOW_DIR_PIN, OUTPUT);
-// 	pinMode(ELBOW_SPEED_PIN, OUTPUT);
-
-// 	// Initialize and start timer to outut correct PWM signals
-// 	// Timer3.initialize(time);
-// 	// Timer3.start();
-// }
-
-// Arm::~Arm()
-// {
-// 	// Stop timer
-// 	Timer1.stop();
-// 	Timer3.stop();
-// }
-
-// void Arm::startUp()
-// {
-// 	// Timer1.stop();
-// 	// Timer1.initialize(time);
-// 	// Timer1.start();
-
-// 	Timer3.stop();
-// 	Timer3.initialize(time);
-// 	Timer3.start();
-
-// dyna.torqueOn(CLAW);
-// dyna.torqueOn(DIFFERENCIAL_1);
-// dyna.torqueOn(DIFFERENCIAL_2);
-// }
-
-// using namespace ControlTableItem;
-
 void startUp(Dynamixel2Arduino dyna)
 {
 	pinMode(SHOULDER_DIR_PIN, OUTPUT);
@@ -63,8 +18,6 @@ void startUp(Dynamixel2Arduino dyna)
 
 	SARGripper.attach(GRIPPER_PWM_PIN);
 
-	// dyna = Dynamixel2Arduino(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
-	// Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 	dyna.begin(DYNAMIXEL_BAUD_RATE);
 	Serial.printf("set protocol ver: %d\n", dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
 	Serial.printf("set torque off 1: %d\n", dyna.torqueOff(1));
@@ -81,14 +34,6 @@ void startUp(Dynamixel2Arduino dyna)
 	Serial.printf("ping 1: %d\n", dyna.ping(1));
 	Serial.printf("ping 2: %d\n", dyna.ping(2));
 	delay(10);
-	// dyna.torqueOn(CLAW);
-	// dyna.torqueOn(DIFFERENCIAL_1);
-	// dyna.torqueOn(DIFFERENCIAL_2);
-	// dyna.ping();
-	// if (dyna.writeControlTableItem(PROFILE_VELOCITY, 1, 0))
-	// {
-	// 	Serial.println("wrote to control table");
-	// }
 }
 
 void disable(Dynamixel2Arduino dyna)

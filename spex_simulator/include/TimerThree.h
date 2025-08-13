@@ -10,13 +10,13 @@
 #ifndef TIMER_THREE_H
 #define TIMER_THREE_H
 
-class timer3
+class Timer3_Class
 {
     public:
-        void initialize(void);
+        void initialize(int time);
         void start(void);
         void pwm(int pin, int duty_cycle);
-}
+};
 
-static timer3 Timer3;
+static Timer3_Class Timer3;
 #endif //TIMER_THREE_H

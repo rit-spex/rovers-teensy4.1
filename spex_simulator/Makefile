@@ -9,7 +9,7 @@
 # --------------------------------------------------------------------
 
 # the subsystem name
-TARGET_SUBSYSTEM:= arm
+TARGET_SUBSYSTEM:= chassis
 
 # the exe name
 TARGET_EXEC := $(TARGET_SUBSYSTEM)

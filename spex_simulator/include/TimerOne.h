@@ -10,14 +10,14 @@
 #ifndef TIMER_ONE_H
 #define TIMER_ONE_H
 
-class timer1
+class Timer1_Class
 {
     public:
-        void initialize(void);
+        void initialize(int time);
         void start(void);
         void pwm(int pin, int duty_cycle);
-}
+};
 
-static timer1 Timer1;
+static Timer1_Class Timer1;
 
 #endif //TIMER_ONE_H

@@ -42,6 +42,20 @@ void Serial_Class::println(std::string message)
     std::cout << "Serial println called with message: " << message << std::endl;
 }
 
+void Serial_Class::printf(const char* message, int val)
+{
+    char buffer[256];
+    sprintf(buffer, message, val);
+    print(buffer);
+}
+
+void Serial_Class::printf(const char* message, int val1, int val2, int val3)
+{
+    char buffer[256];
+    sprintf(buffer, message, val1, val2, val3);
+    print(buffer);
+}
+
 // define global functions
 void pinMode(int pin, int mode)
 {
@@ -56,6 +70,7 @@ void digitalWrite(int pin, int value)
 float digitalRead(int pin)
 {
     std::cout << "digitalRead called with pin: " << pin << std::endl;
+    return 0;
 }
 
 void delay(int milliseconds)
