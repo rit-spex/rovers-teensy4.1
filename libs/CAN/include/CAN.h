@@ -6,8 +6,6 @@
 #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8
 
-#define ENABLE_SERIAL 1
-
 // Pinout
 enum CAN_PINS
 {

@@ -13,14 +13,8 @@ This class is responsible for reading the temperature of a thermistor.
 #include "./DEBUG.h"
 #include "./Pinout.h"
 #include <math.h>
-
-#if ENABLE_SIMULATOR
-#include "../TestSystem/Simulator.h"
-#else
 #include <Wire.h>
 #include <Arduino.h>
-#endif
-
 class Thermistor {
     public:
         /*

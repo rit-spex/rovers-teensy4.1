@@ -11,7 +11,7 @@
 #define SERVO_H
 
 #include <iostream>
-
+#include "Printer.h"
 class Servo
 {
     private:

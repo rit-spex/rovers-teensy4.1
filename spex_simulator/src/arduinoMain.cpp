@@ -9,17 +9,24 @@
 
 #include "main.h"
 
+#include "Printer.h"
+
 #include <iostream>
 
 CANbus ACAN_T4::can1;
 CANbus ACAN_T4::can2;
 CANbus ACAN_T4::can3;
 
+extern void setup();
+extern void loop();
+
 int main()
 {
-    setup();
-    while(true)
-    {
-        loop();
-    }
+    ClearFile();
+    PrintData(PrinterData::PIN, 0, 1);
+    // setup();
+    // while(true)
+    // {
+    //     loop();
+    // }
 }

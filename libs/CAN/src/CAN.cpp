@@ -1,4 +1,5 @@
 #include "CAN.h"
+#define ENABLE_SERIAL 1
 
 // Create an object dictionary to store the messages
 CAN::ObjectDictionary CAN::m_objectDict;

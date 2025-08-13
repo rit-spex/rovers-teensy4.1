@@ -4,13 +4,8 @@
 #include "./Pinout.h"
 #include "./Constants.h"
 #include "./DEBUG.h"
-
-#if ENABLE_SIMULATOR
-#include "../TestSystem/Simulator.h"
-#else
 #include <Encoder.h>
-#include <IntervalTimer.h>
-#endif
+
 #define ENCODER_SAVE_SIZE 15
 
 class QuadratureDecoder {

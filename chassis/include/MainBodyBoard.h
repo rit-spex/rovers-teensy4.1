@@ -17,12 +17,7 @@ The main body board is responsible for:
 #include "DEBUG.h"
 #include "Pinout.h"
 #include <math.h>
-
-#if ENABLE_SIMULATOR
-#include "../TestSystem/Simulator.h"
-#else
 #include <Arduino.h>
-#endif
 
 // All of the subsystems
 #if ENABLE_DRIVEBASE

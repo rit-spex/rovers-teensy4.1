@@ -21,13 +21,15 @@ void Servo::attach(int pin)
     std::cout << "Servo attach called with pin: " << pin << std::endl;
 }
 
-
 void Servo::detach()
 {
     std::cout << "Servo detach called on pin: " << pin << std::endl;
 }
+
 void Servo::writeMicroseconds(int microseconds)
 {
+    // update the output file
+    PrintData(PrinterData::PIN, pin, microseconds);
     std::cout << "Servo writeMicroseconds called with microseconds: " << microseconds << " on pin" << pin << std::endl;
 }
 
