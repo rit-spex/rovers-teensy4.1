@@ -11,26 +11,6 @@
 
 #include <stdio.h>
 
-// class Printer
-// {
-//     public:
-//         // the structure of the output file and sets the first line of each section
-//         enum PrinterData
-//         {
-//             PIN = 0
-//         };
-
-//         Printer();
-//         void SetFile(char* fileName);
-//         // print the data to the file
-//         void PrintData(PrinterData type, int extra, int value);
-//     private:
-//         char* m_fileName;
-// };
-
-// // create a global reference
-// static Printer printer = Printer();
-
 // the structure of the output file and sets the first line of each section
 enum PrinterData
 {
@@ -39,12 +19,10 @@ enum PrinterData
 
 #define OUTPUT_FILE_NAME "chassisData.txt"
 
+// creates an empty file
 void ClearFile();
-// print the data to the file
-void PrintData(PrinterData type, int extra, int value);
-//char* m_fileName;
 
-// create a global reference
-// static Printer printer = Printer();
+// print the data to the file
+void UpdateFile(PrinterData type, int extra, int value);
 
 #endif // PRINTER_H

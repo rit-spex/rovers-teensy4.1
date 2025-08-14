@@ -71,7 +71,7 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
                 float leftPower  = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0)/100;
                 float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0)/100;
 
-				Serial.println("\n\nABOUT TO DRIVE\n\n");
+				//Serial.println("\n\nABOUT TO DRIVE\n\n");
 
 				Serial.printf("left_power: %d\n", leftPower);
 				Serial.printf("right_power: %d\n", rightPower);

@@ -29,11 +29,12 @@ void Servo::detach()
 void Servo::writeMicroseconds(int microseconds)
 {
     // update the output file
-    PrintData(PrinterData::PIN, pin, microseconds);
-    std::cout << "Servo writeMicroseconds called with microseconds: " << microseconds << " on pin" << pin << std::endl;
+    UpdateFile(PrinterData::PIN, pin, microseconds);
+    //*std::cout << "Servo writeMicroseconds called with microseconds: " << microseconds << " on pin" << pin << std::endl;
 }
 
 void Servo::write(int microseconds)
 {
-    std::cout << "Servo write called with microseconds: " << microseconds << " on pin" << pin << std::endl;
+    UpdateFile(PrinterData::PIN, pin, microseconds);
+    //std::cout << "Servo write called with microseconds: " << microseconds << " on pin" << pin << std::endl;
 }

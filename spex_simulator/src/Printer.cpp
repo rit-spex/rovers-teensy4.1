@@ -8,31 +8,22 @@
 // --------------------------------------------------------------------
 
 #include "Printer.h"
+#include <stdlib.h>
 
 // the number of chars in a line, this includes \n
-#define CHAR_PER_LINE 20
 #define NUMBER_OF_LINES 20
-
-// Printer::Printer()
-// {
-//     m_fileName = "";
-// }
 
 void ClearFile()
 {
     FILE* fptr;
 
     // open or create the file
-    fptr = fopen(OUTPUT_FILE_NAME, "w+");
+    fptr = fopen(OUTPUT_FILE_NAME, "w");
 
     // print 20 blank lines that are 20 char long
     for(int lineIdx = 0; lineIdx<NUMBER_OF_LINES; lineIdx++)
     {
-        for(int charIdx = 0; charIdx<CHAR_PER_LINE-1; charIdx++)
-        {
-            fprintf(fptr, " ");
-        }
-        fprintf(fptr, "\n");
+        fprintf(fptr, ",\n");
     }
 
     // close the file at the end so data shouldn't be lost if program fails
@@ -40,19 +31,50 @@ void ClearFile()
 }
 
 // create the file then write at specified location then close file
-void PrintData(PrinterData type, int extra, int value)
+void UpdateFile(PrinterData type, int extra, int value)
 {    
-    FILE* fptr;
+    FILE* newfptr = NULL;
+    FILE* oldfptr = NULL;
+    char* line = NULL;
+    int lineIdx = 0;
+    int lineSize;
+    size_t size = 0;
 
     // open or create the file
-    fptr = fopen(OUTPUT_FILE_NAME, "aw+");
+    newfptr = fopen("tmp", "w");
 
-    // move to the section
-    fseek(fptr, (extra + type) * CHAR_PER_LINE + 1, SEEK_SET);
+    // open or create the file
+    oldfptr = fopen(OUTPUT_FILE_NAME, "r");
 
-    // insert the value
-    fprintf(fptr, "%d", value);
+    // copy each line to the new file
+    while((lineSize = getline(&line, &size, oldfptr)) != -1)
+    {
+        if(lineIdx == (extra + type))
+        {
+            if(type == PrinterData::PIN)
+            {   
+                fprintf(newfptr, "PIN:%d Value:%d,\n", extra, value);
+            }
+            else
+            {
+                fprintf(newfptr, "%d,\n", value);
+            }
+        }
+        else
+        {
+            fprintf(newfptr, "%s", line);
+        }
+        lineIdx++;
+    }
 
+    free(line);
     // close the file at the end so data shouldn't be lost if program fails
-    fclose(fptr);
+    fclose(newfptr);
+    fclose(oldfptr);
+
+    // remove the old file
+    remove(OUTPUT_FILE_NAME);
+
+    // rename the new file
+    rename("tmp", OUTPUT_FILE_NAME);
 }

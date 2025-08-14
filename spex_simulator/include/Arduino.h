@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <chrono>
 #include <thread>
+#include "Printer.h"
 
 #define LOW 0
 #define HIGH 1

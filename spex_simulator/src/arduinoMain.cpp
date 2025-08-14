@@ -23,10 +23,9 @@ extern void loop();
 int main()
 {
     ClearFile();
-    PrintData(PrinterData::PIN, 0, 1);
-    // setup();
-    // while(true)
-    // {
-    //     loop();
-    // }
+    setup();
+    while(true)
+    {
+        loop();
+    }
 }
