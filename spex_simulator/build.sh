@@ -21,13 +21,8 @@ export TARGET_SUBSYSTEM="NONE"
 
 # The different subsystems
 arm_subsystem="arm"
-chassis_subsystem="main_body_board"
+chassis_subsystem="chassis"
 science_subsystem="science"
-
-# directory paths
-# src_path="src"
-# include_path="include"
-# build_path="build"
 
 # Functions
 extract_subsystem_files()
@@ -36,18 +31,13 @@ extract_subsystem_files()
     then
         echo "No active subsystem to build"
     else
-        #echo Creating build folder
-        #mkdir $build_path
-
         echo "Creating: "$TARGET_SUBSYSTEM
-        #cp -R $active_subsystem/$src_path $build_path/$src_path
-#         find ../$active_subsystem/$src_path -type f -exec cp {} $build_path/$src_path \;
-#        find ../$active_subsystem/$include_path -type f -exec cp {} $build_path/$src_path \;
 
-        $(make)
-        #echo Delete build folder
-        #rmdir build
+        # make the binary
+        make
 
+        # clean the build folder
+        make clean
     fi
 }
 
@@ -57,19 +47,19 @@ then
     extract_subsystem_files
 
 # Only build for arm
-elif [[ $1 == "arm" ]]
+elif [[ $1 == $arm_subsystem ]]
 then
     TARGET_SUBSYSTEM=$arm_subsystem
     extract_subsystem_files
 
 # Only build for chassis
-elif [[ $1 == "chassis" ]]
+elif [[ $1 == $chassis_subsystem ]]
 then
     TARGET_SUBSYSTEM=$chassis_subsystem
     extract_subsystem_files
 
 # Only build for science
-elif [[ $1 == "science" ]]
+elif [[ $1 == $science_subsystem ]]
 then
     TARGET_SUBSYSTEM=$science_subsystem
     extract_subsystem_files

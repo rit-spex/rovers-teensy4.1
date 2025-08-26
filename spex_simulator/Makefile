@@ -9,7 +9,7 @@
 # --------------------------------------------------------------------
 
 # the subsystem name
-# TARGET_SUBSYSTEM:= chassis
+# TARGET_SUBSYSTEM:= science
 
 # the build target, convert the subsystem to all caps
 BUILD_TARGET:=-DBUILD_$(shell echo $(TARGET_SUBSYSTEM) | tr a-z A-Z)
