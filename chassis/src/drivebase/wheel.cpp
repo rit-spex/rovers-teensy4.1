@@ -1,4 +1,15 @@
-#include "../../include/DriveBase/Wheel.h"
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : wheel.cpp
+// purpose      : This file defines the wheel class for the rover.
+//                This class is responsible for controlling each 
+//                individual wheel of the rover based on its target speed.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
+
+#include "../../include/drivebase/wheel.h"
 
 #if ENABLE_ENCODER
 Wheel::Wheel(PWM_PINS pwm_pin, int direction, ENC_A_PINS enc_A_pin, ENC_B_PINS enc_B_pin, double kp, double ki, double kd)
@@ -6,6 +17,7 @@ Wheel::Wheel(PWM_PINS pwm_pin, int direction, ENC_A_PINS enc_A_pin, ENC_B_PINS e
 
      this->m_targetRPM = 0;
      this->m_currentRPM = 0;
+     this->m_direction = direction;
 }
 #else
 Wheel::Wheel(PWM_PINS pwm_pin, int direction):
@@ -31,11 +43,11 @@ float Wheel::getRPM()
 /*
 * Updates the PID controller for the wheel
 */
-void Wheel::updatePID(int timeInterval_ms)
+void Wheel::updatePID()
 {
-    this->m_currentRPM = this->m_encoder.getRPM(timeInterval_ms);
+    this->m_currentRPM = m_direction * this->m_encoder.getRPM();
     float pidOutput = this->m_pid.update(this->m_targetRPM, this->m_currentRPM);
-    this->setSpeed(pidOutput);
+    m_motor.setSpeed(pidOutput);
 }
 
 #endif

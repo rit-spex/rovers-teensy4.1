@@ -1,4 +1,14 @@
-#include "../../include/Temp/Thermistor.h"
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : tempSubsystem.cpp
+// purpose      : This file defines the temp subsystem class for the rover.
+//                This class is responsible for reading the temperature of the thermistors.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
+
+#include "../../include/temperature/thermistor.h"
 
 Thermistor::Thermistor(THERMISTOR_PINS thermistorPin) : m_thermistorPin(thermistorPin)
 {

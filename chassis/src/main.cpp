@@ -1,16 +1,26 @@
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : main.cpp
+// purpose      : This the main file for the chassis. 
+//                This is the file arduino looks for main
+// created on   : 8/14/2025 - Tyler
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
+
 #include "../include/main.h"
 
 void setup()
 {
-	// *mbb = MainBodyBoard{&currentRunCycle};
-	mbb = std::make_shared<MainBodyBoard>(&currentRunCycle);
+	// *chassis = Chassis{&currentRunCycle};
+	chassis = std::make_shared<Chassis>(&currentRunCycle);
 	//   start up the main body board, this will turn the status light off
-	mbb->startUp();
+	chassis->startUp();
 
 #if ENABLE_SERIAL
 	// this is the connection to the computer
 	Serial.begin(9600);
-	Serial.println("Main Body Board");
+	Serial.println("Chassis");
 #endif
 
 #if ENABLE_DEMO_ENCODER
@@ -23,7 +33,7 @@ void setup()
 
 void loop()
 {
-	mbb->runBackgroundProcess();
+	chassis->runBackgroundProcess();
 	if (millis() >= UPDATE_RATE_MS * currentRunCycle)
 	{
 #if ENABLE_SERIAL
@@ -31,12 +41,21 @@ void loop()
 		Serial.println((int)currentRunCycle);
 
 #if ENABLE_DEMO_ENCODER
+		Serial.print("Demo Encoder RPM: ");
 		Serial.println(demo_encoder.getRPM(millis() - UPDATE_RATE_MS * (currentRunCycle - 1)));
 #endif
 #endif // ENABLE_SERIAL
 
+		unsigned long startTime = millis();
+
 		// subtract the current cycle by one to get the entire timeframe
-		mbb->updateSubsystems(millis() - UPDATE_RATE_MS * (currentRunCycle - 1));
+
+		//chassis->updateSubsystems(millis() - UPDATE_RATE_MS * (currentRunCycle - 1));
+		chassis->updateSubsystems((currentRunCycle - 1));
+
+#if ENABLE_SERIAL
+		Serial.printf("time spent in loop: %d\n", millis()-startTime);
+#endif
 
 		// the increment to the next cycle
 		currentRunCycle++;

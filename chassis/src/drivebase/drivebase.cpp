@@ -1,3 +1,15 @@
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : drivebase.cpp
+// purpose      : This file defines the drive base class for the rover.
+//                This class is responsible for controlling the 
+//                rover's wheels based on the target velocity 
+//                transmitted over CAN.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
+
 #include "../../include/DriveBase/DriveBase.h"
 
 /*
@@ -85,7 +97,7 @@ void DriveBase::drive(float left_axis, float right_axis)
 }
 
 // Updates the velocity of the wheels to match the target velocity. This will also update PID
-void DriveBase::updateRPM(int timeInterval_ms)
+void DriveBase::updateRPM()
 {
     #if ENABLE_CAN
     getTargetRPM();
@@ -97,7 +109,7 @@ void DriveBase::updateRPM(int timeInterval_ms)
 
     for (int i = 0; i < NUM_WHEELS; i++)
     {
-        m_wheels[i].updatePID(timeInterval_ms);
+        m_wheels[i].updatePID();
     }
 
     #if ENABLE_SERIAL

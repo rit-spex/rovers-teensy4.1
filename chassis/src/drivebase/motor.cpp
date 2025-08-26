@@ -1,4 +1,14 @@
-#include "../../include/DriveBase/Motor.h"
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : motor.cpp
+// purpose      : controls a single drive motor on the rover's chassis,
+//                uses each motor as a servo
+// created on   : 8/14/2025 - Tyler
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
+
+#include "../../include/drivebase/motor.h"
 
 //constructor
 Motor::Motor(PWM_PINS pwm_pin, int direction)

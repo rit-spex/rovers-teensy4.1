@@ -1,12 +1,30 @@
-#include "../include/MainBodyBoard.h"
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : chassis.cpp
+// purpose      : This file defines the chassis class for the rover.
+//                The chassis is responsible for:
+//                  - controlling the drive wheels with encoder feedback
+//                  - reading the temperature of the thermistors
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
 
-MainBodyBoard::MainBodyBoard(unsigned long *currentCycle)
-:m_can(currentCycle), m_currentCyclePtr(currentCycle){
+#include "../include/chassis.h"
+
+#if ENABLED_CAN
+Chassis::Chassis(unsigned long *currentCycle)
+:m_can(currentCycle), m_currentCyclePtr(currentCycle)
+#else
+Chassis::Chassis(unsigned long *currentCycle)
+:m_currentCyclePtr(currentCycle)
+#endif
+{
 
 }
-MainBodyBoard::~MainBodyBoard(){}
+Chassis::~Chassis(){}
 
-void MainBodyBoard::startUp()
+void Chassis::startUp()
 {
     // set up the status light
     pinMode(STATUS_LIGHT_PIN, OUTPUT);
@@ -21,7 +39,7 @@ void MainBodyBoard::startUp()
     #endif
 }
 
-void MainBodyBoard::BlinkStatusLight()
+void Chassis::BlinkStatusLight()
 {
     // blink the status light every STATUS_LIGHT_FREQUENCY_MS
     if(m_statusLightWait <= 0)
@@ -44,7 +62,7 @@ void MainBodyBoard::BlinkStatusLight()
     }
 }
 
-void MainBodyBoard::updateSubsystems(int timeInterval_ms)
+void Chassis::updateSubsystems(int timeInterval_ms)
 {
     if(!m_disabled)
     {
@@ -64,7 +82,7 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
         BlinkStatusLight();
         #if ENABLE_DRIVEBASE
             #if ENABLE_ENCODER
-            m_drive_base.updateRPM(timeInterval_ms);
+            m_drive_base.updateRPM();
             #else
                 #if ENABLE_CAN
                 // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
@@ -96,7 +114,7 @@ void MainBodyBoard::updateSubsystems(int timeInterval_ms)
     }
 }
 
-void MainBodyBoard::runBackgroundProcess()
+void Chassis::runBackgroundProcess()
 {
     #if ENABLE_CAN
     m_can.readMsgBuffer();
@@ -105,8 +123,7 @@ void MainBodyBoard::runBackgroundProcess()
 
 
 #if ENABLE_DRIVEBASE
-#if MASTER_TEENSY
-void MainBodyBoard::drive(float left_axis, float right_axis)
+void Chassis::drive(float left_axis, float right_axis)
 {
     if(!m_disabled)
     {
@@ -114,9 +131,8 @@ void MainBodyBoard::drive(float left_axis, float right_axis)
     }
 }
 #endif
-#endif
 
-void MainBodyBoard::disable()
+void Chassis::disable()
 {
     // disable the rover and stop everything
     m_disabled = true;
@@ -129,7 +145,7 @@ void MainBodyBoard::disable()
     #endif
 }
 
-bool MainBodyBoard::isDisabled()
+bool Chassis::isDisabled()
 {
     return m_disabled;
 }

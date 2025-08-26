@@ -1,24 +1,25 @@
-/*
-File: wheel.h
-Author: Ryan Barry
-Date Created: 1/23/2024
-
-This file defines the wheel class for the rover.
-
-This class is responsible for controlling each individual wheel of the rover
-based on its target speed.
-*/
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : wheel.h
+// purpose      : This file defines the wheel class for the rover.
+//                This class is responsible for controlling each 
+//                individual wheel of the rover based on its target speed.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
 
 #ifndef WHEEL_H
 #define WHEEL_H
 
-#include "./Pinout.h"
-#include "./Constants.h"
-#include "./DEBUG.h"
-
-#include "Motor.h"
-#include "QuadDecoder.h"
+// Local Includes
+#include "motor.h"
+#include "quadDecoder.h"
 #include "PIDController.h"
+
+#include "./pinout.h"
+#include "./constants.h"
+#include "./DEBUG.h"
 
 class Wheel {
     public:
@@ -56,7 +57,7 @@ class Wheel {
         /*
         * Updates the PID controller for the wheel
         */
-        void updatePID(int timeInterval_ms);
+        void updatePID();
         #endif
 
         void forceStop();
@@ -64,6 +65,8 @@ class Wheel {
     private:
 
         Motor m_motor;
+
+        int m_direction;
 
         #if ENABLE_ENCODER
         QuadratureDecoder m_encoder;
@@ -74,4 +77,4 @@ class Wheel {
         #endif
 };
 
-#endif
+#endif // WHEEL_H

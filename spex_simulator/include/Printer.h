@@ -10,14 +10,13 @@
 #define PRINTER_H
 
 #include <stdio.h>
+#include "GlobalVars.h"
 
 // the structure of the output file and sets the first line of each section
 enum PrinterData
 {
     PIN = 0
 };
-
-#define OUTPUT_FILE_NAME "chassisData.txt"
 
 // creates an empty file
 void ClearFile();

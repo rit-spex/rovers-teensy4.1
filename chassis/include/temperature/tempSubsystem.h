@@ -1,28 +1,29 @@
-/*
-File: temp_subsystem.h
-Author: Ryan Barry
-Date Created: 1/23/2024
-
-This file defines the temp subsystem class for the rover.
-
-This class is responsible for reading the temperature of the thermistors.
-*/
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : tempSubsystem.h
+// purpose      : This file defines the temp subsystem class for the rover.
+//                This class is responsible for reading the temperature of the thermistors.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
 
 #ifndef TEMP_SUBSYSTEM_H
 #define TEMP_SUBSYSTEM_H
 
-#include "./Constants.h"
-#include "./Pinout.h"
-#include "./DEBUG.h"
+// system includes
+#include <math.h>
 
-#include "Fan.h"
-#include "Thermistor.h"
+// local includes
+#include "./constants.h"
+#include "./pinout.h"
+#include "./DEBUG.h"
+#include "fan.h"
+#include "thermistor.h"
 
 #if ENABLE_CAN
 #include "CAN.h"
 #endif
-
-using namespace std;
 
 class TempSubsystem {
     public:

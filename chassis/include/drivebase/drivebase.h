@@ -1,24 +1,28 @@
-/*
-File: drive_base.h
-Author: Ryan Barry
-Date Created: 1/23/2024
-
-This file defines the drive base class for the rover.
-
-This class is responsible for controlling the rover's wheels based on
-the target velocity transmitted over CAN.
-*/
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : drivebase.h
+// purpose      : This file defines the drive base class for the rover.
+//                This class is responsible for controlling the 
+//                rover's wheels based on the target velocity 
+//                transmitted over CAN.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
 
 #ifndef DRIVE_BASE_H
 #define DRIVE_BASE_H
 
-#include "./Constants.h"
-#include "./DEBUG.h"
-#include "./Pinout.h"
+// System Includes
 #include <math.h>
 
-#include "Wheel.h"
+// Local Includes
+#include "./constants.h"
+#include "./DEBUG.h"
+#include "./pinout.h"
+#include "wheel.h"
 
+// Libs Includes
 #ifdef ENABLE_CAN
 #include "CAN.h"
 #endif
@@ -33,7 +37,7 @@ class DriveBase {
 
         #if ENABLE_ENCODER
         // Updates the RPM of the rover's wheels. motor final speed is calculated by the PID controller
-        void updateRPM(int timeInterval_ms);
+        void updateRPM();
         #else
         // Updates the speed of the rover's wheel. Speed is percent
         void updateSingleWheelSpeed(int wheelIndex, float targetSpeed);

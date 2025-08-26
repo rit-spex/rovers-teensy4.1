@@ -12,6 +12,12 @@
 
 #include <iostream>
 #include "Printer.h"
+
+// used to share data for the encoders
+#if BUILD_CHASSIS
+#include "pinout.h"
+#endif
+
 class Servo
 {
     private:

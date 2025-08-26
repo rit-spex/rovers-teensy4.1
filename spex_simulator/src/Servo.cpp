@@ -30,11 +30,37 @@ void Servo::writeMicroseconds(int microseconds)
 {
     // update the output file
     UpdateFile(PrinterData::PIN, pin, microseconds);
-    //*std::cout << "Servo writeMicroseconds called with microseconds: " << microseconds << " on pin" << pin << std::endl;
+
+    // update global file
+    #if BUILD_CHASSIS
+        switch(pin)
+        {
+            case PWM_PIN_0:
+                pwm_pin_0 = microseconds;
+                break;
+            case PWM_PIN_1:
+                pwm_pin_1 = microseconds;
+                break;
+            case PWM_PIN_2:
+                pwm_pin_2 = microseconds;
+                break;
+            case PWM_PIN_3:
+                pwm_pin_3 = microseconds;
+                break;
+            case PWM_PIN_4:
+                pwm_pin_4 = microseconds;
+                break;
+            case PWM_PIN_5:
+                pwm_pin_5 = microseconds;
+                break;
+        }
+    #endif
+
+    //std::cout << "writeMicroseconds called on pin: " << pin << " micro: " << microseconds <<std::endl;
 }
 
 void Servo::write(int microseconds)
 {
-    UpdateFile(PrinterData::PIN, pin, microseconds);
-    //std::cout << "Servo write called with microseconds: " << microseconds << " on pin" << pin << std::endl;
+    // call the other function
+    writeMicroseconds(microseconds);
 }

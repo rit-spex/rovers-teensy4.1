@@ -1,5 +1,14 @@
-#include "../../include/Temp/TempSubsystem.h"
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : tempSubsystem.cppqq
+// purpose      : This file defines the temp subsystem class for the rover.
+//                This class is responsible for reading the temperature of the thermistors.
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
 
+#include "../../include/temperature/tempSubsystem.h"
 
 /*
 * Constructor for the temp subsystem class.
@@ -43,7 +52,7 @@ float* TempSubsystem::getTemperature()
 // Set the power of the fans
 void TempSubsystem::setFansPower(int power)
 {
-    power = min(max(power, MIN_FAN_SPEED), MAX_FAN_SPEED); // clamp the power to the range (MIN_FAN_SPEED, MAX_FAN_SPEED)
+    power = std::min(std::max(power, MIN_FAN_SPEED), MAX_FAN_SPEED); // clamp the power to the range (MIN_FAN_SPEED, MAX_FAN_SPEED)
 
     for (int i = 0; i < NUM_FANS; i++)
     {

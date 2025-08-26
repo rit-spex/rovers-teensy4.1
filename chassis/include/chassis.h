@@ -1,46 +1,50 @@
-/*
-File: main_body_board.h
-Author: Ryan Barry
-Date Created: 1/23/2024
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : chassis.h
+// purpose      : This file defines the chassis class for the rover.
+//                The chassis is responsible for:
+//                  - controlling the drive wheels with encoder feedback
+//                  - reading the temperature of the thermistors
+// created on   : 1/23/2024 - Ryan Barry
+// last modified: 8/14/2025 - Tyler
+// --------------------------------------------------------------------
 
-This file defines the main body board class for the rover.
+#ifndef CHASSIS_H
+#define CHASSIS_H
 
-The main body board is responsible for:
-- controlling the drive wheels with encoder feedback
-- reading the temperature of the thermistors
-*/
-
-#ifndef MAIN_BODY_BOARD_H
-#define MAIN_BODY_BOARD_H
-
-#include "Constants.h"
-#include "DEBUG.h"
-#include "Pinout.h"
-#include <math.h>
+// System Includes
 #include <Arduino.h>
+#include <math.h>
+
+// Local Includes
+#include "constants.h"
+#include "DEBUG.h"
+#include "pinout.h"
 
 // All of the subsystems
 #if ENABLE_DRIVEBASE
-#include "./DriveBase/DriveBase.h"
+#include "./drivebase/drivebase.h"
 #endif
 
 #if ENABLE_TEMP
-#include "TempSubsystem.h"
+#include "./temperature/tempSubsystem.h"
 #endif
 
+// Libs Includes
 #if ENABLE_CAN
 #include "CAN.h"
 #endif
 
-class MainBodyBoard {
+class Chassis {
     public:
         /*
-        * Constructor for the main body board class.
-        * Initializes the drive base, temp subsystem, and LiDAR.
+        * Constructor for the Chassis class.
+        * Initializes the drive base, temp subsystem.
         @param pointer to the currentRunCycle
         */
-        MainBodyBoard(unsigned long *currentCycle);
-        ~MainBodyBoard();
+        Chassis(unsigned long *currentCycle);
+        ~Chassis();
 
         // startup for all of the subsystems
         void startUp();
@@ -60,11 +64,9 @@ class MainBodyBoard {
         // check if the mbb is disabled
         bool isDisabled();
 
-        // Drives the rover based on the left and right joystick values - ONLY FOR MASTER_TEENSY
+        // Drives the rover based on the left and right joystick values
         #if ENABLE_DRIVEBASE
-        #if MASTER_TEENSY
         void drive(float left_axis, float right_axis);
-        #endif
         #endif
     private:
 
@@ -95,4 +97,4 @@ class MainBodyBoard {
         #endif
 };
 
-#endif
+#endif // CHASSIS_H

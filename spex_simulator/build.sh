@@ -17,7 +17,7 @@
 #!/bin/sh
 
 # Globals
-active_subsystem="NONE"
+export TARGET_SUBSYSTEM="NONE"
 
 # The different subsystems
 arm_subsystem="arm"
@@ -25,26 +25,26 @@ chassis_subsystem="main_body_board"
 science_subsystem="science"
 
 # directory paths
-src_path="src"
-include_path="include"
-build_path="build"
+# src_path="src"
+# include_path="include"
+# build_path="build"
 
 # Functions
 extract_subsystem_files()
 {
-    if [ $active_subsystem == "NONE" ] 
+    if [ $TARGET_SUBSYSTEM == "NONE" ] 
     then
         echo "No active subsystem to build"
     else
-        echo Creating build folder
-        mkdir $build_path
+        #echo Creating build folder
+        #mkdir $build_path
 
-        echo "Coping: "$active_subsystem
-        cp -R $active_subsystem/$src_path $build_path/$src_path
+        echo "Creating: "$TARGET_SUBSYSTEM
+        #cp -R $active_subsystem/$src_path $build_path/$src_path
 #         find ../$active_subsystem/$src_path -type f -exec cp {} $build_path/$src_path \;
 #        find ../$active_subsystem/$include_path -type f -exec cp {} $build_path/$src_path \;
 
-        # $(make)
+        $(make)
         #echo Delete build folder
         #rmdir build
 
@@ -52,38 +52,38 @@ extract_subsystem_files()
 }
 
 # Only build for current system
-if [ $1 == "" ] 
+if [[ $1 == "" ]] 
 then
     extract_subsystem_files
 
 # Only build for arm
-elif [ $1 == "arm" ]
+elif [[ $1 == "arm" ]]
 then
-    active_subsystem=$arm_subsystem
+    TARGET_SUBSYSTEM=$arm_subsystem
     extract_subsystem_files
 
 # Only build for chassis
-elif [ $1 == "chassis" ]
+elif [[ $1 == "chassis" ]]
 then
-    active_subsystem=$chassis_subsystem
+    TARGET_SUBSYSTEM=$chassis_subsystem
     extract_subsystem_files
 
 # Only build for science
-elif [ $1 == "science" ]
+elif [[ $1 == "science" ]]
 then
-    active_subsystem=$science_subsystem
+    TARGET_SUBSYSTEM=$science_subsystem
     extract_subsystem_files
 
 # Only build for all subsystems
-elif [ $1 == "all" ]
+elif [[ $1 == "all" ]]
 then
-    active_subsystem=$arm_subsystem
+    TARGET_SUBSYSTEM=$arm_subsystem
     extract_subsystem_files
 
-    active_subsystem=$chassis_subsystem
+    TARGET_SUBSYSTEM=$chassis_subsystem
     extract_subsystem_files
 
-    active_subsystem=$science_subsystem
+    TARGET_SUBSYSTEM=$science_subsystem
     extract_subsystem_files
 
 # Only build for all subsystems

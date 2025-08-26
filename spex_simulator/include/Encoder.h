@@ -10,14 +10,26 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
+#include <Arduino.h>
 #include <iostream>
+#include <chrono>
+#include <pthread.h>
+#include <thread>
+#include <stdio.h>
+
+// used to share data for the encoders
+#if BUILD_CHASSIS
+#include "pinout.h"
+#endif
 
 class Encoder
 {
     private:
         int pin1;
         int pin2;
-        int counts;
+        long counts;
+        // pthread_t countIncreaseThread;
+        unsigned long lastCountTime;
     public:
         Encoder(int pin1, int pin2);
         void attach(int pin1, int pin2);
