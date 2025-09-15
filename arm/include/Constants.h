@@ -17,6 +17,8 @@
 
 #define TIME 80
 
+#define LED_BLINK_INTERVAL 500 // ms
+
 // Old definitions:
 // #define CLAW_I2C_ID 16 // stepper motor
 // #define CLAW_MAX_SPEED (200 * 10000) // 100 steps per second

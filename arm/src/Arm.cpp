@@ -10,6 +10,7 @@ void startUp(Dynamixel2Arduino dyna)
 	pinMode(ELBOW_SPEED_PIN, OUTPUT);
 	pinMode(GRIPPER_PWM_PIN, OUTPUT);
 	pinMode(SOLENOID_PIN, OUTPUT);
+	pinMode(STATUS_LIGHT_PIN, OUTPUT);
 
 	Timer1.initialize(TIME);
 	Timer1.start();
@@ -17,6 +18,8 @@ void startUp(Dynamixel2Arduino dyna)
 	Timer3.start();
 
 	SARGripper.attach(GRIPPER_PWM_PIN);
+
+	digitalWrite(STATUS_LIGHT_PIN, HIGH);
 
 	dyna.begin(DYNAMIXEL_BAUD_RATE);
 	Serial.printf("set protocol ver: %d\n", dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
