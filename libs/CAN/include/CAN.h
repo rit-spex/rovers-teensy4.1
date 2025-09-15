@@ -6,13 +6,6 @@
 #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8
 
-// Pinout
-enum CAN_PINS
-{
-	CAN_RX_PIN = 0,
-	CAN_TX_PIN = 1
-};
-
 #include <ACAN_T4.h>
 #include <Arduino.h>
 #include <unordered_map>

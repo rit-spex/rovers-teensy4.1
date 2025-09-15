@@ -12,30 +12,29 @@
 #ifndef PID_CONTROLLER_H
 #define PID_CONTROLLER_H
 
-// TODO: Remove
-// #define OUTPUT_MIN 0
-// #define OUTPUT_MAX 500
-
 // System Includes
 #include <Arduino.h>
+#include <cstdint>
 
 // Local Includes
 #include "DEBUG.h"
+#include "constants.h"
 
 class PIDController {
 public:
     // Constructor
-    PIDController(double kp, double ki, double kd);
+    PIDController(uint8_t PID_id);
 
     // Update method
     double update(double targeted_RPM, double current_RPM);
 
 private:
-    double kp;
-    double ki;
-    double kd;
-    double integral;
-    double previous_error;
+    uint8_t m_PID_id;
+    double m_kp;
+    double m_ki;
+    double m_kd;
+    double m_integral;
+    double m_previous_error;
 };
 
 #endif // PID_CONTROLLER_H

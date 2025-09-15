@@ -25,14 +25,15 @@
 class Motor 
 {
     public:
-        Motor(PWM_PINS pwm_pin, int direction);
+        Motor(uint8_t motor_id);
         ~Motor();
-        void setSpeed(float percent);
-        float getSpeed();
+        void setPercent(float wantedPercent);
+        float getPercent();
         void forceStop();
     private:
         Servo m_motor;
-        float m_speed;
+        uint8_t m_motor_id;
+        float m_currPercent;
         int m_direction;
 
         void updateMotor();

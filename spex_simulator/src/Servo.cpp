@@ -35,22 +35,22 @@ void Servo::writeMicroseconds(int microseconds)
     #if BUILD_CHASSIS
         switch(pin)
         {
-            case PWM_PIN_0:
+            case MOTOR_PWM_PIN_1:
                 pwm_pin_0 = microseconds;
                 break;
-            case PWM_PIN_1:
+            case MOTOR_PWM_PIN_2:
                 pwm_pin_1 = microseconds;
                 break;
-            case PWM_PIN_2:
+            case MOTOR_PWM_PIN_3:
                 pwm_pin_2 = microseconds;
                 break;
-            case PWM_PIN_3:
+            case MOTOR_PWM_PIN_4:
                 pwm_pin_3 = microseconds;
                 break;
-            case PWM_PIN_4:
+            case MOTOR_PWM_PIN_5:
                 pwm_pin_4 = microseconds;
                 break;
-            case PWM_PIN_5:
+            case MOTOR_PWM_PIN_6:
                 pwm_pin_5 = microseconds;
                 break;
         }

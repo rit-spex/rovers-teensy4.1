@@ -33,22 +33,22 @@ long Encoder::read()
     #if BUILD_CHASSIS
         switch(pin1)
         {
-            case ENC_A_PIN_0:
+            case ENC_A_PIN_1:
                 power = (pwm_pin_0-1500)*40.0/500;
                 break;
-            case ENC_A_PIN_1:
+            case ENC_A_PIN_2:
                 power = (pwm_pin_1-1500)*40.0/500;
                 break;
-            case ENC_A_PIN_2:
+            case ENC_A_PIN_3:
                 power = (pwm_pin_2-1500)*40.0/500;
                 break;
-            case ENC_A_PIN_3:
+            case ENC_A_PIN_4:
                 power = (pwm_pin_3-1500)*40.0/500;
                 break;
-            case ENC_A_PIN_4:
+            case ENC_A_PIN_5:
                 power = (pwm_pin_4-1500)*40.0/500;
                 break;
-            case ENC_A_PIN_5:
+            case ENC_A_PIN_6:
                 power = (pwm_pin_5-1500)*40.0/500;
                 break;
         }

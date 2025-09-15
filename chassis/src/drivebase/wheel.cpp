@@ -12,21 +12,21 @@
 #include "../../include/drivebase/wheel.h"
 
 #if ENABLE_ENCODER
-Wheel::Wheel(PWM_PINS pwm_pin, int direction, ENC_A_PINS enc_A_pin, ENC_B_PINS enc_B_pin, double kp, double ki, double kd)
-     : m_motor(pwm_pin, direction), m_encoder(enc_A_pin, enc_B_pin), m_pid(kp, ki, kd){
+Wheel::Wheel(uint8_t wheel_id)
+     : m_motor(wheel_id), m_encoder(wheel_id), m_pid(wheel_id){
 
      this->m_targetRPM = 0;
      this->m_currentRPM = 0;
-     this->m_direction = direction;
+}
 }
 #else
-Wheel::Wheel(PWM_PINS pwm_pin, int direction):
-    m_motor(pwm_pin, direction){}
+Wheel::Wheel(uint8_t wheel_id):
+    m_motor(wheel_id){}
 #endif
 
-void Wheel::setSpeed(float targetSpeed)
+void Wheel::setPercent(float targetPercent)
 {
-    m_motor.setSpeed(targetSpeed);
+    m_motor.setPercent(targetPercent);
 }
 
 #if ENABLE_ENCODER
@@ -47,7 +47,7 @@ void Wheel::updatePID()
 {
     this->m_currentRPM = m_direction * this->m_encoder.getRPM();
     float pidOutput = this->m_pid.update(this->m_targetRPM, this->m_currentRPM);
-    m_motor.setSpeed(pidOutput);
+    m_motor.setPercent(pidOutput);
 }
 
 #endif

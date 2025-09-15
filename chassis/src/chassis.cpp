@@ -12,16 +12,14 @@
 
 #include "../include/chassis.h"
 
-#if ENABLED_CAN
+#if ENABLE_CAN
 Chassis::Chassis(unsigned long *currentCycle)
-:m_can(currentCycle), m_currentCyclePtr(currentCycle)
+:m_can(currentCycle), m_currentCyclePtr(currentCycle) {}
 #else
 Chassis::Chassis(unsigned long *currentCycle)
-:m_currentCyclePtr(currentCycle)
+:m_currentCyclePtr(currentCycle) {}
 #endif
-{
 
-}
 Chassis::~Chassis(){}
 
 void Chassis::startUp()

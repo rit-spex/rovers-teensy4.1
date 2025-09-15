@@ -25,7 +25,7 @@
 class QuadratureDecoder 
 {
     public:
-        QuadratureDecoder(ENC_A_PINS enc_A_pin, ENC_B_PINS enc_B_pin);
+        QuadratureDecoder(uint8_t encoder_id);
   
         void begin();
 
@@ -38,8 +38,8 @@ class QuadratureDecoder
     private:
         // the physical encoder
         Encoder m_encoder;
-        int enc_A_pin;
-        int enc_B_pin;
+        uint8_t m_encoder_id;
+
         unsigned long m_lastTime;
 
         // the last x counts from the encoder

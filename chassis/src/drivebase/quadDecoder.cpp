@@ -10,8 +10,8 @@
 
 #include "../../include/drivebase/quadDecoder.h"
 
-QuadratureDecoder::QuadratureDecoder(ENC_A_PINS enc_A_pin, ENC_B_PINS enc_B_pin)
- :m_encoder(enc_A_pin, enc_B_pin), enc_A_pin(enc_A_pin), enc_B_pin(enc_B_pin)
+QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
+ :m_encoder(ENC_A_PINS[encoder_id], ENC_A_PINS[encoder_id]), m_encoder_id(encoder_id)
 {
     // set the time to now
     m_lastTime = millis();

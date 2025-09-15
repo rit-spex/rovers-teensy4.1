@@ -21,17 +21,17 @@ TempSubsystem::TempSubsystem() :
 #endif
     m_thermistors
     {
-        Thermistor(THERMISTOR_PINS::THERMISTOR_PIN_0), 
-        Thermistor(THERMISTOR_PINS::THERMISTOR_PIN_1),
-        Thermistor(THERMISTOR_PINS::THERMISTOR_PIN_2),
-        Thermistor(THERMISTOR_PINS::THERMISTOR_PIN_3)
+        Thermistor(0), 
+        Thermistor(1),
+        Thermistor(2),
+        Thermistor(3)
     },
     m_fans
     {
-        Fan(FAN_PINS::FAN_PIN_0),
-        Fan(FAN_PINS::FAN_PIN_1),
-        Fan(FAN_PINS::FAN_PIN_2),
-        Fan(FAN_PINS::FAN_PIN_3)
+        Fan(0),
+        Fan(1),
+        Fan(2),
+        Fan(3)
     }
     #if ENABLE_CAN
     ,m_can(can)
@@ -52,7 +52,7 @@ float* TempSubsystem::getTemperature()
 // Set the power of the fans
 void TempSubsystem::setFansPower(int power)
 {
-    power = std::min(std::max(power, MIN_FAN_SPEED), MAX_FAN_SPEED); // clamp the power to the range (MIN_FAN_SPEED, MAX_FAN_SPEED)
+    power = std::min(std::max(power, FAN_MIN_PWM   ), FAN_MAX_PWM  ); // clamp the power to the range (FAN_MIN_PWM   , FAN_MAX_PWM  )
 
     for (int i = 0; i < NUM_FANS; i++)
     {
@@ -70,20 +70,20 @@ void TempSubsystem::updateFans()
     }
     avgTemp /= NUM_THERMISTORS;
 
-    if(avgTemp > MAX_TEMP)
+    if(avgTemp > CHASSIS_MAX_TEMP_C)
     {
-        setFansPower(MAX_FAN_SPEED);
+        setFansPower(FAN_MAX_PWM  );
     }
-    else if(avgTemp < MIN_TEMP)
+    else if(avgTemp < CHASSIS_MIN_TEMP_C)
     {
-        setFansPower(MIN_FAN_SPEED);
+        setFansPower(FAN_MIN_PWM   );
     }
     else
     {
-        float deltaTemp = MAX_TEMP - MIN_TEMP;
-        float deltaPower = MAX_FAN_SPEED - MIN_FAN_SPEED;
+        float deltaTemp = CHASSIS_MAX_TEMP_C - CHASSIS_MIN_TEMP_C;
+        float deltaPower = FAN_MAX_PWM   - FAN_MIN_PWM   ;
         
-        int power = (avgTemp - MIN_TEMP) / deltaTemp * deltaPower + MIN_FAN_SPEED;
+        int power = (avgTemp - CHASSIS_MIN_TEMP_C) / deltaTemp * deltaPower + FAN_MIN_PWM   ;
         setFansPower(power); // change later
     }
 }

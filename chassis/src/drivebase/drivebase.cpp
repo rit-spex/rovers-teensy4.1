@@ -24,24 +24,8 @@ DriveBase::DriveBase(CAN *can):
 #else
 DriveBase::DriveBase():
 #endif
+m_wheels{ Wheel(0), Wheel(1), Wheel(2), Wheel(3), Wheel(4), Wheel(5)}
 
-#if ENABLE_ENCODER
-m_wheels{
-        Wheel(PWM_PIN_0, LEFTDIRECTION , ENC_A_PIN_0, ENC_B_PIN_0, PIDConstants::KP0, PIDConstants::KI0, PIDConstants::KD0),
-        Wheel(PWM_PIN_1, LEFTDIRECTION , ENC_A_PIN_1, ENC_B_PIN_1, PIDConstants::KP1, PIDConstants::KI1, PIDConstants::KD1),
-        Wheel(PWM_PIN_2, LEFTDIRECTION , ENC_A_PIN_2, ENC_B_PIN_2, PIDConstants::KP2, PIDConstants::KI2, PIDConstants::KD2),
-        Wheel(PWM_PIN_3, RIGHTDIRECTION, ENC_A_PIN_3, ENC_B_PIN_3, PIDConstants::KP3, PIDConstants::KI3, PIDConstants::KD3),
-        Wheel(PWM_PIN_4, RIGHTDIRECTION, ENC_A_PIN_4, ENC_B_PIN_4, PIDConstants::KP4, PIDConstants::KI4, PIDConstants::KD4),
-        Wheel(PWM_PIN_5, RIGHTDIRECTION, ENC_A_PIN_5, ENC_B_PIN_5, PIDConstants::KP5, PIDConstants::KI5, PIDConstants::KD5)}
-#else
-m_wheels{
-        Wheel(PWM_PIN_0, LEFTDIRECTION),
-        Wheel(PWM_PIN_1, LEFTDIRECTION),
-        Wheel(PWM_PIN_2, LEFTDIRECTION),
-        Wheel(PWM_PIN_3, RIGHTDIRECTION),
-        Wheel(PWM_PIN_4, RIGHTDIRECTION),
-        Wheel(PWM_PIN_5, RIGHTDIRECTION)}
-#endif
 {
     #if ENABLE_CAN
     m_CAN = can;
@@ -62,14 +46,14 @@ void DriveBase::drive(float left_axis, float right_axis)
 {
     // If the difference between the left and right axis is less than the max difference use normal values
     // this is to prevent the rover from tipping over
-    if (fabs(fabs(left_axis) - fabs(right_axis)) < (MAX_DIFFERENCE_PERCENT/PERCENT_MAX))
+    if (fabs(fabs(left_axis) - fabs(right_axis)) < (DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX))
     {
-        m_targetRPM[0] = left_axis * MAX_RPM;
-        m_targetRPM[1] = left_axis * MAX_RPM;
-        m_targetRPM[2] = left_axis * MAX_RPM;
-        m_targetRPM[3] = right_axis * MAX_RPM;
-        m_targetRPM[4] = right_axis * MAX_RPM;
-        m_targetRPM[5] = right_axis * MAX_RPM;
+        m_targetRPM[0] = left_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[1] = left_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[2] = left_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[3] = right_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[4] = right_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[5] = right_axis * SPARK_MAX_MAX_RPM;
     }
 
     // If joystick value are difference is greater than the max difference
@@ -77,22 +61,22 @@ void DriveBase::drive(float left_axis, float right_axis)
     else if (fabs(left_axis) > fabs(right_axis))
     {
         int isNegative = left_axis/fabs(left_axis);
-        m_targetRPM[0] = left_axis * MAX_RPM;
-        m_targetRPM[1] = left_axis * MAX_RPM;
-        m_targetRPM[2] = left_axis * MAX_RPM;
-        m_targetRPM[3] = (left_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * MAX_RPM;
-        m_targetRPM[4] = (left_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * MAX_RPM;
-        m_targetRPM[5] = (left_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * MAX_RPM;
+        m_targetRPM[0] = left_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[1] = left_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[2] = left_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[3] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[4] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[5] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
     }
     else if (fabs(left_axis)<fabs(right_axis))
     {
         int isNegative = right_axis/fabs(right_axis);
-        m_targetRPM[0] = (right_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * MAX_RPM;
-        m_targetRPM[1] = (right_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * MAX_RPM;
-        m_targetRPM[2] = (right_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * MAX_RPM;
-        m_targetRPM[3] = right_axis * MAX_RPM;
-        m_targetRPM[4] = right_axis * MAX_RPM;
-        m_targetRPM[5] = right_axis * MAX_RPM;
+        m_targetRPM[0] = (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[1] = (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[2] = (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[3] = right_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[4] = right_axis * SPARK_MAX_MAX_RPM;
+        m_targetRPM[5] = right_axis * SPARK_MAX_MAX_RPM;
     }
 }
 
@@ -151,14 +135,14 @@ void DriveBase::drive(float left_axis, float right_axis)
 
 	#if PREVENT_TIPPING
 
-    if (fabs(fabs(left_axis) - fabs(right_axis)) < (float)(MAX_DIFFERENCE_PERCENT/PERCENT_MAX))
+    if (fabs(fabs(left_axis) - fabs(right_axis)) < (float)(DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX))
     {
-        updateSingleWheelSpeed(0, left_axis);
-        updateSingleWheelSpeed(1, left_axis);
-        updateSingleWheelSpeed(2, left_axis);
-        updateSingleWheelSpeed(3, right_axis);
-        updateSingleWheelSpeed(4, right_axis);
-        updateSingleWheelSpeed(5, right_axis);
+        updateSingleWheelPercent(0, left_axis);
+        updateSingleWheelPercent(1, left_axis);
+        updateSingleWheelPercent(2, left_axis);
+        updateSingleWheelPercent(3, right_axis);
+        updateSingleWheelPercent(4, right_axis);
+        updateSingleWheelPercent(5, right_axis);
     }
 
     // If joystick value are difference is greater than the max difference
@@ -166,39 +150,39 @@ void DriveBase::drive(float left_axis, float right_axis)
     else if (fabs(left_axis) > fabs(right_axis))
     {
         int isNegative = left_axis/fabs(left_axis);
-        updateSingleWheelSpeed(0, left_axis);
-        updateSingleWheelSpeed(1, left_axis);
-        updateSingleWheelSpeed(2, left_axis);
-        updateSingleWheelSpeed(3, (left_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
-        updateSingleWheelSpeed(4, (left_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
-        updateSingleWheelSpeed(5, (left_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(0, left_axis);
+        updateSingleWheelPercent(1, left_axis);
+        updateSingleWheelPercent(2, left_axis);
+        updateSingleWheelPercent(3, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(4, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(5, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
     }
     else if (fabs(left_axis)<fabs(right_axis))
     {
         int isNegative = right_axis/fabs(right_axis);
-        updateSingleWheelSpeed(0, (right_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
-        updateSingleWheelSpeed(1, (right_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
-        updateSingleWheelSpeed(2, (right_axis - MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
-        updateSingleWheelSpeed(3, right_axis);
-        updateSingleWheelSpeed(4, right_axis);
-        updateSingleWheelSpeed(5, right_axis);
+        updateSingleWheelPercent(0, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(1, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(2, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT/PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(3, right_axis);
+        updateSingleWheelPercent(4, right_axis);
+        updateSingleWheelPercent(5, right_axis);
     }
 
 	#else
 
-	updateSingleWheelSpeed(0, left_axis);
-	updateSingleWheelSpeed(1, left_axis);
-	updateSingleWheelSpeed(2, left_axis);
-	updateSingleWheelSpeed(3, right_axis);
-	updateSingleWheelSpeed(4, right_axis);
-	updateSingleWheelSpeed(5, right_axis);
+	updateSingleWheelPercent(0, left_axis);
+	updateSingleWheelPercent(1, left_axis);
+	updateSingleWheelPercent(2, left_axis);
+	updateSingleWheelPercent(3, right_axis);
+	updateSingleWheelPercent(4, right_axis);
+	updateSingleWheelPercent(5, right_axis);
 
 	#endif
 }
 
-void DriveBase::updateSingleWheelSpeed(int wheelIndex, float targetSpeed)
+void DriveBase::updateSingleWheelPercent(int wheelIndex, float targetPercent)
 {
-    m_wheels[wheelIndex].setSpeed(targetSpeed);
+    m_wheels[wheelIndex].setPercent(targetPercent);
 }
 
 #endif
