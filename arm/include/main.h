@@ -16,6 +16,7 @@
 #include <Arduino.h>
 #include <Dynamixel2Arduino.h>
 #include <memory>
+#include <elapsedMillis.h>
 
 #include "Arm.h"
 #include "CAN.h"

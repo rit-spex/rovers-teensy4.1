@@ -1,6 +1,7 @@
 
 #include "main.h"
 
+elapsedMillis ledTimer;
 unsigned long currentRunCycle = 0;
 std::shared_ptr<CAN> can;
 Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
@@ -24,6 +25,16 @@ void loop() {
   if (can->isNewMessage(CAN::ARM_E_STOP)) {
     disable(dyna);
   }
+
+  if (is_disabled) {
+    digitalWrite(LED_BUILTIN, HIGH);
+  } else {
+    if (ledTimer >= LED_BLINK_INTERVAL) {
+      ledTimer = 0;
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+  }
+
   for (int i = 10; i < 18; ++i) {
     if (can->isNewMessage((CAN::Message_ID)i)) {
       uint8_t *data;
