@@ -21,5 +21,6 @@
 #define GRIPPER_PWM_PIN 37
 #define SOLENOID_PIN 27
 #define DYNAMIXEL_MOTORS_SERIAL Serial3
+#define STATUS_LIGHT_PIN 13
 
 #endif

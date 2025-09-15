@@ -27,11 +27,11 @@ void loop() {
   }
 
   if (is_disabled) {
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(STATUS_LIGHT_PIN, HIGH);
   } else {
     if (ledTimer >= LED_BLINK_INTERVAL) {
       ledTimer = 0;
-      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+      digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
     }
   }
 
