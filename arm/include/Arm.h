@@ -12,8 +12,8 @@
 
 enum Direction
 {
-	FORWARD = 1,
 	REVERSE = 0,
+	FORWARD = 1,
 	OFF = 2
 };
 
@@ -50,7 +50,6 @@ void moveSARClaw(Direction direction);
 void moveSolenoid(int state);
 
 static bool is_disabled = false;
-// Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 static Servo SARGripper;
 
 static float diff1PercentSpeed = DYNAMIXEL_SPEED_PERCENT;

@@ -1,0 +1,103 @@
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : Arduino.c
+// purpose      : to simulate the arduino file
+// created on   : 7/23/2025 - Tyler
+// last modified: 7/23/2025 - Tyler
+// --------------------------------------------------------------------
+
+#include <Arduino.h>
+
+//////////////////////////////////////////// Serial_Class /////////////////////////
+void Serial_Class::begin(int baudrate)
+{
+    std::cout << "Serial begin called with baudrate: " << baudrate << std::endl;
+}
+//print statements
+void Serial_Class::print(const char* message)
+{
+    std::cout << message;
+}
+void Serial_Class::print(const int message)
+{
+    std::cout << message;
+}
+void Serial_Class::print(const float message)
+{
+    std::cout << message;
+}
+
+//println statements
+void Serial_Class::println(const char* message)
+{
+    std::cout << message << std::endl;
+}
+void Serial_Class::println(const int message)
+{
+    std::cout << message << std::endl;
+}
+void Serial_Class::println(std::string message)
+{
+    std::cout << "Serial println called with message: " << message << std::endl;
+}
+
+void Serial_Class::printf(const char* message, int val)
+{
+    char buffer[256];
+    sprintf(buffer, message, val);
+    print(buffer);
+}
+
+void Serial_Class::printf(const char* message, int val1, int val2, int val3)
+{
+    char buffer[256];
+    sprintf(buffer, message, val1, val2, val3);
+    print(buffer);
+}
+
+// define global functions
+void pinMode(int pin, int mode)
+{
+    std::cout << "pinMode called with pin: " << pin << " and mode: " << mode << std::endl;
+}
+
+void digitalWrite(int pin, int value)
+{
+    UpdateFile(PrinterData::PIN, pin, value);
+    // std::cout << "digitalWrite called with pin: " << pin << " and value: " << value << std::endl;
+}
+
+float digitalRead(int pin)
+{
+    std::cout << "digitalRead called with pin: " << pin << std::endl;
+    return 0;
+}
+
+void delay(int milliseconds)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+
+    std::cout << "delay called with milliseconds: " << milliseconds << std::endl;
+}
+
+unsigned long millis()
+{
+    static std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    unsigned long time = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+    //std::cout << "millis called at " << time << std::endl;
+    return time;
+}
+
+void analogWrite(int pin, int pwm)
+{
+    UpdateFile(PrinterData::PIN, pin, pwm);
+    //std::cout << "analogWrite called" << std::endl;
+}
+
+float analogRead(int pin)
+{
+    std::cout << "analogRead called" << std::endl;
+    return 0;
+}

@@ -7,7 +7,7 @@
 			"path": "arm"
 		},
 		{
-			"path": "main_body_board"
+			"path": "chassis"
 		},
 		{
 			"path": "libs/CAN"

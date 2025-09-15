@@ -1,0 +1,112 @@
+// --------------------------------------------------------------------
+//                           SPEX ROVER 2025
+// --------------------------------------------------------------------
+// file name    : constants.h
+// purpose      : This file contains all constants used in the system
+// created on   : 8/14/2025 - Tyler
+// last modified: 9/8/2025 - Tyler
+// --------------------------------------------------------------------
+
+// System Include
+#include "DEBUG.h"
+
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+//********************************************************* GENERAL CONSTANTS *******************************************************
+// the larger number will led to slower frequency
+#define STATUS_LIGHT_FREQUENCY_MS 200
+
+// Update rate for the rover
+#define UPDATE_RATE_MS 100//40 // BLOWING FRAMES IN SIMULATOR SO IT WAS SLOWED Down TODO: Fix
+
+//milliseconds in a minute
+#define MS_IN_MIN 60000
+
+//********************************************************* DRIVETRAIN CONSTANTS *******************************************************
+//The max percent of the motors
+#define PERCENT_MAX 0.4
+
+// Max RPM of the spark max is 1100 with no load
+#define SPARK_MAX_MAX_RPM 1100
+
+// the PMW values of the sparkMAX
+#define SPARK_MAX_MAX_DUTY_CYCLE (1500 + 500 * PERCENT_MAX)
+#define SPARK_MAX_MIN_FORWARD 1525
+#define SPARK_MAX_NEUTRAL_DUTY_CYCLE 1500
+#define SPARK_MAX_MIN_REVERSE 1475
+#define SPARK_MAX_MIN_DUTY_CYCLE (1500 - 500 * PERCENT_MAX)
+
+#define COUNTS_PER_REV 2048
+
+// number of wheels on the rover
+#define NUM_WHEELS 6
+
+// The Direction of the motor
+#define MOTOR_LEFT_SIGN  -1 //positive 1 or negitive -1
+#define MOTOR_RIGHT_SIGN  1 //positive 1 or negitive -1
+
+// the time it takes to go from 0 to 100
+#if AUTO
+#define SPARK_MAX_RAMP_UP_TIME_MS   2000 //milliseconds
+#define SPARK_MAX_RAMP_DOWN_TIME_MS 2000  //milliseconds
+#else
+#define SPARK_MAX_RAMP_UP_TIME_MS   2000 //milliseconds
+#define SPARK_MAX_RAMP_DOWN_TIME_MS 2000  //milliseconds
+#endif
+
+// The percent Increase or Decrease per cycle
+#define SPARK_MAX_RAMP_UP_PER_CYCLE   ((1.00)/(SPARK_MAX_RAMP_UP_TIME_MS/UPDATE_RATE_MS))
+#define SPARK_MAX_RAMP_DOWN_PER_CYCLE ((1.00)/(SPARK_MAX_RAMP_DOWN_TIME_MS/UPDATE_RATE_MS))
+
+//The max the percent on each side can differ before the rover tips
+#define DRIVEBASE_MAX_DIFFERENCE_PERCENT 0.07
+
+namespace PIDConstants 
+{
+    constexpr double KP0 = 0.005;
+    constexpr double KP1 = 0.005;
+    constexpr double KP2 = 0.005;
+    constexpr double KP3 = 0.005;
+    constexpr double KP4 = 0.005;
+    constexpr double KP5 = 0.005;
+
+    constexpr double KI0 = 0.0005;
+    constexpr double KI1 = 0.0005;
+    constexpr double KI2 = 0.0005;
+    constexpr double KI3 = 0.0005;
+    constexpr double KI4 = 0.0005;
+    constexpr double KI5 = 0.0005;
+
+    constexpr double KD0 = 0.0005;
+    constexpr double KD1 = 0.0005;
+    constexpr double KD2 = 0.0005;
+    constexpr double KD3 = 0.0005;
+    constexpr double KD4 = 0.0005;
+    constexpr double KD5 = 0.0005;
+};
+
+#define MOTORS_DIR       (int[NUM_WHEELS]) {MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN}
+#define PID_CONSTANTS_KP (double[NUM_WHEELS]){PIDConstants::KP0, PIDConstants::KP1, PIDConstants::KP2, PIDConstants::KP3, PIDConstants::KP4, PIDConstants::KP5}
+#define PID_CONSTANTS_KI (double[NUM_WHEELS]){PIDConstants::KI0, PIDConstants::KI1, PIDConstants::KI2, PIDConstants::KI3, PIDConstants::KI4, PIDConstants::KI5}
+#define PID_CONSTANTS_KD (double[NUM_WHEELS]){PIDConstants::KD0, PIDConstants::KD1, PIDConstants::KD2, PIDConstants::KD3, PIDConstants::KD4, PIDConstants::KD5}
+
+//********************************************************* TEMP CONSTANTS *******************************************************
+// FAN CONSTANTS
+#define NUM_THERMISTORS 4
+#define NUM_FANS 4
+
+// this is in celsius
+#define CHASSIS_MAX_TEMP_C 44 //110 ferinheight
+#define CHASSIS_MIN_TEMP_C 15 // 60 ferinheight
+
+//this is duty cycle pwm Signal
+#define FAN_MAX_PWM   255
+#define FAN_MIN_PWM   51
+
+//********************************************************* CAN CONSTANTS *******************************************************
+#define ActiveCAN CAN::CAN_MODE::CAN2
+#define CAN_BAUDRATE 500000
+#define MSG_LENGTH 8
+
+#endif // CONSTANTS_H
