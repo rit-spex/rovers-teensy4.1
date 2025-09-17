@@ -11,6 +11,7 @@
 #define ARDUINO_H
 
 #include <string>
+#include <unordered_map>
 #include <iostream>
 #include <stdio.h>
 #include <chrono>
@@ -25,6 +26,15 @@
 
 #define INPUT  0
 #define OUTPUT 1
+
+class PinState
+{
+private:
+    std::unordered_map<int, int> pin_map;
+public:
+    int getPinValue(const int pin);
+    void setPinValue(const int pin, const int val);
+};
 
 class Serial_Class
 {
@@ -52,12 +62,13 @@ void delay(int milliseconds);
 unsigned long millis();
 
 void digitalWrite(int pin, int value);
-float digitalRead(int pin);
+int digitalRead(int pin);
 
 void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
-static Serial_Class  Serial;
-
+static Serial_Class Serial;
+// XXX: naming
+static PinState pin_state;
 
 #endif
