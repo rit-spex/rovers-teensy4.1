@@ -1,0 +1,14 @@
+{
+	"$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+	"name": "TEENSY_TEMPLATE",
+	"version": "1.0.0",
+	"description": "Template for subsystem classes",
+	"authors": [
+		{
+			"name": "Lucas Newcomb",
+			"url": "https://github.com/pants721"
+		}
+	],
+	"frameworks": "arduino",
+	"platforms": ["teensy"]
+  }
