@@ -9,6 +9,8 @@ public:
     virtual void blinkStatusLight() = 0;
     virtual void disable() = 0;
     bool isDisabled();
+
+    virtual ~TeensyTemplate() {}
 };
 
 #endif
