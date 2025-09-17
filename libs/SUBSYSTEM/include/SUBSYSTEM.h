@@ -1,7 +1,7 @@
-#ifndef TEENSY_TEMPLATE_H
-#define TEENSY_TEMPLATE_H
+#ifndef SUBSYSTEM_H
+#define SUBSYSTEM_H
 
-class TeensyTemplate {
+class Subsystem {
 protected:
     bool m_disabled = false;
 public:
@@ -10,7 +10,7 @@ public:
     virtual void disable() = 0;
     bool isDisabled();
 
-    virtual ~TeensyTemplate() {}
+    virtual ~Subsystem() {}
 };
 
 #endif

@@ -1,6 +1,6 @@
 {
 	"$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
-	"name": "TEENSY_TEMPLATE",
+	"name": "SUBSYSTEM",
 	"version": "1.0.0",
 	"description": "Template for subsystem classes",
 	"authors": [
