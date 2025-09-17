@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------
 
 #include <Arduino.h>
+#include <cstdarg>
 
 //////////////////////////////////////////// Serial_Class /////////////////////////
 void Serial_Class::begin(int baudrate)
@@ -42,18 +43,16 @@ void Serial_Class::println(std::string message)
     std::cout << "Serial println called with message: " << message << std::endl;
 }
 
-void Serial_Class::printf(const char* message, int val)
+int Serial_Class::printf(const char *format, ...)
 {
-    char buffer[256];
-    sprintf(buffer, message, val);
-    print(buffer);
-}
+	va_list args;
+	int done;
 
-void Serial_Class::printf(const char* message, int val1, int val2, int val3)
-{
-    char buffer[256];
-    sprintf(buffer, message, val1, val2, val3);
-    print(buffer);
+	va_start(args, format);
+	done = vfprintf(stdout, format, args);
+	va_end(args);
+
+	return done;
 }
 
 // define global functions

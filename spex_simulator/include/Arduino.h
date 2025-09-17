@@ -43,8 +43,7 @@ class Serial_Class
         void println(std::string message);
 
         // printf
-        void printf(const char* message, int val);
-        void printf(const char* message, int val1, int val2, int val3);
+        int printf(const char* format, ...);
 };
 
 // define global functions
