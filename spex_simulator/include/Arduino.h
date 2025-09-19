@@ -68,7 +68,5 @@ void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
 static Serial_Class Serial;
-// XXX: naming
-static PinState pin_state;
 
 #endif

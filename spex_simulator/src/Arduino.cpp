@@ -10,6 +10,8 @@
 #include <Arduino.h>
 #include <cstdarg>
 
+static PinState pinState;
+
 int PinState::getPinValue(const int pin) {
 	return pin_map[pin];
 }
@@ -72,14 +74,14 @@ void pinMode(int pin, int mode)
 void digitalWrite(int pin, int value)
 {
     UpdateFile(PrinterData::PIN, pin, value);
-	pin_state.setPinValue(pin, value);
+	pinState.setPinValue(pin, value);
     // std::cout << "digitalWrite called with pin: " << pin << " and value: " << value << std::endl;
 }
 
 int digitalRead(int pin)
 {
     std::cout << "digitalRead called with pin: " << pin << std::endl;
-	return pin_state.getPinValue(pin);
+	return pinState.getPinValue(pin);
 }
 
 void delay(int milliseconds)
@@ -101,12 +103,12 @@ unsigned long millis()
 void analogWrite(int pin, int pwm)
 {
     UpdateFile(PrinterData::PIN, pin, pwm);
-	pin_state.setPinValue(pin, pwm);
+	pinState.setPinValue(pin, pwm);
     //std::cout << "analogWrite called" << std::endl;
 }
 
 float analogRead(int pin)
 {
     std::cout << "analogRead called" << std::endl;
-	return pin_state.getPinValue(pin);
+	return pinState.getPinValue(pin);
 }
