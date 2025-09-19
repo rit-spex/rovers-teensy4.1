@@ -13,8 +13,8 @@
 
 // system includes
 #include <Arduino.h>
-#include <math.h>
 #include <Wire.h>
+#include <math.h>
 
 // local includes
 #include "./DEBUG.h"

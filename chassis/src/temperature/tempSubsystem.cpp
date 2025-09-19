@@ -11,37 +11,27 @@
 #include "../../include/temperature/tempSubsystem.h"
 
 /*
-* Constructor for the temp subsystem class.
-* Initializes the thermistors.
-*/
+ * Constructor for the temp subsystem class.
+ * Initializes the thermistors.
+ */
 #if ENABLE_CAN
-TempSubsystem::TempSubsystem(CAN* can) :
+TempSubsystem::TempSubsystem(CAN *can)
+    :
 #else
-TempSubsystem::TempSubsystem() :
+TempSubsystem::TempSubsystem()
+    :
 #endif
-    m_thermistors
-{
-    Thermistor(0),
-    Thermistor(1),
-    Thermistor(2),
-    Thermistor(3)
-},
-m_fans
-{
-    Fan(0),
-    Fan(1),
-    Fan(2),
-    Fan(3)
-}
+      m_thermistors{Thermistor(0), Thermistor(1), Thermistor(2), Thermistor(3)},
+      m_fans{Fan(0), Fan(1), Fan(2), Fan(3)}
 #if ENABLE_CAN
-, m_can(can)
+      ,
+      m_can(can)
 #endif
 {
 }
-
 
 // @return An array of temperatures measured by each thermistor
-float* TempSubsystem::getTemperature()
+float *TempSubsystem::getTemperature()
 {
     for (int i = 0; i < NUM_THERMISTORS; i++)
     {
@@ -53,7 +43,8 @@ float* TempSubsystem::getTemperature()
 // Set the power of the fans
 void TempSubsystem::setFansPower(int power)
 {
-    power = std::min(std::max(power, FAN_MIN_PWM), FAN_MAX_PWM); // clamp the power to the range (FAN_MIN_PWM   , FAN_MAX_PWM  )
+    power = std::min(std::max(power, FAN_MIN_PWM),
+                     FAN_MAX_PWM); // clamp the power to the range (FAN_MIN_PWM   , FAN_MAX_PWM  )
 
     for (int i = 0; i < NUM_FANS; i++)
     {

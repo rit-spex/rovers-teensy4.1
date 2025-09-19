@@ -10,12 +10,12 @@
 #ifndef ARDUINO_H
 #define ARDUINO_H
 
-#include <string>
+#include "Printer.h"
+#include <chrono>
 #include <iostream>
 #include <stdio.h>
-#include <chrono>
+#include <string>
 #include <thread>
-#include "Printer.h"
 
 #define LOW 0
 #define HIGH 1

@@ -10,8 +10,8 @@
 #ifndef SERVO_H
 #define SERVO_H
 
-#include <iostream>
 #include "Printer.h"
+#include <iostream>
 
 // used to share data for the encoders
 #if BUILD_CHASSIS

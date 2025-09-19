@@ -15,9 +15,9 @@
 #include <math.h>
 
 // local includes
+#include "./DEBUG.h"
 #include "./constants.h"
 #include "./pinout.h"
-#include "./DEBUG.h"
 #include "fan.h"
 #include "thermistor.h"
 

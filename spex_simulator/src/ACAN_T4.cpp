@@ -18,7 +18,6 @@ ACAN_T4_Settings::ACAN_T4_Settings(int baudrate)
 // CANbus
 CANbus::CANbus()
 {
-
 }
 
 void CANbus::begin(ACAN_T4_Settings acan_t4_settings)

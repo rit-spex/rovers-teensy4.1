@@ -12,14 +12,14 @@
 #define MOTOR_H
 
 // system includes
-#include <math.h>
 #include <Arduino.h>
 #include <Servo.h>
+#include <math.h>
 
 // local includes
-#include "./pinout.h"
-#include "./constants.h"
 #include "./DEBUG.h"
+#include "./constants.h"
+#include "./pinout.h"
 
 // Motor class for controlling the motors, this is meant to be a generic class for all motors
 class Motor

@@ -1,6 +1,5 @@
 // #include "../TestSystem/Simulator.h"
 
-
 // // define global class
 // //////////////////////////////////////////// Serial_Class /////////////////////////
 // void Serial_Class::begin(int baudrate)
@@ -54,7 +53,8 @@
 // }
 // void Serial2_Class::begin(int baudrate, int config)
 // {
-//     std::cout << "Serial2 begin called with baudrate: " << baudrate << " and config: " << config << std::endl;
+//     std::cout << "Serial2 begin called with baudrate: " << baudrate << " and config: " << config
+//     << std::endl;
 // }
 // int Serial2_Class::available()
 // {
@@ -137,7 +137,8 @@
 // void Servo::attach(int pin, int min, int max)
 // {
 //     this->pin = pin;
-//     std::cout << "Servo attach called with pin: " << pin << " min: "<< min << " max: "<< max << std::endl;
+//     std::cout << "Servo attach called with pin: " << pin << " min: "<< min << " max: "<< max <<
+//     std::endl;
 // }
 // void Servo::detach()
 // {
@@ -145,7 +146,8 @@
 // }
 // void Servo::writeMicroseconds(int microseconds)
 // {
-//     std::cout << "Servo write called with microseconds: " << microseconds << " on pin" << pin << std::endl;
+//     std::cout << "Servo write called with microseconds: " << microseconds << " on pin" << pin <<
+//     std::endl;
 // }
 
 // ////////////////////////////////////////////// TicI2C ////////////////////////////////
@@ -180,12 +182,13 @@
 // {
 //     this->pin1 = pin1;
 //     this->pin2 = pin2;
-//     std::cout << "Encoder attach called with pin1: " << pin1 << " and pin2: " << pin2 << std::endl;
+//     std::cout << "Encoder attach called with pin1: " << pin1 << " and pin2: " << pin2 <<
+//     std::endl;
 // }
 // long Encoder::read()
 // {
-//     //std::cout << "Encoder read called on encoder with pins: "<< pin1 << ", " << pin2 << std::endl;
-//     return this->counts;
+//     //std::cout << "Encoder read called on encoder with pins: "<< pin1 << ", " << pin2 <<
+//     std::endl; return this->counts;
 // }
 // void Encoder::write(int value)
 // {
@@ -250,7 +253,8 @@
 // {
 //     static std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 //     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-//     unsigned long time = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+//     unsigned long time = std::chrono::duration_cast<std::chrono::milliseconds>(end -
+//     begin).count();
 //     //std::cout << "millis called at " << time << std::endl;
 //     return time;
 // }

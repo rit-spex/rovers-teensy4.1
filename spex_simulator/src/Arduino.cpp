@@ -14,8 +14,8 @@ void Serial_Class::begin(int baudrate)
 {
     std::cout << "Serial begin called with baudrate: " << baudrate << std::endl;
 }
-//print statements
-void Serial_Class::print(const char* message)
+// print statements
+void Serial_Class::print(const char *message)
 {
     std::cout << message;
 }
@@ -28,8 +28,8 @@ void Serial_Class::print(const float message)
     std::cout << message;
 }
 
-//println statements
-void Serial_Class::println(const char* message)
+// println statements
+void Serial_Class::println(const char *message)
 {
     std::cout << message << std::endl;
 }
@@ -42,14 +42,14 @@ void Serial_Class::println(std::string message)
     std::cout << "Serial println called with message: " << message << std::endl;
 }
 
-void Serial_Class::printf(const char* message, int val)
+void Serial_Class::printf(const char *message, int val)
 {
     char buffer[256];
     sprintf(buffer, message, val);
     print(buffer);
 }
 
-void Serial_Class::printf(const char* message, int val1, int val2, int val3)
+void Serial_Class::printf(const char *message, int val1, int val2, int val3)
 {
     char buffer[256];
     sprintf(buffer, message, val1, val2, val3);
@@ -86,14 +86,14 @@ unsigned long millis()
     static std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     unsigned long time = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-    //std::cout << "millis called at " << time << std::endl;
+    // std::cout << "millis called at " << time << std::endl;
     return time;
 }
 
 void analogWrite(int pin, int pwm)
 {
     UpdateFile(PrinterData::PIN, pin, pwm);
-    //std::cout << "analogWrite called" << std::endl;
+    // std::cout << "analogWrite called" << std::endl;
 }
 
 float analogRead(int pin)

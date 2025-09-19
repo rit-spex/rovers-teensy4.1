@@ -1,8 +1,8 @@
 #include "main.h"
 
 #include <Arduino.h>
-#include <Tic.h>
 #include <Servo.h>
+#include <Tic.h>
 
 // Auger vertical movement
 const int switchOnPin = 12;
@@ -18,7 +18,8 @@ const int drillMotorPin = 7;
 const int midPoint = 1500;
 const int drillSpeed = 50;
 
-void setup() {
+void setup()
+{
     Serial.begin(9600);
     pinMode(switchOnPin, INPUT_PULLUP);
     pinMode(switchOffPin, INPUT_PULLUP);
@@ -29,70 +30,78 @@ void setup() {
     drillMotor.attach(drillMotorPin);
 }
 
-void changeHeight() {
+void changeHeight()
+{
     augerUp = digitalRead(switchOnPin);
     augerDown = digitalRead(switchOffPin);
-    if (augerUp == LOW) {
+    if (augerUp == LOW)
+    {
         tic.setTargetVelocity(AUGER_SPEED);
         // Serial.println("Moving up");
     }
-    else if (augerDown == LOW) {
+    else if (augerDown == LOW)
+    {
         tic.setTargetVelocity(-AUGER_SPEED);
         // Serial.println("Moving down");
     }
-    else {
+    else
+    {
         tic.setTargetVelocity(0);
         // Serial.println("Idle");
     }
 }
 
-void takeSample() {
+void takeSample()
+{
     int isSpinning = digitalRead(buttonPin);
-    if (isSpinning == HIGH) {
+    if (isSpinning == HIGH)
+    {
         drillMotor.write(midPoint + drillSpeed);
         // Serial.println("Auging");
     }
-    else {
+    else
+    {
         drillMotor.write(midPoint);
         // Serial.println("Not auging :(");
     }
 }
 
-void loop() {
+void loop()
+{
     changeHeight();
-    tic.resetCommandTimeout();		// Must be called at least once per second
+    tic.resetCommandTimeout(); // Must be called at least once per second
     takeSample();
 }
 
 /**
  * Main setup for CAN idea
  */
- // void setup()
- // {
- // 	*can = CAN(&currentRunCycle);
- // 	can->startCAN();
- // }
+// void setup()
+// {
+// 	*can = CAN(&currentRunCycle);
+// 	can->startCAN();
+// }
 
- // void loop()
- // {
- // 	if (can->isNewMessage(CAN::E_STOP))
- // 	{
+// void loop()
+// {
+// 	if (can->isNewMessage(CAN::E_STOP))
+// 	{
 
- // 	}
- // 	for (int i = 20; i < 22; ++i)
- // 	{
- // 		if (can->isNewMessage((CAN::Message_ID)i))
- // 		{
- // 			switch (i)
- // 			{
- // 			case 20:
- // 				break;
- // 			case 21:
- // 				break;
- // 			default:
- // 				Serial.printf("message type not accounted for %d\n", i);
- // 				break;
- // 			}
- // 		}
- // 	}
- // }
+// 	}
+// 	for (int i = 20; i < 22; ++i)
+// 	{
+// 		if (can->isNewMessage((CAN::Message_ID)i))
+// 		{
+// 			switch (i)
+// 			{
+// 			case 20:
+// 				break;
+// 			case 21:
+// 				break;
+// 			default:
+// 				Serial.printf("message type not accounted for %d\n", i);
+// 				break;
+// 			}
+// 		}
+// 	}
+// }

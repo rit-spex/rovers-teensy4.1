@@ -15,9 +15,9 @@
 #include <Encoder.h>
 
 // Local Includes
-#include "./pinout.h"
-#include "./constants.h"
 #include "./DEBUG.h"
+#include "./constants.h"
+#include "./pinout.h"
 
 // TODO: Remove Me
 #define ENCODER_SAVE_SIZE 5

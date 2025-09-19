@@ -7,7 +7,7 @@ CAN::ObjectDictionary CAN::m_objectDict;
 // Create a message flag map to track new messages
 CAN::MessageFlag CAN::m_messageFlag;
 
-CAN::CAN(unsigned long* currentCycle)
+CAN::CAN(unsigned long *currentCycle)
 {
     m_recievedMsg = false;
     m_currentCyclePtr = currentCycle;
@@ -59,7 +59,7 @@ void CAN::startCAN()
 }
 
 // Function to be called when a message is recieved
-void CAN::CANSniff(const CANMessage& msg)
+void CAN::CANSniff(const CANMessage &msg)
 {
     Message_ID id = static_cast<Message_ID>(msg.id);
 
@@ -84,7 +84,7 @@ void CAN::CANSniff(const CANMessage& msg)
     else
     {
         bool newMessage = false;
-        const auto& existingMessage = m_objectDict[id];
+        const auto &existingMessage = m_objectDict[id];
 
         for (unsigned int i = 0; i < sizeof(msg.data); i++)
         {
@@ -178,7 +178,8 @@ void CAN::sendMessage(Message_ID id, uint8_t message[MSG_LENGTH])
     }
 }
 
-// get message out of object dictionary, unpacked. For some packages, index will matter otherwise not important
+// get message out of object dictionary, unpacked. For some packages, index will matter otherwise
+// not important
 int CAN::getUnpackedMessage(Message_ID id, int index)
 {
     switch (id)
@@ -205,9 +206,9 @@ int CAN::getUnpackedMessage(Message_ID id, int index)
     }
 }
 
-uint8_t* CAN::getUnpackedData(Message_ID id)
+uint8_t *CAN::getUnpackedData(Message_ID id)
 {
-    uint8_t* data = m_objectDict.at(id).data;
+    uint8_t *data = m_objectDict.at(id).data;
     return data;
 }
 
@@ -226,7 +227,7 @@ bool CAN::isNewMessage(Message_ID id)
     }
 }
 
-bool CAN::IsEStop(const CANMessage& msg)
+bool CAN::IsEStop(const CANMessage &msg)
 {
     // if the message E_STOP is off in object dictionary
     if (m_objectDict.at(CAN::E_STOP).id == 0)
@@ -234,8 +235,9 @@ bool CAN::IsEStop(const CANMessage& msg)
         // if the message is an E-Stop message and the E-Stop is non active turn on the E-Stop
         if (msg.id == CAN::E_STOP && msg.data[0] == 1)
         {
-            // for each message in the object dictionary, set the message flag to true and clear the message buffer
-            for (const auto& message : m_objectDict)
+            // for each message in the object dictionary, set the message flag to true and clear the
+            // message buffer
+            for (const auto &message : m_objectDict)
             {
                 if (message.first != CAN::E_STOP)
                 {

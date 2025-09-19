@@ -12,7 +12,8 @@
 void Servo::attach(int pin, int min, int max)
 {
     this->pin = pin;
-    std::cout << "Servo attach called with pin: " << pin << " min: " << min << " max: " << max << std::endl;
+    std::cout << "Servo attach called with pin: " << pin << " min: " << min << " max: " << max
+              << std::endl;
 }
 
 void Servo::attach(int pin)
@@ -56,7 +57,8 @@ void Servo::writeMicroseconds(int microseconds)
     }
 #endif
 
-    //std::cout << "writeMicroseconds called on pin: " << pin << " micro: " << microseconds <<std::endl;
+    // std::cout << "writeMicroseconds called on pin: " << pin << " micro: " << microseconds
+    // <<std::endl;
 }
 
 void Servo::write(int microseconds)
