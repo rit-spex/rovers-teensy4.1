@@ -10,7 +10,8 @@
 #ifndef PINOUT_H
 #define PINOUT_H
 
-//********************************************************* GENERAL PINOUT *******************************************************
+//********************************************************* GENERAL PINOUT
+//*******************************************************
 #include "constants.h"
 
 enum PINOUT
@@ -82,22 +83,44 @@ enum PINOUT
     EMPTY_54 = 54,
 };
 
-//********************************************************* DRIVETRAIN PINOUT **************************************************************************
-// Wheel Number                                 1                         2                        3                       4                       5                       6
+//********************************************************* DRIVETRAIN PINOUT
+//**************************************************************************
+// Wheel Number                                 1                         2                        3
+// 4                       5                       6
 //******************************************************************************************************************************************************
-#define MOTOR_PWM_PINS \
-    (int[NUM_WHEELS]) { PINOUT::MOTOR_PWM_PIN_1, PINOUT::MOTOR_PWM_PIN_2, PINOUT::MOTOR_PWM_PIN_3, PINOUT::MOTOR_PWM_PIN_4, PINOUT::MOTOR_PWM_PIN_5, PINOUT::MOTOR_PWM_PIN_6 }
-#define ENC_A_PINS \
-    (int[NUM_WHEELS]) { PINOUT::ENC_A_PIN_1, PINOUT::ENC_A_PIN_2, PINOUT::ENC_A_PIN_3, PINOUT::ENC_A_PIN_4, PINOUT::ENC_A_PIN_5, PINOUT::ENC_A_PIN_6 }
-#define ENC_B_PINS \
-    (int[NUM_WHEELS]) { PINOUT::ENC_B_PIN_1, PINOUT::ENC_B_PIN_2, PINOUT::ENC_B_PIN_3, PINOUT::ENC_B_PIN_4, PINOUT::ENC_B_PIN_5, PINOUT::ENC_B_PIN_6 }
+#define MOTOR_PWM_PINS                                                                             \
+    (int[NUM_WHEELS])                                                                              \
+    {                                                                                              \
+        PINOUT::MOTOR_PWM_PIN_1, PINOUT::MOTOR_PWM_PIN_2, PINOUT::MOTOR_PWM_PIN_3,                 \
+            PINOUT::MOTOR_PWM_PIN_4, PINOUT::MOTOR_PWM_PIN_5, PINOUT::MOTOR_PWM_PIN_6              \
+    }
+#define ENC_A_PINS                                                                                 \
+    (int[NUM_WHEELS])                                                                              \
+    {                                                                                              \
+        PINOUT::ENC_A_PIN_1, PINOUT::ENC_A_PIN_2, PINOUT::ENC_A_PIN_3, PINOUT::ENC_A_PIN_4,        \
+            PINOUT::ENC_A_PIN_5, PINOUT::ENC_A_PIN_6                                               \
+    }
+#define ENC_B_PINS                                                                                 \
+    (int[NUM_WHEELS])                                                                              \
+    {                                                                                              \
+        PINOUT::ENC_B_PIN_1, PINOUT::ENC_B_PIN_2, PINOUT::ENC_B_PIN_3, PINOUT::ENC_B_PIN_4,        \
+            PINOUT::ENC_B_PIN_5, PINOUT::ENC_B_PIN_6                                               \
+    }
 
-//********************************************************* TEMP PINOUT ********************************************************************************
-// FAN Number                                            1                         2                         3                         4
+//********************************************************* TEMP PINOUT
+//********************************************************************************
+// FAN Number                                            1                         2 3 4
 //******************************************************************************************************************************************************
-#define THERMISTOR_PINS \
-    (int[NUM_THERMISTORS]) { PINOUT::THERMISTOR_PIN_0, PINOUT::THERMISTOR_PIN_1, PINOUT::THERMISTOR_PIN_2, PINOUT::THERMISTOR_PIN_3 }
-#define FAN_PINS \
-    (int[NUM_FANS]) { PINOUT::FAN_PIN_0, PINOUT::FAN_PIN_1, PINOUT::FAN_PIN_2, PINOUT::THERMISTOR_PIN_3 }
+#define THERMISTOR_PINS                                                                            \
+    (int[NUM_THERMISTORS])                                                                         \
+    {                                                                                              \
+        PINOUT::THERMISTOR_PIN_0, PINOUT::THERMISTOR_PIN_1, PINOUT::THERMISTOR_PIN_2,              \
+            PINOUT::THERMISTOR_PIN_3                                                               \
+    }
+#define FAN_PINS                                                                                   \
+    (int[NUM_FANS])                                                                                \
+    {                                                                                              \
+        PINOUT::FAN_PIN_0, PINOUT::FAN_PIN_1, PINOUT::FAN_PIN_2, PINOUT::THERMISTOR_PIN_3          \
+    }
 
 #endif

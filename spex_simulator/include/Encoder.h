@@ -11,11 +11,11 @@
 #define ENCODER_H
 
 #include <Arduino.h>
-#include <iostream>
 #include <chrono>
+#include <iostream>
 #include <pthread.h>
-#include <thread>
 #include <stdio.h>
+#include <thread>
 
 // used to share data for the encoders
 #if BUILD_CHASSIS

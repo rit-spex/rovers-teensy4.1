@@ -16,9 +16,9 @@
 #include <memory>
 
 // Local Includes
-#include "constants.h"
 #include "DEBUG.h"
 #include "chassis.h" // The drivebase is the chassis
+#include "constants.h"
 
 #if ENABLE_DEMO_ENCODER
 #include "quadDecoder.h"

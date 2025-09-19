@@ -12,20 +12,20 @@
 
 // get the file name based on what is being build
 #if BUILD_CHASSIS
-    #define OUTPUT_FILE_NAME "chassisData.txt"
+#define OUTPUT_FILE_NAME "chassisData.txt"
 
-    extern int pwm_pin_0;
-    extern int pwm_pin_1;
-    extern int pwm_pin_2;
-    extern int pwm_pin_3;
-    extern int pwm_pin_4;
-    extern int pwm_pin_5;
+extern int pwm_pin_0;
+extern int pwm_pin_1;
+extern int pwm_pin_2;
+extern int pwm_pin_3;
+extern int pwm_pin_4;
+extern int pwm_pin_5;
 #elif BUILD_ARM
-    #define OUTPUT_FILE_NAME "armData.txt"
+#define OUTPUT_FILE_NAME "armData.txt"
 #elif BUILD_SCIENCE
-    #define OUTPUT_FILE_NAME "scienceData.txt"
+#define OUTPUT_FILE_NAME "scienceData.txt"
 #else
-    #error "No BUILD WAS SELECTED"
+#error "No BUILD WAS SELECTED"
 #endif
 
-#endif //GLOBAL_VARS_H
+#endif // GLOBAL_VARS_H

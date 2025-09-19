@@ -1,14 +1,14 @@
 #ifndef ARM_H
 #define ARM_H
 
-#include "Pinout.h"
 #include "Constants.h"
+#include "Pinout.h"
 
 #include <Arduino.h>
-#include <Servo.h>
-#include <TimerThree.h>
-#include <TimerOne.h>
 #include <Dynamixel2Arduino.h>
+#include <Servo.h>
+#include <TimerOne.h>
+#include <TimerThree.h>
 
 enum Direction
 {
@@ -31,14 +31,14 @@ void moveBase(Direction direction);
 void moveShoulder(Direction direction);
 void moveElbow(Direction direction);
 /*
-* FORWARD is down
-* REVERSE is up
-*/
+ * FORWARD is down
+ * REVERSE is up
+ */
 void bendWrist(Dynamixel2Arduino dyna, Direction direction);
 /*
-* FORWARD is counter-clockwise
-* REVERSE is clockwise
-*/
+ * FORWARD is counter-clockwise
+ * REVERSE is clockwise
+ */
 void twistWrist(Dynamixel2Arduino dyna, Direction direction);
 void moveClaw(Dynamixel2Arduino dyna, Direction direction);
 /*
@@ -58,7 +58,6 @@ static float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 
 static int gripper_pos = MIN_GRIPPER_POS;
 
-
 // class Arm
 // {
 // public:
@@ -71,7 +70,8 @@ static int gripper_pos = MIN_GRIPPER_POS;
 // 	Arm();
 // 	~Arm();
 // 	void startUp();
-// 	// functions to move the harmonic drives. These are the exact same but with different pin outputs
+// 	// functions to move the harmonic drives. These are the exact same but with different pin
+// outputs
 // 	// Functions work by setting timer output at either 50% duty cycle
 // 	void moveShoulder(Direction direction);
 // 	void moveElbow(Direction direction);
@@ -80,7 +80,8 @@ static int gripper_pos = MIN_GRIPPER_POS;
 
 // 	// void moveWrist(Direction direction); // OLD
 // 	// doesn't work with new setup as their is no "moveWrist"
-// 	// void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection, Direction clawDirection);
+// 	// void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection,
+// Direction clawDirection);
 
 // 	void disable();
 

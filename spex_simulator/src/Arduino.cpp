@@ -25,8 +25,8 @@ void Serial_Class::begin(int baudrate)
 {
     std::cout << "Serial begin called with baudrate: " << baudrate << std::endl;
 }
-//print statements
-void Serial_Class::print(const char* message)
+// print statements
+void Serial_Class::print(const char *message)
 {
     std::cout << message;
 }
@@ -39,8 +39,8 @@ void Serial_Class::print(const float message)
     std::cout << message;
 }
 
-//println statements
-void Serial_Class::println(const char* message)
+// println statements
+void Serial_Class::println(const char *message)
 {
     std::cout << message << std::endl;
 }
@@ -96,7 +96,7 @@ unsigned long millis()
     static std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     unsigned long time = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-    //std::cout << "millis called at " << time << std::endl;
+    // std::cout << "millis called at " << time << std::endl;
     return time;
 }
 

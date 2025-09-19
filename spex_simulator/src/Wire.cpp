@@ -29,12 +29,12 @@ void Wire_Class::write(int data)
 {
     std::cout << "Wire write called with data: " << data << std::endl;
 }
-int  Wire_Class::read()
+int Wire_Class::read()
 {
     std::cout << "Wire read called" << std::endl;
     return 0;
 }
-int  Wire_Class::read(int data)
+int Wire_Class::read(int data)
 {
     std::cout << "Wire read called with data: " << data << std::endl;
     return 0;

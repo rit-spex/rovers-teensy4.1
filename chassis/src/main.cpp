@@ -2,7 +2,7 @@
 //                           SPEX ROVER 2025
 // --------------------------------------------------------------------
 // file name    : main.cpp
-// purpose      : This the main file for the chassis. 
+// purpose      : This the main file for the chassis.
 //                This is the file arduino looks for main
 // created on   : 8/14/2025 - Tyler
 // last modified: 8/14/2025 - Tyler
@@ -38,7 +38,7 @@ void loop()
     {
 #if ENABLE_SERIAL
         Serial.print("current cycle: ");
-        Serial.println((int)currentRunCycle);
+        Serial.println((int) currentRunCycle);
 
 #if ENABLE_DEMO_ENCODER
         Serial.print("Demo Encoder RPM: ");
@@ -50,7 +50,7 @@ void loop()
 
         // subtract the current cycle by one to get the entire timeframe
 
-        //chassis->updateSubsystems(millis() - UPDATE_RATE_MS * (currentRunCycle - 1));
+        // chassis->updateSubsystems(millis() - UPDATE_RATE_MS * (currentRunCycle - 1));
         chassis->updateSubsystems((currentRunCycle - 1));
 
 #if ENABLE_SERIAL

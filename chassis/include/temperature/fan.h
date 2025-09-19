@@ -15,8 +15,8 @@
 #include <Arduino.h>
 
 // local includes
-#include "./pinout.h"
 #include "./DEBUG.h"
+#include "./pinout.h"
 
 class Fan
 {

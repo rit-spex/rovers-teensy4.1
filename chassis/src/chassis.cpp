@@ -13,16 +13,18 @@
 #include "../include/chassis.h"
 
 #if ENABLE_CAN
-Chassis::Chassis(unsigned long* currentCycle)
-    :m_can(currentCycle), m_currentCyclePtr(currentCycle) {
+Chassis::Chassis(unsigned long *currentCycle) : m_can(currentCycle), m_currentCyclePtr(currentCycle)
+{
 }
 #else
-Chassis::Chassis(unsigned long* currentCycle)
-    : m_currentCyclePtr(currentCycle) {
+Chassis::Chassis(unsigned long *currentCycle) : m_currentCyclePtr(currentCycle)
+{
 }
 #endif
 
-Chassis::~Chassis() {}
+Chassis::~Chassis()
+{
+}
 
 void Chassis::startUp()
 {
@@ -69,12 +71,11 @@ void Chassis::updateSubsystems(int timeInterval_ms)
 #if ENABLE_CAN
         m_disabled = m_can.getUnpackedMessage(CAN::Message_ID::E_STOP, 0);
 #endif
-
     }
     if (!m_disabled)
     {
-        // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) && m_can.m_recievedMsg;
-        // Serial.println(m_can.m_lastRecievedMsgCycle);
+        // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) &&
+        // m_can.m_recievedMsg; Serial.println(m_can.m_lastRecievedMsgCycle);
         // Serial.println(m_can.m_recievedMsg);
     }
     if (!m_disabled)
@@ -86,10 +87,12 @@ void Chassis::updateSubsystems(int timeInterval_ms)
 #else
 #if ENABLE_CAN
         // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
-        float leftPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
-        float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
+        float leftPower =
+            ((float) m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
+        float rightPower =
+            ((float) m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
 
-        //Serial.println("\n\nABOUT TO DRIVE\n\n");
+        // Serial.println("\n\nABOUT TO DRIVE\n\n");
 
         Serial.printf("left_power: %d\n", leftPower);
         Serial.printf("right_power: %d\n", rightPower);
@@ -120,7 +123,6 @@ void Chassis::runBackgroundProcess()
     m_can.readMsgBuffer();
 #endif
 }
-
 
 #if ENABLE_DRIVEBASE
 void Chassis::drive(float left_axis, float right_axis)

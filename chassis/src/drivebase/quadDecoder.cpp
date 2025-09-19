@@ -11,7 +11,7 @@
 #include "../../include/drivebase/quadDecoder.h"
 
 QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
-    :m_encoder(ENC_A_PINS[encoder_id], ENC_A_PINS[encoder_id]), m_encoder_id(encoder_id)
+    : m_encoder(ENC_A_PINS[encoder_id], ENC_A_PINS[encoder_id]), m_encoder_id(encoder_id)
 {
     // set the time to now
     m_lastTime = millis();
@@ -19,7 +19,7 @@ QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
     // set the current head to the start
     m_currentHead = 0;
 
-    //empty the saved data
+    // empty the saved data
     for (int i = 0; i < ENCODER_SAVE_SIZE; i++)
     {
         m_count[i] = 0;
@@ -28,7 +28,7 @@ QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
 }
 
 // TODO: REMOVE
-//IS THIS NEEDED?
+// IS THIS NEEDED?
 void QuadratureDecoder::begin()
 {
     m_encoder.write(0);
@@ -37,9 +37,10 @@ void QuadratureDecoder::begin()
 // update the count of the encoder
 void QuadratureDecoder::updateCount()
 {
-    //enter the current count and time into the save data
+    // enter the current count and time into the save data
     this->m_count[m_currentHead] = this->m_encoder.read();
-    this->m_timeInterval[m_currentHead] = millis() - m_lastTime;//millis() - UPDATE_RATE_MS * time_interval_ms;
+    this->m_timeInterval[m_currentHead] =
+        millis() - m_lastTime; // millis() - UPDATE_RATE_MS * time_interval_ms;
     this->m_lastTime = millis();
 
     // reset the encoder count to 0
@@ -79,7 +80,9 @@ float QuadratureDecoder::getRPM()
         totalCounts += this->m_count[i];
     }
 
-    // RPM = rotations/min = (totalCount/counts_per_rotation)/(time_interval_ms/milliseconds_per_minute)
-    // RPM = (totalCounts * milliseconds_per_minute)/(counts_per_rotation * time_interval_ms)
-    return (totalCounts * MS_IN_MIN) / (totalTime * COUNTS_PER_REV);;
+    // RPM = rotations/min =
+    // (totalCount/counts_per_rotation)/(time_interval_ms/milliseconds_per_minute) RPM =
+    // (totalCounts * milliseconds_per_minute)/(counts_per_rotation * time_interval_ms)
+    return (totalCounts * MS_IN_MIN) / (totalTime * COUNTS_PER_REV);
+    ;
 }

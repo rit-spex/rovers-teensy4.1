@@ -2,9 +2,8 @@
 //                           SPEX ROVER 2025
 // --------------------------------------------------------------------
 // file name    : Encoder.cpp
-// purpose      : to simulate the encoder file for chassis, creates a thread that will increase the count to emulate the encoder
-// created on   : 8/13/2025 - Tyler
-// last modified: 8/13/2025 - Tyler
+// purpose      : to simulate the encoder file for chassis, creates a thread that will increase the
+// count to emulate the encoder created on   : 8/13/2025 - Tyler last modified: 8/13/2025 - Tyler
 // --------------------------------------------------------------------
 
 #include <Encoder.h>
@@ -53,7 +52,7 @@ long Encoder::read()
         break;
     }
 #endif
-    //std::cout << "Encoder read called on encoder with pins: "<< pin1 << "lastCount" << std::endl;
+    // std::cout << "Encoder read called on encoder with pins: "<< pin1 << "lastCount" << std::endl;
     this->counts = this->counts + (millis() - this->lastCountTime) * power;
     this->lastCountTime = millis();
     return this->counts;
@@ -62,5 +61,5 @@ void Encoder::write(int value)
 {
     this->counts = value;
     this->lastCountTime = millis();
-    //std::cout << "Encoder write called with value: " << value << std::endl;
+    // std::cout << "Encoder write called with value: " << value << std::endl;
 }

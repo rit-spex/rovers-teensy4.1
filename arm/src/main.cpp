@@ -6,7 +6,8 @@ unsigned long currentRunCycle = 0;
 std::shared_ptr<CAN> can;
 Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 
-void setup() {
+void setup()
+{
 #if ENABLE_SERIAL
     Serial.begin(9600);
     Serial.println("Arm");
@@ -19,37 +20,46 @@ void setup() {
     can->startCAN();
 }
 
-void loop() {
+void loop()
+{
     // Need to call this to read and "sniff" each message
     can->readMsgBuffer();
-    if (can->isNewMessage(CAN::ARM_E_STOP)) {
+    if (can->isNewMessage(CAN::ARM_E_STOP))
+    {
         disable(dyna);
     }
 
-    if (is_disabled) {
+    if (is_disabled)
+    {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
     }
-    else {
-        if (ledTimer >= LED_BLINK_INTERVAL) {
+    else
+    {
+        if (ledTimer >= LED_BLINK_INTERVAL)
+        {
             ledTimer = 0;
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
         }
     }
 
-    for (int i = 10; i < 18; ++i) {
-        if (can->isNewMessage((CAN::Message_ID)i)) {
-            uint8_t* data;
-            data = can->getUnpackedData((CAN::Message_ID)i);
+    for (int i = 10; i < 18; ++i)
+    {
+        if (can->isNewMessage((CAN::Message_ID) i))
+        {
+            uint8_t *data;
+            data = can->getUnpackedData((CAN::Message_ID) i);
 #if ENABLE_SERIAL
             Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
 #endif
-            Direction direction = (Direction)data[1];
-            if (!data[0]) {
+            Direction direction = (Direction) data[1];
+            if (!data[0])
+            {
                 direction = OFF;
             }
 
             // Activate specific motors based on arbitration ID
-            switch (i) {
+            switch (i)
+            {
             case 11:
                 moveBase(direction);
                 break;

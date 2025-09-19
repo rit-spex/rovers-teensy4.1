@@ -15,7 +15,7 @@
 
 void ClearFile()
 {
-    FILE* fptr;
+    FILE *fptr;
 
     // open or create the file
     fptr = fopen(OUTPUT_FILE_NAME, "w");
@@ -33,9 +33,9 @@ void ClearFile()
 // create the file then write at specified location then close file
 void UpdateFile(PrinterData type, int extra, int value)
 {
-    FILE* newfptr = NULL;
-    FILE* oldfptr = NULL;
-    char* line = NULL;
+    FILE *newfptr = NULL;
+    FILE *oldfptr = NULL;
+    char *line = NULL;
     int lineIdx = 0;
     int lineSize;
     size_t size = 0;

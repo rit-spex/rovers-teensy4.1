@@ -8,8 +8,8 @@
 
 #include <ACAN_T4.h>
 #include <Arduino.h>
-#include <unordered_map>
 #include <stdint.h>
+#include <unordered_map>
 
 class CAN
 {
@@ -26,20 +26,21 @@ public:
         // Science 20-29
 
         // MainBodyBoard
-        E_STOP = (uint32_t)0,
-        TARGET_RPM = (uint32_t)1,
-        CURRENT_RPM = (uint32_t)2,
-        DRIVE_POWER = (uint32_t)3, // this will be left then right power of the wheel, used until encoders are finished
+        E_STOP = (uint32_t) 0,
+        TARGET_RPM = (uint32_t) 1,
+        CURRENT_RPM = (uint32_t) 2,
+        DRIVE_POWER = (uint32_t) 3, // this will be left then right power of the wheel, used until
+                                    // encoders are finished
 
         // Arm
-        ARM_E_STOP = (uint32_t)10,
-        MOVE_BASE = (uint32_t)11,
-        MOVE_SHOULDER = (uint32_t)12,
-        MOVE_ELBOW = (uint32_t)13,
-        BEND_WRIST = (uint32_t)14,
-        TWIST_WRIST = (uint32_t)15,
-        MOVE_CLAW = (uint32_t)16,
-        MOVE_SOLENOID = (uint32_t)17
+        ARM_E_STOP = (uint32_t) 10,
+        MOVE_BASE = (uint32_t) 11,
+        MOVE_SHOULDER = (uint32_t) 12,
+        MOVE_ELBOW = (uint32_t) 13,
+        BEND_WRIST = (uint32_t) 14,
+        TWIST_WRIST = (uint32_t) 15,
+        MOVE_CLAW = (uint32_t) 16,
+        MOVE_SOLENOID = (uint32_t) 17
 
         /*
             how to send can message to arm
@@ -77,7 +78,8 @@ public:
     // send message to another device
     void sendMessage(Message_ID id, uint8_t message[MSG_LENGTH]);
 
-    // get message out of object dictionary, unpacked. For some unpackage index will matter otherwise not important
+    // get message out of object dictionary, unpacked. For some unpackage index will matter
+    // otherwise not important
     int getUnpackedMessage(Message_ID id, int index = 0);
 
     // get the full data from the object dictionary

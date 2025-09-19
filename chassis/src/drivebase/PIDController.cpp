@@ -2,25 +2,21 @@
 //                           SPEX ROVER 2025
 // --------------------------------------------------------------------
 // file name    : PIDController.cpp
-// purpose      : This file contains a class to preform the 
-//                caculations needed for PID control, 
+// purpose      : This file contains a class to preform the
+//                caculations needed for PID control,
 //                NOTE: this only preforms calculations doesn't apply them
 // created on   : 8/14/2025 - Tyler
 // last modified: 8/14/2025 - Tyler
 // --------------------------------------------------------------------
 
-
 #include "../../include/drivebase/PIDController.h"
 
 // Constructor
-PIDController::PIDController(uint8_t PID_id) : 
-    m_PID_id(PID_id), 
-    m_kp(PID_CONSTANTS_KP[PID_id]), 
-    m_ki(PID_CONSTANTS_KI[PID_id]), 
-    m_kd(PID_CONSTANTS_KD[PID_id]), 
-    m_integral(0), 
-    m_previous_error(0)
-    {}
+PIDController::PIDController(uint8_t PID_id)
+    : m_PID_id(PID_id), m_kp(PID_CONSTANTS_KP[PID_id]), m_ki(PID_CONSTANTS_KI[PID_id]),
+      m_kd(PID_CONSTANTS_KD[PID_id]), m_integral(0), m_previous_error(0)
+{
+}
 
 // Update method
 double PIDController::update(double targeted_RPM, double current_RPM)

@@ -13,7 +13,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-//********************************************************* GENERAL CONSTANTS *******************************************************
+//********************************************************* GENERAL CONSTANTS
+//*******************************************************
 // the larger number will led to slower frequency
 #define STATUS_LIGHT_FREQUENCY_MS 200
 
@@ -23,7 +24,8 @@
 // milliseconds in a minute
 #define MS_IN_MIN 60000
 
-//********************************************************* DRIVETRAIN CONSTANTS *******************************************************
+//********************************************************* DRIVETRAIN CONSTANTS
+//*******************************************************
 // The max percent of the motors
 #define PERCENT_MAX 0.4
 
@@ -64,38 +66,55 @@
 
 namespace PIDConstants
 {
-    constexpr double KP0 = 0.005;
-    constexpr double KP1 = 0.005;
-    constexpr double KP2 = 0.005;
-    constexpr double KP3 = 0.005;
-    constexpr double KP4 = 0.005;
-    constexpr double KP5 = 0.005;
+constexpr double KP0 = 0.005;
+constexpr double KP1 = 0.005;
+constexpr double KP2 = 0.005;
+constexpr double KP3 = 0.005;
+constexpr double KP4 = 0.005;
+constexpr double KP5 = 0.005;
 
-    constexpr double KI0 = 0.0005;
-    constexpr double KI1 = 0.0005;
-    constexpr double KI2 = 0.0005;
-    constexpr double KI3 = 0.0005;
-    constexpr double KI4 = 0.0005;
-    constexpr double KI5 = 0.0005;
+constexpr double KI0 = 0.0005;
+constexpr double KI1 = 0.0005;
+constexpr double KI2 = 0.0005;
+constexpr double KI3 = 0.0005;
+constexpr double KI4 = 0.0005;
+constexpr double KI5 = 0.0005;
 
-    constexpr double KD0 = 0.0005;
-    constexpr double KD1 = 0.0005;
-    constexpr double KD2 = 0.0005;
-    constexpr double KD3 = 0.0005;
-    constexpr double KD4 = 0.0005;
-    constexpr double KD5 = 0.0005;
-};
+constexpr double KD0 = 0.0005;
+constexpr double KD1 = 0.0005;
+constexpr double KD2 = 0.0005;
+constexpr double KD3 = 0.0005;
+constexpr double KD4 = 0.0005;
+constexpr double KD5 = 0.0005;
+}; // namespace PIDConstants
 
-#define MOTORS_DIR \
-    (int[NUM_WHEELS]) { MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN }
-#define PID_CONSTANTS_KP \
-    (double[NUM_WHEELS]) { PIDConstants::KP0, PIDConstants::KP1, PIDConstants::KP2, PIDConstants::KP3, PIDConstants::KP4, PIDConstants::KP5 }
-#define PID_CONSTANTS_KI \
-    (double[NUM_WHEELS]) { PIDConstants::KI0, PIDConstants::KI1, PIDConstants::KI2, PIDConstants::KI3, PIDConstants::KI4, PIDConstants::KI5 }
-#define PID_CONSTANTS_KD \
-    (double[NUM_WHEELS]) { PIDConstants::KD0, PIDConstants::KD1, PIDConstants::KD2, PIDConstants::KD3, PIDConstants::KD4, PIDConstants::KD5 }
+#define MOTORS_DIR                                                                                 \
+    (int[NUM_WHEELS])                                                                              \
+    {                                                                                              \
+        MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN,     \
+            MOTOR_RIGHT_SIGN                                                                       \
+    }
+#define PID_CONSTANTS_KP                                                                           \
+    (double[NUM_WHEELS])                                                                           \
+    {                                                                                              \
+        PIDConstants::KP0, PIDConstants::KP1, PIDConstants::KP2, PIDConstants::KP3,                \
+            PIDConstants::KP4, PIDConstants::KP5                                                   \
+    }
+#define PID_CONSTANTS_KI                                                                           \
+    (double[NUM_WHEELS])                                                                           \
+    {                                                                                              \
+        PIDConstants::KI0, PIDConstants::KI1, PIDConstants::KI2, PIDConstants::KI3,                \
+            PIDConstants::KI4, PIDConstants::KI5                                                   \
+    }
+#define PID_CONSTANTS_KD                                                                           \
+    (double[NUM_WHEELS])                                                                           \
+    {                                                                                              \
+        PIDConstants::KD0, PIDConstants::KD1, PIDConstants::KD2, PIDConstants::KD3,                \
+            PIDConstants::KD4, PIDConstants::KD5                                                   \
+    }
 
-//********************************************************* TEMP CONSTANTS *******************************************************
+//********************************************************* TEMP CONSTANTS
+//*******************************************************
 // FAN CONSTANTS
 #define NUM_THERMISTORS 4
 #define NUM_FANS 4
@@ -108,7 +127,8 @@ namespace PIDConstants
 #define FAN_MAX_PWM 255
 #define FAN_MIN_PWM 51
 
-//********************************************************* CAN CONSTANTS *******************************************************
+//********************************************************* CAN CONSTANTS
+//*******************************************************
 #define ActiveCAN CAN::CAN_MODE::CAN2
 #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8

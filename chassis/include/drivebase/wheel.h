@@ -13,13 +13,13 @@
 #define WHEEL_H
 
 // Local Includes
+#include "PIDController.h"
 #include "motor.h"
 #include "quadDecoder.h"
-#include "PIDController.h"
 
-#include "./pinout.h"
-#include "./constants.h"
 #include "./DEBUG.h"
+#include "./constants.h"
+#include "./pinout.h"
 
 class Wheel
 {

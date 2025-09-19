@@ -18,8 +18,8 @@
 #include <math.h>
 
 // Local Includes
-#include "constants.h"
 #include "DEBUG.h"
+#include "constants.h"
 #include "pinout.h"
 
 // All of the subsystems
