@@ -30,31 +30,31 @@ long Encoder::read()
 {
     // the power set to the wheel, range between - -40,40 to keep it with max RPM
     float power = 0;
-    #if BUILD_CHASSIS
-        switch(pin1)
-        {
-            case ENC_A_PIN_1:
-                power = (pwm_pin_0-1500)*40.0/500;
-                break;
-            case ENC_A_PIN_2:
-                power = (pwm_pin_1-1500)*40.0/500;
-                break;
-            case ENC_A_PIN_3:
-                power = (pwm_pin_2-1500)*40.0/500;
-                break;
-            case ENC_A_PIN_4:
-                power = (pwm_pin_3-1500)*40.0/500;
-                break;
-            case ENC_A_PIN_5:
-                power = (pwm_pin_4-1500)*40.0/500;
-                break;
-            case ENC_A_PIN_6:
-                power = (pwm_pin_5-1500)*40.0/500;
-                break;
-        }
-    #endif
+#if BUILD_CHASSIS
+    switch (pin1)
+    {
+    case ENC_A_PIN_1:
+        power = (pwm_pin_0 - 1500) * 40.0 / 500;
+        break;
+    case ENC_A_PIN_2:
+        power = (pwm_pin_1 - 1500) * 40.0 / 500;
+        break;
+    case ENC_A_PIN_3:
+        power = (pwm_pin_2 - 1500) * 40.0 / 500;
+        break;
+    case ENC_A_PIN_4:
+        power = (pwm_pin_3 - 1500) * 40.0 / 500;
+        break;
+    case ENC_A_PIN_5:
+        power = (pwm_pin_4 - 1500) * 40.0 / 500;
+        break;
+    case ENC_A_PIN_6:
+        power = (pwm_pin_5 - 1500) * 40.0 / 500;
+        break;
+    }
+#endif
     //std::cout << "Encoder read called on encoder with pins: "<< pin1 << "lastCount" << std::endl;
-    this->counts = this->counts + (millis()-this->lastCountTime)*power;
+    this->counts = this->counts + (millis() - this->lastCountTime) * power;
     this->lastCountTime = millis();
     return this->counts;
 }

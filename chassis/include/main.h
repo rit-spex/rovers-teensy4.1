@@ -2,7 +2,7 @@
 //                           SPEX ROVER 2025
 // --------------------------------------------------------------------
 // file name    : main.h
-// purpose      : This the header for the main program 
+// purpose      : This the header for the main program
 //                This is needed for the simulator to include main.cpp
 // created on   : 8/14/2025 - Tyler
 // last modified: 8/14/2025 - Tyler
@@ -34,4 +34,4 @@ static QuadratureDecoder demo_encoder{ENC_A_PIN_0, ENC_B_PIN_0};
 static unsigned long currentRunCycle = 0;
 static std::shared_ptr<Chassis> chassis;
 
-#endif //MAIN_H
+#endif // MAIN_H

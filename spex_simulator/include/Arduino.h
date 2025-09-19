@@ -23,28 +23,27 @@
 #define INPUT_PULLUP 1
 #define INPUT_PULLDOWN 0
 
-#define INPUT  0
+#define INPUT 0
 #define OUTPUT 1
 
 class Serial_Class
 {
-    public:
+public:
+    void begin(int baudrate);
 
-        void begin(int baudrate);
+    // print statements
+    void print(const char *message);
+    void print(const int message);
+    void print(const float message);
 
-        //print statements
-        void print(const char* message);
-        void print(const int message);
-        void print(const float message);
+    // println statements
+    void println(const char *message);
+    void println(const int message);
+    void println(std::string message);
 
-        //println statements
-        void println(const char* message);
-        void println(const int message);
-        void println(std::string message);
-
-        // printf
-        void printf(const char* message, int val);
-        void printf(const char* message, int val1, int val2, int val3);
+    // printf
+    void printf(const char *message, int val);
+    void printf(const char *message, int val1, int val2, int val3);
 };
 
 // define global functions
@@ -58,7 +57,6 @@ float digitalRead(int pin);
 void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
-static Serial_Class  Serial;
-
+static Serial_Class Serial;
 
 #endif

@@ -7,7 +7,6 @@
 // last modified: 7/23/2025 - Tyler
 // --------------------------------------------------------------------
 
-
 #ifndef TIC_H
 #define TIC_H
 
@@ -16,13 +15,13 @@
 
 class TicI2C
 {
-    public:
-        TicI2C();
-        TicI2C(int address);
-        void exitSafeStart();
-        void setTargetVelocity(int velocity);
-        void haltAndHold();
-        void resetCommandTimeout();
+public:
+    TicI2C();
+    TicI2C(int address);
+    void exitSafeStart();
+    void setTargetVelocity(int velocity);
+    void haltAndHold();
+    void resetCommandTimeout();
 };
 
 #endif

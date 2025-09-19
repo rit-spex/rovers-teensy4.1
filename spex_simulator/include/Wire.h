@@ -7,7 +7,6 @@
 // last modified: 7/23/2025 - Tyler
 // --------------------------------------------------------------------
 
-
 #ifndef WIRE_H
 #define WIRE_H
 
@@ -16,18 +15,18 @@
 
 class Wire_Class
 {
-    public:
-        void begin();
-        void setSCL(int scl_pin);
-        void setSDA(int sda_pin);
-        void beginTransmission(int address);
-        void write(int data);
-        int  read();
-        int  read(int data);
-        void requestFrom(int device_num, int data);
-        void endTransmission();
+public:
+    void begin();
+    void setSCL(int scl_pin);
+    void setSDA(int sda_pin);
+    void beginTransmission(int address);
+    void write(int data);
+    int read();
+    int read(int data);
+    void requestFrom(int device_num, int data);
+    void endTransmission();
 };
 
-static Wire_Class    Wire;
+static Wire_Class Wire;
 
 #endif

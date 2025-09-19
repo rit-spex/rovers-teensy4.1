@@ -18,13 +18,13 @@
 #define STATUS_LIGHT_FREQUENCY_MS 200
 
 // Update rate for the rover
-#define UPDATE_RATE_MS 100//40 // BLOWING FRAMES IN SIMULATOR SO IT WAS SLOWED Down TODO: Fix
+#define UPDATE_RATE_MS 100 // 40 // BLOWING FRAMES IN SIMULATOR SO IT WAS SLOWED Down TODO: Fix
 
-//milliseconds in a minute
+// milliseconds in a minute
 #define MS_IN_MIN 60000
 
 //********************************************************* DRIVETRAIN CONSTANTS *******************************************************
-//The max percent of the motors
+// The max percent of the motors
 #define PERCENT_MAX 0.4
 
 // Max RPM of the spark max is 1100 with no load
@@ -43,26 +43,26 @@
 #define NUM_WHEELS 6
 
 // The Direction of the motor
-#define MOTOR_LEFT_SIGN  -1 //positive 1 or negitive -1
-#define MOTOR_RIGHT_SIGN  1 //positive 1 or negitive -1
+#define MOTOR_LEFT_SIGN -1 // positive 1 or negitive -1
+#define MOTOR_RIGHT_SIGN 1 // positive 1 or negitive -1
 
 // the time it takes to go from 0 to 100
 #if AUTO
-#define SPARK_MAX_RAMP_UP_TIME_MS   2000 //milliseconds
-#define SPARK_MAX_RAMP_DOWN_TIME_MS 2000  //milliseconds
+#define SPARK_MAX_RAMP_UP_TIME_MS 2000   // milliseconds
+#define SPARK_MAX_RAMP_DOWN_TIME_MS 2000 // milliseconds
 #else
-#define SPARK_MAX_RAMP_UP_TIME_MS   2000 //milliseconds
-#define SPARK_MAX_RAMP_DOWN_TIME_MS 2000  //milliseconds
+#define SPARK_MAX_RAMP_UP_TIME_MS 2000   // milliseconds
+#define SPARK_MAX_RAMP_DOWN_TIME_MS 2000 // milliseconds
 #endif
 
 // The percent Increase or Decrease per cycle
-#define SPARK_MAX_RAMP_UP_PER_CYCLE   ((1.00)/(SPARK_MAX_RAMP_UP_TIME_MS/UPDATE_RATE_MS))
-#define SPARK_MAX_RAMP_DOWN_PER_CYCLE ((1.00)/(SPARK_MAX_RAMP_DOWN_TIME_MS/UPDATE_RATE_MS))
+#define SPARK_MAX_RAMP_UP_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_UP_TIME_MS / UPDATE_RATE_MS))
+#define SPARK_MAX_RAMP_DOWN_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_DOWN_TIME_MS / UPDATE_RATE_MS))
 
-//The max the percent on each side can differ before the rover tips
+// The max the percent on each side can differ before the rover tips
 #define DRIVEBASE_MAX_DIFFERENCE_PERCENT 0.07
 
-namespace PIDConstants 
+namespace PIDConstants
 {
     constexpr double KP0 = 0.005;
     constexpr double KP1 = 0.005;
@@ -86,10 +86,14 @@ namespace PIDConstants
     constexpr double KD5 = 0.0005;
 };
 
-#define MOTORS_DIR       (int[NUM_WHEELS]) {MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN}
-#define PID_CONSTANTS_KP (double[NUM_WHEELS]){PIDConstants::KP0, PIDConstants::KP1, PIDConstants::KP2, PIDConstants::KP3, PIDConstants::KP4, PIDConstants::KP5}
-#define PID_CONSTANTS_KI (double[NUM_WHEELS]){PIDConstants::KI0, PIDConstants::KI1, PIDConstants::KI2, PIDConstants::KI3, PIDConstants::KI4, PIDConstants::KI5}
-#define PID_CONSTANTS_KD (double[NUM_WHEELS]){PIDConstants::KD0, PIDConstants::KD1, PIDConstants::KD2, PIDConstants::KD3, PIDConstants::KD4, PIDConstants::KD5}
+#define MOTORS_DIR \
+    (int[NUM_WHEELS]) { MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_LEFT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN, MOTOR_RIGHT_SIGN }
+#define PID_CONSTANTS_KP \
+    (double[NUM_WHEELS]) { PIDConstants::KP0, PIDConstants::KP1, PIDConstants::KP2, PIDConstants::KP3, PIDConstants::KP4, PIDConstants::KP5 }
+#define PID_CONSTANTS_KI \
+    (double[NUM_WHEELS]) { PIDConstants::KI0, PIDConstants::KI1, PIDConstants::KI2, PIDConstants::KI3, PIDConstants::KI4, PIDConstants::KI5 }
+#define PID_CONSTANTS_KD \
+    (double[NUM_WHEELS]) { PIDConstants::KD0, PIDConstants::KD1, PIDConstants::KD2, PIDConstants::KD3, PIDConstants::KD4, PIDConstants::KD5 }
 
 //********************************************************* TEMP CONSTANTS *******************************************************
 // FAN CONSTANTS
@@ -97,12 +101,12 @@ namespace PIDConstants
 #define NUM_FANS 4
 
 // this is in celsius
-#define CHASSIS_MAX_TEMP_C 44 //110 ferinheight
+#define CHASSIS_MAX_TEMP_C 44 // 110 ferinheight
 #define CHASSIS_MIN_TEMP_C 15 // 60 ferinheight
 
-//this is duty cycle pwm Signal
-#define FAN_MAX_PWM   255
-#define FAN_MIN_PWM   51
+// this is duty cycle pwm Signal
+#define FAN_MAX_PWM 255
+#define FAN_MIN_PWM 51
 
 //********************************************************* CAN CONSTANTS *******************************************************
 #define ActiveCAN CAN::CAN_MODE::CAN2

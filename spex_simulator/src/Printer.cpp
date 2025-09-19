@@ -21,18 +21,18 @@ void ClearFile()
     fptr = fopen(OUTPUT_FILE_NAME, "w");
 
     // print 20 blank lines that are 20 char long
-    for(int lineIdx = 0; lineIdx<NUMBER_OF_LINES; lineIdx++)
+    for (int lineIdx = 0; lineIdx < NUMBER_OF_LINES; lineIdx++)
     {
         fprintf(fptr, ",\n");
     }
 
     // close the file at the end so data shouldn't be lost if program fails
-    fclose(fptr);    
+    fclose(fptr);
 }
 
 // create the file then write at specified location then close file
 void UpdateFile(PrinterData type, int extra, int value)
-{    
+{
     FILE* newfptr = NULL;
     FILE* oldfptr = NULL;
     char* line = NULL;
@@ -47,12 +47,12 @@ void UpdateFile(PrinterData type, int extra, int value)
     oldfptr = fopen(OUTPUT_FILE_NAME, "r");
 
     // copy each line to the new file
-    while((lineSize = getline(&line, &size, oldfptr)) != -1)
+    while ((lineSize = getline(&line, &size, oldfptr)) != -1)
     {
-        if(lineIdx == (extra + type))
+        if (lineIdx == (extra + type))
         {
-            if(type == PrinterData::PIN)
-            {   
+            if (type == PrinterData::PIN)
+            {
                 fprintf(newfptr, "PIN:%d Value:%d,\n", extra, value);
             }
             else

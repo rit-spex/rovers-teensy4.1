@@ -22,29 +22,29 @@ struct CANMessage
 
 class ACAN_T4_Settings
 {
-    public:
-        static const int NO_PULLUP_NO_PULLDOWN = 1;
+public:
+    static const int NO_PULLUP_NO_PULLDOWN = 1;
 
-        ACAN_T4_Settings(int baudrate);
-        bool mTxPinIsOpenCollector;
-        int mRxPinConfiguration;
+    ACAN_T4_Settings(int baudrate);
+    bool mTxPinIsOpenCollector;
+    int mRxPinConfiguration;
 };
 
 class CANbus
 {
-    public:
-        CANbus(void);
-        void begin(ACAN_T4_Settings acan_t4_settings);
-        bool receive(CANMessage message);
-        void tryToSend(CANMessage message);
+public:
+    CANbus(void);
+    void begin(ACAN_T4_Settings acan_t4_settings);
+    bool receive(CANMessage message);
+    void tryToSend(CANMessage message);
 };
 
 class ACAN_T4
 {
-    public:
-        static CANbus can1;
-        static CANbus can2;
-        static CANbus can3;
+public:
+    static CANbus can1;
+    static CANbus can2;
+    static CANbus can3;
 };
 
 #endif

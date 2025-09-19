@@ -18,18 +18,17 @@
 
 class Dynamixel2Arduino
 {
-  public:
-
-  Dynamixel2Arduino(int serial, int pin);
-  void setGoalPWM(int pin, int speed, int unit);
-  int setOperatingMode(int val1, int val2);
-  int setPortProtocolVersion(int version);
-  int setID(int oldID, int newID);
-  void begin(int baudrate);
-  int torqueOff(int pin);
-  int torqueOn(int pin);
-  int ping(int val);
-  int ping();
+public:
+    Dynamixel2Arduino(int serial, int pin);
+    void setGoalPWM(int pin, int speed, int unit);
+    int setOperatingMode(int val1, int val2);
+    int setPortProtocolVersion(int version);
+    int setID(int oldID, int newID);
+    void begin(int baudrate);
+    int torqueOff(int pin);
+    int torqueOn(int pin);
+    int ping(int val);
+    int ping();
 };
 
 #endif // DYNAMIXEL_2_ARDUNIO_H

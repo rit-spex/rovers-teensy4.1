@@ -24,7 +24,7 @@ int main()
 {
     ClearFile();
     setup();
-    while(true)
+    while (true)
     {
         loop();
     }

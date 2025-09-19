@@ -12,11 +12,11 @@
 
 class Timer3_Class
 {
-    public:
-        void initialize(int time);
-        void start(void);
-        void pwm(int pin, int duty_cycle);
+public:
+    void initialize(int time);
+    void start(void);
+    void pwm(int pin, int duty_cycle);
 };
 
 static Timer3_Class Timer3;
-#endif //TIMER_THREE_H
+#endif // TIMER_THREE_H
