@@ -13,7 +13,7 @@
 #define DEBUG_H
 
 // enable when encoders are on the base
-#define ENABLE_ENCODER   false
+#define ENABLE_ENCODER false
 
 // enable to test with a single encoder
 #define ENABLE_DEMO_ENCODER false
@@ -22,10 +22,10 @@
 #define ENABLE_MOTOR_RAMP true
 
 // enable each subsystem
-#define ENABLE_CAN       true
+#define ENABLE_CAN true
 #define ENABLE_DRIVEBASE true
-#define ENABLE_TEMP      true
-#define ENABLE_SERIAL    false
+#define ENABLE_TEMP true
+#define ENABLE_SERIAL false
 
 #define AUTO 0
 

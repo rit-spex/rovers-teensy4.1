@@ -12,16 +12,16 @@
 
 enum Direction
 {
-	REVERSE = 0,
-	FORWARD = 1,
-	OFF = 2
+    REVERSE = 0,
+    FORWARD = 1,
+    OFF = 2
 };
 
 enum Dynamixel2MotorIDs
 {
-	DIFFERENCIAL_1 = 1,
-	DIFFERENCIAL_2 = 2,
-	CLAW = 3
+    DIFFERENCIAL_1 = 1,
+    DIFFERENCIAL_2 = 2,
+    CLAW = 3
 };
 
 void startUp(Dynamixel2Arduino dyna);

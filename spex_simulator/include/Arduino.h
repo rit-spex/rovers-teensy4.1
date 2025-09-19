@@ -24,7 +24,7 @@
 #define INPUT_PULLUP 1
 #define INPUT_PULLDOWN 0
 
-#define INPUT  0
+#define INPUT 0
 #define OUTPUT 1
 
 class PinState
@@ -38,19 +38,18 @@ public:
 
 class Serial_Class
 {
-    public:
+public:
+    void begin(int baudrate);
 
-        void begin(int baudrate);
+    // print statements
+    void print(const char *message);
+    void print(const int message);
+    void print(const float message);
 
-        //print statements
-        void print(const char* message);
-        void print(const int message);
-        void print(const float message);
-
-        //println statements
-        void println(const char* message);
-        void println(const int message);
-        void println(std::string message);
+    // println statements
+    void println(const char *message);
+    void println(const int message);
+    void println(std::string message);
 
         // printf
         int printf(const char* format, ...);

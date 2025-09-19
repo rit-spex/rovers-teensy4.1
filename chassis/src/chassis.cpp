@@ -13,14 +13,16 @@
 #include "../include/chassis.h"
 
 #if ENABLE_CAN
-Chassis::Chassis(unsigned long *currentCycle)
-:m_can(currentCycle), m_currentCyclePtr(currentCycle) {}
+Chassis::Chassis(unsigned long* currentCycle)
+    :m_can(currentCycle), m_currentCyclePtr(currentCycle) {
+}
 #else
-Chassis::Chassis(unsigned long *currentCycle)
-:m_currentCyclePtr(currentCycle) {}
+Chassis::Chassis(unsigned long* currentCycle)
+    : m_currentCyclePtr(currentCycle) {
+}
 #endif
 
-Chassis::~Chassis(){}
+Chassis::~Chassis() {}
 
 void Chassis::startUp()
 {
@@ -29,20 +31,20 @@ void Chassis::startUp()
 
     // set the status light to stay on
     digitalWrite(STATUS_LIGHT_PIN, HIGH);
-    m_statusLightWait = floor(STATUS_LIGHT_FREQUENCY_MS/UPDATE_RATE_MS);
+    m_statusLightWait = floor(STATUS_LIGHT_FREQUENCY_MS / UPDATE_RATE_MS);
     m_statusLightOn = true;
 
-    #if ENABLE_CAN
+#if ENABLE_CAN
     m_can.startCAN();
-    #endif
+#endif
 }
 
 void Chassis::BlinkStatusLight()
 {
     // blink the status light every STATUS_LIGHT_FREQUENCY_MS
-    if(m_statusLightWait <= 0)
+    if (m_statusLightWait <= 0)
     {
-        if(m_statusLightOn)
+        if (m_statusLightOn)
         {
             digitalWrite(STATUS_LIGHT_PIN, LOW);
             m_statusLightOn = false;
@@ -52,7 +54,7 @@ void Chassis::BlinkStatusLight()
             digitalWrite(STATUS_LIGHT_PIN, HIGH);
             m_statusLightOn = true;
         }
-        m_statusLightWait = floor(STATUS_LIGHT_FREQUENCY_MS/UPDATE_RATE_MS);
+        m_statusLightWait = floor(STATUS_LIGHT_FREQUENCY_MS / UPDATE_RATE_MS);
     }
     else
     {
@@ -62,68 +64,68 @@ void Chassis::BlinkStatusLight()
 
 void Chassis::updateSubsystems(int timeInterval_ms)
 {
-    if(!m_disabled)
+    if (!m_disabled)
     {
-        #if ENABLE_CAN
+#if ENABLE_CAN
         m_disabled = m_can.getUnpackedMessage(CAN::Message_ID::E_STOP, 0);
-        #endif
+#endif
 
     }
-    if(!m_disabled)
+    if (!m_disabled)
     {
         // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) && m_can.m_recievedMsg;
         // Serial.println(m_can.m_lastRecievedMsgCycle);
         // Serial.println(m_can.m_recievedMsg);
     }
-    if(!m_disabled)
+    if (!m_disabled)
     {
         BlinkStatusLight();
-        #if ENABLE_DRIVEBASE
-            #if ENABLE_ENCODER
-            m_drive_base.updateRPM();
-            #else
-                #if ENABLE_CAN
-                // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
-                float leftPower  = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0)/100;
-                float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0)/100;
+#if ENABLE_DRIVEBASE
+#if ENABLE_ENCODER
+        m_drive_base.updateRPM();
+#else
+#if ENABLE_CAN
+        // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
+        float leftPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
+        float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
 
-				//Serial.println("\n\nABOUT TO DRIVE\n\n");
+        //Serial.println("\n\nABOUT TO DRIVE\n\n");
 
-				Serial.printf("left_power: %d\n", leftPower);
-				Serial.printf("right_power: %d\n", rightPower);
+        Serial.printf("left_power: %d\n", leftPower);
+        Serial.printf("right_power: %d\n", rightPower);
 
-                m_drive_base.drive(leftPower, rightPower);
-                #endif
+        m_drive_base.drive(leftPower, rightPower);
+#endif
 
-            #endif
+#endif
 
-        #endif
+#endif
 
-        #if ENABLE_TEMP
+#if ENABLE_TEMP
         m_temp_subsystem.updateFans();
-        #endif
+#endif
     }
     else
     {
-        #if ENABLE_SERIAL
+#if ENABLE_SERIAL
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
         Serial.println("DISABLED");
-        #endif
+#endif
     }
 }
 
 void Chassis::runBackgroundProcess()
 {
-    #if ENABLE_CAN
+#if ENABLE_CAN
     m_can.readMsgBuffer();
-    #endif
+#endif
 }
 
 
 #if ENABLE_DRIVEBASE
 void Chassis::drive(float left_axis, float right_axis)
 {
-    if(!m_disabled)
+    if (!m_disabled)
     {
         m_drive_base.drive(left_axis, right_axis);
     }
@@ -138,9 +140,9 @@ void Chassis::disable()
     // set the led to solid
     digitalWrite(STATUS_LIGHT_PIN, HIGH);
 
-    #if ENABLE_DRIVEBASE
+#if ENABLE_DRIVEBASE
     m_drive_base.forceStop();
-    #endif
+#endif
 }
 
 bool Chassis::isDisabled()

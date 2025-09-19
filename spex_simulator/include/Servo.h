@@ -20,14 +20,15 @@
 
 class Servo
 {
-    private:
-        int pin;
-    public:
-        void attach(int pin);
-        void attach(int pin, int min, int max);
-        void detach();
-        void writeMicroseconds(int microseconds);
-        void write(int microseconds);
+private:
+    int pin;
+
+public:
+    void attach(int pin);
+    void attach(int pin, int min, int max);
+    void detach();
+    void writeMicroseconds(int microseconds);
+    void write(int microseconds);
 };
 
 #endif

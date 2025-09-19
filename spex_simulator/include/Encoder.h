@@ -24,17 +24,18 @@
 
 class Encoder
 {
-    private:
-        int pin1;
-        int pin2;
-        long counts;
-        // pthread_t countIncreaseThread;
-        unsigned long lastCountTime;
-    public:
-        Encoder(int pin1, int pin2);
-        void attach(int pin1, int pin2);
-        long read();
-        void write(int value);
+private:
+    int pin1;
+    int pin2;
+    long counts;
+    // pthread_t countIncreaseThread;
+    unsigned long lastCountTime;
+
+public:
+    Encoder(int pin1, int pin2);
+    void attach(int pin1, int pin2);
+    long read();
+    void write(int value);
 };
 
-#endif //ENCODER_H
+#endif // ENCODER_H
