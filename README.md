@@ -12,3 +12,18 @@ This can be done by run the command below:
 ```sudo adduser your_username dialout```
 
 To get working you will need to added serial device from the VM.
+
+# Style
+The SPEX rovers code style guide can be found [here](https://docs.google.com/document/d/1t-4s67TyD6nIQa1lq93bUDrvFOaI-m0L0P6DAW0iCVA/edit?usp=sharing).
+## clang-format
+The C++ codebase uses clang-format to enforce style rules. If you're developing on linux or mac please install:
+- [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+- [pre-commit](https://pre-commit.com/)
+
+After you've installed these, in the root directory of the project run:
+```
+pre-commit install
+```
+
+Whenever you commit, the pre-commit git hook will run clang-format to check your code formatting. If there are problems, clang-format will automatically reformat the code so just try to commit again.
+
