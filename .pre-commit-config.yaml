@@ -1,5 +1,8 @@
+fail_fast: false
 repos:
--   repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: 'v21.1.1'  # Use the sha / tag you want to point at
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
     hooks:
-    -   id: clang-format
+      - id: clang-format
+      - id: clang-tidy
+      - id: include-what-you-use

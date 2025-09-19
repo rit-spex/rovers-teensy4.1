@@ -1,16 +1,11 @@
 Checks: >
-  clang-analyzer-*
-  ,bugprone-*
   ,performance-*
-  ,modernize-*
   ,readability-*
   ,-readability-magic-numbers
-  ,modernize-*
-  ,-modernize-macro-to-enum
-  ,-modernize-use-trailing-return-type
-  ,-modernize-avoid-c-arrays
+  ,-readability-identifier-length
+  ,readability-identifier-naming
 WarningsAsErrors: ''
-HeaderFilterRegex: '.*'
+HeaderFilterRegex: '^(?!.*(/\.pio|/)).*'
 FormatStyle: file
 CheckOptions:
 
@@ -26,5 +21,3 @@ CheckOptions:
     value:           UPPER_CASE
   - key:             readability-identifier-naming.MacroDefinitionCase
     value:           UPPER_CASE
-  - key:             modernize-use-nullptr.NullMacros
-    value:           'NULL'

@@ -1,4 +1,6 @@
 **/.pio
 **/.vscode
+**/.cache
 **/*.o
 **/*.d
+**/compile_commands.json
