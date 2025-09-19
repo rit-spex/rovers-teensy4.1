@@ -59,6 +59,7 @@ LDFLAGS:= -pthread
 
 # The final build step.
 $(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
+	mkdir -p $(BIN_DIR)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 # Build step for C source
