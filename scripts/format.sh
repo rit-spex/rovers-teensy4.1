@@ -9,4 +9,5 @@ git ls-files -co --exclude-standard \
   | while read -r file; do
     echo "Formatting $file"
     clang-format -i -style="$STYLE" "$file"
+    dos2unix "$file"
 done

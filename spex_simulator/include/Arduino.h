@@ -10,12 +10,11 @@
 #ifndef ARDUINO_H
 #define ARDUINO_H
 
-#include <string>
-#include <unordered_map>
 #include <iostream>
 #include <stdio.h>
 #include <string>
 #include <thread>
+#include <unordered_map>
 
 #define LOW 0
 #define HIGH 1
@@ -30,6 +29,7 @@ class PinState
 {
 private:
     std::unordered_map<int, int> pin_map;
+
 public:
     int getPinValue(const int pin);
     void setPinValue(const int pin, const int val);
@@ -50,8 +50,8 @@ public:
     void println(const int message);
     void println(std::string message);
 
-        // printf
-        int printf(const char* format, ...);
+    // printf
+    int printf(const char *format, ...);
 };
 
 // define global functions
