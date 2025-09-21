@@ -11,6 +11,7 @@
 #define ARDUINO_H
 
 #include <string>
+#include <unordered_map>
 #include <iostream>
 #include <stdio.h>
 #include <chrono>
@@ -25,6 +26,15 @@
 
 #define INPUT  0
 #define OUTPUT 1
+
+class PinState
+{
+private:
+    std::unordered_map<int, int> pin_map;
+public:
+    int getPinValue(const int pin);
+    void setPinValue(const int pin, const int val);
+};
 
 class Serial_Class
 {
@@ -43,8 +53,7 @@ class Serial_Class
         void println(std::string message);
 
         // printf
-        void printf(const char* message, int val);
-        void printf(const char* message, int val1, int val2, int val3);
+        int printf(const char* format, ...);
 };
 
 // define global functions
@@ -53,12 +62,11 @@ void delay(int milliseconds);
 unsigned long millis();
 
 void digitalWrite(int pin, int value);
-float digitalRead(int pin);
+int digitalRead(int pin);
 
 void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
-static Serial_Class  Serial;
-
+static Serial_Class Serial;
 
 #endif

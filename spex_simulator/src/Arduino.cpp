@@ -8,6 +8,17 @@
 // --------------------------------------------------------------------
 
 #include <Arduino.h>
+#include <cstdarg>
+
+static PinState pinState;
+
+int PinState::getPinValue(const int pin) {
+	return pin_map[pin];
+}
+
+void PinState::setPinValue(const int pin, const int val) {
+	pin_map[pin] = val;
+}
 
 //////////////////////////////////////////// Serial_Class /////////////////////////
 void Serial_Class::begin(int baudrate)
@@ -42,18 +53,16 @@ void Serial_Class::println(std::string message)
     std::cout << "Serial println called with message: " << message << std::endl;
 }
 
-void Serial_Class::printf(const char* message, int val)
+int Serial_Class::printf(const char *format, ...)
 {
-    char buffer[256];
-    sprintf(buffer, message, val);
-    print(buffer);
-}
+	va_list args;
+	int done;
 
-void Serial_Class::printf(const char* message, int val1, int val2, int val3)
-{
-    char buffer[256];
-    sprintf(buffer, message, val1, val2, val3);
-    print(buffer);
+	va_start(args, format);
+	done = vfprintf(stdout, format, args);
+	va_end(args);
+
+	return done;
 }
 
 // define global functions
@@ -65,13 +74,14 @@ void pinMode(int pin, int mode)
 void digitalWrite(int pin, int value)
 {
     UpdateFile(PrinterData::PIN, pin, value);
+	pinState.setPinValue(pin, value);
     // std::cout << "digitalWrite called with pin: " << pin << " and value: " << value << std::endl;
 }
 
-float digitalRead(int pin)
+int digitalRead(int pin)
 {
     std::cout << "digitalRead called with pin: " << pin << std::endl;
-    return 0;
+	return pinState.getPinValue(pin);
 }
 
 void delay(int milliseconds)
@@ -93,11 +103,12 @@ unsigned long millis()
 void analogWrite(int pin, int pwm)
 {
     UpdateFile(PrinterData::PIN, pin, pwm);
+	pinState.setPinValue(pin, pwm);
     //std::cout << "analogWrite called" << std::endl;
 }
 
 float analogRead(int pin)
 {
     std::cout << "analogRead called" << std::endl;
-    return 0;
+	return pinState.getPinValue(pin);
 }
