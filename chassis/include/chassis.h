@@ -51,7 +51,7 @@ public:
     void startUp();
 
     // increments a time then will blink the status light
-    void BlinkStatusLight();
+    void blinkStatusLight();
 
     // updates all of the subsystems
     void updateSubsystems(int timeInterval_ms);

@@ -41,7 +41,7 @@ void Chassis::startUp()
 #endif
 }
 
-void Chassis::BlinkStatusLight()
+void Chassis::blinkStatusLight()
 {
     // blink the status light every STATUS_LIGHT_FREQUENCY_MS
     if (m_statusLightWait <= 0)
@@ -80,7 +80,7 @@ void Chassis::updateSubsystems(int timeInterval_ms)
     }
     if (!m_disabled)
     {
-        BlinkStatusLight();
+        blinkStatusLight();
 #if ENABLE_DRIVEBASE
 #if ENABLE_ENCODER
         m_drive_base.updateRPM();
