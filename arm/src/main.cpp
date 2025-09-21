@@ -29,16 +29,25 @@ void loop()
         disable(dyna);
     }
 
+    // Updated status light
+    unsigned long currentMillis = millis();
     if (is_disabled)
     {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
+#if ENABLE_SERIAL
+        Serial.println("Status light: Solid");
+#endif
     }
     else
     {
-        if (ledTimer >= LED_BLINK_INTERVAL)
+        if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
         {
-            ledTimer = 0;
+            previousMillis = currentMillis;
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
+#if ENABLE_SERIAL
+            Serial.printf("Status light: Blink %s\n",
+                          digitalRead(STATUS_LIGHT_PIN) ? "HIGH" : "LOW");
+#endif
         }
     }
 

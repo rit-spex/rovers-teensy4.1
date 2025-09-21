@@ -10,6 +10,7 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
+#include "GlobalVars.h"
 #include <Arduino.h>
 #include <chrono>
 #include <iostream>

@@ -7,17 +7,20 @@
 // last modified: 7/23/2025 - Tyler
 // --------------------------------------------------------------------
 
+#include "Printer.h"
 #include <Arduino.h>
 #include <cstdarg>
 
 static PinState pinState;
 
-int PinState::getPinValue(const int pin) {
-	return pin_map[pin];
+int PinState::getPinValue(const int pin)
+{
+    return pin_map[pin];
 }
 
-void PinState::setPinValue(const int pin, const int val) {
-	pin_map[pin] = val;
+void PinState::setPinValue(const int pin, const int val)
+{
+    pin_map[pin] = val;
 }
 
 //////////////////////////////////////////// Serial_Class /////////////////////////
@@ -55,14 +58,14 @@ void Serial_Class::println(std::string message)
 
 int Serial_Class::printf(const char *format, ...)
 {
-	va_list args;
-	int done;
+    va_list args;
+    int done;
 
-	va_start(args, format);
-	done = vfprintf(stdout, format, args);
-	va_end(args);
+    va_start(args, format);
+    done = vfprintf(stdout, format, args);
+    va_end(args);
 
-	return done;
+    return done;
 }
 
 // define global functions
@@ -74,14 +77,14 @@ void pinMode(int pin, int mode)
 void digitalWrite(int pin, int value)
 {
     UpdateFile(PrinterData::PIN, pin, value);
-	pinState.setPinValue(pin, value);
+    pinState.setPinValue(pin, value);
     // std::cout << "digitalWrite called with pin: " << pin << " and value: " << value << std::endl;
 }
 
 int digitalRead(int pin)
 {
     std::cout << "digitalRead called with pin: " << pin << std::endl;
-	return pinState.getPinValue(pin);
+    return pinState.getPinValue(pin);
 }
 
 void delay(int milliseconds)
@@ -103,12 +106,12 @@ unsigned long millis()
 void analogWrite(int pin, int pwm)
 {
     UpdateFile(PrinterData::PIN, pin, pwm);
-	pinState.setPinValue(pin, pwm);
-    //std::cout << "analogWrite called" << std::endl;
+    pinState.setPinValue(pin, pwm);
+    // std::cout << "analogWrite called" << std::endl;
 }
 
 float analogRead(int pin)
 {
     std::cout << "analogRead called" << std::endl;
-	return pinState.getPinValue(pin);
+    return pinState.getPinValue(pin);
 }
