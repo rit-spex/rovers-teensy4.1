@@ -5,6 +5,7 @@ Checks: >
   ,-readability-identifier-length
   ,readability-identifier-naming
 WarningsAsErrors: ''
+InheritParentConfig: true
 HeaderFilterRegex: '^(?!.*(/\.pio|\.platformio/)).*'
 FormatStyle: file
 CheckOptions:
