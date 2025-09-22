@@ -31,7 +31,7 @@ void loop()
 
     // Updated status light
     unsigned long currentMillis = millis();
-    if (is_disabled)
+    if (isDisabled)
     {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
 #if ENABLE_SERIAL
@@ -61,7 +61,7 @@ void loop()
             Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
 #endif
             Direction direction = (Direction) data[1];
-            if (!data[0])
+            if (!(bool) data[0])
             {
                 direction = OFF;
             }

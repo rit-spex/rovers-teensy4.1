@@ -49,14 +49,14 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction);
 void moveSARClaw(Direction direction);
 void moveSolenoid(int state);
 
-static bool is_disabled = false;
-static Servo SARGripper;
+static bool isDisabled = false;
+static Servo SARGripper; // NOLINT
 
 static float diff1PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 static float diff2PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 static float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 
-static int gripper_pos = MIN_GRIPPER_POS;
+static int gripperPos = MIN_GRIPPER_POS;
 
 // class Arm
 // {

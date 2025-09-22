@@ -84,7 +84,7 @@ void moveShoulder(Direction direction)
 void moveBase(Direction direction)
 {
     // if disabled then end function
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
@@ -122,7 +122,7 @@ void newMoveBase(Direction direction)
 void moveElbow(Direction direction)
 {
     // if disabled then end function
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
@@ -149,7 +149,7 @@ void moveElbow(Direction direction)
 void bendWrist(Dynamixel2Arduino dyna, Direction direction)
 {
     // return if disabled
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
@@ -187,7 +187,7 @@ void bendWrist(Dynamixel2Arduino dyna, Direction direction)
 void twistWrist(Dynamixel2Arduino dyna, Direction direction)
 {
     // return if disabled
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
@@ -226,7 +226,7 @@ void twistWrist(Dynamixel2Arduino dyna, Direction direction)
 void moveClaw(Dynamixel2Arduino dyna, Direction direction)
 {
     // if disabled then end function
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
@@ -256,17 +256,17 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction)
 void moveSARClaw(Direction direction)
 {
     // Serial.println("MOVE SAR CLAW");
-    if (is_disabled || direction == Direction::OFF)
+    if (isDisabled || direction == Direction::OFF)
     {
         return;
     }
 
     // Check for Bounds
-    if (direction == Direction::FORWARD && gripper_pos >= MAX_GRIPPER_POS)
+    if (direction == Direction::FORWARD && gripperPos >= MAX_GRIPPER_POS)
     {
         return;
     }
-    if (direction == Direction::REVERSE && gripper_pos <= MIN_GRIPPER_POS)
+    if (direction == Direction::REVERSE && gripperPos <= MIN_GRIPPER_POS)
     {
         return;
     }
@@ -276,16 +276,16 @@ void moveSARClaw(Direction direction)
     {
         mod = -1;
     }
-    gripper_pos += GRIPPER_SPEED * mod;
+    gripperPos += GRIPPER_SPEED * mod;
 
-    Serial.printf("pos: %d\n", gripper_pos);
+    Serial.printf("pos: %d\n", gripperPos);
 
-    SARGripper.write(gripper_pos);
+    SARGripper.write(gripperPos);
 }
 
 void moveSolenoid(int state)
 {
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
