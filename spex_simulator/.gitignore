@@ -1,4 +1,5 @@
 bin/
+data/
 chassisData.txt
 armData.txt
 scienceData.txt
