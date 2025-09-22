@@ -18,13 +18,16 @@ The SPEX rovers code style guide can be found [here](https://docs.google.com/doc
 ## clang-format
 The C++ codebase uses clang-format to enforce style rules. If you're developing on linux or mac please install:
 - [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+
 To format the codebase, run:
 ```
 ./scripts/format.sh
 ```
 ## clang-tidy & cppcheck
 The codebase can (VERY JANKILY) use clang-tidy and cppcheck for static code analysis.
-Installing the [PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
+
+Installing [PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
+
 To use it, navigate to a subsystem directory and run:
 ```
 pio check
