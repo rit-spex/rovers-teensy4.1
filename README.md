@@ -18,12 +18,17 @@ The SPEX rovers code style guide can be found [here](https://docs.google.com/doc
 ## clang-format
 The C++ codebase uses clang-format to enforce style rules. If you're developing on linux or mac please install:
 - [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
-- [pre-commit](https://pre-commit.com/)
-
-After you've installed these, in the root directory of the project run:
+To format the codebase, run:
 ```
-pre-commit install
+./scripts/format.sh
 ```
-
-Whenever you commit, the pre-commit git hook will run clang-format to check your code formatting. If there are problems, clang-format will automatically reformat the code so just try to commit again.
+## clang-tidy
+The codebase can (VERY JANKILY) use clang-tidy for static code analysis.
+It WILL give you a bunch of code analysis about the PlatformIO packages, but between all of those
+there is useful insight about the code (particularly the naming conventions). Installing the
+[PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
+To use it run:
+```
+./scripts/build_compile_db.sh && ./scripts/tidy.sh
+```
 
