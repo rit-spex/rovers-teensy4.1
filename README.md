@@ -22,13 +22,11 @@ To format the codebase, run:
 ```
 ./scripts/format.sh
 ```
-## clang-tidy
-The codebase can (VERY JANKILY) use clang-tidy for static code analysis.
-It WILL give you a bunch of code analysis about the PlatformIO packages, but between all of those
-there is useful insight about the code (particularly the naming conventions). Installing the
-[PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
-To use it run:
+## clang-tidy & cppcheck
+The codebase can (VERY JANKILY) use clang-tidy and cppcheck for static code analysis.
+Installing the [PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
+To use it, navigate to a subsystem directory and run:
 ```
-./scripts/build_compile_db.sh && ./scripts/tidy.sh
+pio check
 ```
 
