@@ -7,7 +7,7 @@
 // Auger vertical movement
 const int switchOnPin = 12;
 const int switchOffPin = 23;
-const int AUGER_SPEED = 15000000;
+const int augerSpeed = 15000000;
 TicI2C tic(15);
 int augerUp, augerDown;
 
@@ -36,12 +36,12 @@ void changeHeight()
     augerDown = digitalRead(switchOffPin);
     if (augerUp == LOW)
     {
-        tic.setTargetVelocity(AUGER_SPEED);
+        tic.setTargetVelocity(augerSpeed);
         // Serial.println("Moving up");
     }
     else if (augerDown == LOW)
     {
-        tic.setTargetVelocity(-AUGER_SPEED);
+        tic.setTargetVelocity(-augerSpeed);
         // Serial.println("Moving down");
     }
     else
