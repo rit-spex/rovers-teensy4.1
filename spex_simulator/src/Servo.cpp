@@ -30,7 +30,7 @@ void Servo::detach()
 void Servo::writeMicroseconds(int microseconds)
 {
     // update the output file
-    UpdateFile(PrinterData::PIN, pin, microseconds);
+    updateFile(PrinterData::PIN, pin, microseconds);
 
     // update global file
 #if BUILD_CHASSIS

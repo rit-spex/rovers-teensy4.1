@@ -18,10 +18,12 @@ enum PrinterData
     PIN = 0
 };
 
+void createDataDir();
+
 // creates an empty file
-void ClearFile();
+void clearFile();
 
 // print the data to the file
-void UpdateFile(PrinterData type, int extra, int value);
+void updateFile(PrinterData type, int extra, int value);
 
 #endif // PRINTER_H

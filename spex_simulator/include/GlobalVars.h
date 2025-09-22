@@ -10,6 +10,8 @@
 #ifndef GLOBAL_VARS_H
 #define GLOBAL_VARS_H
 
+#define DATA_DIR "data"
+
 // get the file name based on what is being build
 #if BUILD_CHASSIS
 #define OUTPUT_FILE_NAME "chassisData.txt"

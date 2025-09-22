@@ -76,7 +76,7 @@ void pinMode(int pin, int mode)
 
 void digitalWrite(int pin, int value)
 {
-    UpdateFile(PrinterData::PIN, pin, value);
+    updateFile(PrinterData::PIN, pin, value);
     pinState.setPinValue(pin, value);
     // std::cout << "digitalWrite called with pin: " << pin << " and value: " << value << std::endl;
 }
@@ -105,7 +105,7 @@ unsigned long millis()
 
 void analogWrite(int pin, int pwm)
 {
-    UpdateFile(PrinterData::PIN, pin, pwm);
+    updateFile(PrinterData::PIN, pin, pwm);
     pinState.setPinValue(pin, pwm);
     // std::cout << "analogWrite called" << std::endl;
 }
