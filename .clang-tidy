@@ -1,15 +1,15 @@
 Checks: >
   ,performance-*
   ,readability-*
+  ,bugprone-*
   ,-readability-magic-numbers
   ,-readability-identifier-length
   ,readability-identifier-naming
 WarningsAsErrors: ''
 InheritParentConfig: true
-HeaderFilterRegex: '^(?!.*(/\.pio|\.platformio/)).*'
+HeaderFilterRegex: '^(?!.*(\.pio|\.platformio)).*'
 FormatStyle: file
 CheckOptions:
-
   - key:             readability-identifier-naming.VariableCase
     value:           camelBack
   - key:             readability-identifier-naming.FunctionCase
