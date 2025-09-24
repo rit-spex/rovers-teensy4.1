@@ -18,6 +18,8 @@ CheckOptions:
     value:           CamelCase
   - key:             readability-identifier-naming.MemberPrefix
     value:           m_
+  - key:             readability-identifier-naming.GlobalPointerSuffix
+    value:           Ptr
   - key:             readability-identifier-naming.ConstexprVariableCase
     value:           UPPER_CASE
   - key:             readability-identifier-naming.MacroDefinitionCase
