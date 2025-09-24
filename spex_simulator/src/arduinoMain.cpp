@@ -7,6 +7,7 @@
 // last modified: 7/30/2025 - Tyler
 // --------------------------------------------------------------------
 
+#include "Arduino.h"
 #include "Gui.h"
 #include "main.h"
 
@@ -14,7 +15,6 @@
 
 #include <GLFW/glfw3.h>
 #include <iostream>
-
 
 CANbus ACAN_T4::can1;
 CANbus ACAN_T4::can2;
@@ -50,6 +50,7 @@ int main()
 
         // Actual GUI
         ImGui::ShowDemoWindow(&showDemoWindow);
+        pinStateWidget(getPinStatePtr());
 
         // Rendering
         ImGui::Render();

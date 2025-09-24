@@ -1,6 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include "Arduino.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
@@ -14,5 +15,7 @@
 
 GLFWwindow *guiSetup();
 void guiShutdown(GLFWwindow *window);
+
+void pinStateWidget(PinState *pinStatePtr);
 
 #endif // GUI_H

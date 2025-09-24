@@ -27,10 +27,8 @@
 
 class PinState
 {
-private:
-    std::unordered_map<int, int> pin_map;
-
 public:
+    std::unordered_map<int, int> m_pinMap;
     int getPinValue(const int pin);
     void setPinValue(const int pin, const int val);
 };
@@ -65,6 +63,9 @@ int digitalRead(int pin);
 void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
+PinState *getPinStatePtr();
+
 static Serial_Class Serial;
+static PinState pinState;
 
 #endif
