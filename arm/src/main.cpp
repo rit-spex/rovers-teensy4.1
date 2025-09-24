@@ -44,9 +44,6 @@ void loop()
         {
             previousMillis = currentMillis;
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
-#if ENABLE_SERIAL
-            Serial.printf("Status light: Blink %s\n", digitalRead(STATUS_LIGHT_PIN) ? "HIGH" : "LOW");
-#endif
         }
     }
 
