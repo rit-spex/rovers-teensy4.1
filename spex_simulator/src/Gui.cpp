@@ -94,19 +94,31 @@ void pinStateWidget(PinState *pinStatePtr)
 {
     ImGui::Begin("Pins");
 
-    if (ImGui::BeginTable("Pins", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
+    if (ImGui::BeginTable("Pins", 3, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
     {
         ImGui::TableSetupColumn("Pin");
         ImGui::TableSetupColumn("Value");
+        ImGui::TableSetupColumn("Mode");
         ImGui::TableHeadersRow();
 
-        for (const auto &[pin, value] : pinStatePtr->m_pinMap)
+        for (const auto &pair : pinStatePtr->m_pinMap)
         {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
-            ImGui::Text("%d", pin);
+            ImGui::Text("%d", pair.first);
+
             ImGui::TableNextColumn();
-            ImGui::Text("%d", value);
+            if (pair.second.m_value == 0 || pair.second.m_value == 1)
+            {
+                ImGui::Text("%s", (bool)pair.second.m_value ? "HIGH" : "LOW");
+            }
+            else
+            {
+                ImGui::Text("%d", pair.second.m_value);
+            }
+
+            ImGui::TableNextColumn();
+            ImGui::Text("%s", (bool)pair.second.m_mode ? "OUTPUT" : "INPUT");
         }
 
         ImGui::EndTable();

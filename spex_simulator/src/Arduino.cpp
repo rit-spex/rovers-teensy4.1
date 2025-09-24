@@ -64,6 +64,7 @@ int Serial_Class::printf(const char *format, ...)
 void pinMode(int pin, int mode)
 {
     std::cout << "pinMode called with pin: " << pin << " and mode: " << mode << std::endl;
+    pinState.setPinMode(pin, mode);
 }
 
 void digitalWrite(int pin, int value)

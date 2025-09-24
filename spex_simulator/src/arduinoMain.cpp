@@ -34,8 +34,6 @@ int main()
 
     GLFWwindow *window = guiSetup();
 
-    bool showDemoWindow = true;
-
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
@@ -52,7 +50,6 @@ int main()
         ImGui::NewFrame();
 
         // Actual GUI
-        ImGui::ShowDemoWindow(&showDemoWindow);
         pinStateWidget(&pinState);
 
         // Rendering
