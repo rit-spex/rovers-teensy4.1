@@ -1,0 +1,3 @@
+[submodule "spex_simulator/external/imgui"]
+	path = spex_simulator/external/imgui
+	url = https://github.com/ocornut/imgui.git
