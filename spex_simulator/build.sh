@@ -37,7 +37,7 @@ extract_subsystem_files()
         make
 
         # clean the build folder
-        make clean
+        # make clean
     fi
 }
 
