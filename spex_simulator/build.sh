@@ -27,7 +27,7 @@ science_subsystem="science"
 # Functions
 extract_subsystem_files()
 {
-    if [ $TARGET_SUBSYSTEM == "NONE" ] 
+    if [ $TARGET_SUBSYSTEM == "NONE" ]
     then
         echo "No active subsystem to build"
     else
@@ -35,14 +35,11 @@ extract_subsystem_files()
 
         # make the binary
         make
-
-        # clean the build folder
-        make clean
     fi
 }
 
 # Only build for current system
-if [[ $1 == "" ]] 
+if [[ $1 == "" ]]
 then
     extract_subsystem_files
 
