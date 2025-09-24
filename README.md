@@ -33,3 +33,7 @@ To use it, navigate to a subsystem directory and run:
 pio check
 ```
 
+Or, to check all subsystems, run:
+```
+./scripts/tidy.sh
+```

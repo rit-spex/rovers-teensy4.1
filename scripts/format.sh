@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# format.sh — format all C++ files with clang-format, ignoring git-ignored files
+# format.sh - format all C++ files with clang-format, ignoring git-ignored files
 
 STYLE="file"  # uses .clang-format if present, otherwise LLVM
 
