@@ -9,6 +9,7 @@
 
 #include "Arduino.h"
 #include "Gui.h"
+#include "PinState.h"
 #include "main.h"
 
 #include "Printer.h"
@@ -22,6 +23,8 @@ CANbus ACAN_T4::can3;
 
 extern void setup();
 extern void loop();
+
+extern PinState pinState;
 
 int main()
 {
@@ -50,7 +53,7 @@ int main()
 
         // Actual GUI
         ImGui::ShowDemoWindow(&showDemoWindow);
-        pinStateWidget(getPinStatePtr());
+        pinStateWidget(&pinState);
 
         // Rendering
         ImGui::Render();

@@ -7,20 +7,13 @@
 // last modified: 7/23/2025 - Tyler
 // --------------------------------------------------------------------
 
+#include "PinState.h"
 #include "Printer.h"
 #include <Arduino.h>
 #include <cerrno>
 #include <cstdarg>
 
-int PinState::getPinValue(const int pin)
-{
-    return m_pinMap[pin];
-}
-
-void PinState::setPinValue(const int pin, const int val)
-{
-    m_pinMap[pin] = val;
-}
+extern PinState pinState;
 
 //////////////////////////////////////////// Serial_Class /////////////////////////
 void Serial_Class::begin(int baudrate)
@@ -113,10 +106,4 @@ float analogRead(int pin)
 {
     std::cout << "analogRead called" << std::endl;
     return pinState.getPinValue(pin);
-}
-
-// XXX: SUPER MESSY WAY TO HANDLE GLOBAL SHARED STATE
-PinState *getPinStatePtr()
-{
-    return &pinState;
 }

@@ -25,14 +25,6 @@
 #define INPUT 0
 #define OUTPUT 1
 
-class PinState
-{
-public:
-    std::unordered_map<int, int> m_pinMap;
-    int getPinValue(const int pin);
-    void setPinValue(const int pin, const int val);
-};
-
 class Serial_Class
 {
 public:
@@ -63,9 +55,6 @@ int digitalRead(int pin);
 void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
-PinState *getPinStatePtr();
-
 static Serial_Class Serial;
-static PinState pinState;
 
 #endif
