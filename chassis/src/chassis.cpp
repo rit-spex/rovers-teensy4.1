@@ -87,10 +87,8 @@ void Chassis::updateSubsystems(int timeInterval_ms)
 #else
 #if ENABLE_CAN
         // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
-        float leftPower =
-            ((float) m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
-        float rightPower =
-            ((float) m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
+        float leftPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
+        float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
 
         // Serial.println("\n\nABOUT TO DRIVE\n\n");
 

@@ -13,8 +13,8 @@
 
 // Constructor
 PIDController::PIDController(uint8_t PID_id)
-    : m_PID_id(PID_id), m_kp(PID_CONSTANTS_KP[PID_id]), m_ki(PID_CONSTANTS_KI[PID_id]),
-      m_kd(PID_CONSTANTS_KD[PID_id]), m_integral(0), m_previous_error(0)
+    : m_PID_id(PID_id), m_kp(PID_CONSTANTS_KP[PID_id]), m_ki(PID_CONSTANTS_KI[PID_id]), m_kd(PID_CONSTANTS_KD[PID_id]),
+      m_integral(0), m_previous_error(0)
 {
 }
 

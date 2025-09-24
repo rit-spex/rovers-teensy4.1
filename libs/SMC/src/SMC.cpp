@@ -28,7 +28,7 @@ uint16_t readUpTime()
     Wire.write(0xA1); // Command: Get variable
     Wire.write(28);   // Variable ID: Up time (low)
     Wire.endTransmission();
-    Wire.requestFrom(SMC_DEVICE_NUM, (uint8_t) 2);
+    Wire.requestFrom(SMC_DEVICE_NUM, (uint8_t)2);
     uint16_t upTime = Wire.read();
     upTime |= Wire.read() << 8;
     return upTime;

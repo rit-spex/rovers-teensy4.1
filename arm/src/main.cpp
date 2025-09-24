@@ -45,23 +45,22 @@ void loop()
             previousMillis = currentMillis;
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
 #if ENABLE_SERIAL
-            Serial.printf("Status light: Blink %s\n",
-                          digitalRead(STATUS_LIGHT_PIN) ? "HIGH" : "LOW");
+            Serial.printf("Status light: Blink %s\n", digitalRead(STATUS_LIGHT_PIN) ? "HIGH" : "LOW");
 #endif
         }
     }
 
     for (int i = 10; i < 18; ++i)
     {
-        if (can->isNewMessage((CAN::Message_ID) i))
+        if (can->isNewMessage((CAN::Message_ID)i))
         {
             uint8_t *data;
-            data = can->getUnpackedData((CAN::Message_ID) i);
+            data = can->getUnpackedData((CAN::Message_ID)i);
 #if ENABLE_SERIAL
             Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
 #endif
-            Direction direction = (Direction) data[1];
-            if (!(bool) data[0])
+            Direction direction = (Direction)data[1];
+            if (!(bool)data[0])
             {
                 direction = OFF;
             }

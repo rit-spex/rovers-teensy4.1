@@ -21,8 +21,7 @@ TempSubsystem::TempSubsystem(CAN *can)
 TempSubsystem::TempSubsystem()
     :
 #endif
-      m_thermistors{Thermistor(0), Thermistor(1), Thermistor(2), Thermistor(3)},
-      m_fans{Fan(0), Fan(1), Fan(2), Fan(3)}
+      m_thermistors{Thermistor(0), Thermistor(1), Thermistor(2), Thermistor(3)}, m_fans{Fan(0), Fan(1), Fan(2), Fan(3)}
 #if ENABLE_CAN
       ,
       m_can(can)

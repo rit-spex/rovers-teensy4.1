@@ -39,8 +39,7 @@ void QuadratureDecoder::updateCount()
 {
     // enter the current count and time into the save data
     this->m_count[m_currentHead] = this->m_encoder.read();
-    this->m_timeInterval[m_currentHead] =
-        millis() - m_lastTime; // millis() - UPDATE_RATE_MS * time_interval_ms;
+    this->m_timeInterval[m_currentHead] = millis() - m_lastTime; // millis() - UPDATE_RATE_MS * time_interval_ms;
     this->m_lastTime = millis();
 
     // reset the encoder count to 0

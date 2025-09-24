@@ -66,25 +66,16 @@ void DriveBase::drive(float left_axis, float right_axis)
         m_targetRPM[0] = left_axis * SPARK_MAX_MAX_RPM;
         m_targetRPM[1] = left_axis * SPARK_MAX_MAX_RPM;
         m_targetRPM[2] = left_axis * SPARK_MAX_MAX_RPM;
-        m_targetRPM[3] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) *
-                         SPARK_MAX_MAX_RPM;
-        m_targetRPM[4] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) *
-                         SPARK_MAX_MAX_RPM;
-        m_targetRPM[5] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) *
-                         SPARK_MAX_MAX_RPM;
+        m_targetRPM[3] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[4] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[5] = (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
     }
     else if (fabs(left_axis) < fabs(right_axis))
     {
         int isNegative = right_axis / fabs(right_axis);
-        m_targetRPM[0] =
-            (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) *
-            SPARK_MAX_MAX_RPM;
-        m_targetRPM[1] =
-            (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) *
-            SPARK_MAX_MAX_RPM;
-        m_targetRPM[2] =
-            (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) *
-            SPARK_MAX_MAX_RPM;
+        m_targetRPM[0] = (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[1] = (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
+        m_targetRPM[2] = (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative) * SPARK_MAX_MAX_RPM;
         m_targetRPM[3] = right_axis * SPARK_MAX_MAX_RPM;
         m_targetRPM[4] = right_axis * SPARK_MAX_MAX_RPM;
         m_targetRPM[5] = right_axis * SPARK_MAX_MAX_RPM;
@@ -144,8 +135,7 @@ void DriveBase::drive(float left_axis, float right_axis)
 
 #if PREVENT_TIPPING
 
-    if (fabs(fabs(left_axis) - fabs(right_axis)) <
-        (float) (DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX))
+    if (fabs(fabs(left_axis) - fabs(right_axis)) < (float)(DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX))
     {
         updateSingleWheelPercent(0, left_axis);
         updateSingleWheelPercent(1, left_axis);
@@ -163,22 +153,16 @@ void DriveBase::drive(float left_axis, float right_axis)
         updateSingleWheelPercent(0, left_axis);
         updateSingleWheelPercent(1, left_axis);
         updateSingleWheelPercent(2, left_axis);
-        updateSingleWheelPercent(
-            3, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
-        updateSingleWheelPercent(
-            4, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
-        updateSingleWheelPercent(
-            5, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(3, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(4, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(5, (left_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
     }
     else if (fabs(left_axis) < fabs(right_axis))
     {
         int isNegative = right_axis / fabs(right_axis);
-        updateSingleWheelPercent(
-            0, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
-        updateSingleWheelPercent(
-            1, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
-        updateSingleWheelPercent(
-            2, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(0, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(1, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
+        updateSingleWheelPercent(2, (right_axis - DRIVEBASE_MAX_DIFFERENCE_PERCENT / PERCENT_MAX * isNegative));
         updateSingleWheelPercent(3, right_axis);
         updateSingleWheelPercent(4, right_axis);
         updateSingleWheelPercent(5, right_axis);

@@ -38,7 +38,7 @@ void loop()
     {
 #if ENABLE_SERIAL
         Serial.print("current cycle: ");
-        Serial.println((int) currentRunCycle);
+        Serial.println((int)currentRunCycle);
 
 #if ENABLE_DEMO_ENCODER
         Serial.print("Demo Encoder RPM: ");

@@ -8,5 +8,5 @@ void delayWhileResettingCommandTimeout(uint32_t ms)
     do
     {
         tic.resetCommandTimeout();
-    } while ((uint32_t) (millis() - start) <= ms);
+    } while ((uint32_t)(millis() - start) <= ms);
 }

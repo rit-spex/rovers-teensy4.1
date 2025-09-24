@@ -94,3 +94,5 @@ enum PINOUT
 //******************************************************************************************************************************************************
 #define THERMISTOR_PINS (int[NUM_THERMISTORS]) {PINOUT::THERMISTOR_PIN_0, PINOUT::THERMISTOR_PIN_1, PINOUT::THERMISTOR_PIN_2, PINOUT::THERMISTOR_PIN_3}
 #define FAN_PINS        (int[NUM_FANS])        {PINOUT::FAN_PIN_0       , PINOUT::FAN_PIN_1       , PINOUT::FAN_PIN_2       , PINOUT::THERMISTOR_PIN_3}
+
+#endif // PINOUT_H

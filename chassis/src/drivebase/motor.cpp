@@ -14,9 +14,8 @@
 Motor::Motor(uint8_t motor_id)
 {
     m_motor_id = motor_id;
-    m_motor.attach(
-        MOTOR_PWM_PINS[motor_id], SPARK_MAX_MIN_DUTY_CYCLE,
-        SPARK_MAX_MAX_DUTY_CYCLE); // Assuming 'motor' is a member variable of the Motor class
+    m_motor.attach(MOTOR_PWM_PINS[motor_id], SPARK_MAX_MIN_DUTY_CYCLE,
+                   SPARK_MAX_MAX_DUTY_CYCLE); // Assuming 'motor' is a member variable of the Motor class
     m_currPercent = 0;
     m_direction = MOTORS_DIR[m_motor_id];
 }
@@ -110,16 +109,16 @@ void Motor::updateMotor()
     // If the target percent is negative, set the PWM duty cycle to the reverse range from 1500(0%) to 1000(-100%)
     if (m_currPercent < 0)
     {
-        m_motor.writeMicroseconds(SPARK_MAX_NEUTRAL_DUTY_CYCLE -
-                                  floor((SPARK_MAX_MIN_DUTY_CYCLE - SPARK_MAX_NEUTRAL_DUTY_CYCLE) *
-                                        m_currPercent * m_direction));
+        m_motor.writeMicroseconds(
+            SPARK_MAX_NEUTRAL_DUTY_CYCLE -
+            floor((SPARK_MAX_MIN_DUTY_CYCLE - SPARK_MAX_NEUTRAL_DUTY_CYCLE) * m_currPercent * m_direction));
     }
     // If the target percent is positive, set the PWM duty cycle to the forward range from 1500(0%) to 2000(100%)
     else if (m_currPercent > 0)
     {
-        m_motor.writeMicroseconds(SPARK_MAX_NEUTRAL_DUTY_CYCLE +
-                                  floor((SPARK_MAX_MAX_DUTY_CYCLE - SPARK_MAX_NEUTRAL_DUTY_CYCLE) *
-                                        m_currPercent * m_direction));
+        m_motor.writeMicroseconds(
+            SPARK_MAX_NEUTRAL_DUTY_CYCLE +
+            floor((SPARK_MAX_MAX_DUTY_CYCLE - SPARK_MAX_NEUTRAL_DUTY_CYCLE) * m_currPercent * m_direction));
     }
     // If the target percent is 0, set the PWM duty cycle to SPARK_MAX_NEUTRAL_DUTY_CYCLE
     else

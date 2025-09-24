@@ -22,8 +22,7 @@ void startUp(Dynamixel2Arduino dyna)
     digitalWrite(STATUS_LIGHT_PIN, HIGH);
 
     dyna.begin(DYNAMIXEL_BAUD_RATE);
-    Serial.printf("set protocol ver: %d\n",
-                  dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
+    Serial.printf("set protocol ver: %d\n", dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
     Serial.printf("set torque off 1: %d\n", dyna.torqueOff(1));
     Serial.printf("set torque off 2: %d\n", dyna.torqueOff(2));
     delay(10);
@@ -48,7 +47,7 @@ void disable(Dynamixel2Arduino dyna)
     dyna.torqueOff(DIFFERENCIAL_1);
     dyna.torqueOff(DIFFERENCIAL_2);
     dyna.torqueOff(CLAW);
-    is_disabled = true;
+    isDisabled = true;
 }
 
 bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID)
@@ -59,7 +58,7 @@ bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID
 void moveShoulder(Direction direction)
 {
     // if disabled then end function
-    if (is_disabled)
+    if (isDisabled)
     {
         return;
     }
@@ -71,7 +70,7 @@ void moveShoulder(Direction direction)
         Serial.println("Moving shoulder");
 #endif
         // Write direction, HIGH is one way LOW is the other
-        digitalWrite(SHOULDER_DIR_PIN, (int) direction);
+        digitalWrite(SHOULDER_DIR_PIN, (int)direction);
         Timer1.pwm(SHOULDER_SPEED_PIN, FIFTY_PERCENT_DUTY_CYCLE);
     }
     // If direction is OFF, stop motor
@@ -96,7 +95,7 @@ void moveBase(Direction direction)
         Serial.println("Moving base");
 #endif
         // Write direction, HIGH is one way LOW is the other
-        digitalWrite(BASE_DIR_PIN, (int) direction);
+        digitalWrite(BASE_DIR_PIN, (int)direction);
         Timer3.pwm(BASE_SPEED_PIN, FIFTY_PERCENT_DUTY_CYCLE);
     }
     // If direction is OFF, stop motor
@@ -134,7 +133,7 @@ void moveElbow(Direction direction)
         Serial.println("Moving base");
 #endif
         // Write direction, HIGH is one way LOW is the other
-        digitalWrite(ELBOW_DIR_PIN, (int) direction);
+        digitalWrite(ELBOW_DIR_PIN, (int)direction);
         Timer3.pwm(ELBOW_SPEED_PIN, FIFTY_PERCENT_DUTY_CYCLE);
     }
     // If direction is OFF, stop motor
