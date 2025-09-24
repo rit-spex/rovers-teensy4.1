@@ -13,8 +13,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-//********************************************************* GENERAL CONSTANTS
-//*******************************************************
+//********************************************************* GENERAL CONSTANTS *******************************************************
 // the larger number will led to slower frequency
 #define STATUS_LIGHT_FREQUENCY_MS 200
 
@@ -24,8 +23,7 @@
 // milliseconds in a minute
 #define MS_IN_MIN 60000
 
-//********************************************************* DRIVETRAIN CONSTANTS
-//*******************************************************
+//********************************************************* DRIVETRAIN CONSTANTS *******************************************************
 // The max percent of the motors
 #define PERCENT_MAX 0.4
 
@@ -113,8 +111,7 @@ constexpr double KD5 = 0.0005;
             PIDConstants::KD4, PIDConstants::KD5                                                   \
     }
 
-//********************************************************* TEMP CONSTANTS
-//*******************************************************
+//********************************************************* TEMP CONSTANTS *******************************************************
 // FAN CONSTANTS
 #define NUM_THERMISTORS 4
 #define NUM_FANS 4
@@ -127,8 +124,7 @@ constexpr double KD5 = 0.0005;
 #define FAN_MAX_PWM 255
 #define FAN_MIN_PWM 51
 
-//********************************************************* CAN CONSTANTS
-//*******************************************************
+//********************************************************* CAN CONSTANTS *******************************************************
 #define ActiveCAN CAN::CAN_MODE::CAN2
 #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8

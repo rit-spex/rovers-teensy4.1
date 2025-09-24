@@ -14,7 +14,7 @@ void setup()
 {
     // *chassis = Chassis{&currentRunCycle};
     chassis = std::make_shared<Chassis>(&currentRunCycle);
-    //   start up the main body board, this will turn the status light off
+    // start up the main body board, this will turn the status light off
     chassis->startUp();
 
 #if ENABLE_SERIAL

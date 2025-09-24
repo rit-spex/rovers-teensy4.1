@@ -24,7 +24,7 @@ public:
     Fan(uint8_t fan_id);
     void setPower(int pwm_signal);
     // pwm pin to control fan speed
-    //  four fans
+    // four fans
 private:
     uint8_t m_fan_id;
 };

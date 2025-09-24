@@ -197,8 +197,7 @@ void twistWrist(Dynamixel2Arduino dyna, Direction direction)
 #if ENABLE_SERIAL
         Serial.println("Twist Wrist 'Forward'");
 #endif
-        // same direction because the motors face differentials ways so they rotate the other way
-        // naturally
+        // same direction because the motors face differentials ways so they rotate the other way naturally
         dyna.setGoalPWM(DIFFERENCIAL_1, diff1PercentSpeed, UNIT_PERCENT);
         dyna.setGoalPWM(DIFFERENCIAL_2, diff2PercentSpeed, UNIT_PERCENT);
         dyna.torqueOn(DIFFERENCIAL_1);
@@ -294,8 +293,7 @@ void moveSolenoid(int state)
 
 // others
 
-// void Arm::moveArm(Direction shoulderDirection, Direction wristDirection, Direction
-// elbowDirection, Direction clawDirection)
+// void Arm::moveArm(Direction shoulderDirection, Direction wristDirection, Direction elbowDirection, Direction clawDirection)
 // {
 //   moveShoulder(shoulderDirection);
 //   // moveWrist(wristDirection);

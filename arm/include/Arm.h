@@ -70,8 +70,7 @@ static int gripperPos = MIN_GRIPPER_POS;
 // 	Arm();
 // 	~Arm();
 // 	void startUp();
-// 	// functions to move the harmonic drives. These are the exact same but with different pin
-// outputs
+// 	// functions to move the harmonic drives. These are the exact same but with different pin outputs
 // 	// Functions work by setting timer output at either 50% duty cycle
 // 	void moveShoulder(Direction direction);
 // 	void moveElbow(Direction direction);
@@ -80,8 +79,7 @@ static int gripperPos = MIN_GRIPPER_POS;
 
 // 	// void moveWrist(Direction direction); // OLD
 // 	// doesn't work with new setup as their is no "moveWrist"
-// 	// void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection,
-// Direction clawDirection);
+// 	// void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection, Direction clawDirection);
 
 // 	void disable();
 

@@ -74,8 +74,8 @@ void Chassis::updateSubsystems(int timeInterval_ms)
     }
     if (!m_disabled)
     {
-        // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) &&
-        // m_can.m_recievedMsg; Serial.println(m_can.m_lastRecievedMsgCycle);
+        // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) && m_can.m_recievedMsg;
+        // Serial.println(m_can.m_lastRecievedMsgCycle);
         // Serial.println(m_can.m_recievedMsg);
     }
     if (!m_disabled)

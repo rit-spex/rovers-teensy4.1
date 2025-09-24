@@ -29,8 +29,8 @@ public:
         E_STOP = (uint32_t) 0,
         TARGET_RPM = (uint32_t) 1,
         CURRENT_RPM = (uint32_t) 2,
-        DRIVE_POWER = (uint32_t) 3, // this will be left then right power of the wheel, used until
-                                    // encoders are finished
+        DRIVE_POWER =
+            (uint32_t) 3, // this will be left then right power of the wheel, used until encoders are finished
 
         // Arm
         ARM_E_STOP = (uint32_t) 10,
@@ -78,8 +78,7 @@ public:
     // send message to another device
     void sendMessage(Message_ID id, uint8_t message[MSG_LENGTH]);
 
-    // get message out of object dictionary, unpacked. For some unpackage index will matter
-    // otherwise not important
+    // get message out of object dictionary, unpacked. For some unpackage index will matter otherwise not important
     int getUnpackedMessage(Message_ID id, int index = 0);
 
     // get the full data from the object dictionary

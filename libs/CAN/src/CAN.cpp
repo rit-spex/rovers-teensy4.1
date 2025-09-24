@@ -40,7 +40,7 @@ void CAN::startCAN()
     settings.mTxPinIsOpenCollector = true;
     settings.mRxPinConfiguration = ACAN_T4_Settings::NO_PULLUP_NO_PULLDOWN;
 
-    // // Start the CAN bus based on ActiveCAN
+    // Start the CAN bus based on ActiveCAN
     if (CAN::CAN_MODE::CAN1 == ActiveCAN)
     {
         ACAN_T4::can1.begin(settings); //, &primaryFilter, 1) ;
@@ -178,8 +178,7 @@ void CAN::sendMessage(Message_ID id, uint8_t message[MSG_LENGTH])
     }
 }
 
-// get message out of object dictionary, unpacked. For some packages, index will matter otherwise
-// not important
+// get message out of object dictionary, unpacked. For some packages, index will matter otherwise not important
 int CAN::getUnpackedMessage(Message_ID id, int index)
 {
     switch (id)
@@ -235,8 +234,7 @@ bool CAN::IsEStop(const CANMessage &msg)
         // if the message is an E-Stop message and the E-Stop is non active turn on the E-Stop
         if (msg.id == CAN::E_STOP && msg.data[0] == 1)
         {
-            // for each message in the object dictionary, set the message flag to true and clear the
-            // message buffer
+            // for each message in the object dictionary, set the message flag to true and clear the message buffer
             for (const auto &message : m_objectDict)
             {
                 if (message.first != CAN::E_STOP)

@@ -80,9 +80,7 @@ float QuadratureDecoder::getRPM()
         totalCounts += this->m_count[i];
     }
 
-    // RPM = rotations/min =
-    // (totalCount/counts_per_rotation)/(time_interval_ms/milliseconds_per_minute) RPM =
-    // (totalCounts * milliseconds_per_minute)/(counts_per_rotation * time_interval_ms)
+    // RPM = rotations/min = (totalCount/counts_per_rotation)/(time_interval_ms/milliseconds_per_minute)
+    // RPM = (totalCounts * milliseconds_per_minute)/(counts_per_rotation * time_interval_ms)
     return (totalCounts * MS_IN_MIN) / (totalTime * COUNTS_PER_REV);
-    ;
 }

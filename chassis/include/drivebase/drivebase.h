@@ -37,8 +37,7 @@ public:
 #endif
 
 #if ENABLE_ENCODER
-    // Updates the RPM of the rover's wheels. motor final percent is calculated by the PID
-    // controller
+    // Updates the RPM of the rover's wheels. motor final percent is calculated by the PID controller
     void updateRPM();
 #else
     // Updates the percent of the rover's wheel.

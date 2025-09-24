@@ -57,8 +57,7 @@ void Servo::writeMicroseconds(int microseconds)
     }
 #endif
 
-    // std::cout << "writeMicroseconds called on pin: " << pin << " micro: " << microseconds
-    // <<std::endl;
+    // std::cout << "writeMicroseconds called on pin: " << pin << " micro: " << microseconds << std::endl;
 }
 
 void Servo::write(int microseconds)
