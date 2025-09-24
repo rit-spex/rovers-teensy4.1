@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include "usb_serial.h"
 
 unsigned long previousMillis = 0;
 unsigned long currentRunCycle = 0;
@@ -26,6 +27,9 @@ void loop()
     can->readMsgBuffer();
     if (can->isNewMessage(CAN::ARM_E_STOP))
     {
+#if ENABLE_SERIAL
+        Serial.println("ESTOP ENCOUNTERED");
+#endif
         disable(dyna);
     }
 
