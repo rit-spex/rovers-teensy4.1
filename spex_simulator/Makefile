@@ -20,6 +20,7 @@ SIM_SRC_DIR   := src
 SIM_INC_DIR   := include
 LIBS_DIR      := ../libs
 IMGUI_DIR := ./external/imgui
+SPDLOG_DIR := ./external/spdlog
 
 # Library Components
 LIB_NAMES := CAN SMC SPARKMAX TICT249
@@ -55,6 +56,19 @@ SRCS := $(SRCS) $(IMGUI_SRCS)
 # Add ImGui headers to header list
 INC_DIRS := $(INC_DIRS) $(IMGUI_DIR)
 INC_DIRS := $(INC_DIRS) $(IMGUI_DIR)/backends
+
+# SPDLOG_SRCS := \
+#     $(SPDLOG_DIR)/src/async.cpp \
+#     $(SPDLOG_DIR)/src/bundled_fmtlib_format.cpp \
+#     $(SPDLOG_DIR)/src/cfg.cpp \
+#     $(SPDLOG_DIR)/src/color_sinks.cpp \
+#     $(SPDLOG_DIR)/src/file_sinks.cpp \
+#     $(SPDLOG_DIR)/src/spdlog.cpp \
+#     $(SPDLOG_DIR)/src/stdout_sinks.cpp \
+#
+# SRCS := $(SRCS) $(SPDLOG_SRCS)
+
+INC_DIRS := $(INC_DIRS) $(SPDLOG_DIR)/include
 
 # Object files (e.g., build/src/foo.cpp.o)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)

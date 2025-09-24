@@ -1,6 +1,5 @@
 
 #include "main.h"
-#include "usb_serial.h"
 
 unsigned long previousMillis = 0;
 unsigned long currentRunCycle = 0;
