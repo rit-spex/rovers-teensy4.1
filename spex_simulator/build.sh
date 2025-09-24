@@ -35,6 +35,9 @@ extract_subsystem_files()
 
         # make the binary
         make
+
+        # clean the build folder
+        make clean
     fi
 }
 

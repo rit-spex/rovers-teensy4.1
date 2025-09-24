@@ -19,6 +19,7 @@ BIN_DIR       := bin
 SIM_SRC_DIR   := src
 SIM_INC_DIR   := include
 LIBS_DIR      := ../libs
+IMGUI_DIR := ./external/imgui
 
 # Library Components
 LIB_NAMES := CAN SMC SPARKMAX TICT249
@@ -38,6 +39,23 @@ $(foreach lib,$(LIB_NAMES), \
 # Find all .cpp, .c, .s source files
 SRCS := $(foreach dir,$(SRC_DIRS),$(shell find $(dir) -name '*.cpp' -o -name '*.c' -o -name '*.s'))
 
+# Add imgui source files
+IMGUI_SRCS := \
+    $(IMGUI_DIR)/imgui.cpp \
+    $(IMGUI_DIR)/imgui_demo.cpp \
+    $(IMGUI_DIR)/imgui_draw.cpp \
+    $(IMGUI_DIR)/imgui_tables.cpp \
+    $(IMGUI_DIR)/imgui_widgets.cpp \
+    $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp \
+    $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp \
+
+# Add ImGui sources to the full source list
+SRCS := $(SRCS) $(IMGUI_SRCS)
+
+# Add ImGui headers to header list
+INC_DIRS := $(INC_DIRS) $(IMGUI_DIR)
+INC_DIRS := $(INC_DIRS) $(IMGUI_DIR)/backends
+
 # Object files (e.g., build/src/foo.cpp.o)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
@@ -54,7 +72,7 @@ BUILD_DEF := -DBUILD_$(shell echo $(TARGET_SUBSYSTEM) | tr a-z A-Z)
 
 # Compiler flags
 CPPFLAGS := $(INC_FLAGS) -MMD -MP $(BUILD_DEF)
-LDFLAGS  := -pthread
+LDFLAGS := -lglfw -lGL -ldl -pthread
 
 # ======= BUILD RULES =======
 
@@ -85,7 +103,7 @@ $(BUILD_DIR)/%.s.o: %.s
 # Clean target
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)/$(TARGET_EXEC)
+	rm -rf $(BUILD_DIR) $(TARGET_SUBSYSTEM)
 	@echo "Cleaned build output for: $(TARGET_SUBSYSTEM)"
 
 # Auto-dependencies
