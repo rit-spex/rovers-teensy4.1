@@ -9,11 +9,11 @@
 
 #include "PinState.h"
 #include "Printer.h"
+#include "spdlog/fmt/bundled/printf.h"
+#include "spdlog/spdlog.h"
 #include <Arduino.h>
 #include <cerrno>
 #include <cstdarg>
-#include "spdlog/spdlog.h"
-#include "spdlog/fmt/bundled/printf.h"
 
 extern PinState pinState;
 
@@ -50,7 +50,8 @@ void Serial_Class::println(std::string message)
     spdlog::debug(message);
 }
 
-int Serial_Class::printf(const char *format, ...) {
+int Serial_Class::printf(const char *format, ...)
+{
     va_list args;
     va_start(args, format);
 
@@ -60,7 +61,8 @@ int Serial_Class::printf(const char *format, ...) {
     int size = vsnprintf(nullptr, 0, format, args_copy);
     va_end(args_copy);
 
-    if (size < 0) {
+    if (size < 0)
+    {
         va_end(args);
         return size;
     }
@@ -70,13 +72,15 @@ int Serial_Class::printf(const char *format, ...) {
     int result = vsnprintf(buffer.get(), size + 1, format, args);
     va_end(args);
 
-    if (result < 0) {
+    if (result < 0)
+    {
         return result;
     }
 
     // Strip trailing newline
     std::string message(buffer.get());
-    if (!message.empty() && message.back() == '\n') {
+    if (!message.empty() && message.back() == '\n')
+    {
         message.pop_back();
     }
 
@@ -89,7 +93,7 @@ int Serial_Class::printf(const char *format, ...) {
 // define global functions
 void pinMode(int pin, int mode)
 {
-    spdlog::debug("Pin {} mode set to {}", pin, (bool) mode ? "OUTPUT" : "INPUT");
+    spdlog::debug("Pin {} mode set to {}", pin, (bool)mode ? "OUTPUT" : "INPUT");
     pinState.setPinMode(pin, mode);
 }
 
@@ -102,7 +106,7 @@ void digitalWrite(int pin, int value)
 
 int digitalRead(int pin)
 {
-    spdlog::debug("digitalRead called with pin {}", pin);
+    // spdlog::debug("digitalRead called with pin {}", pin);
     return pinState.getPinValue(pin);
 }
 
@@ -131,6 +135,6 @@ void analogWrite(int pin, int pwm)
 
 float analogRead(int pin)
 {
-    spdlog::debug("analogRead called");
+    // spdlog::debug("analogRead called");
     return pinState.getPinValue(pin);
 }

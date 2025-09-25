@@ -36,7 +36,6 @@ bool CANbus::receive(CANMessage message)
         message.data[byteIdx] = 0;
     }
 
-
     // // print what is returned
     // spdlog::debug("CANbus.receive called with message id: {} len: {}", message.id, message.len);
     //
@@ -51,7 +50,6 @@ bool CANbus::receive(CANMessage message)
     //
     // // end of payload
     // std::cout << "]" <<std::endl;
-
 
     return false;
 }

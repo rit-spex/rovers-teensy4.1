@@ -80,5 +80,6 @@ then
 elif [ $1 == "clean" ]
 then
     echo "Clean bin and build folder"
+    rm -rf build/ bin/
 fi
 
