@@ -8,67 +8,68 @@
 // --------------------------------------------------------------------
 
 #include "Dynamixel2Arduino.h"
+#include "spdlog/spdlog.h"
 
 Dynamixel2Arduino::Dynamixel2Arduino(int serial, int pin)
 {
-    printf("Dynamixel2Arduino constructor serial: %d, pin %d\n", serial, pin);
+    spdlog::debug("Dynamixel2Arduino constructor serial {}, pin {}", serial, pin);
 }
 
 void Dynamixel2Arduino::setGoalPWM(int pin, int speed, int unit)
 {
-    printf("Dynamixel2Arduino setGoalPWM: pin: %d, speed %d, unit %d\n", pin, speed, unit);
+    spdlog::debug("Dynamixel2Arduino setGoalPWM: pin {}, speed {}, unit {}", pin, speed, unit);
 }
 
 int Dynamixel2Arduino::setOperatingMode(int val1, int val2)
 {
-    printf("Dynamixel2Arduino setOperatingMode val1: %d, val2: %d\n", val1, val2);
+    spdlog::debug("Dynamixel2Arduino setOperatingMode val1: {}, val2: {}", val1, val2);
 
     return 1;
 }
 
 int Dynamixel2Arduino::setPortProtocolVersion(int version)
 {
-    printf("Dynamixel2Arduino setPortProtocolVersion version: %d\n", version);
+    spdlog::debug("Dynamixel2Arduino setPortProtocolVersion version: {}", version);
 
     return 1;
 }
 
 int Dynamixel2Arduino::setID(int oldID, int newID)
 {
-    printf("Dynamixel2Arduino setID oldID: %d, newID: %d\n", oldID, newID);
+    spdlog::debug("Dynamixel2Arduino setID oldID: {}, newID: {}", oldID, newID);
 
     return 1;
 }
 
 void Dynamixel2Arduino::begin(int baudrate)
 {
-    printf("Dynamixel2Arduino begin baudrate: %d\n", baudrate);
+    spdlog::debug("Dynamixel2Arduino begin baudrate: {}", baudrate);
 }
 
 int Dynamixel2Arduino::torqueOff(int pin)
 {
-    printf("Dynamixel2Arduino torqueOff pin: %d\n", pin);
+    spdlog::debug("Dynamixel2Arduino torqueOff pin: {}", pin);
 
     return 1;
 }
 
 int Dynamixel2Arduino::torqueOn(int pin)
 {
-    printf("Dynamixel2Arduino torqueOn pin: %d\n", pin);
+    spdlog::debug("Dynamixel2Arduino torqueOn pin: {}", pin);
 
     return 1;
 }
 
 int Dynamixel2Arduino::ping(int val)
 {
-    printf("Dynamixel2Arduino ping val:%d\n", val);
+    spdlog::debug("Dynamixel2Arduino ping val: {}", val);
 
     return 1;
 }
 
 int Dynamixel2Arduino::ping()
 {
-    printf("Dynamixel2Arduino ping\n");
+    spdlog::debug("Dynamixel2Arduino ping");
 
     return 1;
 }

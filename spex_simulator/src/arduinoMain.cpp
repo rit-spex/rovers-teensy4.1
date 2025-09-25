@@ -13,6 +13,8 @@
 #include "main.h"
 
 #include "Printer.h"
+#include "spdlog/spdlog-inl.h"
+#include "spdlog/spdlog.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -28,7 +30,7 @@ extern PinState pinState;
 
 int main()
 {
-
+    spdlog::set_level(spdlog::level::debug);
     clearFile();
     setup();
 

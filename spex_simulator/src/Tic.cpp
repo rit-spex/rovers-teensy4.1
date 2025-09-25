@@ -9,27 +9,34 @@
 
 #include <Tic.h>
 
+#include <spdlog/spdlog.h>
+
 TicI2C::TicI2C()
 {
-    std::cout << "TicI2C constructor" << std::endl;
+    spdlog::debug("TicI2C constructor");
 }
+
 TicI2C::TicI2C(int address)
 {
-    std::cout << "TicI2C constructor called with address: " << address << std::endl;
+    spdlog::debug("TicI2C constructor called with address: {}", address);
 }
+
 void TicI2C::exitSafeStart()
 {
-    std::cout << "TicI2C exitSafeStart called" << std::endl;
+    spdlog::debug("TicI2C exitSafeStart called");
 }
+
 void TicI2C::setTargetVelocity(int velocity)
 {
-    std::cout << "TicI2C setTargetVelocity called with velocity: " << velocity << std::endl;
+    spdlog::debug("TicI2C setTargetVelocity called with velocity: {}", velocity);
 }
+
 void TicI2C::haltAndHold()
 {
-    std::cout << "TicI2C haltAndHold called" << std::endl;
+    spdlog::debug("TicI2C haltAndHold called");
 }
+
 void TicI2C::resetCommandTimeout()
 {
-    std::cout << "TicI2C resetCommandTimeout called" << std::endl;
+    spdlog::debug("TicI2C resetCommandTimeout called");
 }

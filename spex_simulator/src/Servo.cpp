@@ -7,23 +7,24 @@
 // last modified: 7/23/2025 - Tyler
 // --------------------------------------------------------------------
 
+#include "spdlog/spdlog.h"
 #include <Servo.h>
 
 void Servo::attach(int pin, int min, int max)
 {
     this->pin = pin;
-    std::cout << "Servo attach called with pin: " << pin << " min: " << min << " max: " << max << std::endl;
+    spdlog::debug("Servo attach called with pin: {} min: {} max: {}", pin, min, max);
 }
 
 void Servo::attach(int pin)
 {
     this->pin = pin;
-    std::cout << "Servo attach called with pin: " << pin << std::endl;
+    spdlog::debug("Servo attach called with pin: {}", pin);
 }
 
 void Servo::detach()
 {
-    std::cout << "Servo detach called on pin: " << pin << std::endl;
+    spdlog::debug("Servo detach called on pin: {}", pin);
 }
 
 void Servo::writeMicroseconds(int microseconds)
@@ -56,7 +57,7 @@ void Servo::writeMicroseconds(int microseconds)
     }
 #endif
 
-    // std::cout << "writeMicroseconds called on pin: " << pin << " micro: " << microseconds << std::endl;
+    spdlog::debug("writeMicroseconds called on pin: {} micro: {}", pin, microseconds);
 }
 
 void Servo::write(int microseconds)

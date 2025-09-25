@@ -8,19 +8,20 @@
 // --------------------------------------------------------------------
 
 #include "TimerOne.h"
+#include "spdlog/spdlog.h"
 #include <stdio.h>
 
 void Timer1_Class::initialize(int time)
 {
-    printf("Timer1 init time:%d\n", time);
+    spdlog::debug("Timer1 init time: {}", time);
 }
 
 void Timer1_Class::start()
 {
-    printf("Timer1 start\n");
+    spdlog::debug("Timer1 start");
 }
 
 void Timer1_Class::pwm(int pin, int duty_cycle)
 {
-    printf("Timer1 pwm, pin: %d, duty_cycle %d\n", pin, duty_cycle);
+    spdlog::debug("Timer1 pwm, pin {}, duty_cycle {}", pin, duty_cycle);
 }

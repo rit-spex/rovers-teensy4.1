@@ -6,7 +6,10 @@
 // count to emulate the encoder created on   : 8/13/2025 - Tyler last modified: 8/13/2025 - Tyler
 // --------------------------------------------------------------------
 
-#include <Encoder.h>
+#include "Encoder.h"
+
+#include "spdlog/spdlog.h"
+
 Encoder::Encoder(int pin1, int pin2)
 {
     this->pin1 = pin1;
@@ -14,7 +17,7 @@ Encoder::Encoder(int pin1, int pin2)
     this->counts = 0;
     this->lastCountTime = millis();
 
-    std::cout << "Encoder constructor called" << std::endl;
+    spdlog::debug("Encoder constructor called");
 }
 
 void Encoder::attach(int pin1, int pin2)
@@ -23,8 +26,9 @@ void Encoder::attach(int pin1, int pin2)
     this->pin1 = pin1;
     this->pin2 = pin2;
 
-    std::cout << "Encoder attach called with pin1: " << pin1 << " and pin2: " << pin2 << std::endl;
+    spdlog::debug("Encoder attach called with pin1: {} and pin2: {}", pin1, pin2);
 }
+
 long Encoder::read()
 {
     // the power set to the wheel, range between - -40,40 to keep it with max RPM
@@ -52,7 +56,7 @@ long Encoder::read()
         break;
     }
 #endif
-    // std::cout << "Encoder read called on encoder with pins: "<< pin1 << "lastCount" << std::endl;
+    // spdlog::debug("Encoder read called on encoder with pins: {} lastCount", pin1);
     this->counts = this->counts + (millis() - this->lastCountTime) * power;
     this->lastCountTime = millis();
     return this->counts;
@@ -61,5 +65,5 @@ void Encoder::write(int value)
 {
     this->counts = value;
     this->lastCountTime = millis();
-    // std::cout << "Encoder write called with value: " << value << std::endl;
+    // spdlog::debug("Encoder write called with value: {}", value);
 }
