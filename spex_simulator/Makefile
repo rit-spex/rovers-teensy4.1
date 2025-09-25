@@ -14,7 +14,7 @@ TARGET_EXEC := $(TARGET_SUBSYSTEM)
 
 # Paths
 SUBSYSTEM_DIR := ../$(TARGET_SUBSYSTEM)
-BUILD_DIR     := build
+BUILD_DIR     := build/spex_simulator
 BIN_DIR       := bin
 SIM_SRC_DIR   := src
 SIM_INC_DIR   := include
