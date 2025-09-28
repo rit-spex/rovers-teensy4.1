@@ -22,9 +22,9 @@ extern void loop();
 
 int main()
 {
-    ClearFile();
+    clearFile();
     setup();
-    while(true)
+    while (true)
     {
         loop();
     }

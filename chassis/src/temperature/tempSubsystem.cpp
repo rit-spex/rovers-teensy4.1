@@ -11,38 +11,28 @@
 #include "../../include/temperature/tempSubsystem.h"
 
 /*
-* Constructor for the temp subsystem class.
-* Initializes the thermistors.
-*/
+ * Constructor for the temp subsystem class.
+ * Initializes the thermistors.
+ */
 #if ENABLE_CAN
-TempSubsystem::TempSubsystem(CAN *can) :
+TempSubsystem::TempSubsystem(CAN *can)
+    :
 #else
-TempSubsystem::TempSubsystem() :
+TempSubsystem::TempSubsystem()
+    :
 #endif
-    m_thermistors
-    {
-        Thermistor(0), 
-        Thermistor(1),
-        Thermistor(2),
-        Thermistor(3)
-    },
-    m_fans
-    {
-        Fan(0),
-        Fan(1),
-        Fan(2),
-        Fan(3)
-    }
-    #if ENABLE_CAN
-    ,m_can(can)
-    #endif
-{}
-
+      m_thermistors{Thermistor(0), Thermistor(1), Thermistor(2), Thermistor(3)}, m_fans{Fan(0), Fan(1), Fan(2), Fan(3)}
+#if ENABLE_CAN
+      ,
+      m_can(can)
+#endif
+{
+}
 
 // @return An array of temperatures measured by each thermistor
-float* TempSubsystem::getTemperature() 
+float *TempSubsystem::getTemperature()
 {
-    for(int i=0; i<NUM_THERMISTORS; i++)
+    for (int i = 0; i < NUM_THERMISTORS; i++)
     {
         m_temperature[i] = m_thermistors[i].getTemperature();
     }
@@ -52,7 +42,8 @@ float* TempSubsystem::getTemperature()
 // Set the power of the fans
 void TempSubsystem::setFansPower(int power)
 {
-    power = std::min(std::max(power, FAN_MIN_PWM   ), FAN_MAX_PWM  ); // clamp the power to the range (FAN_MIN_PWM   , FAN_MAX_PWM  )
+    power = std::min(std::max(power, FAN_MIN_PWM),
+                     FAN_MAX_PWM); // clamp the power to the range (FAN_MIN_PWM   , FAN_MAX_PWM  )
 
     for (int i = 0; i < NUM_FANS; i++)
     {
@@ -70,20 +61,20 @@ void TempSubsystem::updateFans()
     }
     avgTemp /= NUM_THERMISTORS;
 
-    if(avgTemp > CHASSIS_MAX_TEMP_C)
+    if (avgTemp > CHASSIS_MAX_TEMP_C)
     {
-        setFansPower(FAN_MAX_PWM  );
+        setFansPower(FAN_MAX_PWM);
     }
-    else if(avgTemp < CHASSIS_MIN_TEMP_C)
+    else if (avgTemp < CHASSIS_MIN_TEMP_C)
     {
-        setFansPower(FAN_MIN_PWM   );
+        setFansPower(FAN_MIN_PWM);
     }
     else
     {
         float deltaTemp = CHASSIS_MAX_TEMP_C - CHASSIS_MIN_TEMP_C;
-        float deltaPower = FAN_MAX_PWM   - FAN_MIN_PWM   ;
-        
-        int power = (avgTemp - CHASSIS_MIN_TEMP_C) / deltaTemp * deltaPower + FAN_MIN_PWM   ;
+        float deltaPower = FAN_MAX_PWM - FAN_MIN_PWM;
+
+        int power = (avgTemp - CHASSIS_MIN_TEMP_C) / deltaTemp * deltaPower + FAN_MIN_PWM;
         setFansPower(power); // change later
     }
 }

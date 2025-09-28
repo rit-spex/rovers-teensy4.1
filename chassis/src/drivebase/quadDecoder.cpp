@@ -11,7 +11,7 @@
 #include "../../include/drivebase/quadDecoder.h"
 
 QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
- :m_encoder(ENC_A_PINS[encoder_id], ENC_A_PINS[encoder_id]), m_encoder_id(encoder_id)
+    : m_encoder(ENC_A_PINS[encoder_id], ENC_A_PINS[encoder_id]), m_encoder_id(encoder_id)
 {
     // set the time to now
     m_lastTime = millis();
@@ -19,8 +19,8 @@ QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
     // set the current head to the start
     m_currentHead = 0;
 
-    //empty the saved data
-    for(int i = 0; i<ENCODER_SAVE_SIZE; i++)
+    // empty the saved data
+    for (int i = 0; i < ENCODER_SAVE_SIZE; i++)
     {
         m_count[i] = 0;
         m_timeInterval[i] = 0;
@@ -28,18 +28,18 @@ QuadratureDecoder::QuadratureDecoder(uint8_t encoder_id)
 }
 
 // TODO: REMOVE
-//IS THIS NEEDED?
-void QuadratureDecoder::begin() 
+// IS THIS NEEDED?
+void QuadratureDecoder::begin()
 {
-  m_encoder.write(0);
+    m_encoder.write(0);
 }
 
 // update the count of the encoder
 void QuadratureDecoder::updateCount()
 {
-    //enter the current count and time into the save data
+    // enter the current count and time into the save data
     this->m_count[m_currentHead] = this->m_encoder.read();
-    this->m_timeInterval[m_currentHead] = millis() - m_lastTime;//millis() - UPDATE_RATE_MS * time_interval_ms;
+    this->m_timeInterval[m_currentHead] = millis() - m_lastTime; // millis() - UPDATE_RATE_MS * time_interval_ms;
     this->m_lastTime = millis();
 
     // reset the encoder count to 0
@@ -47,7 +47,7 @@ void QuadratureDecoder::updateCount()
 
     // update the head of the array
     m_currentHead++;
-    if(m_currentHead >= ENCODER_SAVE_SIZE)
+    if (m_currentHead >= ENCODER_SAVE_SIZE)
     {
         m_currentHead = 0;
     }
@@ -61,25 +61,25 @@ float QuadratureDecoder::getRPM()
 
     // calculate the total time
     float totalTime = 0;
-    for(int i =0; i<ENCODER_SAVE_SIZE; i++)
+    for (int i = 0; i < ENCODER_SAVE_SIZE; i++)
     {
-        totalTime+= this->m_timeInterval[i];
+        totalTime += this->m_timeInterval[i];
     }
 
     // prevent return /0
-    if(totalTime == 0)
+    if (totalTime == 0)
     {
         return 0;
     }
 
     // calculate the total counts
     float totalCounts = 0;
-    for(int i =0; i<ENCODER_SAVE_SIZE; i++)
+    for (int i = 0; i < ENCODER_SAVE_SIZE; i++)
     {
-        totalCounts+= this->m_count[i];
+        totalCounts += this->m_count[i];
     }
 
     // RPM = rotations/min = (totalCount/counts_per_rotation)/(time_interval_ms/milliseconds_per_minute)
     // RPM = (totalCounts * milliseconds_per_minute)/(counts_per_rotation * time_interval_ms)
-    return (totalCounts * MS_IN_MIN)/(totalTime * COUNTS_PER_REV);;
+    return (totalCounts * MS_IN_MIN) / (totalTime * COUNTS_PER_REV);
 }

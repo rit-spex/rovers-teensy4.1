@@ -15,41 +15,41 @@
 #include <Encoder.h>
 
 // Local Includes
-#include "./pinout.h"
-#include "./constants.h"
 #include "./DEBUG.h"
+#include "./constants.h"
+#include "./pinout.h"
 
 // TODO: Remove Me
 #define ENCODER_SAVE_SIZE 5
 
-class QuadratureDecoder 
+class QuadratureDecoder
 {
-    public:
-        QuadratureDecoder(uint8_t encoder_id);
-  
-        void begin();
+public:
+    QuadratureDecoder(uint8_t encoder_id);
 
-        // enter the encoder data to the save data
-        void updateCount();
+    void begin();
 
-        float getRPM();
-        // float getRPM();
+    // enter the encoder data to the save data
+    void updateCount();
 
-    private:
-        // the physical encoder
-        Encoder m_encoder;
-        uint8_t m_encoder_id;
+    float getRPM();
+    // float getRPM();
 
-        unsigned long m_lastTime;
+private:
+    // the physical encoder
+    Encoder m_encoder;
+    uint8_t m_encoder_id;
 
-        // the last x counts from the encoder
-        long m_count[ENCODER_SAVE_SIZE];
+    unsigned long m_lastTime;
 
-        // the last x time interval from the encoder
-        long m_timeInterval[ENCODER_SAVE_SIZE];
+    // the last x counts from the encoder
+    long m_count[ENCODER_SAVE_SIZE];
 
-        // the currentHead of the save data
-        int m_currentHead;
+    // the last x time interval from the encoder
+    long m_timeInterval[ENCODER_SAVE_SIZE];
+
+    // the currentHead of the save data
+    int m_currentHead;
 };
 
 #endif

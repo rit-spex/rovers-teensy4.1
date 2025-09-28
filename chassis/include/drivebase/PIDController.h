@@ -2,8 +2,8 @@
 //                           SPEX ROVER 2025
 // --------------------------------------------------------------------
 // file name    : PIDController.h
-// purpose      : This file contains a class to preform the 
-//                caculations needed for PID control, 
+// purpose      : This file contains a class to preform the
+//                caculations needed for PID control,
 //                NOTE: this only preforms calculations doesn't apply them
 // created on   : 8/14/2025 - Tyler
 // last modified: 8/14/2025 - Tyler
@@ -20,7 +20,8 @@
 #include "DEBUG.h"
 #include "constants.h"
 
-class PIDController {
+class PIDController
+{
 public:
     // Constructor
     PIDController(uint8_t PID_id);

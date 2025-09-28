@@ -15,19 +15,18 @@
 #include <Arduino.h>
 
 // local includes
-#include "./pinout.h"
 #include "./DEBUG.h"
-
+#include "./pinout.h"
 
 class Fan
 {
-    public:
+public:
     Fan(uint8_t fan_id);
     void setPower(int pwm_signal);
-    //pwm pin to control fan speed
+    // pwm pin to control fan speed
     // four fans
-    private:
+private:
     uint8_t m_fan_id;
 };
 
-#endif //FAN_H
+#endif // FAN_H

@@ -9,8 +9,8 @@
 #ifndef PRINTER_H
 #define PRINTER_H
 
-#include <stdio.h>
 #include "GlobalVars.h"
+#include <stdio.h>
 
 // the structure of the output file and sets the first line of each section
 enum PrinterData
@@ -18,10 +18,12 @@ enum PrinterData
     PIN = 0
 };
 
+void createDataDir();
+
 // creates an empty file
-void ClearFile();
+void clearFile();
 
 // print the data to the file
-void UpdateFile(PrinterData type, int extra, int value);
+void updateFile(PrinterData type, int extra, int value);
 
 #endif // PRINTER_H

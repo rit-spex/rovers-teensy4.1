@@ -10,12 +10,13 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 
+#include "GlobalVars.h"
 #include <Arduino.h>
-#include <iostream>
 #include <chrono>
+#include <iostream>
 #include <pthread.h>
-#include <thread>
 #include <stdio.h>
+#include <thread>
 
 // used to share data for the encoders
 #if BUILD_CHASSIS
@@ -24,17 +25,18 @@
 
 class Encoder
 {
-    private:
-        int pin1;
-        int pin2;
-        long counts;
-        // pthread_t countIncreaseThread;
-        unsigned long lastCountTime;
-    public:
-        Encoder(int pin1, int pin2);
-        void attach(int pin1, int pin2);
-        long read();
-        void write(int value);
+private:
+    int pin1;
+    int pin2;
+    long counts;
+    // pthread_t countIncreaseThread;
+    unsigned long lastCountTime;
+
+public:
+    Encoder(int pin1, int pin2);
+    void attach(int pin1, int pin2);
+    long read();
+    void write(int value);
 };
 
-#endif //ENCODER_H
+#endif // ENCODER_H

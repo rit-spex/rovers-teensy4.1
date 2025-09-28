@@ -8,34 +8,50 @@
 // --------------------------------------------------------------------
 
 #include "Printer.h"
+#include <filesystem>
+#include <fstream>
 #include <stdlib.h>
+#include <string>
 
 // the number of chars in a line, this includes \n
 #define NUMBER_OF_LINES 20
 
-void ClearFile()
+void createDataDir()
 {
-    FILE* fptr;
+    std::filesystem::path dirPath = DATA_DIR;
+    if (!std::filesystem::exists(dirPath))
+    {
+        std::filesystem::create_directories(dirPath);
+    }
+}
+
+void clearFile()
+{
+    createDataDir();
+    std::string filePath = std::string(DATA_DIR) + "/" + std::string(OUTPUT_FILE_NAME);
+
+    FILE *fptr = NULL;
 
     // open or create the file
-    fptr = fopen(OUTPUT_FILE_NAME, "w");
+    fptr = fopen(filePath.c_str(), "w");
 
     // print 20 blank lines that are 20 char long
-    for(int lineIdx = 0; lineIdx<NUMBER_OF_LINES; lineIdx++)
+    for (int lineIdx = 0; lineIdx < NUMBER_OF_LINES; lineIdx++)
     {
         fprintf(fptr, ",\n");
     }
 
     // close the file at the end so data shouldn't be lost if program fails
-    fclose(fptr);    
+    fclose(fptr);
 }
 
 // create the file then write at specified location then close file
-void UpdateFile(PrinterData type, int extra, int value)
-{    
-    FILE* newfptr = NULL;
-    FILE* oldfptr = NULL;
-    char* line = NULL;
+void updateFile(PrinterData type, int extra, int value)
+{
+    createDataDir();
+    FILE *newfptr = NULL;
+    FILE *oldfptr = NULL;
+    char *line = NULL;
     int lineIdx = 0;
     int lineSize;
     size_t size = 0;
@@ -43,16 +59,17 @@ void UpdateFile(PrinterData type, int extra, int value)
     // open or create the file
     newfptr = fopen("tmp", "w");
 
+    std::string filePath = std::string(DATA_DIR) + "/" + std::string(OUTPUT_FILE_NAME);
     // open or create the file
-    oldfptr = fopen(OUTPUT_FILE_NAME, "r");
+    oldfptr = fopen(filePath.c_str(), "r");
 
     // copy each line to the new file
-    while((lineSize = getline(&line, &size, oldfptr)) != -1)
+    while ((lineSize = getline(&line, &size, oldfptr)) != -1)
     {
-        if(lineIdx == (extra + type))
+        if (lineIdx == (extra + type))
         {
-            if(type == PrinterData::PIN)
-            {   
+            if (type == PrinterData::PIN)
+            {
                 fprintf(newfptr, "PIN:%d Value:%d,\n", extra, value);
             }
             else
@@ -73,8 +90,8 @@ void UpdateFile(PrinterData type, int extra, int value)
     fclose(oldfptr);
 
     // remove the old file
-    remove(OUTPUT_FILE_NAME);
+    remove(filePath.c_str());
 
     // rename the new file
-    rename("tmp", OUTPUT_FILE_NAME);
+    rename("tmp", filePath.c_str());
 }

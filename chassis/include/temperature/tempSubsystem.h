@@ -15,9 +15,9 @@
 #include <math.h>
 
 // local includes
+#include "./DEBUG.h"
 #include "./constants.h"
 #include "./pinout.h"
-#include "./DEBUG.h"
 #include "fan.h"
 #include "thermistor.h"
 
@@ -25,34 +25,36 @@
 #include "CAN.h"
 #endif
 
-class TempSubsystem {
-    public:
-        #if ENABLE_CAN
-        TempSubsystem(CAN *can);
-        #else
-        TempSubsystem();
-        #endif
+class TempSubsystem
+{
+public:
+#if ENABLE_CAN
+    TempSubsystem(CAN *can);
+#else
+    TempSubsystem();
+#endif
 
-        float* getTemperature();
-        void setFansPower(int power);
-        /*
-         * Update the temperature and fan power
-        */
-        void updateFans(void);
-    private:
-        // Array of Thermistor objects
-        Thermistor m_thermistors[NUM_THERMISTORS];
+    float *getTemperature();
+    void setFansPower(int power);
+    /*
+     * Update the temperature and fan power
+     */
+    void updateFans(void);
 
-        // Array of Fan objects
-        Fan m_fans[NUM_FANS];
+private:
+    // Array of Thermistor objects
+    Thermistor m_thermistors[NUM_THERMISTORS];
 
-        // Array of temperature readings
-        float m_temperature[NUM_THERMISTORS];
+    // Array of Fan objects
+    Fan m_fans[NUM_FANS];
 
-        #if ENABLE_CAN
-        // Pointer to the CAN object
-        CAN *m_can;
-        #endif
+    // Array of temperature readings
+    float m_temperature[NUM_THERMISTORS];
+
+#if ENABLE_CAN
+    // Pointer to the CAN object
+    CAN *m_can;
+#endif
 };
 
 #endif

@@ -10,13 +10,11 @@
 #ifndef ARDUINO_H
 #define ARDUINO_H
 
-#include <string>
-#include <unordered_map>
 #include <iostream>
 #include <stdio.h>
-#include <chrono>
+#include <string>
 #include <thread>
-#include "Printer.h"
+#include <unordered_map>
 
 #define LOW 0
 #define HIGH 1
@@ -24,13 +22,14 @@
 #define INPUT_PULLUP 1
 #define INPUT_PULLDOWN 0
 
-#define INPUT  0
+#define INPUT 0
 #define OUTPUT 1
 
 class PinState
 {
 private:
     std::unordered_map<int, int> pin_map;
+
 public:
     int getPinValue(const int pin);
     void setPinValue(const int pin, const int val);
@@ -38,22 +37,21 @@ public:
 
 class Serial_Class
 {
-    public:
+public:
+    void begin(int baudrate);
 
-        void begin(int baudrate);
+    // print statements
+    void print(const char *message);
+    void print(const int message);
+    void print(const float message);
 
-        //print statements
-        void print(const char* message);
-        void print(const int message);
-        void print(const float message);
+    // println statements
+    void println(const char *message);
+    void println(const int message);
+    void println(std::string message);
 
-        //println statements
-        void println(const char* message);
-        void println(const int message);
-        void println(std::string message);
-
-        // printf
-        int printf(const char* format, ...);
+    // printf
+    int printf(const char *format, ...);
 };
 
 // define global functions

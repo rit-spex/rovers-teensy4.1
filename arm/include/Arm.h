@@ -1,27 +1,27 @@
 #ifndef ARM_H
 #define ARM_H
 
-#include "Pinout.h"
 #include "Constants.h"
+#include "Pinout.h"
 
 #include <Arduino.h>
-#include <Servo.h>
-#include <TimerThree.h>
-#include <TimerOne.h>
 #include <Dynamixel2Arduino.h>
+#include <Servo.h>
+#include <TimerOne.h>
+#include <TimerThree.h>
 
 enum Direction
 {
-	REVERSE = 0,
-	FORWARD = 1,
-	OFF = 2
+    REVERSE = 0,
+    FORWARD = 1,
+    OFF = 2
 };
 
 enum Dynamixel2MotorIDs
 {
-	DIFFERENCIAL_1 = 1,
-	DIFFERENCIAL_2 = 2,
-	CLAW = 3
+    DIFFERENCIAL_1 = 1,
+    DIFFERENCIAL_2 = 2,
+    CLAW = 3
 };
 
 void startUp(Dynamixel2Arduino dyna);
@@ -31,14 +31,14 @@ void moveBase(Direction direction);
 void moveShoulder(Direction direction);
 void moveElbow(Direction direction);
 /*
-* FORWARD is down
-* REVERSE is up
-*/
+ * FORWARD is down
+ * REVERSE is up
+ */
 void bendWrist(Dynamixel2Arduino dyna, Direction direction);
 /*
-* FORWARD is counter-clockwise
-* REVERSE is clockwise
-*/
+ * FORWARD is counter-clockwise
+ * REVERSE is clockwise
+ */
 void twistWrist(Dynamixel2Arduino dyna, Direction direction);
 void moveClaw(Dynamixel2Arduino dyna, Direction direction);
 /*
@@ -49,15 +49,14 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction);
 void moveSARClaw(Direction direction);
 void moveSolenoid(int state);
 
-static bool is_disabled = false;
-static Servo SARGripper;
+static bool isDisabled = false;
+static Servo SARGripper; // NOLINT
 
 static float diff1PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 static float diff2PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 static float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 
-static int gripper_pos = MIN_GRIPPER_POS;
-
+static int gripperPos = MIN_GRIPPER_POS;
 
 // class Arm
 // {

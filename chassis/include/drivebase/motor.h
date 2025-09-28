@@ -12,30 +12,31 @@
 #define MOTOR_H
 
 // system includes
-#include <math.h>
 #include <Arduino.h>
 #include <Servo.h>
+#include <math.h>
 
 // local includes
-#include "./pinout.h"
-#include "./constants.h"
 #include "./DEBUG.h"
+#include "./constants.h"
+#include "./pinout.h"
 
 // Motor class for controlling the motors, this is meant to be a generic class for all motors
-class Motor 
+class Motor
 {
-    public:
-        Motor(uint8_t motor_id);
-        ~Motor();
-        void setPercent(float wantedPercent);
-        float getPercent();
-        void forceStop();
-    private:
-        Servo m_motor;
-        uint8_t m_motor_id;
-        float m_currPercent;
-        int m_direction;
+public:
+    Motor(uint8_t motor_id);
+    ~Motor();
+    void setPercent(float wantedPercent);
+    float getPercent();
+    void forceStop();
 
-        void updateMotor();
+private:
+    Servo m_motor;
+    uint8_t m_motor_id;
+    float m_currPercent;
+    int m_direction;
+
+    void updateMotor();
 };
-#endif //MOTOR_H
+#endif // MOTOR_H

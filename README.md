@@ -12,3 +12,28 @@ This can be done by run the command below:
 ```sudo adduser your_username dialout```
 
 To get working you will need to added serial device from the VM.
+
+# Style
+The SPEX rovers code style guide can be found [here](https://docs.google.com/document/d/1t-4s67TyD6nIQa1lq93bUDrvFOaI-m0L0P6DAW0iCVA/edit?usp=sharing).
+## clang-format
+The C++ codebase uses clang-format to enforce style rules. If you're developing on linux or mac please install:
+- [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+
+To format the codebase, run:
+```
+./scripts/format.sh
+```
+## clang-tidy & cppcheck
+The codebase can (VERY JANKILY) use clang-tidy and cppcheck for static code analysis.
+
+Installing [PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
+
+To use it, navigate to a subsystem directory and run:
+```
+pio check
+```
+
+Or, to check all subsystems, run:
+```
+./scripts/tidy.sh
+```

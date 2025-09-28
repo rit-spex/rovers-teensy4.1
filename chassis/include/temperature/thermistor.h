@@ -13,31 +13,33 @@
 
 // system includes
 #include <Arduino.h>
-#include <math.h>
 #include <Wire.h>
+#include <math.h>
 
 // local includes
 #include "./DEBUG.h"
 #include "./pinout.h"
 
-class Thermistor {
-    public:
-        /*
-        * Constructor for the thermistor class.
-        * Initializes the thermistor.
-        */
-        Thermistor(uint8_t thermistor_id);
+class Thermistor
+{
+public:
+    /*
+     * Constructor for the thermistor class.
+     * Initializes the thermistor.
+     */
+    Thermistor(uint8_t thermistor_id);
 
-        /*
-        * @return The temperature measured by the thermistor
-        */
-        float getTemperature();
-    private:
-        // the id number of the thermistor, matches with fan_id, used to get pin
-        uint8_t m_thermistor_id;
+    /*
+     * @return The temperature measured by the thermistor
+     */
+    float getTemperature();
 
-        // the current temperature
-        float m_temperature;
+private:
+    // the id number of the thermistor, matches with fan_id, used to get pin
+    uint8_t m_thermistor_id;
+
+    // the current temperature
+    float m_temperature;
 };
 
-#endif //THERMISTOR_H
+#endif // THERMISTOR_H

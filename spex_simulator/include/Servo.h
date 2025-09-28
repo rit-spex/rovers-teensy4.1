@@ -10,8 +10,8 @@
 #ifndef SERVO_H
 #define SERVO_H
 
-#include <iostream>
 #include "Printer.h"
+#include <iostream>
 
 // used to share data for the encoders
 #if BUILD_CHASSIS
@@ -20,14 +20,15 @@
 
 class Servo
 {
-    private:
-        int pin;
-    public:
-        void attach(int pin);
-        void attach(int pin, int min, int max);
-        void detach();
-        void writeMicroseconds(int microseconds);
-        void write(int microseconds);
+private:
+    int pin;
+
+public:
+    void attach(int pin);
+    void attach(int pin, int min, int max);
+    void detach();
+    void writeMicroseconds(int microseconds);
+    void write(int microseconds);
 };
 
 #endif

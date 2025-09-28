@@ -18,7 +18,6 @@ ACAN_T4_Settings::ACAN_T4_Settings(int baudrate)
 // CANbus
 CANbus::CANbus()
 {
-    
 }
 
 void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
@@ -31,7 +30,7 @@ bool CANbus::receive(CANMessage message)
     // enter default data
     message.id = 0;
     message.len = 0;
-    for(int byteIdx = 0; byteIdx<8; byteIdx++)
+    for (int byteIdx = 0; byteIdx < 8; byteIdx++)
     {
         message.data[byteIdx] = 0;
     }
