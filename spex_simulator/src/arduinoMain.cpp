@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------
 
 #include "Arduino.h"
-#include "Gui.h"
 #include "PinState.h"
 #include "main.h"
 
@@ -16,8 +15,10 @@
 #include "spdlog/spdlog-inl.h"
 #include "spdlog/spdlog.h"
 
+#ifdef SIMULATOR_GUI
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include "Gui.h"
+#endif
 
 CANbus ACAN_T4::can1;
 CANbus ACAN_T4::can2;
@@ -34,6 +35,7 @@ int main()
     clearFile();
     setup();
 
+#ifdef SIMULATOR_GUI
     GLFWwindow *window = guiSetup();
 
     while (!glfwWindowShouldClose(window))
@@ -67,6 +69,12 @@ int main()
     }
 
     guiShutdown(window);
+#else
+    while (true)
+    {
+        loop();
+    }
+#endif
 
     return 0;
 }
