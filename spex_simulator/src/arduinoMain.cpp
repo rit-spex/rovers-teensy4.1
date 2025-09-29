@@ -15,9 +15,9 @@
 #include "spdlog/spdlog-inl.h"
 #include "spdlog/spdlog.h"
 
-#ifdef SIMULATOR_GUI
-#include <GLFW/glfw3.h>
+#ifdef ENABLE_GUI
 #include "Gui.h"
+#include <GLFW/glfw3.h>
 #endif
 
 CANbus ACAN_T4::can1;
@@ -35,7 +35,7 @@ int main()
     clearFile();
     setup();
 
-#ifdef SIMULATOR_GUI
+#ifdef ENABLE_GUI
     GLFWwindow *window = guiSetup();
 
     while (!glfwWindowShouldClose(window))
