@@ -14,5 +14,4 @@ sudo apt install clang-tidy-19
 echo "alias clang-tidy='clang-tidy-19'" >> ~/.bashrc
 
 echo "Installing platformio core"
-wget -O get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
-python3 get-platformio.py
+sudo apt install platformio
