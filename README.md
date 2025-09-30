@@ -13,11 +13,16 @@ This can be done by run the command below:
 
 To get working you will need to added serial device from the VM.
 
+TO setup git submodules and also install the code style tools on Ubuntu, run:
+```
+./scripts/setup.sh
+```
+
 # Style
 The SPEX rovers code style guide can be found [here](https://docs.google.com/document/d/1t-4s67TyD6nIQa1lq93bUDrvFOaI-m0L0P6DAW0iCVA/edit?usp=sharing).
+
 ## clang-format
-The C++ codebase uses clang-format to enforce style rules. If you're developing on linux or mac please install:
-- [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+The C++ codebase uses clang-format to enforce style rules.
 
 To format the codebase, run:
 ```
@@ -25,8 +30,6 @@ To format the codebase, run:
 ```
 ## clang-tidy & cppcheck
 The codebase can (VERY JANKILY) use clang-tidy and cppcheck for static code analysis.
-
-Installing [PlatformIO CLI](https://docs.platformio.org/en/latest/core/installation/index.html) is required.
 
 To use it, navigate to a subsystem directory and run:
 ```
