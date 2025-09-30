@@ -23,6 +23,7 @@ export TARGET_SUBSYSTEM="NONE"
 arm_subsystem="arm"
 chassis_subsystem="chassis"
 science_subsystem="science"
+flags="-j4"
 
 # Functions
 extract_subsystem_files()
@@ -34,12 +35,17 @@ extract_subsystem_files()
         echo "Creating: "$TARGET_SUBSYSTEM
 
         # make the binary
-        make
+        make $flags
 
         # clean the build folder
         # make clean
     fi
 }
+
+if [[ $2 == "gui" ]]
+then
+    flags+=" GUI=1"
+fi
 
 # Only build for current system
 if [[ $1 == "" ]]

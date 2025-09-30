@@ -8,7 +8,9 @@
 
 # ======= CONFIGURATION =======
 
-# Set this variable when invoking make: e.g., make TARGET_SUBSYSTEM=arm
+SUBSYSTEMS := arm chassis science
+
+# Select a single subsystem when invoking: make TARGET_SUBSYSTEM=arm
 TARGET_SUBSYSTEM ?= arm
 TARGET_EXEC := $(TARGET_SUBSYSTEM)
 
@@ -19,79 +21,68 @@ BIN_DIR       := bin
 SIM_SRC_DIR   := src
 SIM_INC_DIR   := include
 LIBS_DIR      := ../libs
-IMGUI_DIR := ./external/imgui
-SPDLOG_DIR := ./external/spdlog
+IMGUI_DIR     := ./external/imgui
+SPDLOG_DIR    := ./external/spdlog
 
 # Library Components
 LIB_NAMES := CAN SMC SPARKMAX TICT249
 
-# ======= SOURCE AND INCLUDE FILES =======
+# ======= SOURCES =======
 
-# Subsystem source and include dirs
 SRC_DIRS := $(SUBSYSTEM_DIR)/src $(SIM_SRC_DIR)
 INC_DIRS := $(SUBSYSTEM_DIR)/include $(SIM_INC_DIR)
 
-# Add library source and include dirs
 $(foreach lib,$(LIB_NAMES), \
-    $(eval SRC_DIRS += $(LIBS_DIR)/$(lib)/src) \
-    $(eval INC_DIRS += $(LIBS_DIR)/$(lib)/include) \
-)
+  $(eval SRC_DIRS += $(LIBS_DIR)/$(lib)/src) \
+  $(eval INC_DIRS += $(LIBS_DIR)/$(lib)/include))
 
-# Find all .cpp, .c, .s source files
 SRCS := $(foreach dir,$(SRC_DIRS),$(shell find $(dir) -name '*.cpp' -o -name '*.c' -o -name '*.s'))
 
-# Add imgui source files
 IMGUI_SRCS := \
-    $(IMGUI_DIR)/imgui.cpp \
-    $(IMGUI_DIR)/imgui_demo.cpp \
-    $(IMGUI_DIR)/imgui_draw.cpp \
-    $(IMGUI_DIR)/imgui_tables.cpp \
-    $(IMGUI_DIR)/imgui_widgets.cpp \
-    $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp \
-    $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp \
+  $(IMGUI_DIR)/imgui.cpp \
+  $(IMGUI_DIR)/imgui_demo.cpp \
+  $(IMGUI_DIR)/imgui_draw.cpp \
+  $(IMGUI_DIR)/imgui_tables.cpp \
+  $(IMGUI_DIR)/imgui_widgets.cpp \
+  $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp \
+  $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp
 
-# Add ImGui sources to the full source list
-SRCS := $(SRCS) $(IMGUI_SRCS)
+SRCS += $(IMGUI_SRCS)
+INC_DIRS += $(IMGUI_DIR) $(IMGUI_DIR)/backends $(SPDLOG_DIR)/include
 
-# Add ImGui headers to header list
-INC_DIRS := $(INC_DIRS) $(IMGUI_DIR)
-INC_DIRS := $(INC_DIRS) $(IMGUI_DIR)/backends
-
-# SPDLOG_SRCS := \
-#     $(SPDLOG_DIR)/src/async.cpp \
-#     $(SPDLOG_DIR)/src/bundled_fmtlib_format.cpp \
-#     $(SPDLOG_DIR)/src/cfg.cpp \
-#     $(SPDLOG_DIR)/src/color_sinks.cpp \
-#     $(SPDLOG_DIR)/src/file_sinks.cpp \
-#     $(SPDLOG_DIR)/src/spdlog.cpp \
-#     $(SPDLOG_DIR)/src/stdout_sinks.cpp \
-#
-# SRCS := $(SRCS) $(SPDLOG_SRCS)
-
-INC_DIRS := $(INC_DIRS) $(SPDLOG_DIR)/include
-
-# Object files (e.g., build/src/foo.cpp.o)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
-
-# Dependency files (e.g., build/src/foo.cpp.d)
 DEPS := $(OBJS:.o=.d)
 
 # ======= FLAGS =======
 
-# Include flags
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-
-# Define build macro (e.g., -DBUILD_ARM)
 BUILD_DEF := -DBUILD_$(shell echo $(TARGET_SUBSYSTEM) | tr a-z A-Z)
 
-# Compiler flags
 CPPFLAGS := $(INC_FLAGS) -MMD -MP $(BUILD_DEF)
-LDFLAGS := -lglfw -lGL -ldl -pthread
+CXXFLAGS ?=
+CFLAGS   ?=
+LDFLAGS  := -lglfw -lGL -ldl -pthread
+
+ifeq ($(GUI),1)
+CPPFLAGS += -DENABLE_GUI
+endif
 
 # ======= BUILD RULES =======
 
-# Default target
+# Default: build selected subsystem
 all: $(BIN_DIR)/$(TARGET_EXEC)
+
+# Build every subsystem (like build.sh all)
+.PHONY: subsystems
+subsystems:
+	@for s in $(SUBSYSTEMS); do \
+		$(MAKE) --no-print-directory TARGET_SUBSYSTEM=$$s; \
+	done
+
+# Convenience shortcuts: make arm / chassis / science
+.PHONY: $(SUBSYSTEMS)
+$(SUBSYSTEMS):
+	@$(MAKE) --no-print-directory TARGET_SUBSYSTEM=$@
 
 # Link final binary
 $(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
@@ -99,26 +90,24 @@ $(BIN_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 	@echo "Built simulator: $@"
 
-# C source build rule
+# Compile rules
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-# C++ source build rule
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-# Assembly build rule (optional)
 $(BUILD_DIR)/%.s.o: %.s
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) -c $< -o $@
 
-# Clean target
+# Clean
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET_SUBSYSTEM)
-	@echo "Cleaned build output for: $(TARGET_SUBSYSTEM)"
+	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	@echo "Cleaned all build output"
 
 # Auto-dependencies
 -include $(DEPS)
