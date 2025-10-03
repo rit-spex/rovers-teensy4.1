@@ -12,6 +12,8 @@
 
 #include <cstdint>
 #include <iostream>
+#include <netinet/in.h>
+#include <string>
 
 struct CANMessage
 {
@@ -36,7 +38,12 @@ public:
     CANbus(void);
     void begin(ACAN_T4_Settings acan_t4_settings);
     bool receive(CANMessage message);
-    void tryToSend(CANMessage message);
+    bool tryToSend(CANMessage message);
+private:
+    int m_sock = -1;
+    uint16_t m_port;
+    std::string m_ip;
+    sockaddr_in m_dest{};
 };
 
 class ACAN_T4
