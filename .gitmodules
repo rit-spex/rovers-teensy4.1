@@ -1,0 +1,6 @@
+[submodule "spex_simulator/external/imgui"]
+	path = spex_simulator/external/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "spex_simulator/external/spdlog"]
+	path = spex_simulator/external/spdlog
+	url = https://github.com/gabime/spdlog

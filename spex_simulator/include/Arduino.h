@@ -25,16 +25,6 @@
 #define INPUT 0
 #define OUTPUT 1
 
-class PinState
-{
-private:
-    std::unordered_map<int, int> pin_map;
-
-public:
-    int getPinValue(const int pin);
-    void setPinValue(const int pin, const int val);
-};
-
 class Serial_Class
 {
 public:

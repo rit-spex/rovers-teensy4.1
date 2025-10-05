@@ -26,6 +26,9 @@ void loop()
     can->readMsgBuffer();
     if (can->isNewMessage(CAN::ARM_E_STOP))
     {
+#if ENABLE_SERIAL
+        Serial.println("ESTOP ENCOUNTERED");
+#endif
         disable(dyna);
     }
 
@@ -44,9 +47,6 @@ void loop()
         {
             previousMillis = currentMillis;
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
-#if ENABLE_SERIAL
-            Serial.printf("Status light: Blink %s\n", digitalRead(STATUS_LIGHT_PIN) ? "HIGH" : "LOW");
-#endif
         }
     }
 

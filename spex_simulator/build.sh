@@ -23,26 +23,32 @@ export TARGET_SUBSYSTEM="NONE"
 arm_subsystem="arm"
 chassis_subsystem="chassis"
 science_subsystem="science"
+flags="-j4"
 
 # Functions
 extract_subsystem_files()
 {
-    if [ $TARGET_SUBSYSTEM == "NONE" ] 
+    if [ $TARGET_SUBSYSTEM == "NONE" ]
     then
         echo "No active subsystem to build"
     else
         echo "Creating: "$TARGET_SUBSYSTEM
 
         # make the binary
-        make
+        make $flags
 
         # clean the build folder
-        make clean
+        # make clean
     fi
 }
 
+if [[ $2 == "gui" ]]
+then
+    flags+=" GUI=1"
+fi
+
 # Only build for current system
-if [[ $1 == "" ]] 
+if [[ $1 == "" ]]
 then
     extract_subsystem_files
 
@@ -80,5 +86,6 @@ then
 elif [ $1 == "clean" ]
 then
     echo "Clean bin and build folder"
+    rm -rf build/ bin/
 fi
 
