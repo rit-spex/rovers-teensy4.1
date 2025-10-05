@@ -2,6 +2,9 @@
 echo "Initializing submodules..."
 git submodule update --init --recursive
 
+echo "Installing GLFW 3"
+sudo apt install libglfw3-dev
+
 echo "Installing clang-tidy and clang-format"
 bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
