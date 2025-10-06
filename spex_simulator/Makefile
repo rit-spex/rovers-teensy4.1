@@ -64,9 +64,9 @@ CXXFLAGS ?=
 CFLAGS   ?=
 LDFLAGS  := -lglfw -lGL -ldl -pthread
 
-# DEBUG
-LDFLAGS += -fsanitize=address -static-libasan
-CPPFLAGS += -g -fsanitize=address -static-libasan
+# DEBUG FLAGS
+# LDFLAGS += -fsanitize=address -static-libasan
+# CPPFLAGS += -g -fsanitize=address -static-libasan
 
 ifeq ($(GUI),1)
 CPPFLAGS += -DENABLE_GUI
