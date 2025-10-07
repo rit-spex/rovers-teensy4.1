@@ -56,7 +56,6 @@ private:
     uint16_t m_port;
     std::string m_ip;
     sockaddr_in m_dest{};
-    // TODO: Support multiple receivers
     int m_sendPort;
 };
 
