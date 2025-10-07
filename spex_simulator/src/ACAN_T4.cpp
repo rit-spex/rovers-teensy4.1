@@ -33,20 +33,17 @@ ACAN_T4_Settings::ACAN_T4_Settings(int baudrate)
 // CANbus
 CANbus::CANbus()
 {
-    m_port = UDP_PORT;
-    m_ip = UDP_IP;
-    m_sendPort = SEND_PORT;
 }
 
 void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
 {
-    // TODO: CHANGE THIS
-    m_port = UDP_PORT;
+    m_port = RECV_PORT;
     m_ip = UDP_IP;
     m_sendPort = SEND_PORT;
 
     spdlog::debug("CANbus.begin called");
     spdlog::info("Opening CAN UDP server on {}:{}", m_ip, m_port);
+    // Initialize socket
     m_sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (m_sock < 0)
     {
@@ -58,6 +55,10 @@ void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
     setsockopt(m_sock, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
 
     int flags = fcntl(m_sock, F_GETFL, 0);
+
+    // Tries to set the server as non-blocking so it doesn't block our main
+    // group and errors if the flags fail to be set or setting the socket as
+    // non-blocking fails
     if (flags < 0 || fcntl(m_sock, F_SETFL, flags | O_NONBLOCK) < 0)
     {
         spdlog::error("Failed to set UDP server to non-blocking");
@@ -69,6 +70,7 @@ void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(m_port);
 
+    // Bind socket
     if (bind(m_sock, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)) < 0)
     {
         spdlog::error("Failed to bind UDP socket");
@@ -84,26 +86,35 @@ void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
 
 bool CANbus::receive(CANMessage message)
 {
-    uint8_t buf[1024];
-    ssize_t recLen = recv(m_sock, &buf[0], sizeof(buf), 0);
-    if (recLen < 5)
+    // Check for packets
+    uint8_t buf[UDP_BUF_SIZE];
+    ssize_t recLen = recv(m_sock, buf, sizeof(buf), 0);
+
+    // No new packets
+    if (recLen == 0)
     {
         return false;
     }
 
-    message.len = buf[4];
+    // Packet must have ID and DLC
+    if (recLen < ID_LEN + DLC_LEN)
+    {
+        spdlog::error("Packet length is less than length required to contain ID and DLC");
+        return false;
+    }
+
+    message.len = buf[ID_LEN];
 
     // Bad length
-    if (recLen - 5 != message.len)
+    if (recLen - (ID_LEN + DLC_LEN) != message.len)
     {
         spdlog::error("Received message was of different length than DLC specified");
         return false;
     }
 
-    memcpy(&message.id, buf, 4);
-    memcpy(message.data, buf + 5, message.len);
-    // TODO: Can probably be a debug log
-    spdlog::info("Received message: ID {} LEN {} DATA {}", message.id, message.len,
+    memcpy(&message.id, buf, ID_LEN);
+    memcpy(message.data, buf + (ID_LEN + DLC_LEN), message.len);
+    spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len,
                  std::string(reinterpret_cast<const char *>(message.data), sizeof(message.data)));
 
     return true;
@@ -119,14 +130,20 @@ bool CANbus::tryToSend(CANMessage message)
         return false;
     }
 
-    uint8_t buf[5 + message.len];
+    uint8_t buf[(ID_LEN + DLC_LEN) + message.len];
+
+    // Convert id to network protocol endianness
     uint32_t id = htonl(message.id);
-    memcpy(buf, &id, 4);
+    // Copy ID to buffer
+    memcpy(buf, &id, ID_LEN);
 
-    buf[4] = message.len;
+    // Copy DLC to buffer
+    buf[ID_LEN] = message.len;
 
-    memcpy(buf + 5, message.data, message.len);
+    // Copy data to buffer
+    memcpy(buf + (ID_LEN + DLC_LEN), message.data, message.len);
 
+    // Send packet
     ssize_t sent = sendto(m_sock, buf, sizeof(buf), MSG_CONFIRM, (const struct sockaddr *)&m_dest, sizeof(m_dest));
 
     if (sent < 0)
@@ -135,9 +152,10 @@ bool CANbus::tryToSend(CANMessage message)
         return false;
     }
 
-    if (sent - 5 != message.len)
+
+    if (sent - (ID_LEN + DLC_LEN) != message.len)
     {
-        spdlog::error("Sent packet size does not match specified message length: {} != {}", sent - 5, message.len);
+        spdlog::error("Sent packet data size does not match specified DLC: {} != {}", sent - (ID_LEN + DLC_LEN), message.len);
     }
 
     return sent == (ssize_t)sizeof(buf);

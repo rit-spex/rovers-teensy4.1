@@ -16,9 +16,15 @@
 #include <string>
 #include <vector>
 
-#define UDP_PORT 8000
+#define RECV_PORT 8000
 #define UDP_IP "127.0.0.1"
 #define SEND_PORT 8001
+#define UDP_BUF_SIZE 1024
+
+// # of uint8s that each part of the CAN message should take when converted to
+// UDP packet
+#define ID_LEN 4
+#define DLC_LEN 1
 
 struct CANMessage
 {
