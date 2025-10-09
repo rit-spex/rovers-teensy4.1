@@ -7,6 +7,7 @@
 // last modified: 7/30/2025 - Tyler
 // --------------------------------------------------------------------
 
+#include "ACAN_T4.h"
 #include "Arduino.h"
 #include "PinState.h"
 #include "main.h"
@@ -14,6 +15,8 @@
 #include "Printer.h"
 #include "spdlog/spdlog-inl.h"
 #include "spdlog/spdlog.h"
+#include <cstdint>
+#include <cstring>
 
 #ifdef ENABLE_GUI
 #include "Gui.h"
@@ -31,7 +34,7 @@ extern PinState pinState;
 
 int main()
 {
-    spdlog::set_level(spdlog::level::debug);
+    spdlog::set_level(spdlog::level::info);
     clearFile();
     setup();
 
@@ -70,9 +73,17 @@ int main()
 
     guiShutdown(window);
 #else
+    // ACAN_T4::can1.begin(ACAN_T4_Settings(CAN_BAUDRATE));
     while (true)
     {
         loop();
+
+        // CANMessage m;
+        // m.id = 0x01;
+        // m.len = 8;
+        // uint8_t dataBytes[8] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
+        // memcpy(m.data, dataBytes, sizeof(dataBytes));
+        // ACAN_T4::can1.tryToSend(m);
     }
 #endif
 

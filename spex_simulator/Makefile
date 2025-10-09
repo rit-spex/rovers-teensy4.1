@@ -16,7 +16,8 @@ TARGET_EXEC := $(TARGET_SUBSYSTEM)
 
 # Paths
 SUBSYSTEM_DIR := ../$(TARGET_SUBSYSTEM)
-BUILD_DIR     := build/spex_simulator
+PARENT_BUILD_DIR := build
+BUILD_DIR     := $(PARENT_BUILD_DIR)/spex_simulator
 BIN_DIR       := bin
 SIM_SRC_DIR   := src
 SIM_INC_DIR   := include
@@ -63,6 +64,10 @@ CXXFLAGS ?=
 CFLAGS   ?=
 LDFLAGS  := -lglfw -lGL -ldl -pthread
 
+# DEBUG FLAGS
+# LDFLAGS += -fsanitize=address -static-libasan
+# CPPFLAGS += -g -fsanitize=address -static-libasan
+
 ifeq ($(GUI),1)
 CPPFLAGS += -DENABLE_GUI
 endif
@@ -106,7 +111,7 @@ $(BUILD_DIR)/%.s.o: %.s
 # Clean
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	rm -rf $(BUILD_DIR) $(BIN_DIR) $(PARENT_BUILD_DIR)
 	@echo "Cleaned all build output"
 
 # Auto-dependencies
