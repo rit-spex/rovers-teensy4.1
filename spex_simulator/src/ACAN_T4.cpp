@@ -91,7 +91,7 @@ bool CANbus::receive(CANMessage message)
     ssize_t recLen = recv(m_sock, buf, sizeof(buf), 0);
 
     // No new packets
-    if (recLen == 0)
+    if (recLen <= 0)
     {
         return false;
     }
@@ -99,7 +99,7 @@ bool CANbus::receive(CANMessage message)
     // Packet must have ID and DLC
     if (recLen < ID_LEN + DLC_LEN)
     {
-        spdlog::error("Packet length is less than length required to contain ID and DLC");
+        spdlog::error("Packet length of {} is less than length required to contain ID and DLC ({})", recLen, ID_LEN + DLC_LEN);
         return false;
     }
 
@@ -113,6 +113,7 @@ bool CANbus::receive(CANMessage message)
     }
 
     memcpy(&message.id, buf, ID_LEN);
+    message.id = ntohl(message.id);
     memcpy(message.data, buf + (ID_LEN + DLC_LEN), message.len);
     spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len,
                  std::string(reinterpret_cast<const char *>(message.data), sizeof(message.data)));
