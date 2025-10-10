@@ -86,15 +86,14 @@ void Chassis::updateSubsystems(int timeInterval_ms)
         m_drive_base.updateRPM();
 #else
 #if ENABLE_CAN
-        // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
-        float leftPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
-        float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
+        float leftPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100.0;
+        float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100.0;
 
         // Serial.println("\n\nABOUT TO DRIVE\n\n");
-
-        Serial.printf("left_power: %d\n", leftPower);
-        Serial.printf("right_power: %d\n", rightPower);
-
+#if ENABLE_SERIAL
+        Serial.printf("left_power: %f\n", leftPower);
+        Serial.printf("right_power: %f\n", rightPower);
+#endif
         m_drive_base.drive(leftPower, rightPower);
 #endif
 
