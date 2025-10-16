@@ -1,11 +1,13 @@
 #ifndef DRILL_H
 #define DRILL_H
 
-class Drill {
+class Drill
+{
 public:
-    enum class Direction {
-        FORWARD = 0,
-        BACKWARD = 1,
+    enum class Direction
+    {
+        Forward = 0,
+        Backward = 1,
     };
 
     Drill();

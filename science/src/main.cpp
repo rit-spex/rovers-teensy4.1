@@ -42,6 +42,7 @@ void changeHeight()
     else if (augerDown == LOW)
     {
         tic.setTargetVelocity(-augerSpeed);
+
         // Serial.println("Moving down");
     }
     else
