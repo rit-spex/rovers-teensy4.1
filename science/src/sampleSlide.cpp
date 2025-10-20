@@ -4,3 +4,5 @@ SampleSlide::SampleSlide()
 {
     m_currentPos = Position::Home;
 }
+
+SampleSlide::~SampleSlide() {}

@@ -8,6 +8,7 @@
 #include "constants.h"
 #include <Arduino.h>
 #include <memory>
+#include <cmath>
 
 static unsigned long currentRunCycle = 0;
 static std::shared_ptr<Science> science;

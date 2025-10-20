@@ -20,7 +20,9 @@ public:
     TicI2C(int address);
     void exitSafeStart();
     void setTargetVelocity(int velocity);
+    void setTargetPosition(int pos);
     void haltAndHold();
+    void haltAndSetPosition(int pos);
     void resetCommandTimeout();
 };
 

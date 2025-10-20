@@ -34,7 +34,7 @@ extern PinState pinState;
 
 int main()
 {
-    spdlog::set_level(spdlog::level::info);
+    spdlog::set_level(spdlog::level::debug);
     clearFile();
     setup();
 

@@ -12,8 +12,8 @@ void loop()
     science->runBackgroundProcesses();
     if (millis() >= UPDATE_RATE_MS * currentRunCycle) {
 #if ENABLE_SERIAL
-        Serial.print("Current run cycle: ");
-        Serial.println((int)currentRunCycle);
+        // Serial.print("Current run cycle: ");
+        // Serial.println((int)currentRunCycle);
 #endif
         science->updateSubsystems();
         currentRunCycle++;

@@ -31,9 +31,19 @@ void TicI2C::setTargetVelocity(int velocity)
     spdlog::debug("TicI2C setTargetVelocity called with velocity: {}", velocity);
 }
 
+void TicI2C::setTargetPosition(int pos)
+{
+    spdlog::debug("TicI2C setTargetPos called with pos: {}", pos);
+}
+
 void TicI2C::haltAndHold()
 {
     spdlog::debug("TicI2C haltAndHold called");
+}
+
+void TicI2C::haltAndSetPosition(int pos)
+{
+    spdlog::debug("TicI2C haldAndSetPosition called with pos: {}", pos);
 }
 
 void TicI2C::resetCommandTimeout()

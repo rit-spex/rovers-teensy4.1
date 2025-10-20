@@ -2,16 +2,20 @@
 
 #include <Arduino.h>
 #include <Tic.h>
+#include <Wire.h>
 
-#include "core_pins.h"
 #include "pinout.h"
 #include "constants.h"
 
-Science::Science(unsigned long *currentCyclePtr) : 
-    m_currentCyclePtr(currentCyclePtr),
+Science::Science(unsigned long *currentCyclePtr) :
 #if ENABLE_CAN
-    m_can(currentCyclePtr), 
+    m_can(currentCyclePtr),
 #endif
+    m_currentCyclePtr(currentCyclePtr)
+{
+}
+
+Science::~Science()
 {
 }
 
@@ -20,7 +24,6 @@ void Science::startUp() {
     Wire.begin();
     delay(20);
     m_auger.startUp();
-    m_auger.goHome();
 
 #if ENABLE_CAN
     m_can = CAN(m_currentCyclePtr);
