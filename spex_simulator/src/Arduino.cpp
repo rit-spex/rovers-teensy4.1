@@ -101,7 +101,7 @@ void digitalWrite(int pin, int value)
 {
     updateFile(PrinterData::PIN, pin, value);
     pinState.setPinValue(pin, value);
-    spdlog::debug("digitalWrite called with pin {} and value {}", pin, value);
+    // spdlog::debug("digitalWrite called with pin {} and value {}", pin, value);
 }
 
 int digitalRead(int pin)

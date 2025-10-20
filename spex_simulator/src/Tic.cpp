@@ -48,5 +48,5 @@ void TicI2C::haltAndSetPosition(int pos)
 
 void TicI2C::resetCommandTimeout()
 {
-    spdlog::debug("TicI2C resetCommandTimeout called");
+    // spdlog::debug("TicI2C resetCommandTimeout called");
 }

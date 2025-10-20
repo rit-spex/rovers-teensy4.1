@@ -24,6 +24,9 @@ void Auger::beginHoming() {
     m_homingState = HomingState::InProgress;
     m_homingStartTime = millis();
     m_stepper.setTargetVelocity(-AUGER_HOME_SPEED);
+#if ENABLE_SERIAL
+    Serial.println("Homing auger beginning.");
+#endif
 }
 
 void Auger::updateHoming() {

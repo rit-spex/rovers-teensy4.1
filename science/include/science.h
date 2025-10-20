@@ -4,8 +4,6 @@
 #include "auger.h"
 #include "sampleSlide.h"
 
-#define ENABLE_CAN true
-
 #if ENABLE_CAN
 #include "CAN.h"
 #endif
@@ -38,7 +36,7 @@ private:
 
 #if ENABLE_CAN
     CAN m_can;
-#endif    
+#endif
     unsigned long *m_currentCyclePtr;
 };
 
