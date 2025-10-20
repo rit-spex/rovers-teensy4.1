@@ -1,7 +1,7 @@
 #ifndef SCIENCE_H
 #define SCIENCE_H
 
-#include "drill.h"
+#include "auger.h"
 #include "sampleSlide.h"
 
 class Science {
@@ -20,8 +20,8 @@ public:
 
     void updateStatusLight();
 private:
-    Drill m_drill;
     SampleSlide m_sampleSlide;
+    Auger m_auger;
 
     bool m_enabled = true;
 

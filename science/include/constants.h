@@ -3,4 +3,9 @@
 
 #define LED_BLINK_INTERVAL 500 // ms
 
+// Auger
+#define AUGER_SPEED 15000000 
+#define AUGER_MID_POINT 1500
+#define AUGER_DRILL_SPEED 50 
+
 #endif // CONSTANTS_H

@@ -3,4 +3,12 @@
 
 #define STATUS_LIGHT_PIN 13
 
+// Auger
+#define AUGER_DRILL_MOTOR_PIN 7
+#define AUGER_UP_PIN 12
+#define AUGER_DOWN_PIN 23
+#define AUGER_TIC_PIN 15
+#define AUGER_SPINNING_PIN 11
+
+
 #endif // PINOUT_H

@@ -1,11 +1,20 @@
 #include "science.h"
 
 #include <Arduino.h>
+#include <Tic.h>
 
+#include "core_pins.h"
 #include "pinout.h"
 #include "constants.h"
 
 Science::Science() {}
+
+void Science::startUp() {
+    Serial.begin(9600);
+    Wire.begin();
+    delay(20);
+    m_auger.startUp();
+}
 
 void Science::enable() {
     m_enabled = true;

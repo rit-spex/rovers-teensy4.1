@@ -16,7 +16,10 @@ public:
     SampleSlide();
     ~SampleSlide();
 
-    bool isHome(); // returns home sensor status
+    // Returns home sensor status
+    bool isHome();
+    // Moves sample slide to home
+    void goHome();
 
 private:
     Position m_currentPos;
