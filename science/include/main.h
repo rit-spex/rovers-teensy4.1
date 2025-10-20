@@ -5,7 +5,7 @@
 #define ENABLE_SERIAL
 
 #include "CAN.h"
-#include "Science.h"
+#include "science.h"
 #include <Arduino.h>
 
 static unsigned long currentRunCycle = 0;
