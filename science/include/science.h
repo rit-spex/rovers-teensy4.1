@@ -4,9 +4,15 @@
 #include "auger.h"
 #include "sampleSlide.h"
 
+#define ENABLE_CAN true
+
+#if ENABLE_CAN
+#include "CAN.h"
+#endif
+
 class Science {
 public:
-    Science();
+    Science(unsigned long *currentCyclePtr);
     ~Science();
 
     void startUp();
@@ -19,6 +25,9 @@ public:
     bool isDisabled() const;
 
     void updateStatusLight();
+#if ENABLE_CAN
+    void processCANMessages();
+#endif
 private:
     SampleSlide m_sampleSlide;
     Auger m_auger;
@@ -26,6 +35,11 @@ private:
     bool m_enabled = true;
 
     unsigned long m_prevMillis = 0; // For status light blinking
+
+#if ENABLE_CAN
+    CAN m_can;
+#endif    
+    unsigned long *m_currentCyclePtr;
 };
 
 // #include "TICT249.h"

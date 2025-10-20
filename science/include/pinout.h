@@ -9,6 +9,7 @@
 #define AUGER_DOWN_PIN 23
 #define AUGER_TIC_PIN 15
 #define AUGER_SPINNING_PIN 11
+#define AUGER_HOME_SENSOR_PIN -1
 
 
 #endif // PINOUT_H

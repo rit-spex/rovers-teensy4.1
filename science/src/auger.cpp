@@ -12,8 +12,19 @@ void Auger::startUp() {
     pinMode(AUGER_UP_PIN, INPUT_PULLUP);
     pinMode(AUGER_DOWN_PIN, INPUT_PULLUP);
     pinMode(AUGER_SPINNING_PIN, INPUT_PULLDOWN);
+    pinMode(AUGER_HOME_SENSOR_PIN, INPUT);
     m_stepper.exitSafeStart();
     m_drillMotor.attach(AUGER_DRILL_MOTOR_PIN);
+}
+
+bool Auger::isHome() {
+    // Assuming LOW when magnet is detected
+    return digitalRead(AUGER_HOME_SENSOR_PIN) == LOW;
+}
+
+// TODO: Implement
+void Auger::goHome() {
+
 }
 
 void Auger::updateSubsystems() {
@@ -51,4 +62,3 @@ void Auger::updateSpinning() {
         m_drillMotor.write(AUGER_MID_POINT);
     }
 }
-

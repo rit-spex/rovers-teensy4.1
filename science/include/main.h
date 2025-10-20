@@ -2,14 +2,15 @@
 #define MAIN
 
 // Debugging
-#define ENABLE_SERIAL
+#define ENABLE_SERIAL true
 
-#include "CAN.h"
 #include "science.h"
+#include "constants.h"
 #include <Arduino.h>
+#include <memory>
 
 static unsigned long currentRunCycle = 0;
-static CAN *can;
+static std::shared_ptr<Science> science;
 
 void setup();
 void loop();

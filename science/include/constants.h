@@ -2,6 +2,7 @@
 #define CONSTANTS_H
 
 #define LED_BLINK_INTERVAL 500 // ms
+#define UPDATE_RATE_MS 40 
 
 // Auger
 #define AUGER_SPEED 15000000 

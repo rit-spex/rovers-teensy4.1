@@ -14,7 +14,7 @@ public:
 
     // Returns home sensor status
     bool isHome();
-    // Moves sample slide to home
+    // Moves auger to home
     void goHome();
 
     void updateSubsystems();
