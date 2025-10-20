@@ -34,7 +34,7 @@ void loop()
 
     // Updated status light
     unsigned long currentMillis = millis();
-    if (isDisabled)
+    if (isDisabled())
     {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
 #if ENABLE_SERIAL
