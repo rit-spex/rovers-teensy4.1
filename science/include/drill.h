@@ -6,8 +6,8 @@ class Drill
 public:
     enum class Direction
     {
-        Forward = 0,
-        Backward = 1,
+        Forward,
+        Backward,
     };
 
     Drill();
