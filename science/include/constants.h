@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#define ENABLE_SERIAL 1
+
 #define LED_BLINK_INTERVAL 500 // ms
 #define UPDATE_RATE_MS 40
 

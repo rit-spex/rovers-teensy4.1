@@ -1,8 +1,5 @@
-#ifndef MAIN
-#define MAIN
-
-// Debugging
-#define ENABLE_SERIAL true
+#ifndef MAIN_H
+#define MAIN_H
 
 #include "science.h"
 #include "constants.h"
@@ -16,4 +13,4 @@ static std::shared_ptr<Science> science;
 void setup();
 void loop();
 
-#endif
+#endif // MAIN_H

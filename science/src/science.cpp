@@ -38,7 +38,7 @@ void Science::updateSubsystems() {
     // Disabled
     if (!m_enabled) {
 #if ENABLE_SERIAL
-        Serial.println("Disabled")
+        Serial.println("Disabled");
 #endif
         return;
     }
