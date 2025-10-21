@@ -11,5 +11,4 @@
 #define AUGER_SPINNING_PIN 11
 #define AUGER_HOME_SENSOR_PIN -1
 
-
 #endif // PINOUT_H

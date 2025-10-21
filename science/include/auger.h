@@ -4,12 +4,14 @@
 #include "Servo.h"
 #include "constants.h"
 
-#include <Tic.h>
 #include <Arduino.h>
+#include <Tic.h>
 
-class Auger {
+class Auger
+{
 public:
-    enum class HomingState {
+    enum class HomingState
+    {
         Idle,
         InProgress,
         Backoff,
@@ -39,7 +41,6 @@ private:
 
     HomingState m_homingState = HomingState::Idle;
     unsigned long m_homingStartTime = 0;
-
 };
 
 #endif // AUGER_H

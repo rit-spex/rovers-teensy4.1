@@ -4,14 +4,15 @@
 #include <Tic.h>
 #include <Wire.h>
 
-#include "pinout.h"
 #include "constants.h"
+#include "pinout.h"
 
-Science::Science(unsigned long *currentCyclePtr) :
+Science::Science(unsigned long *currentCyclePtr)
+    :
 #if ENABLE_CAN
-    m_can(currentCyclePtr),
+      m_can(currentCyclePtr),
 #endif
-    m_currentCyclePtr(currentCyclePtr)
+      m_currentCyclePtr(currentCyclePtr)
 {
 }
 
@@ -19,7 +20,8 @@ Science::~Science()
 {
 }
 
-void Science::startUp() {
+void Science::startUp()
+{
     Serial.begin(9600);
     Wire.begin();
     delay(20);
@@ -31,12 +33,14 @@ void Science::startUp() {
 #endif
 }
 
-void Science::updateSubsystems() {
+void Science::updateSubsystems()
+{
     // Update status light regardless of enabled
     updateStatusLight();
 
     // Disabled
-    if (!m_enabled) {
+    if (!m_enabled)
+    {
 #if ENABLE_SERIAL
         Serial.println("Disabled");
 #endif
@@ -49,40 +53,51 @@ void Science::updateSubsystems() {
     m_auger.updateSubsystems();
 }
 
-void Science::runBackgroundProcesses() {
+void Science::runBackgroundProcesses()
+{
 #if ENABLE_CAN
     m_can.readMsgBuffer();
 #endif
 }
 
-void Science::enable() {
+void Science::enable()
+{
     m_enabled = true;
 }
-void Science::disable() {
+void Science::disable()
+{
     m_enabled = false;
 }
 
-bool Science::isEnabled() const {
+bool Science::isEnabled() const
+{
     return m_enabled;
 }
 
-bool Science::isDisabled() const {
+bool Science::isDisabled() const
+{
     return !m_enabled;
 }
 
-void Science::updateStatusLight() {
+void Science::updateStatusLight()
+{
     unsigned long currentMillis = millis();
-    if (isDisabled()) {
+    if (isDisabled())
+    {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
-    } else if (currentMillis - m_prevMillis >= LED_BLINK_INTERVAL) {
+    }
+    else if (currentMillis - m_prevMillis >= LED_BLINK_INTERVAL)
+    {
         m_prevMillis = currentMillis;
         digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
     }
 }
 
 #if ENABLE_CAN
-void Science::processCANMessages() {
-    if (m_can.isNewMessage(CAN::E_STOP)) {
+void Science::processCANMessages()
+{
+    if (m_can.isNewMessage(CAN::E_STOP))
+    {
         disable();
     }
 }

@@ -99,7 +99,8 @@ bool CANbus::receive(CANMessage message)
     // Packet must have ID and DLC
     if (recLen < ID_LEN + DLC_LEN)
     {
-        spdlog::error("Packet length of {} is less than length required to contain ID and DLC ({})", recLen, ID_LEN + DLC_LEN);
+        spdlog::error("Packet length of {} is less than length required to contain ID and DLC ({})", recLen,
+                      ID_LEN + DLC_LEN);
         return false;
     }
 
@@ -153,10 +154,10 @@ bool CANbus::tryToSend(CANMessage message)
         return false;
     }
 
-
     if (sent - (ID_LEN + DLC_LEN) != message.len)
     {
-        spdlog::error("Sent packet data size does not match specified DLC: {} != {}", sent - (ID_LEN + DLC_LEN), message.len);
+        spdlog::error("Sent packet data size does not match specified DLC: {} != {}", sent - (ID_LEN + DLC_LEN),
+                      message.len);
     }
 
     return sent == (ssize_t)sizeof(buf);

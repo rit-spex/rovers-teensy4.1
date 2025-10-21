@@ -8,7 +8,8 @@
 #include "CAN.h"
 #endif
 
-class Science {
+class Science
+{
 public:
     Science(unsigned long *currentCyclePtr);
     ~Science();
