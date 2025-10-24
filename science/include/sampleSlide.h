@@ -6,20 +6,18 @@ class SampleSlide
 public:
     enum class Position
     {
-        Home,
-        SampleCache,
-        MiddleContainer,
-        EndSample,
-        OpenSample,
+        Home = 0,
+        OpenSample = 1,
+        SampleCache = 2,
+        MiddleContainer = 3,
+        EndSample = 4,
     };
 
     SampleSlide();
     ~SampleSlide();
 
-    // Returns home sensor status
-    bool isHome();
-    // Moves sample slide to home
-    void goHome();
+    Position getCurrentPosition();
+    void moveToPosition();
 
 private:
     Position m_currentPos;

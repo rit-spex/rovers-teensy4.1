@@ -9,10 +9,11 @@
 
 Science::Science(unsigned long *currentCyclePtr)
     :
+    m_auger(),
 #if ENABLE_CAN
-      m_can(currentCyclePtr),
+    m_can(currentCyclePtr),
 #endif
-      m_currentCyclePtr(currentCyclePtr)
+    m_currentCyclePtr(currentCyclePtr)
 {
 }
 
@@ -26,6 +27,8 @@ void Science::startUp()
     Wire.begin();
     delay(20);
     m_auger.startUp();
+
+    pinMode(STATUS_LIGHT_PIN, OUTPUT);
 
 #if ENABLE_CAN
     m_can = CAN(m_currentCyclePtr);
@@ -89,6 +92,7 @@ void Science::updateStatusLight()
     else if (currentMillis - m_prevMillis >= LED_BLINK_INTERVAL)
     {
         m_prevMillis = currentMillis;
+        // Serial.printf("Status light: %d\n", digitalRead(STATUS_LIGHT_PIN));;
         digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
     }
 }

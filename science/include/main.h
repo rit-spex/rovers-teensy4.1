@@ -13,4 +13,6 @@ static std::shared_ptr<Science> science;
 void setup();
 void loop();
 
+#define ENABLE_CAN 0
+
 #endif // MAIN_H

@@ -8,3 +8,9 @@ SampleSlide::SampleSlide()
 SampleSlide::~SampleSlide()
 {
 }
+
+SampleSlide::Position SampleSlide::getCurrentPosition() {
+    return m_currentPos;
+}
+
+
