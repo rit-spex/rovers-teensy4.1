@@ -25,7 +25,7 @@
 
 //********************************************************* DRIVETRAIN CONSTANTS *******************************************************
 // The max percent of the motors
-#define PERCENT_MAX 0.4
+#define PERCENT_MAX 0.6
 
 // Max RPM of the spark max is 1100 with no load
 #define SPARK_MAX_MAX_RPM 1100
