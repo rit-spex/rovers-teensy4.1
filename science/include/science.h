@@ -2,6 +2,7 @@
 #define SCIENCE_H
 
 #include "auger.h"
+#include "pump.h"
 #include "sampleSlide.h"
 
 #if ENABLE_CAN
@@ -21,7 +22,6 @@ public:
     void enable();
     void disable();
     bool isEnabled() const;
-    bool isDisabled() const;
 
     void updateStatusLight();
 #if ENABLE_CAN
@@ -30,6 +30,8 @@ public:
 private:
     SampleSlide m_sampleSlide;
     Auger m_auger;
+    Pump m_pump1;
+    Pump m_pump2;
 
     bool m_enabled = true;
 

@@ -53,6 +53,7 @@ void Science::updateSubsystems()
 #if ENABLE_CAN
     processCANMessages();
 #endif
+
     m_auger.updateSubsystems();
 }
 
@@ -77,15 +78,10 @@ bool Science::isEnabled() const
     return m_enabled;
 }
 
-bool Science::isDisabled() const
-{
-    return !m_enabled;
-}
-
 void Science::updateStatusLight()
 {
     unsigned long currentMillis = millis();
-    if (isDisabled())
+    if (!m_enabled)
     {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
     }

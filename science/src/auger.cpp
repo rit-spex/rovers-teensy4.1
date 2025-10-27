@@ -34,50 +34,46 @@ void Auger::startUp()
 
 void Auger::goHome()
 {
-    m_stepper.goHomeReverse();
+    m_stepper.goHomeForward();
 #if ENABLE_SERIAL
     Serial.println("Auger began homing");
 #endif
 }
 
+// XXX: Move it all into science updateSubsystems
 void Auger::updateSubsystems()
 {
-    updateDirection();
-    updateSpinning();
-
     m_stepper.resetCommandTimeout(); // Must be called at least once per second
 }
 
-void Auger::updateDirection()
+void Auger::updateHeight(Direction dir)
 {
-    int up = digitalRead(AUGER_UP_PIN);
-    int down = digitalRead(AUGER_DOWN_PIN);
-
-    if (up == LOW)
+    if (m_stepper.getCurrentPosition() >= AUGER_MID_POINT * 2)
     {
+        m_stepper.setTargetVelocity(0);
+        return;
+    }
+
+    switch (dir)
+    {
+    case Direction::Up:
         m_stepper.setTargetVelocity(AUGER_SPEED);
 #if ENABLE_SERIAL
         Serial.println("Auger moving up");
 #endif
-    }
-    else if (down == LOW)
-    {
+    case Direction::Down:
         m_stepper.setTargetVelocity(-AUGER_SPEED);
 #if ENABLE_SERIAL
         Serial.println("Auger moving down");
 #endif
-    }
-    else
-    {
-        m_stepper.setTargetVelocity(0);
-    }
+    };
 }
 
-void Auger::updateSpinning()
+void Auger::updateSpinning(bool isSpinning)
 {
-    int isSpinning = digitalRead(AUGER_SPINNING_PIN);
-    if (isSpinning == HIGH)
+    if (isSpinning)
     {
+        // XXX: what the fuck
         m_drillMotor.write(AUGER_MID_POINT + AUGER_DRILL_SPEED);
 #if ENABLE_SERIAL
         Serial.println("Auging");

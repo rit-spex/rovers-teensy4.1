@@ -4,6 +4,7 @@
 class SampleSlide
 {
 public:
+    // XXX: what happens if we are in between states
     enum class Position
     {
         Home = 0,
@@ -16,8 +17,9 @@ public:
     SampleSlide();
     ~SampleSlide();
 
-    Position getCurrentPosition();
-    void moveToPosition();
+    Position getPosition();
+    void setPosition(Position pos);
+    void updatePosition();
 
 private:
     Position m_currentPos;
