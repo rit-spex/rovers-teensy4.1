@@ -39,7 +39,7 @@ public:
         BEND_WRIST = (uint32_t)14,
         TWIST_WRIST = (uint32_t)15,
         MOVE_CLAW = (uint32_t)16,
-        MOVE_SOLENOID = (uint32_t)17
+        MOVE_SOLENOID = (uint32_t)17,
 
         /*
             how to send can message to arm
@@ -52,6 +52,13 @@ public:
                 sendMessage(CAN::MOVE_CLAW, [0,0,0,0,0,0,0,0]) will move the claw in reverse
                 sendMessage(CAN::TWIST_WRIST, [1,0,0,0,0,0,0,0]) will stop the claw from twisting
         */
+
+        // Science
+        ENABLE_SCIENCE = (uint32_t)20,
+        MOVE_AUGER = (uint32_t)21,
+        HOME_AUGER = (uint32_t)22,
+        ENABLE_DRILL = (uint32_t)23,
+
     } Message_ID;
 
     typedef enum
