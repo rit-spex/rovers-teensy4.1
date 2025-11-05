@@ -5,6 +5,10 @@ Pump::Pump()
     m_flow = Flow::Sucking;
 }
 
+Pump::~Pump()
+{
+}
+
 bool Pump::isEnabled() const
 {
     return m_enabled;

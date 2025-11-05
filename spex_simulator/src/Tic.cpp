@@ -46,6 +46,17 @@ void TicI2C::haltAndSetPosition(int pos)
     spdlog::debug("TicI2C haldAndSetPosition called with pos: {}", pos);
 }
 
+int TicI2C::getCurrentPosition()
+{
+    spdlog::debug("TicI2C getCurrentPosition called");
+    return 0;
+}
+
+void TicI2C::goHomeForward()
+{
+    spdlog::debug("TicI2C goHomeForward called");
+}
+
 void TicI2C::resetCommandTimeout()
 {
     // spdlog::debug("TicI2C resetCommandTimeout called");

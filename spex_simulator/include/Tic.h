@@ -23,6 +23,8 @@ public:
     void setTargetPosition(int pos);
     void haltAndHold();
     void haltAndSetPosition(int pos);
+    int getCurrentPosition();
+    void goHomeForward();
     void resetCommandTimeout();
 };
 
