@@ -3,17 +3,18 @@
 #include <Arduino.h>
 #include <Tic.h>
 #include <Wire.h>
+#include <cstdint>
 
+#include "auger.h"
 #include "constants.h"
 #include "pinout.h"
 
 Science::Science(unsigned long *currentCyclePtr)
-    :
-    m_auger(),
+    : m_auger(),
 #if ENABLE_CAN
-    m_can(currentCyclePtr),
+      m_can(currentCyclePtr),
 #endif
-    m_currentCyclePtr(currentCyclePtr)
+      m_currentCyclePtr(currentCyclePtr)
 {
 }
 
@@ -54,6 +55,7 @@ void Science::updateSubsystems()
     processCANMessages();
 #endif
 
+    // Auger
     m_auger.updateSubsystems();
 }
 
@@ -99,6 +101,52 @@ void Science::processCANMessages()
     if (m_can.isNewMessage(CAN::E_STOP))
     {
         disable();
+        return;
+    }
+
+    for (int i = 20; i < 30; i++)
+    {
+        if (!m_can.isNewMessage((CAN::Message_ID)i))
+        {
+            continue;
+        }
+
+        uint8_t *data;
+        data = m_can.getUnpackedData((CAN::Message_ID)i);
+#if ENABLE_SERIAL
+        Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
+#endif
+        CAN::Message_ID msgId =  static_cast<CAN::Message_ID>(i);
+        switch (msgId)
+        {
+            case CAN::Message_ID::ENABLE_SCIENCE: {
+                if (!(bool)data[0])
+                {
+                    disable();
+                }
+                break;
+            }
+            case CAN::Message_ID::MOVE_AUGER: {
+                Auger::Direction dir = (Auger::Direction)data[1];
+                m_auger.updateHeight(dir);
+                break;
+            }
+            case CAN::Message_ID::HOME_AUGER: {
+                m_auger.goHome();
+                break;
+            }
+            case CAN::Message_ID::ENABLE_DRILL: {
+                m_auger.updateSpinning((bool)data[1]);
+                break;
+            }
+            default: {
+#if ENABLE_SERIAL
+                Serial.printf("CAN message type not accounted for %d\n", i);
+#endif
+                disable();
+                break;
+            }
+        }
     }
 }
 #endif

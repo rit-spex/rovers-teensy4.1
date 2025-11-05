@@ -40,7 +40,6 @@ void Auger::goHome()
 #endif
 }
 
-// XXX: Move it all into science updateSubsystems
 void Auger::updateSubsystems()
 {
     m_stepper.resetCommandTimeout(); // Must be called at least once per second
@@ -56,16 +55,20 @@ void Auger::updateHeight(Direction dir)
 
     switch (dir)
     {
-    case Direction::Up:
-        m_stepper.setTargetVelocity(AUGER_SPEED);
+        case Direction::Up: {
+            m_stepper.setTargetVelocity(AUGER_SPEED);
 #if ENABLE_SERIAL
-        Serial.println("Auger moving up");
+            Serial.println("Auger moving up");
 #endif
-    case Direction::Down:
-        m_stepper.setTargetVelocity(-AUGER_SPEED);
+            break;
+        }
+        case Direction::Down: {
+            m_stepper.setTargetVelocity(-AUGER_SPEED);
 #if ENABLE_SERIAL
-        Serial.println("Auger moving down");
+            Serial.println("Auger moving down");
 #endif
+            break;
+        }
     };
 }
 
