@@ -58,6 +58,7 @@ public:
         MOVE_AUGER = (uint32_t)21,
         HOME_AUGER = (uint32_t)22,
         ENABLE_DRILL = (uint32_t)23,
+        MOVE_SLIDE = (uint32_t)24,
 
     } Message_ID;
 

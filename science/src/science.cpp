@@ -8,6 +8,7 @@
 #include "auger.h"
 #include "constants.h"
 #include "pinout.h"
+#include "usb_serial.h"
 
 Science::Science(unsigned long *currentCyclePtr)
     : m_auger(),
@@ -28,12 +29,17 @@ void Science::startUp()
     Wire.begin();
     delay(20);
     m_auger.startUp();
+    m_sampleSlide.startUp();
 
     pinMode(STATUS_LIGHT_PIN, OUTPUT);
 
 #if ENABLE_CAN
     m_can = CAN(m_currentCyclePtr);
     m_can.startCAN();
+#endif
+
+#if ENABLE_SERIAL
+    Serial.println("Science start up completed");
 #endif
 }
 
@@ -57,6 +63,9 @@ void Science::updateSubsystems()
 
     // Auger
     m_auger.updateSubsystems();
+
+    // Sample slide
+    m_sampleSlide.updateSubsystems();
 }
 
 void Science::runBackgroundProcesses()
@@ -68,10 +77,16 @@ void Science::runBackgroundProcesses()
 
 void Science::enable()
 {
+#if ENABLE_SERIAL
+    Serial.println("Science enabled");
+#endif
     m_enabled = true;
 }
 void Science::disable()
 {
+#if ENABLE_SERIAL
+    Serial.println("Science disabled");
+#endif
     m_enabled = false;
 }
 
@@ -137,6 +152,11 @@ void Science::processCANMessages()
             }
             case CAN::Message_ID::ENABLE_DRILL: {
                 m_auger.updateSpinning((bool)data[1]);
+                break;
+            }
+            case CAN::Message_ID::MOVE_SLIDE: {
+                SampleSlide::Position pos = (SampleSlide::Position)data[1];
+                m_sampleSlide.goToPosition(pos);
                 break;
             }
             default: {

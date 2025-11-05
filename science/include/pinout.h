@@ -10,4 +10,7 @@
 #define AUGER_TIC_PIN 15
 #define AUGER_SPINNING_PIN 11
 
+// Sample Slide
+#define SS_TIC_PIN -1
+
 #endif // PINOUT_H

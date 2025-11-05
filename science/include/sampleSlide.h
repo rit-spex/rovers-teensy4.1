@@ -1,10 +1,10 @@
 #ifndef SAMPLE_SLIDE_H
 #define SAMPLE_SLIDE_H
 
+#include "Tic.h"
 class SampleSlide
 {
 public:
-    // XXX: what happens if we are in between states
     enum class Position
     {
         Home = 0,
@@ -17,12 +17,18 @@ public:
     SampleSlide();
     ~SampleSlide();
 
+    void startUp();
+    void updateSubsystems();
+
+    void goHome();
+    bool isHomed();
+
     Position getPosition();
-    void setPosition(Position pos);
-    void updatePosition();
+    void goToPosition(Position pos);
 
 private:
     Position m_currentPos;
+    TicI2C m_stepper;
 };
 
 #endif // SAMPLE_SLIDE_H

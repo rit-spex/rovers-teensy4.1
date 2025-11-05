@@ -79,12 +79,15 @@ void Auger::updateSpinning(bool isSpinning)
         // XXX: what the fuck
         m_drillMotor.write(AUGER_MID_POINT + AUGER_DRILL_SPEED);
 #if ENABLE_SERIAL
-        Serial.println("Auging");
+        Serial.println("Began spinning drill");
 #endif
     }
     else
     {
         // Not auging
         m_drillMotor.write(AUGER_MID_POINT);
+#if ENABLE_SERIAL
+        Serial.println("Stopped spinning drill");
+#endif
     }
 }

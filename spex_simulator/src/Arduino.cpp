@@ -20,34 +20,34 @@ extern PinState pinState;
 //////////////////////////////////////////// Serial_Class /////////////////////////
 void Serial_Class::begin(int baudrate)
 {
-    spdlog::debug("Serial begin called with baudrate: {}", baudrate);
+    spdlog::info("Serial begin called with baudrate: {}", baudrate);
 }
 // print statements
 void Serial_Class::print(const char *message)
 {
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 }
 void Serial_Class::print(const int message)
 {
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 }
 void Serial_Class::print(const float message)
 {
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 }
 
 // println statements
 void Serial_Class::println(const char *message)
 {
-    spdlog::debug(message);
+    spdlog::info(message);
 }
 void Serial_Class::println(const int message)
 {
-    spdlog::debug(message);
+    spdlog::info(message);
 }
 void Serial_Class::println(std::string message)
 {
-    spdlog::debug(message);
+    spdlog::info(message);
 }
 
 int Serial_Class::printf(const char *format, ...)
@@ -85,7 +85,7 @@ int Serial_Class::printf(const char *format, ...)
     }
 
     // Log the formatted message
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 
     return result;
 }

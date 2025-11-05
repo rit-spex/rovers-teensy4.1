@@ -25,6 +25,7 @@ public:
     void haltAndSetPosition(int pos);
     int getCurrentPosition();
     void goHomeForward();
+    void goHomeReverse();
     void resetCommandTimeout();
 };
 

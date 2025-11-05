@@ -57,6 +57,11 @@ void TicI2C::goHomeForward()
     spdlog::debug("TicI2C goHomeForward called");
 }
 
+void TicI2C::goHomeReverse()
+{
+    spdlog::debug("TicI2C goHomeReverse called");
+}
+
 void TicI2C::resetCommandTimeout()
 {
     // spdlog::debug("TicI2C resetCommandTimeout called");

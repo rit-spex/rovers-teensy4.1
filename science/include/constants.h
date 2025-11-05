@@ -11,4 +11,10 @@
 #define AUGER_MID_POINT 1500
 #define AUGER_DRILL_SPEED 50
 
+// Sample Slide
+#define SS_OPEN_SAMPLE 25
+#define SS_SAMPLE_CACHE 50
+#define SS_MIDDLE_CONTAINER 75
+#define SS_END_SAMPLE 100
+
 #endif // CONSTANTS_H
