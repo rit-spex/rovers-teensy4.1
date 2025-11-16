@@ -11,6 +11,7 @@
 #define ARDUINO_H
 
 #include <iostream>
+#include <queue>
 #include <stdio.h>
 #include <string>
 #include <thread>
@@ -24,6 +25,8 @@
 
 #define INPUT 0
 #define OUTPUT 1
+
+using String = std::string;
 
 class Serial_Class
 {
@@ -42,6 +45,10 @@ public:
 
     // printf
     int printf(const char *format, ...);
+
+    // input
+    int available();
+    String readString();
 };
 
 // define global functions

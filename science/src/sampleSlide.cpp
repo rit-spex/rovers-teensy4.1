@@ -46,6 +46,7 @@ SampleSlide::~SampleSlide()
 void SampleSlide::startUp()
 {
     pinMode(SS_TIC_PIN, OUTPUT);
+    m_stepper.exitSafeStart();
 #if ENABLE_SERIAL
     Serial.println("Sample Slide start up completed");
 #endif
@@ -54,7 +55,6 @@ void SampleSlide::startUp()
 void SampleSlide::updateSubsystems()
 {
     m_stepper.resetCommandTimeout();
-    goToPosition(Position::EndSample);
 }
 
 void SampleSlide::goHome()

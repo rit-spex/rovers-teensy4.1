@@ -8,7 +8,6 @@
 #include "auger.h"
 #include "constants.h"
 #include "pinout.h"
-#include "usb_serial.h"
 
 Science::Science(unsigned long *currentCyclePtr)
     : m_auger(),
@@ -26,8 +25,10 @@ Science::~Science()
 void Science::startUp()
 {
     Serial.begin(9600);
+    delay(20);
     Wire.begin();
     delay(20);
+
     m_auger.startUp();
     m_sampleSlide.startUp();
 
@@ -45,15 +46,30 @@ void Science::startUp()
 
 void Science::updateSubsystems()
 {
+#if ENABLE_SERIAL
+    if (Serial.available() > 1)
+    {
+        String input = Serial.readString();
+
+        if (input == "off\n" || input == "disable\n") {
+            disable();
+        } else if (input == "on\n" || input == "enable\n") {
+            enable();
+        } else if (input == "auger up\n") {
+            m_auger.updateHeight(Auger::Direction::Up);
+        } else if (input == "auger down\n") {
+            m_auger.updateHeight(Auger::Direction::Down);
+        } else if (input == "auger home\n") {
+            m_auger.goHome();
+        }
+    }
+#endif
     // Update status light regardless of enabled
     updateStatusLight();
 
     // Disabled
     if (!m_enabled)
     {
-#if ENABLE_SERIAL
-        Serial.println("Disabled");
-#endif
         return;
     }
 

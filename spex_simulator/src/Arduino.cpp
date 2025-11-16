@@ -17,6 +17,8 @@
 
 extern PinState pinState;
 
+std::queue<char> inputQueue = {};
+
 //////////////////////////////////////////// Serial_Class /////////////////////////
 void Serial_Class::begin(int baudrate)
 {
@@ -88,6 +90,30 @@ int Serial_Class::printf(const char *format, ...)
     spdlog::info("{}", message);
 
     return result;
+}
+
+int Serial_Class::available() {
+    if (inputQueue.empty()) {
+        return 0;
+    }
+    return (int)inputQueue.size();
+}
+
+String Serial_Class::readString() {
+    String s;
+
+    while (!inputQueue.empty() && inputQueue.front() != '\n')
+    {
+        char front = inputQueue.front();
+        s += front;
+        inputQueue.pop();
+    }
+
+    if (!inputQueue.empty()) {
+        inputQueue.pop(); // pop the '\n'
+    }
+
+    return s;
 }
 
 // define global functions

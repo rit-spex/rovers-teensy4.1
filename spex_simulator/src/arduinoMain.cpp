@@ -17,6 +17,7 @@
 #include "spdlog/spdlog.h"
 #include <cstdint>
 #include <cstring>
+#include <queue>
 
 #ifdef ENABLE_GUI
 #include "Gui.h"
@@ -31,11 +32,13 @@ extern void setup();
 extern void loop();
 
 extern PinState pinState;
+extern std::queue<char> inputQueue;
 
 int main()
 {
     spdlog::set_level(spdlog::level::info);
     clearFile();
+    inputQueue.push('a');
     setup();
 
 #ifdef ENABLE_GUI

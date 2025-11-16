@@ -5,12 +5,9 @@
 
 // Auger
 #define AUGER_DRILL_MOTOR_PIN 7
-#define AUGER_UP_PIN 12
-#define AUGER_DOWN_PIN 23
 #define AUGER_TIC_PIN 15
-#define AUGER_SPINNING_PIN 11
 
 // Sample Slide
-#define SS_TIC_PIN -1
+#define SS_TIC_PIN 16
 
 #endif // PINOUT_H

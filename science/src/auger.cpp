@@ -18,12 +18,13 @@ Auger::~Auger()
 void Auger::startUp()
 {
     // Pin states
-    pinMode(AUGER_UP_PIN, INPUT_PULLUP);
-    pinMode(AUGER_DOWN_PIN, INPUT_PULLUP);
-    pinMode(AUGER_SPINNING_PIN, INPUT_PULLDOWN);
+    pinMode(AUGER_DRILL_MOTOR_PIN, OUTPUT);
+    pinMode(AUGER_TIC_PIN, OUTPUT);
+
 
     m_stepper.exitSafeStart();
     m_drillMotor.attach(AUGER_DRILL_MOTOR_PIN);
+    m_drillMotor.write(AUGER_DRILL_IDLE_SIGNAL);
 
     // Home auger
     goHome();
@@ -47,7 +48,7 @@ void Auger::updateSubsystems()
 
 void Auger::updateHeight(Direction dir)
 {
-    if (m_stepper.getCurrentPosition() >= AUGER_MID_POINT * 2)
+    if (m_stepper.getCurrentPosition() >= AUGER_DRILL_IDLE_SIGNAL * 2)
     {
         m_stepper.setTargetVelocity(0);
         return;
@@ -77,7 +78,7 @@ void Auger::updateSpinning(bool isSpinning)
     if (isSpinning)
     {
         // XXX: what the fuck
-        m_drillMotor.write(AUGER_MID_POINT + AUGER_DRILL_SPEED);
+        m_drillMotor.write(AUGER_DRILL_IDLE_SIGNAL + AUGER_DRILL_SPEED);
 #if ENABLE_SERIAL
         Serial.println("Began spinning drill");
 #endif
@@ -85,7 +86,7 @@ void Auger::updateSpinning(bool isSpinning)
     else
     {
         // Not auging
-        m_drillMotor.write(AUGER_MID_POINT);
+        m_drillMotor.write(AUGER_DRILL_IDLE_SIGNAL);
 #if ENABLE_SERIAL
         Serial.println("Stopped spinning drill");
 #endif
