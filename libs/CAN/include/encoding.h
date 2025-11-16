@@ -31,6 +31,13 @@ enum class MessageType: uint32_t {
     MOVE_CLAW = (uint32_t)16,
     MOVE_SOLENOID = (uint32_t)17,
 
+    // science
+    ENABLE_SCIENCE = (uint32_t)20,
+    MOVE_AUGER = (uint32_t)21,
+    HOME_AUGER = (uint32_t)22,
+    ENABLE_DRILL = (uint32_t)23,
+    MOVE_SLIDE = (uint32_t)24,
+
     HEARTBEAT,
 };
 
