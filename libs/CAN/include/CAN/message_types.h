@@ -1,11 +1,6 @@
-#include <cstdint>
-#include <array>
+#pragma once
 
-struct CANFrame {
-    uint32_t id;
-    uint8_t dlc;
-    std::array<uint8_t, 8> data;
-};
+#include <cstdint>
 
 enum class MessageType: uint32_t {
     E_STOP = (uint32_t)0,
@@ -29,10 +24,3 @@ enum class MessageType: uint32_t {
 
     HEARTBEAT,
 };
-
-
-template <typename T>
-CANFrame encode(const T &msg);
-
-template <typename T>
-T decode(const CANFrame &frame);

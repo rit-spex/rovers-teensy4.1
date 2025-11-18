@@ -1,4 +1,5 @@
-#include "CAN.h"
+#include "CAN/CAN.h"
+#include <cstdint>
 #define ENABLE_SERIAL 1
 
 // Create an object dictionary to store the messages
@@ -13,23 +14,23 @@ CAN::CAN(unsigned long *currentCycle)
     m_currentCyclePtr = currentCycle;
     // Set stop message to 0
     CANMessage stopMessage;
-    stopMessage.id = CAN::E_STOP;
+    stopMessage.id = static_cast<uint32_t>(MessageType::E_STOP);
     stopMessage.len = MSG_LENGTH;
     for (int i = 0; i < MSG_LENGTH; i++)
     {
         stopMessage.data[i] = 0;
     }
 
-    m_objectDict[CAN::Message_ID::E_STOP] = stopMessage;
+    m_objectDict[MessageType::E_STOP] = stopMessage;
 
     // set default speed to 100
-    CANMessage speedMessage;
-    speedMessage.id = CAN::Message_ID::DRIVE_POWER;
-    speedMessage.len = MSG_LENGTH;
-    speedMessage.data[0] = 100;
-    speedMessage.data[1] = 100;
-
-    m_objectDict[CAN::Message_ID::DRIVE_POWER] = speedMessage;
+    // CANMessage speedMessage;
+    // speedMessage.id = MessageType::DRIVE_POWER;
+    // speedMessage.len = MSG_LENGTH;
+    // speedMessage.data[0] = 100;
+    // speedMessage.data[1] = 100;
+    //
+    // m_objectDict[CAN::Message_ID::DRIVE_POWER] = speedMessage;
 }
 
 void CAN::startCAN()
@@ -61,17 +62,17 @@ void CAN::startCAN()
 // Function to be called when a message is recieved
 void CAN::CANSniff(const CANMessage &msg)
 {
-    Message_ID id = static_cast<Message_ID>(msg.id);
+    MessageType id = static_cast<MessageType>(msg.id);
 
     // Check if the message will need to be filtered due to an E-Stop
     if (IsEStop(msg))
     {
-        m_objectDict.at(CAN::E_STOP).data[0] = 1;
+        m_objectDict.at(MessageType::E_STOP).data[0] = 1;
         return;
     }
     else
     {
-        m_objectDict.at(CAN::E_STOP).data[0] = 0;
+        m_objectDict.at(MessageType::E_STOP).data[0] = 0;
     }
 
     // Check if the ID exists in the m_objectDict map
@@ -143,13 +144,13 @@ void CAN::readMsgBuffer()
 }
 
 // Send a message to the CAN bus
-void CAN::sendMessage(Message_ID id, uint8_t message[MSG_LENGTH])
+void CAN::sendMessage(MessageType type, uint8_t message[MSG_LENGTH])
 {
     // Create a message
     CANMessage msg;
 
     // Set the message ID to 0x123
-    msg.id = id;
+    msg.id = static_cast<uint32_t>(type);
 
     // Set the message length to 8
     msg.len = MSG_LENGTH;
@@ -161,7 +162,7 @@ void CAN::sendMessage(Message_ID id, uint8_t message[MSG_LENGTH])
     }
 
     // Add the message to the object dictionary
-    m_objectDict[static_cast<Message_ID>(msg.id)] = msg;
+    m_objectDict[static_cast<MessageType>(msg.id)] = msg;
 
     // Send the message
     if (CAN::CAN_MODE::CAN1 == ActiveCAN)
@@ -179,24 +180,12 @@ void CAN::sendMessage(Message_ID id, uint8_t message[MSG_LENGTH])
 }
 
 // get message out of object dictionary, unpacked. For some packages, index will matter otherwise not important
-int CAN::getUnpackedMessage(Message_ID id, int index)
+int CAN::getUnpackedMessage(MessageType type, int index)
 {
-    switch (id)
+    switch (type)
     {
-    case Message_ID::E_STOP:
-        return m_objectDict.at(CAN::Message_ID::E_STOP).data[0];
-        break;
-
-    case Message_ID::TARGET_RPM:
-        return m_objectDict.at(CAN::Message_ID::TARGET_RPM).data[index];
-        break;
-
-    case Message_ID::CURRENT_RPM:
-        return m_objectDict.at(CAN::Message_ID::CURRENT_RPM).data[index];
-        break;
-
-    case Message_ID::DRIVE_POWER:
-        return m_objectDict.at(CAN::Message_ID::DRIVE_POWER).data[index];
+    case MessageType::E_STOP:
+        return m_objectDict.at(MessageType::E_STOP).data[0];
         break;
 
     default:
@@ -205,16 +194,16 @@ int CAN::getUnpackedMessage(Message_ID id, int index)
     }
 }
 
-uint8_t *CAN::getUnpackedData(Message_ID id)
+uint8_t *CAN::getUnpackedData(MessageType type)
 {
-    uint8_t *data = m_objectDict.at(id).data;
+    uint8_t *data = m_objectDict.at(type).data;
     return data;
 }
 
 // checks if there has been a new msg on the id
-bool CAN::isNewMessage(Message_ID id)
+bool CAN::isNewMessage(MessageType type)
 {
-    auto it = m_messageFlag.find(id);
+    auto it = m_messageFlag.find(type);
     if (it != m_messageFlag.end())
     {
         return it->second;
@@ -229,15 +218,15 @@ bool CAN::isNewMessage(Message_ID id)
 bool CAN::IsEStop(const CANMessage &msg)
 {
     // if the message E_STOP is off in object dictionary
-    if (m_objectDict.at(CAN::E_STOP).id == 0)
+    if (m_objectDict.at(MessageType::E_STOP).id == 0)
     {
         // if the message is an E-Stop message and the E-Stop is non active turn on the E-Stop
-        if (msg.id == CAN::E_STOP && msg.data[0] == 1)
+        if (static_cast<MessageType>(msg.id) == MessageType::E_STOP && msg.data[0] == 1)
         {
             // for each message in the object dictionary, set the message flag to true and clear the message buffer
             for (const auto &message : m_objectDict)
             {
-                if (message.first != CAN::E_STOP)
+                if (message.first != MessageType::E_STOP)
                 {
                     m_messageFlag[message.first] = true;
                     for (int i = 0; i < MSG_LENGTH; i++)
@@ -256,7 +245,7 @@ bool CAN::IsEStop(const CANMessage &msg)
     else
     {
         // if the message is an E-Stop message that is and the E-Stop is active turn off the E-Stop
-        if (msg.id == CAN::E_STOP && msg.data[0] == 0)
+        if (static_cast<MessageType>(msg.id) == MessageType::E_STOP && msg.data[0] == 0)
         {
             // do not filter the message. E-Stop will turn off naturally with canSniff
             return false;

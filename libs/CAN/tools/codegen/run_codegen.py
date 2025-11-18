@@ -2,8 +2,8 @@
 from pathlib import Path
 import subprocess
 
-INCLUDE_DIR = Path("include/messages")
-GENERATED_DIR = Path("generated/messages")
+INCLUDE_DIR = Path("include/CAN/messages")
+GENERATED_DIR = Path("generated/")
 TEMPLATE = Path("tools/codegen/templates/codec_template.j2")
 
 for header in INCLUDE_DIR.glob("*.h"):

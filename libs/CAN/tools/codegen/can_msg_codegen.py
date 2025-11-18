@@ -48,7 +48,7 @@ DLC_HEADER = None  # or "generated/messages/science_constants.h"
 
 # Render template
 rendered = template.render(
-    STRUCT_HEADER=str(os.path.relpath(HEADER_FILE, OUTPUT_FILE.parent)),
+    STRUCT_HEADER=str(os.path.relpath(HEADER_FILE, "./include")),
     DLC_HEADER=DLC_HEADER,
     MESSAGES=MESSAGES,
     FIELDS=FIELDS,
