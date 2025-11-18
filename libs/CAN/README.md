@@ -8,8 +8,7 @@ accordance with the interface document and named in SCREAMING_SNAKE_CASE.
 - **If you are creating a new header file for your message(s)**, include the
 generated header file at the top, which will have the name of your header file
 with `_codec` appended to it.
-    - **Ex**: for `include/messages/science.h` -> `#include
-    ../../generated/messages/science_codec.h`
+    - **Ex**: for `include/messages/science.h` -> `#include "../../generated/messages/science_codec.h"`
 - The struct name is the PascalCase version of the message type name with `Msg`
   appended to the end:
     - **Ex**: `MessageType::ENABLE_ARM` -> `struct EnableArmMsg`
