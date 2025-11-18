@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../encoding.h"
+#include "../codec.h"
 #include <cstdint>
 
 static constexpr uint8_t ENABLE_SCIENCE_DLC = 1;
@@ -10,7 +10,7 @@ static constexpr uint8_t ENABLE_DRILL_DLC = 1;
 static constexpr uint8_t MOVE_SLIDE_DLC = 1;
 
 struct EnableScienceMsg {
-    Bool2 enable;
+    uint8_t enable;
 };
 
 template <>
@@ -19,7 +19,7 @@ inline CANFrame encode<EnableScienceMsg>(const EnableScienceMsg &m) {
     frame.id = static_cast<uint32_t>(MessageType::ENABLE_SCIENCE);
     frame.dlc = ENABLE_SCIENCE_DLC;
 
-    frame.data[0] = pack_bool_2(m.enable);
+    frame.data[0] = m.enable;
 
     return frame;
 }
@@ -27,13 +27,7 @@ inline CANFrame encode<EnableScienceMsg>(const EnableScienceMsg &m) {
 template <>
 inline EnableScienceMsg decode<EnableScienceMsg>(const CANFrame &f) {
     EnableScienceMsg m;
-    uint8_t enable_val = f.data[0] & 0b11;
-
-    switch (enable_val) {
-        case 0b01: m.enable = Bool2::Off; break;
-        case 0b10: m.enable = Bool2::On; break;
-        default: m.enable = Bool2::Invalid; break;
-    }
+    m.enable = f.data[0];
 
     return m;
 }
@@ -98,7 +92,7 @@ inline HomeAugerMsg decode<HomeAugerMsg>(const CANFrame &f) {
 }
 
 struct EnableDrillMsg {
-    Bool2 enable;
+    uint8_t enable;
 };
 
 template <>
@@ -107,7 +101,7 @@ inline CANFrame encode<EnableDrillMsg>(const EnableDrillMsg &m) {
     frame.id = static_cast<uint32_t>(MessageType::ENABLE_DRILL);
     frame.dlc = ENABLE_DRILL_DLC;
 
-    frame.data[0] = pack_bool_2(m.enable);
+    frame.data[0] = m.enable;
 
     return frame;
 }
@@ -115,13 +109,7 @@ inline CANFrame encode<EnableDrillMsg>(const EnableDrillMsg &m) {
 template <>
 inline EnableDrillMsg decode<EnableDrillMsg>(const CANFrame &f) {
     EnableDrillMsg m;
-    uint8_t enable_val = f.data[0] & 0b11;
-
-    switch (enable_val) {
-        case 0b01: m.enable = Bool2::Off; break;
-        case 0b10: m.enable = Bool2::On; break;
-        default: m.enable = Bool2::Invalid; break;
-    }
+    m.enable = f.data[0];
 
     return m;
 }

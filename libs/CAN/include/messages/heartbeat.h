@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../encoding.h"
+#include "../codec.h"
 #include <cstdint>
 
 static constexpr uint8_t HEARTBEAT_DLC = 4;

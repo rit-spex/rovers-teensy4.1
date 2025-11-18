@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../encoding.h"
+#include "../codec.h"
+#include "../../generated/messages/arm_codec.h"
 #include <cstdint>
 
 static constexpr uint8_t E_STOP_DLC = 0;

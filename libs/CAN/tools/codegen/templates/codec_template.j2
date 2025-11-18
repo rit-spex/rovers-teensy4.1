@@ -1,0 +1,36 @@
+// Auto-generated encode/decode for {{ STRUCT_HEADER }}
+#pragma once
+
+#include "{{ STRUCT_HEADER }}"   // struct definitions
+{% if DLC_HEADER %}
+#include "{{ DLC_HEADER }}"      // DLC constants
+{% endif %}
+
+// ---------------- Auto-generated encode/decode ----------------
+
+{% for msg in MESSAGES %}
+{% set base_name = msg[:-3] %}
+{% set MESSAGE_TYPE = base_name | pascal_to_snake %}
+
+template <>
+inline CANFrame encode<{{ msg }}>(const {{ msg }} &m) {
+    CANFrame frame{};
+    frame.id = static_cast<uint32_t>(MessageType::{{ MESSAGE_TYPE }});
+    frame.dlc = {{ MESSAGE_TYPE }}_DLC;
+
+{% for field in FIELDS[msg] %}
+    frame.data[{{ loop.index0 }}] = static_cast<uint8_t>(m.{{ field }});
+{% endfor %}
+
+    return frame;
+}
+
+template <>
+inline {{ msg }} decode<{{ msg }}>(const CANFrame &f) {
+    {{ msg }} m;
+{% for field in FIELDS[msg] %}
+    m.{{ field }} = static_cast<{{ TYPES[msg][loop.index0] }}>(f.data[{{ loop.index0 }}]);
+{% endfor %}
+    return m;
+}
+{% endfor %}

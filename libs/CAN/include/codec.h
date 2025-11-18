@@ -4,19 +4,8 @@
 struct CANFrame {
     uint32_t id;
     uint8_t dlc;
-    std::array<int, 8> data;
+    std::array<uint8_t, 8> data;
 };
-
-// two bit boolean type for redundancy
-enum class Bool2: uint8_t {
-    Off = 0b01,
-    On = 0b10,
-    Invalid = 0b00,
-};
-
-inline uint8_t pack_bool_2(Bool2 b) {
-    return static_cast<uint8_t>(b) & 0b11;
-}
 
 enum class MessageType: uint32_t {
     E_STOP = (uint32_t)0,
