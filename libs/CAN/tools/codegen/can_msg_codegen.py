@@ -18,7 +18,7 @@ HEADER_FILE = Path(sys.argv[1])
 OUTPUT_FILE = Path(sys.argv[2])
 TEMPLATE_FILE = Path(sys.argv[3])
 
-# Setup Jinja2 environment with filter
+# Setup Jinja2 environment
 env = Environment(loader=FileSystemLoader(TEMPLATE_FILE.parent))
 env.filters['pascal_to_snake'] = pascal_to_snake
 template = env.get_template(TEMPLATE_FILE.name)
@@ -32,6 +32,7 @@ FIELDS = {}
 TYPES = {}
 
 for c in tu.cursor.get_children():
+    # get all CAN message structs
     if c.kind == CursorKind.STRUCT_DECL and c.spelling.endswith("Msg"):
         msg_name = c.spelling
         MESSAGES.append(msg_name)
