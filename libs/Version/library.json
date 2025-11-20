@@ -1,0 +1,14 @@
+{
+	"$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+	"name": "Version",
+	"version": "1.0.0",
+	"description": "To Automatically keep track of software version and build info for CI/CD purposes",
+	"authors": [
+		{
+			"name": "Pascal Roobrouck",
+			"url": "https://github.com/Strooom"
+		}
+	],
+	"frameworks": ["arduino"],
+	"platforms": ["teensy"]
+}
