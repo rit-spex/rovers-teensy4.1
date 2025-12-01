@@ -65,7 +65,7 @@ public:
     // check if the mbb is disabled
     bool isDisabled();
 
-// Drives the rover based on the left and right joystick values
+    // Drives the rover based on the left and right joystick values
 #if ENABLE_DRIVEBASE
     void drive(float left_axis, float right_axis);
 #endif

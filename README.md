@@ -40,3 +40,6 @@ Or, to check all subsystems, run:
 ```
 ./scripts/tidy.sh
 ```
+
+## codecov setup 
+This is used to see the code coverage
