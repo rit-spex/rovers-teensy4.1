@@ -1,12 +1,8 @@
 #pragma once
 
-#include "misc_codec.h"
 #include "CAN/codec.h"
 
 #include <cstdint>
-
-static constexpr uint8_t E_STOP_DLC = 5;
-static constexpr uint8_t HEARTBEAT_DLC = 5;
 
 enum class EStopSource : uint8_t {
     ROS = 0,

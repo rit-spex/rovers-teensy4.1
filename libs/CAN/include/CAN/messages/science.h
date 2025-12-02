@@ -1,16 +1,9 @@
 #pragma once
 
-#include "science_codec.h"
 #include "CAN/codec.h"
 
 
 #include <cstdint>
-
-static constexpr uint8_t ENABLE_SCIENCE_DLC = 1;
-static constexpr uint8_t MOVE_AUGER_DLC = 8;
-static constexpr uint8_t HOME_AUGER_DLC = 0;
-static constexpr uint8_t ENABLE_DRILL_DLC = 1;
-static constexpr uint8_t MOVE_SLIDE_DLC = 1;
 
 struct EnableScienceMsg {
     uint8_t enable;

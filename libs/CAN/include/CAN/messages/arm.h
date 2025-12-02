@@ -1,18 +1,8 @@
 #pragma once
 
-#include "arm_codec.h"
 #include "CAN/codec.h"
 
 #include <cstdint>
-
-static constexpr uint8_t ENABLE_ARM_DLC = 1;
-static constexpr uint8_t MOVE_BASE_DLC = 2;
-static constexpr uint8_t MOVE_SHOULDER_DLC = 2;
-static constexpr uint8_t MOVE_ELBOW_DLC = 2;
-static constexpr uint8_t BEND_WRIST_DLC = 2;
-static constexpr uint8_t TWIST_WRIST_DLC = 2;
-static constexpr uint8_t MOVE_CLAW_DLC = 2;
-static constexpr uint8_t MOVE_SOLENOID_DLC = 2;
 
 struct EnableArmMsg {
     uint8_t enable;
