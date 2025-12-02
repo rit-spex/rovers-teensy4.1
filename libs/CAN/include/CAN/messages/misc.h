@@ -26,23 +26,24 @@ enum class EStopSource : uint8_t {
     SCIENCE = 3,
 };
 
+// Indicates that all subsystems should stop immediately and shutdown.
+// `source` indicates the subsystem that sent out the message initially. This
+// is useful for understanding the origin of the error and would hopefully be
+// captured by ROS logs.
 struct __attribute__((packed)) EStopMsg {
     EStopSource source; // 1 byte
     uint32_t timestamp_ms; // 4 bytes (uptime)
 };
 
-enum class HeartbeatStatus : uint8_t {
-    OK = 0,
-    DEGRADED = 1,
-    ERROR = 2,
-    FAULT = 3,
-    ESTOP = 4,
-    STARTUP = 5,
-};
-
+// Sent out periodically between the ROS and each subsystem in order to ensure
+// both are still operational.
+// If a subsystem does not get a hearbeat from the ROS, it should shut down all
+// motors as we've lost control of them (2025 tyler rover wrestling incident)
+// (those who know).
+// If ROS doesn't receieve a heartbeat from a subsystem, that also indicates
+// an error and should be handled.
 struct __attribute__((packed)) HeartbeatMsg {
-    HeartbeatStatus status; // 1 byte
-    uint32_t uptime_ms; // 4 bytes
+    uint32_t uptime_ms; // timestamp since startup
 };
 
 #endif // SPEX_CAN_MESSAGES_MISC_H
