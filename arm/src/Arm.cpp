@@ -1,5 +1,6 @@
 #include "Arm.h"
 
+namespace Arm {
 void startUp(Dynamixel2Arduino dyna)
 {
     pinMode(SHOULDER_DIR_PIN, OUTPUT);
@@ -290,6 +291,7 @@ void moveSolenoid(int state)
     digitalWrite(SOLENOID_PIN, state);
 }
 
+}
 // others
 
 // void Arm::moveArm(Direction shoulderDirection, Direction wristDirection, Direction elbowDirection, Direction clawDirection)

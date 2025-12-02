@@ -1,10 +1,13 @@
 
 #include "main.h"
+#include "CAN/message_types.h"
+#include "CAN/CAN.h"
+#include "CANHandlers.h"
+#include "globals.h"
 
 unsigned long previousMillis = 0;
 unsigned long currentRunCycle = 0;
 std::shared_ptr<CAN> can;
-Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 
 void setup()
 {
@@ -13,28 +16,28 @@ void setup()
     Serial.println("Arm");
     delay(1000);
 #endif
-    startUp(dyna);
+    Arm::startUp(dyna);
 
-    can = std::make_shared<CAN>(&currentRunCycle);
-    // *can = CAN(&currentRunCycle);
+    can = std::make_shared<CAN>();
     can->startCAN();
+    // setup message callbacks
+    // XXX: surely a way to infer the type for onMessage given the callback's argument type
+    can->onMessage<EStopMsg>(MessageType::E_STOP, CANHandlers::estop);
+    can->onMessage<EnableArmMsg>(MessageType::ENABLE_ARM, CANHandlers::enableArm);
+    can->onMessage<MoveBaseMsg>(MessageType::MOVE_BASE, CANHandlers::moveBase);
+    can->onMessage<MoveShoulderMsg>(MessageType::MOVE_SHOULDER, CANHandlers::moveShoulder);
+    can->onMessage<MoveElbowMsg>(MessageType::MOVE_ELBOW, CANHandlers::moveElbow);
+    can->onMessage<BendWristMsg>(MessageType::BEND_WRIST, CANHandlers::bendWrist);
+    can->onMessage<TwistWristMsg>(MessageType::TWIST_WRIST, CANHandlers::twistWrist);
+    can->onMessage<MoveClawMsg>(MessageType::MOVE_CLAW, CANHandlers::moveClaw);
+    can->onMessage<MoveSolenoidMsg>(MessageType::MOVE_SOLENOID, CANHandlers::moveSolenoid);
 }
 
 void loop()
 {
-    // Need to call this to read and "sniff" each message
-    can->readMsgBuffer();
-    if (can->isNewMessage(CAN::ARM_E_STOP))
-    {
-#if ENABLE_SERIAL
-        Serial.println("ESTOP ENCOUNTERED");
-#endif
-        disable(dyna);
-    }
-
     // Updated status light
     unsigned long currentMillis = millis();
-    if (isDisabled)
+    if (Arm::isDisabled)
     {
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
 #if ENABLE_SERIAL
@@ -50,52 +53,5 @@ void loop()
         }
     }
 
-    for (int i = 10; i < 18; ++i)
-    {
-        if (can->isNewMessage((CAN::Message_ID)i))
-        {
-            uint8_t *data;
-            data = can->getUnpackedData((CAN::Message_ID)i);
-#if ENABLE_SERIAL
-            Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
-#endif
-            Direction direction = (Direction)data[1];
-            if (!(bool)data[0])
-            {
-                direction = OFF;
-            }
-
-            // Activate specific motors based on arbitration ID
-            switch (i)
-            {
-            case 11:
-                moveBase(direction);
-                break;
-            case 12:
-                moveShoulder(direction);
-                break;
-            case 13:
-                moveElbow(direction);
-                break;
-            case 14:
-                bendWrist(dyna, direction);
-                break;
-            case 15:
-                twistWrist(dyna, direction);
-                break;
-            case 16:
-                moveSARClaw(direction);
-                break;
-            case 17:
-                moveSolenoid(data[0]);
-                break;
-            default:
-#if ENABLE_SERIAL
-                Serial.printf("message type not accounted for %d\n", i);
-#endif
-                disable(dyna);
-                break;
-            }
-        }
-    }
+    can->poll();
 }

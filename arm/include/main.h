@@ -18,7 +18,7 @@
 #include <memory>
 
 #include "Arm.h"
-#include "CAN.h"
+#include "CAN/CAN.h"
 #include "Constants.h"
 #include "Pinout.h"
 

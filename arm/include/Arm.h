@@ -10,6 +10,7 @@
 #include <TimerOne.h>
 #include <TimerThree.h>
 
+namespace Arm {
 enum Direction
 {
     REVERSE = 0,
@@ -58,6 +59,7 @@ static float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
 
 static int gripperPos = MIN_GRIPPER_POS;
 
+}
 // class Arm
 // {
 // public:

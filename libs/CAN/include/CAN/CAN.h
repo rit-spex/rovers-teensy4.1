@@ -17,6 +17,11 @@
 #include "can_frame.h"
 #include "codec.h"
 
+// message structs
+#include "messages/arm.h"
+#include "messages/science.h"
+#include "messages/misc.h"
+
 
 // Tries to send message to all CAN buses
 bool tryToSendAll(const CANMessage &frame);
@@ -32,7 +37,7 @@ public:
     } CAN_MODE;
 
     // start the CAN only call this once
-    bool startCAN();
+    void startCAN();
 
     template<typename T>
     bool send(const T &msg, MessageType msg_type) {
