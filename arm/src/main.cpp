@@ -22,7 +22,7 @@ void setup()
     can->startCAN();
     // setup message callbacks
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
-    can->onMessage<EStopMsg>(MessageType::E_STOP, CANHandlers::estop);
+    can->onMessage<EStopMsg>(MessageType::E_STOP, CANHandlers::eStop);
     can->onMessage<EnableArmMsg>(MessageType::ENABLE_ARM, CANHandlers::enableArm);
     can->onMessage<MoveBaseMsg>(MessageType::MOVE_BASE, CANHandlers::moveBase);
     can->onMessage<MoveShoulderMsg>(MessageType::MOVE_SHOULDER, CANHandlers::moveShoulder);

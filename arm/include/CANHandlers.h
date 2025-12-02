@@ -5,7 +5,7 @@
 #include "CAN/messages/misc.h"
 
 namespace CANHandlers {
-void estop(const EStopMsg &msg);
+void eStop(const EStopMsg &msg);
 void enableArm(const EnableArmMsg &msg);
 void moveBase(const MoveBaseMsg &msg);
 void moveShoulder(const MoveShoulderMsg &msg);

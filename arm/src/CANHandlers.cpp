@@ -23,7 +23,7 @@ static Arm::Direction armStateAndDirToDirection(const ArmState &state, const Arm
 }
 
 namespace CANHandlers {
-void estop(const EStopMsg &msg) {
+void eStop(const EStopMsg &msg) {
 #if ENABLE_SERIAL
         Serial.println("ESTOP ENCOUNTERED");
 #endif
