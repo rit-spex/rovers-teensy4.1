@@ -7,10 +7,19 @@
 		{
 			"name": "Tyler",
 			"url": "https://github.com/coolly1"
-		}
+		},
+        {
+            "name": "Lucas Newcomb",
+            "url": "https://github.com/pants721"
+        }
 	],
 	"frameworks": "arduino",
 	"platforms": ["teensy"],
+    "build": {
+        "flags": [
+            "-Igenerated"
+        ]
+    },
 	"dependencies": {
 		"pierremolinaro/ACAN_T4": "^1.1.6"
 	}
