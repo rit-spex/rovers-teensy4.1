@@ -13,7 +13,8 @@
 
 #include <cstdint>
 
-enum class MessageID: uint32_t {
+enum class MessageID : uint32_t
+{
     E_STOP = (uint32_t)0,
 
     // arm

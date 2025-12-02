@@ -5,19 +5,20 @@
 #include <stdexcept>
 #define ENABLE_SERIAL 1
 
-bool tryToSendAll(const CANMessage &frame) {
-        if (CAN::CAN_MODE::CAN1 == ActiveCAN)
-        {
-            return ACAN_T4::can1.tryToSend(frame);
-        }
-        else if (CAN::CAN_MODE::CAN2 == ActiveCAN)
-        {
-            return ACAN_T4::can2.tryToSend(frame);
-        }
-        else if (CAN::CAN_MODE::CAN3 == ActiveCAN)
-        {
-            return ACAN_T4::can3.tryToSend(frame);
-        }
+bool tryToSendAll(const CANMessage &frame)
+{
+    if (CAN::CAN_MODE::CAN1 == ActiveCAN)
+    {
+        return ACAN_T4::can1.tryToSend(frame);
+    }
+    else if (CAN::CAN_MODE::CAN2 == ActiveCAN)
+    {
+        return ACAN_T4::can2.tryToSend(frame);
+    }
+    else if (CAN::CAN_MODE::CAN3 == ActiveCAN)
+    {
+        return ACAN_T4::can3.tryToSend(frame);
+    }
 }
 
 void CAN::startCAN()
@@ -46,12 +47,13 @@ void CAN::startCAN()
 #endif
 }
 
-
-void CAN::poll() {
+void CAN::poll()
+{
     CANMessage frame;
     bool received = false;
 
-    if (CAN::CAN_MODE::CAN1 == ActiveCAN) {
+    if (CAN::CAN_MODE::CAN1 == ActiveCAN)
+    {
         received = ACAN_T4::can1.receive(frame);
     }
     else if (CAN::CAN_MODE::CAN2 == ActiveCAN)
@@ -63,17 +65,20 @@ void CAN::poll() {
         received = ACAN_T4::can3.receive(frame);
     }
 
-    if (received) {
+    if (received)
+    {
         dispatch(frame);
     }
 }
 
-void CAN::dispatch(CANMessage &frame) {
+void CAN::dispatch(CANMessage &frame)
+{
     MessageID id = static_cast<MessageID>(frame.id);
     // Attempts to locate `id` as a key in `m_dispatcher`
     auto it = m_dispatcher.find(id);
     // If `m_dispatcher` contains `id`
-    if (it != m_dispatcher.end()) {
+    if (it != m_dispatcher.end())
+    {
         // Calls the corresponding function with the CAN frame as an argument.
         it->second(frame);
     }

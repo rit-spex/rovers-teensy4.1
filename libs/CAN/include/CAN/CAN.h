@@ -10,7 +10,6 @@
 //     messaging.
 // ============================================================================
 
-
 #ifndef SPEX_CAN_H
 #define SPEX_CAN_H
 
@@ -26,14 +25,13 @@
 #include <unordered_map>
 
 // exports
-#include "message_id.h"
 #include "codec.h"
+#include "message_id.h"
 
 // message structs
 #include "messages/arm.h"
-#include "messages/science.h"
 #include "messages/misc.h"
-
+#include "messages/science.h"
 
 // Tries to send message to all CAN buses
 bool tryToSendAll(const CANMessage &frame);
@@ -51,8 +49,9 @@ public:
     // start the CAN only call this once
     void startCAN();
 
-    template<typename T>
-    bool send(const T &msg, MessageID msg_id) {
+    template <typename T>
+    bool send(const T &msg, MessageID msg_id)
+    {
         CANMessage frame = encode(msg, msg_id);
         return tryToSendAll(frame);
     }
@@ -60,7 +59,8 @@ public:
     // Binds a callback function to a message struct `T`.
     // Handles decoding CAN frames into `T` internally.
     template <typename T>
-    void onMessage(MessageID msg_id, std::function<void(const T &)> callback) {
+    void onMessage(MessageID msg_id, std::function<void(const T &)> callback)
+    {
         auto wrapper = [callback](const CANMessage &frame) {
             T msg = decode<T>(frame);
             callback(msg);
@@ -72,6 +72,7 @@ public:
     void poll();
     // Given a CAN frame, calls its registered callback function.
     void dispatch(CANMessage &frame);
+
 private:
     // A map storing CAN message IDs and their corresponding callback functions.
     std::unordered_map<MessageID, std::function<void(const CANMessage &)>> m_dispatcher;

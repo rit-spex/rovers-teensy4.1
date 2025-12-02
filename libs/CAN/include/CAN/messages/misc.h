@@ -19,7 +19,8 @@
 
 #include <cstdint>
 
-enum class EStopSource : uint8_t {
+enum class EStopSource : uint8_t
+{
     ROS = 0,
     ARM = 1,
     CHASSIS = 2,
@@ -30,8 +31,9 @@ enum class EStopSource : uint8_t {
 // `source` indicates the subsystem that sent out the message initially. This
 // is useful for understanding the origin of the error and would hopefully be
 // captured by ROS logs.
-struct __attribute__((packed)) EStopMsg {
-    EStopSource source; // 1 byte
+struct __attribute__((packed)) EStopMsg
+{
+    EStopSource source;    // 1 byte
     uint32_t timestamp_ms; // 4 bytes (uptime)
 };
 
@@ -42,7 +44,8 @@ struct __attribute__((packed)) EStopMsg {
 // (those who know).
 // If ROS doesn't receieve a heartbeat from a subsystem, that also indicates
 // an error and should be handled.
-struct __attribute__((packed)) HeartbeatMsg {
+struct __attribute__((packed)) HeartbeatMsg
+{
     uint32_t uptime_ms; // timestamp since startup
 };
 

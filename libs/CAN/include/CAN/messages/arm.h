@@ -19,53 +19,63 @@
 
 #include <cstdint>
 
-struct __attribute__((packed)) EnableArmMsg {
+struct __attribute__((packed)) EnableArmMsg
+{
     uint8_t enable;
 };
 
 // ARM COMMANDS
 
-enum class ArmState : uint8_t {
+enum class ArmState : uint8_t
+{
     Active = 0,
     Stop = 1,
 };
 
-enum class ArmDir : uint8_t {
+enum class ArmDir : uint8_t
+{
     Reverse = 0,
     Forward = 1,
 };
 
-struct __attribute__((packed)) MoveBaseMsg {
+struct __attribute__((packed)) MoveBaseMsg
+{
     ArmState state;
     ArmDir direction;
 };
 
-struct __attribute__((packed)) MoveShoulderMsg {
+struct __attribute__((packed)) MoveShoulderMsg
+{
     ArmState state;
     ArmDir direction;
 };
 
-struct __attribute__((packed)) MoveElbowMsg {
+struct __attribute__((packed)) MoveElbowMsg
+{
     ArmState state;
     ArmDir direction;
 };
 
-struct __attribute__((packed)) BendWristMsg {
+struct __attribute__((packed)) BendWristMsg
+{
     ArmState state;
     ArmDir direction;
 };
 
-struct __attribute__((packed)) TwistWristMsg {
+struct __attribute__((packed)) TwistWristMsg
+{
     ArmState state;
     ArmDir direction;
 };
 
-struct __attribute__((packed)) MoveClawMsg {
+struct __attribute__((packed)) MoveClawMsg
+{
     ArmState state;
     ArmDir direction;
 };
 
-struct __attribute__((packed)) MoveSolenoidMsg {
+struct __attribute__((packed)) MoveSolenoidMsg
+{
     ArmState state;
     ArmDir direction;
 };
