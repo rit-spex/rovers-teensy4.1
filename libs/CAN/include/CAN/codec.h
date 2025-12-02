@@ -14,6 +14,8 @@ CANMessage encode(const T &msg, MessageType msg_type) {
     frame.id = static_cast<uint32_t>(msg_type);
     frame.len = sizeof(T);
     memcpy(frame.data, &msg, sizeof(T));
+
+    return frame;
 }
 
 template <typename T>
