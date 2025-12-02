@@ -70,8 +70,11 @@ void CAN::poll() {
 
 void CAN::dispatch(CANMessage &frame) {
     MessageID id = static_cast<MessageID>(frame.id);
+    // Attempts to locate `id` as a key in `m_dispatcher`
     auto it = m_dispatcher.find(id);
+    // If `m_dispatcher` contains `id`
     if (it != m_dispatcher.end()) {
+        // Calls the corresponding function with the CAN frame as an argument.
         it->second(frame);
     }
 }

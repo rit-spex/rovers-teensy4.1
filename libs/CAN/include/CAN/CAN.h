@@ -57,6 +57,8 @@ public:
         return tryToSendAll(frame);
     }
 
+    // Binds a callback function to a message struct `T`.
+    // Handles decoding CAN frames into `T` internally.
     template <typename T>
     void onMessage(MessageID msg_id, std::function<void(const T &)> callback) {
         auto wrapper = [callback](const CANMessage &frame) {
@@ -66,9 +68,12 @@ public:
         m_dispatcher[msg_id] = wrapper;
     }
 
+    // Checks for new CAN messages and handle them
     void poll();
+    // Given a CAN frame, calls its registered callback function.
     void dispatch(CANMessage &frame);
 private:
+    // A map storing CAN message IDs and their corresponding callback functions.
     std::unordered_map<MessageID, std::function<void(const CANMessage &)>> m_dispatcher;
 };
 #endif
