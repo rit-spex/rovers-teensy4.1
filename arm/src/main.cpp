@@ -22,15 +22,15 @@ void setup()
     can->startCAN();
     // setup message callbacks
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
-    can->onMessage<EStopMsg>(MessageType::E_STOP, CANHandlers::eStop);
-    can->onMessage<EnableArmMsg>(MessageType::ENABLE_ARM, CANHandlers::enableArm);
-    can->onMessage<MoveBaseMsg>(MessageType::MOVE_BASE, CANHandlers::moveBase);
-    can->onMessage<MoveShoulderMsg>(MessageType::MOVE_SHOULDER, CANHandlers::moveShoulder);
-    can->onMessage<MoveElbowMsg>(MessageType::MOVE_ELBOW, CANHandlers::moveElbow);
-    can->onMessage<BendWristMsg>(MessageType::BEND_WRIST, CANHandlers::bendWrist);
-    can->onMessage<TwistWristMsg>(MessageType::TWIST_WRIST, CANHandlers::twistWrist);
-    can->onMessage<MoveClawMsg>(MessageType::MOVE_CLAW, CANHandlers::moveClaw);
-    can->onMessage<MoveSolenoidMsg>(MessageType::MOVE_SOLENOID, CANHandlers::moveSolenoid);
+    can->onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
+    can->onMessage<EnableArmMsg>(MessageID::ENABLE_ARM, CANHandlers::enableArm);
+    can->onMessage<MoveBaseMsg>(MessageID::MOVE_BASE, CANHandlers::moveBase);
+    can->onMessage<MoveShoulderMsg>(MessageID::MOVE_SHOULDER, CANHandlers::moveShoulder);
+    can->onMessage<MoveElbowMsg>(MessageID::MOVE_ELBOW, CANHandlers::moveElbow);
+    can->onMessage<BendWristMsg>(MessageID::BEND_WRIST, CANHandlers::bendWrist);
+    can->onMessage<TwistWristMsg>(MessageID::TWIST_WRIST, CANHandlers::twistWrist);
+    can->onMessage<MoveClawMsg>(MessageID::MOVE_CLAW, CANHandlers::moveClaw);
+    can->onMessage<MoveSolenoidMsg>(MessageID::MOVE_SOLENOID, CANHandlers::moveSolenoid);
 }
 
 void loop()

@@ -1,9 +1,9 @@
-#ifndef CAN_MESSAGE_TYPES_H
-#define CAN_MESSAGE_TYPES_H
+#ifndef CAN_MESSAGE_ID_H
+#define CAN_MESSAGE_ID_H
 
 #include <cstdint>
 
-enum class MessageType: uint32_t {
+enum class MessageID: uint32_t {
     E_STOP = (uint32_t)0,
 
     // arm
@@ -26,4 +26,4 @@ enum class MessageType: uint32_t {
     HEARTBEAT,
 };
 
-#endif // CAN_MESSAGE_TYPES_H
+#endif // CAN_MESSAGE_ID_H

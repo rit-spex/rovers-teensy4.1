@@ -6,12 +6,12 @@
 #include <cstring>
 #include <ACAN_T4.h>
 
-#include "CAN/message_types.h"
+#include "CAN/message_id.h"
 
 template <typename T>
-CANMessage encode(const T &msg, MessageType msg_type) {
+CANMessage encode(const T &msg, MessageID msg_id) {
     CANMessage frame {};
-    frame.id = static_cast<uint32_t>(msg_type);
+    frame.id = static_cast<uint32_t>(msg_id);
     frame.len = sizeof(T);
     memcpy(frame.data, &msg, sizeof(T));
 

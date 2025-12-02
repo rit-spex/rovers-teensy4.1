@@ -1,6 +1,6 @@
 #include "CAN/CAN.h"
 #include "ACAN_T4.h"
-#include "CAN/message_types.h"
+#include "CAN/message_id.h"
 #include <cstdint>
 #include <stdexcept>
 #define ENABLE_SERIAL 1
@@ -69,8 +69,8 @@ void CAN::poll() {
 }
 
 void CAN::dispatch(CANMessage &frame) {
-    MessageType type = static_cast<MessageType>(frame.id);
-    auto it = m_dispatcher.find(type);
+    MessageID id = static_cast<MessageID>(frame.id);
+    auto it = m_dispatcher.find(id);
     if (it != m_dispatcher.end()) {
         it->second(frame);
     }

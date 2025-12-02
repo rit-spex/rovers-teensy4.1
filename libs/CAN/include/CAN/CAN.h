@@ -13,7 +13,7 @@
 #include <unordered_map>
 
 // exports
-#include "message_types.h"
+#include "message_id.h"
 #include "codec.h"
 
 // message structs
@@ -39,23 +39,23 @@ public:
     void startCAN();
 
     template<typename T>
-    bool send(const T &msg, MessageType msg_type) {
-        CANMessage frame = encode(msg, msg_type);
+    bool send(const T &msg, MessageID msg_id) {
+        CANMessage frame = encode(msg, msg_id);
         return tryToSendAll(frame);
     }
 
     template <typename T>
-    void onMessage(MessageType msg_type, std::function<void(const T &)> callback) {
+    void onMessage(MessageID msg_id, std::function<void(const T &)> callback) {
         auto wrapper = [callback](const CANMessage &frame) {
             T msg = decode<T>(frame);
             callback(msg);
         };
-        m_dispatcher[msg_type] = wrapper;
+        m_dispatcher[msg_id] = wrapper;
     }
 
     void poll();
     void dispatch(CANMessage &frame);
 private:
-    std::unordered_map<MessageType, std::function<void(const CANMessage &)>> m_dispatcher;
+    std::unordered_map<MessageID, std::function<void(const CANMessage &)>> m_dispatcher;
 };
 #endif
