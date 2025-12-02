@@ -1,5 +1,5 @@
-#ifndef CAN_CODEC_H
-#define CAN_CODEC_H
+#ifndef SPEX_CAN_CODEC_H
+#define SPEX_CAN_CODEC_H
 
 #include <cstdint>
 #include <array>
@@ -25,4 +25,4 @@ T decode(const CANMessage &frame) {
     return msg;
 }
 
-#endif // CAN_CODEC_H
+#endif // SPEX_CAN_CODEC_H

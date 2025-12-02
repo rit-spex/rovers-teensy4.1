@@ -1,5 +1,5 @@
-#ifndef CAN_H
-#define CAN_H
+#ifndef SPEX_CAN_H
+#define SPEX_CAN_H
 
 // Constants
 #include <functional>

@@ -1,5 +1,5 @@
-#ifndef CAN_MESSAGES_SCIENCE_H
-#define CAN_MESSAGES_SCIENCE_H
+#ifndef SPEX_CAN_MESSAGES_SCIENCE_H
+#define SPEX_CAN_MESSAGES_SCIENCE_H
 
 #include "CAN/codec.h"
 
@@ -55,4 +55,4 @@ struct __attribute__((packed)) MoveSlideMsg
     SlidePosition position;
 };
 
-#endif // CAN_MESSAGES_SCIENCE_H
+#endif // SPEX_CAN_MESSAGES_SCIENCE_H

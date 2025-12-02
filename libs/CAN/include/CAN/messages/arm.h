@@ -1,5 +1,5 @@
-#ifndef CAN_MESSAGES_ARM_H
-#define CAN_MESSAGES_ARM_H
+#ifndef SPEX_CAN_MESSAGES_ARM_H
+#define SPEX_CAN_MESSAGES_ARM_H
 
 #include "CAN/codec.h"
 
@@ -56,4 +56,4 @@ struct __attribute__((packed)) MoveSolenoidMsg {
     ArmDir direction;
 };
 
-#endif // CAN_MESSAGES_ARM_H
+#endif // SPEX_CAN_MESSAGES_ARM_H

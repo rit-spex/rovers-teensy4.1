@@ -1,5 +1,5 @@
-#ifndef CAN_MESSAGES_MISC_H
-#define CAN_MESSAGES_MISC_H
+#ifndef SPEX_CAN_MESSAGES_MISC_H
+#define SPEX_CAN_MESSAGES_MISC_H
 
 #include "CAN/codec.h"
 
@@ -31,4 +31,4 @@ struct __attribute__((packed)) HeartbeatMsg {
     uint32_t uptime_ms; // 4 bytes
 };
 
-#endif // CAN_MESSAGES_MISC_H
+#endif // SPEX_CAN_MESSAGES_MISC_H

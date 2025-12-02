@@ -1,5 +1,5 @@
-#ifndef CAN_MESSAGE_ID_H
-#define CAN_MESSAGE_ID_H
+#ifndef SPEX_CAN_MESSAGE_ID_H
+#define SPEX_CAN_MESSAGE_ID_H
 
 #include <cstdint>
 
@@ -26,4 +26,4 @@ enum class MessageID: uint32_t {
     HEARTBEAT,
 };
 
-#endif // CAN_MESSAGE_ID_H
+#endif // SPEX_CAN_MESSAGE_ID_H
