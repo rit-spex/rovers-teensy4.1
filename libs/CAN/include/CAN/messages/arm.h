@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-struct EnableArmMsg {
+struct __attribute__((packed)) EnableArmMsg {
     uint8_t enable;
 };
 
@@ -20,36 +20,37 @@ enum class ArmDir : uint8_t {
     Forward = 1,
 };
 
-struct MoveBaseMsg {
-    ArmState state;
-    ArmDir direction;
-};
-struct MoveShoulderMsg {
+struct __attribute__((packed)) MoveBaseMsg {
     ArmState state;
     ArmDir direction;
 };
 
-struct MoveElbowMsg {
+struct __attribute__((packed)) MoveShoulderMsg {
     ArmState state;
     ArmDir direction;
 };
 
-struct BendWristMsg {
+struct __attribute__((packed)) MoveElbowMsg {
     ArmState state;
     ArmDir direction;
 };
 
-struct TwistWristMsg {
+struct __attribute__((packed)) BendWristMsg {
     ArmState state;
     ArmDir direction;
 };
 
-struct MoveClawMsg {
+struct __attribute__((packed)) TwistWristMsg {
     ArmState state;
     ArmDir direction;
 };
 
-struct MoveSolenoidMsg {
+struct __attribute__((packed)) MoveClawMsg {
+    ArmState state;
+    ArmDir direction;
+};
+
+struct __attribute__((packed)) MoveSolenoidMsg {
     ArmState state;
     ArmDir direction;
 };

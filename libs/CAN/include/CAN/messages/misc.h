@@ -11,7 +11,7 @@ enum class EStopSource : uint8_t {
     SCIENCE = 3,
 };
 
-struct EStopMsg {
+struct __attribute__((packed)) EStopMsg {
     EStopSource source; // 1 byte
     uint32_t timestamp_ms; // 4 bytes (uptime)
 };
@@ -25,7 +25,7 @@ enum class HeartbeatStatus : uint8_t {
     STARTUP = 5,
 };
 
-struct HeartbeatMsg {
+struct __attribute__((packed)) HeartbeatMsg {
     HeartbeatStatus status; // 1 byte
     uint32_t uptime_ms; // 4 bytes
 };
