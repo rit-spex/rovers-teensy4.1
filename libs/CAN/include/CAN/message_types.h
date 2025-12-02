@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAN_MESSAGE_TYPES_H
+#define CAN_MESSAGE_TYPES_H
 
 #include <cstdint>
 
@@ -24,3 +25,5 @@ enum class MessageType: uint32_t {
 
     HEARTBEAT,
 };
+
+#endif // CAN_MESSAGE_TYPES_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CAN_CODEC_H
+#define CAN_CODEC_H
 
 #include <cstdint>
 #include <array>
@@ -6,7 +7,6 @@
 #include <ACAN_T4.h>
 
 #include "CAN/message_types.h"
-#include "can_frame.h"
 
 template <typename T>
 CANMessage encode(const T &msg, MessageType msg_type) {
@@ -22,3 +22,5 @@ T decode(const CANMessage &frame) {
     memcpy(&msg, frame.data, sizeof(T));
     return msg;
 }
+
+#endif // CAN_CODEC_H

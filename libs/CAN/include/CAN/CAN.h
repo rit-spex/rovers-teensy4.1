@@ -14,7 +14,6 @@
 
 // exports
 #include "message_types.h"
-#include "can_frame.h"
 #include "codec.h"
 
 // message structs

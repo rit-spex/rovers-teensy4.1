@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ARM_CAN_HANDLERS_H
+#define ARM_CAN_HANDLERS_H
 
 #include "CAN/messages/arm.h"
 #include "CAN/messages/misc.h"
@@ -15,3 +16,4 @@ void moveClaw(const MoveClawMsg &msg);
 void moveSolenoid(const MoveSolenoidMsg &msg);
 }
 
+#endif // ARM_CAN_HANDLERS_H
