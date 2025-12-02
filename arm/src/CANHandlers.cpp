@@ -27,7 +27,7 @@ void eStop(const EStopMsg &msg) {
 #if ENABLE_SERIAL
         Serial.println("ESTOP ENCOUNTERED");
 #endif
-        Arm::disable(dyna);
+        Arm::disable();
 }
 
 void enableArm(const EnableArmMsg &msg) {

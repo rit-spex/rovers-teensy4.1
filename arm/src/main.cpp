@@ -1,6 +1,6 @@
 
 #include "main.h"
-#include "CAN/message_types.h"
+#include "CAN/message_id.h"
 #include "CAN/CAN.h"
 #include "CANHandlers.h"
 #include "globals.h"
@@ -16,7 +16,7 @@ void setup()
     Serial.println("Arm");
     delay(1000);
 #endif
-    Arm::startUp(dyna);
+    Arm::startUp();
 
     can = std::make_shared<CAN>();
     can->startCAN();

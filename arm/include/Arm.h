@@ -25,8 +25,8 @@ enum Dynamixel2MotorIDs
     CLAW = 3
 };
 
-void startUp(Dynamixel2Arduino dyna);
-void disable(Dynamixel2Arduino dyna);
+void startUp();
+void disable();
 bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
 void moveBase(Direction direction);
 void moveShoulder(Direction direction);

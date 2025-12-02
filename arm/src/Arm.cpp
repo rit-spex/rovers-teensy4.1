@@ -1,7 +1,9 @@
 #include "Arm.h"
 
+#include "globals.h"
+
 namespace Arm {
-void startUp(Dynamixel2Arduino dyna)
+void startUp()
 {
     pinMode(SHOULDER_DIR_PIN, OUTPUT);
     pinMode(SHOULDER_SPEED_PIN, OUTPUT);
@@ -40,7 +42,7 @@ void startUp(Dynamixel2Arduino dyna)
     delay(10);
 }
 
-void disable(Dynamixel2Arduino dyna)
+void disable()
 {
     moveBase(OFF);
     moveShoulder(OFF);
