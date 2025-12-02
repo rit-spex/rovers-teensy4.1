@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "CAN/message_id.h"
 #include "CAN/CAN.h"

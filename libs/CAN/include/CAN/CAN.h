@@ -1,3 +1,16 @@
+// ============================================================================
+// File: CAN.h
+//
+// Authors:
+//     - Tyler (@coolly1)
+//     - Lucas Newcomb (@pants721)
+//
+// Description:
+//     Provides a wrapper API around the ACAN_T4 library for the rover's CAN
+//     messaging.
+// ============================================================================
+
+
 #ifndef SPEX_CAN_H
 #define SPEX_CAN_H
 

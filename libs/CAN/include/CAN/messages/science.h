@@ -1,3 +1,17 @@
+// ============================================================================
+// File: science.h
+//
+// Authors:
+//     - Lucas Newcomb (@pants721)
+//
+// Description:
+//     Provides the types for CAN messages related to the Science subsystem.
+// Note:
+//     Message structs MUST have `__attribute__((packed))` in order to avoid
+//     the compiler inserting padding, which would make our encoding and
+//     decoding compiler dependent which is a big no-no.
+// ============================================================================
+
 #ifndef SPEX_CAN_MESSAGES_SCIENCE_H
 #define SPEX_CAN_MESSAGES_SCIENCE_H
 

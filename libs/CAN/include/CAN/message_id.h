@@ -1,3 +1,13 @@
+// ============================================================================
+// File: codec.h
+//
+// Authors:
+//     - Lucas Newcomb (@pants721)
+//
+// Description:
+//     Provides the `MessageID` enum which our CAN messages use as identifiers.
+// ============================================================================
+
 #ifndef SPEX_CAN_MESSAGE_ID_H
 #define SPEX_CAN_MESSAGE_ID_H
 

@@ -1,3 +1,15 @@
+// ============================================================================
+// File: codec.h
+//
+// Authors:
+//     - Lucas Newcomb (@pants721)
+//
+// Description:
+//     Provides template functions for encoding and decoding CAN message structs.
+//     Uses `memcpy` and `sizeof`, which should work for all current and future
+//     structs, given their data can be serialized as integers.
+// ============================================================================
+
 #ifndef SPEX_CAN_CODEC_H
 #define SPEX_CAN_CODEC_H
 
