@@ -13,7 +13,18 @@
 #ifndef SPEX_CAN_CODEC_H
 #define SPEX_CAN_CODEC_H
 
+// PIO test framework can't use ACAN_T4 if we're testing on native (not teensy)
+// which is the case for testing the encoding and decoding testing
+#ifdef CAN_CODEC_TEST
+struct CANMessage {
+    uint32_t id;
+    uint8_t len;
+    uint8_t data[8];
+}
+#else
 #include <ACAN_T4.h>
+#endif
+
 #include <array>
 #include <cstdint>
 #include <cstring>
