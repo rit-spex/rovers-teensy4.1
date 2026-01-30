@@ -7,6 +7,7 @@
 // --------------------------------------------------------------------
 
 #include "Encoder.h"
+#include "GlobalVars.h"
 
 #include "spdlog/spdlog.h"
 

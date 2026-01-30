@@ -25,7 +25,7 @@
 #define ENABLE_CAN true
 #define ENABLE_DRIVEBASE true
 #define ENABLE_TEMP true
-#define ENABLE_SERIAL false
+#define ENABLE_SERIAL true
 
 #define AUTO 0
 

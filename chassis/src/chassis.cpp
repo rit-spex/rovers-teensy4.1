@@ -11,9 +11,13 @@
 // --------------------------------------------------------------------
 
 #include "../include/chassis.h"
+#include "CAN/CAN.h"
+#include "CAN/message_id.h"
+#include "CAN/messages/misc.h"
+#include "CAN/messages/chassis.h"
 
 #if ENABLE_CAN
-Chassis::Chassis(unsigned long *currentCycle) : m_can(currentCycle), m_currentCyclePtr(currentCycle)
+Chassis::Chassis(unsigned long *currentCycle) : m_currentCyclePtr(currentCycle)
 {
 }
 #else
@@ -38,6 +42,9 @@ void Chassis::startUp()
 
 #if ENABLE_CAN
     m_can.startCAN();
+    m_can.onMessage<EStopMsg>(MessageID::E_STOP, [this](const EStopMsg& msg) { this->handleEStopMsg(msg); });
+    m_can.onMessage<EnableChassisMsg>(MessageID::ENABLE_CHASSIS, [this](const EnableChassisMsg& msg) { this->handleEnableChassisMsg(msg); });
+    m_can.onMessage<DrivePowerMsg>(MessageID::DRIVE_POWER, [this](const DrivePowerMsg& msg) { this->handleDrivePowerMsg(msg); });
 #endif
 }
 
@@ -68,43 +75,13 @@ void Chassis::updateSubsystems(int timeInterval_ms)
 {
     if (!m_disabled)
     {
-#if ENABLE_CAN
-        m_disabled = m_can.getUnpackedMessage(CAN::Message_ID::E_STOP, 0);
-#endif
-    }
-    if (!m_disabled)
-    {
-        // m_disabled = (*m_currentCyclePtr - m_can.m_lastRecievedMsgCycle > 25) && m_can.m_recievedMsg;
-        // Serial.println(m_can.m_lastRecievedMsgCycle);
-        // Serial.println(m_can.m_recievedMsg);
-    }
-    if (!m_disabled)
-    {
         blinkStatusLight();
 #if ENABLE_DRIVEBASE
 #if ENABLE_ENCODER
         m_drive_base.updateRPM();
-#else
-#if ENABLE_CAN
-        // Serial.println(m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0));
-        float leftPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 0) - 100.0) / 100;
-        float rightPower = ((float)m_can.getUnpackedMessage(CAN::Message_ID::DRIVE_POWER, 1) - 100.0) / 100;
-
-        // Serial.println("\n\nABOUT TO DRIVE\n\n");
-
-        Serial.printf("left_power: %d\n", leftPower);
-        Serial.printf("right_power: %d\n", rightPower);
-
-        m_drive_base.drive(leftPower, rightPower);
+#endif
 #endif
 
-#endif
-
-#endif
-
-#if ENABLE_TEMP
-        m_temp_subsystem.updateFans();
-#endif
     }
     else
     {
@@ -118,7 +95,7 @@ void Chassis::updateSubsystems(int timeInterval_ms)
 void Chassis::runBackgroundProcess()
 {
 #if ENABLE_CAN
-    m_can.readMsgBuffer();
+    m_can.poll();
 #endif
 }
 
@@ -148,4 +125,27 @@ void Chassis::disable()
 bool Chassis::isDisabled()
 {
     return m_disabled;
+}
+
+// CAN handlers
+void Chassis::handleEStopMsg(const EStopMsg &msg)
+{
+    this->disable();
+}
+
+void Chassis::handleEnableChassisMsg(const EnableChassisMsg &msg)
+{
+    if (msg.enable == 1) {
+        m_disabled = false;
+    } else {
+        this->disable();
+    }
+}
+
+void Chassis::handleDrivePowerMsg(const DrivePowerMsg &msg)
+{
+    if (!m_disabled)
+    {
+        m_drive_base.drive(msg.left_power, msg.right_power);
+    }
 }

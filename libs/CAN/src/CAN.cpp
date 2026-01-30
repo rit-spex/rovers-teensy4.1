@@ -80,6 +80,7 @@ void CAN::poll()
     if (received)
     {
         dispatch(frame);
+        Serial.println("received frame");
     }
 }
 

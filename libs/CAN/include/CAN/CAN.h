@@ -43,6 +43,7 @@ struct CANMessage {
 #include "messages/arm.h"
 #include "messages/misc.h"
 #include "messages/science.h"
+#include "messages/chassis.h"
 
 // Tries to send message to all CAN buses
 bool tryToSendAll(const CANMessage &frame);
@@ -56,6 +57,8 @@ public:
         CAN2, // this is pins CRX2 and CTX2
         CAN3  // this is pins CRX3 and CTX3
     } CAN_MODE;
+
+    CAN() : m_dispatcher() {};
 
     // start the CAN only call this once
     void startCAN();

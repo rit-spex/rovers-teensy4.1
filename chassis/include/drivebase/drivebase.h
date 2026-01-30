@@ -24,7 +24,7 @@
 
 // Libs Includes
 #ifdef ENABLE_CAN
-#include "CAN.h"
+#include "CAN/CAN.h"
 #endif
 
 class DriveBase

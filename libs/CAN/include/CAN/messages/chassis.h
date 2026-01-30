@@ -24,8 +24,8 @@ struct __attribute__((packed)) EnableChassisMsg
 
 struct __attribute__((packed)) DrivePowerMsg
 {
-    float left;
-    float right;
+    float left_power;
+    float right_power;
 };
 
 #endif // SPEX_CAN_MESSAGES_CHASSIS_H
