@@ -18,6 +18,11 @@ enum class MessageID : uint32_t
     E_STOP = (uint32_t)0,
     ROS_HEARTBEAT = (uint32_t)1,
 
+    // chassis
+    ENABLE_CHASSIS = (uint32_t)10,
+    TARGET_RPM = (uint32_t)11,
+    DRIVE_POWER = (uint32_t)13,
+
     // arm
     ENABLE_ARM = (uint32_t)20,
     MOVE_BASE = (uint32_t)21,
