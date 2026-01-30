@@ -19,7 +19,7 @@
 
 #include <cstdint>
 
-enum class EStopSource : uint8_t
+enum class SubSystemID: uint8_t
 {
     ROS = 0,
     ARM = 1,
@@ -33,7 +33,7 @@ enum class EStopSource : uint8_t
 // captured by ROS logs.
 struct __attribute__((packed)) EStopMsg
 {
-    EStopSource source;    // 1 byte
+    SubSystemID source;    // 1 byte
     uint32_t timestamp_ms; // 4 bytes (uptime)
 };
 
@@ -46,6 +46,7 @@ struct __attribute__((packed)) EStopMsg
 // an error and should be handled.
 struct __attribute__((packed)) HeartbeatMsg
 {
+    SubSystemID source;
     uint32_t uptime_ms; // timestamp since startup
 };
 
