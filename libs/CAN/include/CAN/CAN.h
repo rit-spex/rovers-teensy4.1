@@ -16,7 +16,7 @@
 // Constants
 #include <functional>
 #define ActiveCAN CAN::CAN_MODE::CAN2
-#define CAN_BAUDRATE 500000
+#define CAN_BAUDRATE 1000000
 #define MSG_LENGTH 8
 
 // PIO test framework can't use ACAN_T4 if we're testing on native (not teensy)
