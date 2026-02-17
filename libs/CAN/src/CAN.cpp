@@ -37,7 +37,8 @@ void CAN::startCAN()
 {
     // Set the settings to the CAN
     ACAN_T4_Settings settings(CAN_BAUDRATE);
-    settings.mTxPinIsOpenCollector = true;
+    // XXX: recently changed could be source of issues in the future
+    settings.mTxPinIsOpenCollector = false;
     settings.mRxPinConfiguration = ACAN_T4_Settings::NO_PULLUP_NO_PULLDOWN;
 
     // Start the CAN bus based on ActiveCAN
