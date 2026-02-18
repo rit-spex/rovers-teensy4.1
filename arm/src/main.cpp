@@ -49,6 +49,7 @@ void loop()
         {
             previousMillis = currentMillis;
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
+            can->send(ArmStatusMsg{.estopped = Arm::isDisabled, .enabled = !Arm::isDisabled}, MessageID::ARM_STATUS);
         }
     }
 

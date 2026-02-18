@@ -34,12 +34,14 @@ enum class MessageID : uint32_t
     MOVE_SOLENOID = (uint32_t)27,
     BASE_POS = (uint32_t)28,
 
+    ARM_STATUS = (uint32_t)30,
+
     // science
-    ENABLE_SCIENCE = (uint32_t)30,
-    MOVE_AUGER = (uint32_t)31,
-    HOME_AUGER = (uint32_t)32,
-    ENABLE_DRILL = (uint32_t)33,
-    MOVE_SLIDE = (uint32_t)34,
+    ENABLE_SCIENCE = (uint32_t)40,
+    MOVE_AUGER = (uint32_t)41,
+    HOME_AUGER = (uint32_t)42,
+    ENABLE_DRILL = (uint32_t)43,
+    MOVE_SLIDE = (uint32_t)44,
 };
 
 #endif // SPEX_CAN_MESSAGE_ID_H

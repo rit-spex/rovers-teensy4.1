@@ -38,6 +38,12 @@ enum class ArmDir : uint8_t
     Forward = 1,
 };
 
+struct __attribute__((packed)) ArmStatusMsg
+{
+    uint8_t estopped;
+    uint8_t enabled;
+};
+
 struct __attribute__((packed)) MoveBaseMsg
 {
     ArmState state;
