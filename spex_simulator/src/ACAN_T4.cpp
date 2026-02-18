@@ -84,7 +84,7 @@ void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
     // inet_pton(AF_INET, m_ip.c_str(), &m_dest.sin_addr);
 }
 
-bool CANbus::receive(CANMessage message)
+bool CANbus::receive(CANMessage &message)
 {
     // Check for packets
     uint8_t buf[UDP_BUF_SIZE];
