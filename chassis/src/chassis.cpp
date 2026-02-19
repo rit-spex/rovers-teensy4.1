@@ -90,6 +90,9 @@ void Chassis::updateSubsystems(int timeInterval_ms)
         Serial.println("DISABLED");
 #endif
     }
+
+    // Send the status message
+    m_can.send(StatusMsg{.source=SubSystemID::CHASSIS, .estopped = m_disabled, .enabled = !m_disabled}, MessageID::TEENSY_STATUS);
 }
 
 void Chassis::runBackgroundProcess()
@@ -147,5 +150,7 @@ void Chassis::handleDrivePowerMsg(const DrivePowerMsg &msg)
     if (!m_disabled)
     {
         m_drive_base.drive(msg.left_power, msg.right_power);
+        Serial.printf("left %f", msg.left_power);
+        Serial.printf("right %f", msg.right_power);
     }
 }

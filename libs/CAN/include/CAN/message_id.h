@@ -17,6 +17,7 @@ enum class MessageID : uint32_t
 {
     E_STOP = (uint32_t)0,
     ROS_HEARTBEAT = (uint32_t)1,
+    TEENSY_STATUS = (uint32_t)2,
 
     // chassis
     ENABLE_CHASSIS = (uint32_t)10,

@@ -50,4 +50,11 @@ struct __attribute__((packed)) HeartbeatMsg
     uint32_t uptime_ms; // timestamp since startup
 };
 
+struct __attribute__((packed)) StatusMsg
+{
+    SubSystemID source;
+    uint8_t estopped;
+    uint8_t enabled;
+};
+
 #endif // SPEX_CAN_MESSAGES_MISC_H

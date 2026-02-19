@@ -19,6 +19,7 @@ struct CANMessage {
 
 bool tryToSendAll(const CANMessage &frame)
 {
+
     if (CAN::CAN_MODE::CAN1 == ActiveCAN)
     {
         return ACAN_T4::can1.tryToSend(frame);

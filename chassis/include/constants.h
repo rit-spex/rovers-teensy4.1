@@ -25,7 +25,7 @@
 
 //********************************************************* DRIVETRAIN CONSTANTS *******************************************************
 // The max percent of the motors
-#define PERCENT_MAX 0.4
+#define PERCENT_MAX 1
 
 // Max RPM of the spark max is 1100 with no load
 #define SPARK_MAX_MAX_RPM 1100
@@ -60,7 +60,7 @@
 #define SPARK_MAX_RAMP_DOWN_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_DOWN_TIME_MS / UPDATE_RATE_MS))
 
 // The max the percent on each side can differ before the rover tips
-#define DRIVEBASE_MAX_DIFFERENCE_PERCENT 0.07
+#define DRIVEBASE_MAX_DIFFERENCE_PERCENT 1
 
 namespace PIDConstants
 {
@@ -125,8 +125,8 @@ constexpr double KD5 = 0.0005;
 #define FAN_MIN_PWM 51
 
 //********************************************************* CAN CONSTANTS *******************************************************
-#define ActiveCAN CAN::CAN_MODE::CAN2
-#define CAN_BAUDRATE 500000
+// #define ActiveCAN CAN::CAN_MODE::CAN2
+// #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8
 
 #endif // CONSTANTS_H
