@@ -50,4 +50,19 @@ T decode(const CANMessage &frame)
     return msg;
 }
 
+// SPECIAL ARM ENCODING AND DECODING
+const uint32_t OPC_ENABLE_POS_MODE = 0x6040;
+const uint32_t OPC_SEND_POS = 0x607a;
+const uint32_t OPC_GET_POS = 0x6064;
+
+const uint32_t DEVICE_ID_OFFSET_SEND = 0x600;
+const uint32_t DEVICE_ID_OFFSET_RECV = 0x580;
+
+const uint32_t RECV_READ_BACK_ONE = 0x4F;
+const uint32_t RECV_READ_BACK_TWO = 0x4B;
+const uint32_t RECV_READ_BACK_FOUR = 0x43;
+
+CANMessage buildArmMsg(int deviceIdx, uint32_t operationCode, uint64_t data,
+                       int length, int idCode);
+
 #endif // SPEX_CAN_CODEC_H

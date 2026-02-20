@@ -12,6 +12,7 @@
 
 // Debugging
 #define ENABLE_SERIAL 1
+#define ARM_CAN
 
 #include <Arduino.h>
 #include <Dynamixel2Arduino.h>

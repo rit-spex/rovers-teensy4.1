@@ -84,6 +84,7 @@ public:
 
     // Checks for new CAN messages and handle them
     void poll();
+    void armPoll();
     // Given a CAN frame, calls its registered callback function.
     void dispatch(CANMessage &frame);
 

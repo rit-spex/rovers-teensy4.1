@@ -4,6 +4,7 @@
 #include "CANHandlers.h"
 #include "globals.h"
 
+
 unsigned long previousMillis = 0;
 unsigned long currentRunCycle = 0;
 std::shared_ptr<CAN> can;
@@ -53,5 +54,5 @@ void loop()
         }
     }
 
-    can->poll();
+    can->armPoll();
 }
