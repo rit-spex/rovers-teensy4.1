@@ -115,8 +115,13 @@ bool CANbus::receive(CANMessage &message)
     memcpy(&message.id, buf, ID_LEN);
     message.id = ntohl(message.id);
     memcpy(message.data, buf + (ID_LEN + DLC_LEN), message.len);
-    spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len,
-                 std::string(reinterpret_cast<const char *>(message.data), sizeof(message.data)));
+    
+    std::string dataStr;
+    for (int i = 0; i < message.len; i++)    {
+        dataStr += std::to_string(message.data[i]) + " ";
+    }
+
+    spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len, dataStr);
 
     return true;
 }

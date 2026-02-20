@@ -56,8 +56,8 @@
 #endif
 
 // The percent Increase or Decrease per cycle
-#define SPARK_MAX_RAMP_UP_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_UP_TIME_MS / UPDATE_RATE_MS))
-#define SPARK_MAX_RAMP_DOWN_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_DOWN_TIME_MS / UPDATE_RATE_MS))
+#define SPARK_MAX_RAMP_UP_PER_CYCLE 1.00
+#define SPARK_MAX_RAMP_DOWN_PER_CYCLE 1.00
 
 // The max the percent on each side can differ before the rover tips
 #define DRIVEBASE_MAX_DIFFERENCE_PERCENT 1
