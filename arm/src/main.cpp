@@ -51,7 +51,7 @@ void loop()
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
         }
         previousMillis = currentMillis;
-        can->send(HeartbeatMsg{.source = SubSystemID::ARM, .uptime_ms = (u_int32_t)millis(), .enabled = !Arm::isDisabled,}, MessageID::ARM_STATUS);
+        can->send(HeartbeatMsg{.source = SubSystemID::ARM, .uptime_ms = (u_int32_t)millis(), .enabled = !Arm::isDisabled,}, MessageID::TEENSY_STATUS);
     }
 
 

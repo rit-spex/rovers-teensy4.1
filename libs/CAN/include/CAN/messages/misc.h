@@ -22,8 +22,8 @@
 enum class SubSystemID: uint8_t
 {
     ROS = 0,
-    ARM = 1,
-    CHASSIS = 2,
+    CHASSIS = 1,
+    ARM = 2,
     SCIENCE = 3,
 };
 

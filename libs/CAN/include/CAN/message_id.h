@@ -35,8 +35,6 @@ enum class MessageID : uint32_t
     MOVE_SOLENOID = (uint32_t)27,
     BASE_POS = (uint32_t)28,
 
-    ARM_STATUS = (uint32_t)30,
-
     // science
     ENABLE_SCIENCE = (uint32_t)40,
     MOVE_AUGER = (uint32_t)41,
