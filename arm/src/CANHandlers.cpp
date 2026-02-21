@@ -29,8 +29,35 @@ void eStop(const EStopMsg &msg) {
 #endif
         Arm::disable();
 }
+void Heartbeat(const HeartbeatMsg &msg) {
+    if(msg.source == SubSystemID::ROS) {
+        Arm::lastROSHeartbeatTime = msg.uptime_ms;
+#if ENABLE_SERIAL
+        Serial.println("Heartbeat received from ROS with uptime: " + String(msg.uptime_ms) + " ms");
+#endif
+    }
+    if (!msg.enabled) 
+    {
+#if ENABLE_SERIAL
+        Serial.println("ROS is disabled. Disabling arm.");
+#endif
+        Arm::disable();
+    }
+}
+    
 
 void enableArm(const EnableArmMsg &msg) {
+    if (msg.enable) {
+#if ENABLE_SERIAL
+        Serial.println("Enabling Arm");
+#endif
+        Arm::isDisabled = false;
+    } else {
+#if ENABLE_SERIAL
+        Serial.println("Disabling Arm");
+#endif
+        Arm::isDisabled = true;
+    }
 }
 
 void moveBase(const MoveBaseMsg &msg) {

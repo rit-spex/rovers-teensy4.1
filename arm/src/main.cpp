@@ -35,24 +35,25 @@ void setup()
 
 void loop()
 {
-    // Updated status light
     unsigned long currentMillis = millis();
-    if (Arm::isDisabled)
+    if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
     {
-        digitalWrite(STATUS_LIGHT_PIN, HIGH);
-#if ENABLE_SERIAL
-        Serial.println("Status light: Solid");
-#endif
-    }
-    else
-    {
-        if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
+        // Updated status light
+        if (Arm::isDisabled)
         {
-            previousMillis = currentMillis;
-            digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
-            can->send(ArmStatusMsg{.estopped = Arm::isDisabled, .enabled = !Arm::isDisabled}, MessageID::ARM_STATUS);
+            digitalWrite(STATUS_LIGHT_PIN, HIGH);
+#if ENABLE_SERIAL
+            // Serial.println("Status light: Solid");
+#endif
         }
+        else
+        {
+            digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
+        }
+        previousMillis = currentMillis;
+        can->send(HeartbeatMsg{.source = SubSystemID::ARM, .uptime_ms = (u_int32_t)millis(), .enabled = !Arm::isDisabled,}, MessageID::ARM_STATUS);
     }
+
 
     can->armPoll();
 }

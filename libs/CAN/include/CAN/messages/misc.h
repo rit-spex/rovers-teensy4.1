@@ -48,12 +48,6 @@ struct __attribute__((packed)) HeartbeatMsg
 {
     SubSystemID source;
     uint32_t uptime_ms; // timestamp since startup
-};
-
-struct __attribute__((packed)) StatusMsg
-{
-    SubSystemID source;
-    uint8_t estopped;
     uint8_t enabled;
 };
 

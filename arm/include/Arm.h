@@ -50,7 +50,8 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction);
 void moveSARClaw(Direction direction);
 void moveSolenoid(int state);
 
-static bool isDisabled = false;
+static bool isDisabled = true;
+static uint32_t lastROSHeartbeatTime = 0;
 static Servo SARGripper; // NOLINT
 
 static float diff1PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
