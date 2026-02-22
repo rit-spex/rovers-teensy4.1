@@ -27,6 +27,7 @@ enum Dynamixel2MotorIDs
 
 void startUp();
 void disable();
+void enable();
 bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
 void moveBase(Direction direction);
 void moveShoulder(Direction direction);
@@ -50,15 +51,15 @@ void moveClaw(Dynamixel2Arduino dyna, Direction direction);
 void moveSARClaw(Direction direction);
 void moveSolenoid(int state);
 
-static bool isDisabled = true;
-static uint32_t lastROSHeartbeatTime = 0;
+extern bool isDisabled;
+extern uint32_t lastROSHeartbeatTime;
 static Servo SARGripper; // NOLINT
 
-static float diff1PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
-static float diff2PercentSpeed = DYNAMIXEL_SPEED_PERCENT;
-static float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
+extern float diff1PercentSpeed;
+extern float diff2PercentSpeed;
+extern float clawPercentSpeed;
 
-static int gripperPos = MIN_GRIPPER_POS;
+extern int gripperPos;
 
 }
 // class Arm

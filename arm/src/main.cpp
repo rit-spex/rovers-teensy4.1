@@ -55,5 +55,5 @@ void loop()
     }
 
 
-    can->armPoll();
+    can->poll();
 }

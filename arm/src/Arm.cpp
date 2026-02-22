@@ -53,6 +53,10 @@ void disable()
     isDisabled = true;
 }
 
+void enable() {
+    isDisabled = false;
+}
+
 bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID)
 {
     return dyna.setID(oldID, newID);

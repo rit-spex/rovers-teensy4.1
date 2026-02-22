@@ -86,36 +86,36 @@ void CAN::poll()
     }
 }
 
-void CAN::armPoll() {
-    CANMessage frame;
-    bool received = false;
+// void CAN::armPoll() {
+//     CANMessage frame;
+//     bool received = false;
 
-    if (CAN::CAN_MODE::CAN1 == ActiveCAN)
-    {
-        received = ACAN_T4::can1.receive(frame);
-    }
-    else if (CAN::CAN_MODE::CAN2 == ActiveCAN)
-    {
-        received = ACAN_T4::can2.receive(frame);
-    }
-    else if (CAN::CAN_MODE::CAN3 == ActiveCAN)
-    {
-        received = ACAN_T4::can3.receive(frame);
-    }
+//     if (CAN::CAN_MODE::CAN1 == ActiveCAN)
+//     {
+//         received = ACAN_T4::can1.receive(frame);
+//     }
+//     else if (CAN::CAN_MODE::CAN2 == ActiveCAN)
+//     {
+//         received = ACAN_T4::can2.receive(frame);
+//     }
+//     else if (CAN::CAN_MODE::CAN3 == ActiveCAN)
+//     {
+//         received = ACAN_T4::can3.receive(frame);
+//     }
 
-    if (received)
-    {
-        if ((frame.id - DEVICE_ID_OFFSET_RECV) > 0 && (frame.id - DEVICE_ID_OFFSET_RECV < 10)) {
-            if (frame.data[0] == RECV_READ_BACK_FOUR) {
-                if ((frame.data[1] == ((OPC_GET_POS >> 0) & 0xff)) && (frame.data[2] == ((OPC_GET_POS >> 8) & 0xff))) {
-                    Serial.printf("Device: %d", frame.id - 0x580);
-                    Serial.printf("Pos: %d", frame.data[1]);
-                    Serial.println();
-                }
-            }
-        }
-    }
-}
+//     if (received)
+//     {
+//         if ((frame.id - DEVICE_ID_OFFSET_RECV) > 0 && (frame.id - DEVICE_ID_OFFSET_RECV < 10)) {
+//             if (frame.data[0] == RECV_READ_BACK_FOUR) {
+//                 if ((frame.data[1] == ((OPC_GET_POS >> 0) & 0xff)) && (frame.data[2] == ((OPC_GET_POS >> 8) & 0xff))) {
+//                     Serial.printf("Device: %d", frame.id - 0x580);
+//                     Serial.printf("Pos: %d", frame.data[1]);
+//                     Serial.println();
+//                 }
+//             }
+//         }
+//     }
+// }
 
 void CAN::dispatch(CANMessage &frame)
 {

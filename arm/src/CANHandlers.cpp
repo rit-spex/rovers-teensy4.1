@@ -53,12 +53,12 @@ void enableArm(const EnableArmMsg &msg) {
 #if ENABLE_SERIAL
         Serial.println("Enabling Arm");
 #endif
-        Arm::isDisabled = false;
+        Arm::enable();
     } else {
 #if ENABLE_SERIAL
         Serial.println("Disabling Arm");
 #endif
-        Arm::isDisabled = true;
+        Arm::disable();
     }
 }
 
