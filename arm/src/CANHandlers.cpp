@@ -6,6 +6,8 @@
 #include "CAN/messages/arm.h"
 #include "globals.h"
 
+#define ENABLE_SERIAL 1
+
 static Arm::Direction armStateAndDirToDirection(const ArmState &state, const ArmDir &dir) {
     if (state == ArmState::Stop)  {
         return Arm::Direction::OFF;
@@ -33,7 +35,7 @@ void Heartbeat(const HeartbeatMsg &msg) {
     if(msg.source == SubSystemID::ROS) {
         Arm::lastROSHeartbeatTime = msg.uptime_ms;
 #if ENABLE_SERIAL
-        Serial.println("Heartbeat received from ROS with uptime: " + String(msg.uptime_ms) + " ms");
+        Serial.printf("Heartbeat received from ROS with uptime: %l ms", msg.uptime_ms);
 #endif
     }
     if (!msg.enabled) 
