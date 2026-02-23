@@ -38,12 +38,8 @@ enum class ScienceDir : uint8_t
 
 struct __attribute__((packed)) MoveAugerMsg
 {
-    ScienceState state;
-    ScienceDir direction;
-};
-
-struct __attribute__((packed)) HomeAugerMsg
-{
+    uint32_t position;
+    uint8_t home;
 };
 
 struct __attribute__((packed)) EnableDrillMsg
@@ -55,18 +51,115 @@ struct __attribute__((packed)) EnableDrillMsg
 // types, but i have fears about desync between this and the teensy science code
 // so i wonder if theres a way for them to share the enum.
 // For now just going to update them identically
-enum class SlidePosition : uint8_t
+enum class SlideStage : uint8_t
 {
-    Home = 0x00,
-    OpenSample = 0x01,
-    SampleCache = 0x02,
-    MiddleContainer = 0x03,
-    EndSample = 0x04,
+    Purge = (uint8_t)0,
+    Home = (uint8_t)1,
+    SampleCache = (uint8_t)2,
+    Collection1 = (uint8_t)3,
+    Collection2 = (uint8_t)4,
 };
 
 struct __attribute__((packed)) MoveSlideMsg
 {
-    SlidePosition position;
+    SlideStage stage;
+    uint8_t home;
+};
+
+struct __attribute__((packed)) EnablePumpMsg
+{
+    uint8_t id;
+    uint8_t enable;
+};
+
+enum class InstrumentSlideStage : uint8_t
+{
+    Site1Pos1 = (uint8_t)0,
+    Site1Pos2 = (uint8_t)1,
+    Site2Pos1 = (uint8_t)2,
+    Site2Pos2 = (uint8_t)3,
+};
+
+struct __attribute__((packed)) MoveSpectrometerSlideMsg
+{
+    InstrumentSlideStage stage;
+    uint8_t home;
+};
+
+struct __attribute__((packed)) MoveFluorometerSlideMsg
+{
+    InstrumentSlideStage stage;
+    uint8_t home;
+};
+
+struct __attribute__((packed)) EnableFluorometerMicroPumpMsg
+{
+    uint8_t enable;
+};
+
+struct __attribute__((packed)) EnablePrimerMsg
+{
+    uint8_t enable;
+};
+
+struct __attribute__((packed)) EnableVibrationMsg
+{
+    uint8_t enable;
+};
+
+// READ MESSAGES
+
+struct __attribute__((packed)) ReadAugerMsg
+{
+    uint8_t position;
+    uint8_t limitSwitch;
+};
+
+struct __attribute__((packed)) ReadSlideMsg
+{
+    SlideStage stage;
+    uint32_t position;
+    uint8_t limitSwitch;
+};
+
+struct __attribute__((packed)) ReadDrillMsg
+{
+    uint8_t enabled;
+};
+
+struct __attribute__((packed)) ReadPumpsMsg
+{
+    uint8_t pump1Enabled;
+    uint8_t pump2Enabled;
+    uint8_t pump3Enabled;
+    uint8_t pump4Enabled;
+};
+
+struct __attribute__((packed)) ReadSpectrometerSlideMsg
+{
+    InstrumentSlideStage stage;
+    uint32_t position;
+    uint8_t limitSwitch;
+};
+
+struct __attribute__((packed)) ReadFluorometerSlideMsg
+{
+    InstrumentSlideStage stage;
+    uint32_t position;
+    uint8_t limitSwitch;
+};
+
+struct __attribute__((packed)) ReadSpectrometerLightMsg
+{
+    float wavelength;
+};
+
+struct __attribute__((packed)) ReadFluorometerColorSensorMsg
+{
+    uint16_t red;
+    uint16_t green;
+    uint16_t blue;
+    uint16_t violet;
 };
 
 #endif // SPEX_CAN_MESSAGES_SCIENCE_H
