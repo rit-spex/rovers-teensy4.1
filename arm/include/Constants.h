@@ -1,27 +1,55 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-// I2C device number for ARM
-#define BASE_I2C_ID 15 // brushed motor
-#define BASE_MAX_SPEED 800
-#define FIFTY_PERCENT_DUTY_CYCLE 511
+#include <Dynamixel2Arduino.h>
 
+// ---------------------- Dynamixel ----------------------
 #define DYNAMIXEL_PROTOCOL_VERSION 2.0
 #define DYNAMIXEL_BAUD_RATE 57600
-#define DYNAMIXEL_SPEED_PERCENT                                                                    \
-    100.0 // lets the D2A library know that we don't have a shield for the arduino also isn't actually a pinout so thats why its in here
-#define FULL_DUPLEX_DIR_PIN (-1)
+#define DYNAMIXEL_MOTORS_SERIAL Serial3      // hardware UART for Dynamixels
+#define FULL_DUPLEX_DIR_PIN 2         // GPIO controlling half/full duplex TX/RX
 
-#define MAX_GRIPPER_POS 110
-#define MIN_GRIPPER_POS 90
-#define GRIPPER_SPEED 1
 
-#define TIME 80
+// ---------------------- Timing ----------------------
+#define LED_BLINK_INTERVAL 500  // milliseconds
 
-#define LED_BLINK_INTERVAL 500 // ms
+// ---------------------- Pinout ----------------------
 
-// Old definitions:
-// #define CLAW_I2C_ID 16 // stepper motor
-// #define CLAW_MAX_SPEED (200 * 10000) // 100 steps per second
+#define LIMIT_SWITCH_PIN 1
+#define SOLENOID_PIN 27
+#define STATUS_LIGHT_PIN 13
+
+// ---------------------- Globals ----------------------
+extern Dynamixel2Arduino dyna;
+
+
+// Spin offsets
+extern float b_1;
+extern float b_2;
+extern float b_3;
+
+// Tick-motor coefficients
+extern float k_bend;
+extern float k_twst;
+extern float k_grip;
+
+// Encoder positions
+extern float enc1;
+extern float enc2;
+extern float enc3;
+
+// Calculated angles
+extern float bendAngle;
+extern float twstAngle;
+extern float gripAngle;
+
+// Targets
+extern float targetM1;
+extern float targetM2;
+extern float targetM3;
+extern float bendTarget;
+extern float twstTarget;
+extern float gripTarget;
+
 
 #endif // CONSTANTS_H

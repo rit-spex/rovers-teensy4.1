@@ -38,40 +38,37 @@ enum class ArmDir : uint8_t
     Forward = 1,
 };
 
-struct __attribute__((packed)) MoveBaseMsg
-{
-    ArmState state;
-    ArmDir direction;
-};
+// struct __attribute__((packed)) MoveBaseMsg
+// {
+//     ArmState state;
+//     ArmDir direction;
+// };
 
-struct __attribute__((packed)) MoveShoulderMsg
-{
-    ArmState state;
-    ArmDir direction;
-};
+// struct __attribute__((packed)) MoveShoulderMsg
+// {
+//     ArmState state;
+//     ArmDir direction;
+// };
 
-struct __attribute__((packed)) MoveElbowMsg
-{
-    ArmState state;
-    ArmDir direction;
-};
+// struct __attribute__((packed)) MoveElbowMsg
+// {
+//     ArmState state;
+//     ArmDir direction;
+// };
 
 struct __attribute__((packed)) BendWristMsg
 {
-    ArmState state;
-    ArmDir direction;
+    float position;
 };
 
 struct __attribute__((packed)) TwistWristMsg
 {
-    ArmState state;
-    ArmDir direction;
+    float position;
 };
 
 struct __attribute__((packed)) MoveClawMsg
 {
-    ArmState state;
-    ArmDir direction;
+    float position;
 };
 
 struct __attribute__((packed)) MoveSolenoidMsg

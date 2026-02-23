@@ -21,7 +21,6 @@
 #include "Arm.h"
 #include "CAN/CAN.h"
 #include "Constants.h"
-#include "Pinout.h"
 
 void setup();
 void loop();
