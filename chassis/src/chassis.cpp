@@ -92,7 +92,9 @@ void Chassis::updateSubsystems(int timeInterval_ms)
     }
 
     // Send the status message
-    m_can.send(StatusMsg{.source=SubSystemID::CHASSIS, .estopped = m_disabled, .enabled = !m_disabled}, MessageID::TEENSY_STATUS);
+    // XXX: uptime_ms is 0 bcs this is for debug rn and idk where we keep
+    // track of uptime
+    m_can.send(HeartbeatMsg{.source = SubSystemID::CHASSIS, .uptime_ms = 0, .enabled = !m_disabled}, MessageID::TEENSY_HEARTBEAT);
 }
 
 void Chassis::runBackgroundProcess()
