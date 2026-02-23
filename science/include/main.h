@@ -4,7 +4,7 @@
 // Debugging
 #define ENABLE_SERIAL
 
-#include "CAN.h"
+#include "CAN/CAN.h"
 #include "Science.h"
 #include <Arduino.h>
 

@@ -70,6 +70,8 @@ public:
         return tryToSendAll(frame);
     }
 
+    bool sendRaw(const CANMessage &frame);
+
     // Binds a callback function to a message struct `T`.
     // Handles decoding CAN frames into `T` internally.
     template <typename T>

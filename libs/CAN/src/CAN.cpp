@@ -129,3 +129,8 @@ void CAN::dispatch(CANMessage &frame)
         it->second(frame);
     }
 }
+
+bool CAN::sendRaw(const CANMessage &frame)
+{
+    return tryToSendAll(frame);
+}

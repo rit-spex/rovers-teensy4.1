@@ -1,8 +1,11 @@
 #include "main.h"
+#include "CAN/codec.h"
 #include "CAN/message_id.h"
 #include "CAN/CAN.h"
 #include "CANHandlers.h"
 #include "globals.h"
+
+#define CAN_DEVICE_ID 1
 
 
 unsigned long previousMillis = 0;
@@ -31,6 +34,8 @@ void setup()
     can->onMessage<TwistWristMsg>(MessageID::TWIST_WRIST, CANHandlers::twistWrist);
     can->onMessage<MoveClawMsg>(MessageID::MOVE_CLAW, CANHandlers::moveClaw);
     can->onMessage<MoveSolenoidMsg>(MessageID::MOVE_SOLENOID, CANHandlers::moveSolenoid);
+
+    buildArmMsg(CAN_DEVICE_ID, OPC_ENABLE_POS_MODE, 0x00002f, 8, 0x2b);
 }
 
 void loop()
