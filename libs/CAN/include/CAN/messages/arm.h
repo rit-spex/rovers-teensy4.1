@@ -26,58 +26,76 @@ struct __attribute__((packed)) EnableArmMsg
 
 // ARM COMMANDS
 
-enum class ArmState : uint8_t
-{
-    Active = 0,
-    Stop = 1,
-};
+// enum class ArmState : uint8_t
+// {
+//     Active = 0,
+//     Stop = 1,
+// };
 
-enum class ArmDir : uint8_t
-{
-    Reverse = 0,
-    Forward = 1,
-};
+// enum class ArmDir : uint8_t
+// {
+//     Reverse = 0,
+//     Forward = 1,
+// };
 
-struct __attribute__((packed)) MoveBaseMsg
-{
-    ArmState state;
-    ArmDir direction;
-};
+// struct __attribute__((packed)) MoveBaseMsg
+// {
+//     ArmState state;
+//     ArmDir direction;
+// };
 
-struct __attribute__((packed)) MoveShoulderMsg
-{
-    ArmState state;
-    ArmDir direction;
-};
+// struct __attribute__((packed)) MoveShoulderMsg
+// {
+//     ArmState state;
+//     ArmDir direction;
+// };
 
-struct __attribute__((packed)) MoveElbowMsg
-{
-    ArmState state;
-    ArmDir direction;
-};
+// struct __attribute__((packed)) MoveElbowMsg
+// {
+//     ArmState state;
+//     ArmDir direction;
+// };
 
 struct __attribute__((packed)) BendWristMsg
 {
-    ArmState state;
-    ArmDir direction;
+    uint32_t position;
 };
 
 struct __attribute__((packed)) TwistWristMsg
 {
-    ArmState state;
-    ArmDir direction;
+    uint32_t position;
+};
+
+enum class ClawState : uint8_t
+{
+    Open = 0,
+    Closed = 1,
 };
 
 struct __attribute__((packed)) MoveClawMsg
 {
-    ArmState state;
-    ArmDir direction;
+    ClawState state;
 };
 
 struct __attribute__((packed)) MoveSolenoidMsg
 {
-    ArmState state;
-    ArmDir direction;
+    uint8_t enabled;
+};
+
+struct __attribute__((packed)) ReadWristBendMsg
+{
+    uint32_t position;
+};
+
+struct __attribute__((packed)) ReadWristTwistMsg
+{
+    uint32_t position;
+};
+
+struct __attribute__((packed)) ReadClawMsg
+{
+    ClawState state;
+    uint32_t position;
 };
 
 #endif // SPEX_CAN_MESSAGES_ARM_H
