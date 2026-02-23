@@ -1,120 +1,55 @@
 #ifndef ARM_H
 #define ARM_H
 
+// Pull in constants
 #include "Constants.h"
-#include "Pinout.h"
 
+// Pull in embedded packages
 #include <Arduino.h>
 #include <Dynamixel2Arduino.h>
-#include <Servo.h>
-#include <TimerOne.h>
-#include <TimerThree.h>
+
 
 namespace Arm {
-enum Direction
-{
-    REVERSE = 0,
-    FORWARD = 1,
-    OFF = 2
-};
 
-enum Dynamixel2MotorIDs
-{
-    DIFFERENCIAL_1 = 1,
-    DIFFERENCIAL_2 = 2,
-    CLAW = 3
-};
+    // Enumerates
+    enum Direction
+    {
+        REVERSE = 0,
+        FORWARD = 1,
+        OFF = 2
+    };
 
-void startUp();
-void disable();
-void enable();
-bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
-void moveBase(Direction direction);
-void moveShoulder(Direction direction);
-void moveElbow(Direction direction);
-/*
- * FORWARD is down
- * REVERSE is up
- */
-void bendWrist(Dynamixel2Arduino dyna, Direction direction);
-/*
- * FORWARD is counter-clockwise
- * REVERSE is clockwise
- */
-void twistWrist(Dynamixel2Arduino dyna, Direction direction);
-void moveClaw(Dynamixel2Arduino dyna, Direction direction);
-/*
- * 0 - 180 deg
- * 45deg:  closed
- * 110deg: open
- */
-void moveSARClaw(Direction direction);
-void moveSolenoid(int state);
+    enum Dynamixel2MotorIDs
+    {
+        WRIST_1 = 1,
+        WRIST_2 = 2,
+        CLAW = 3
+    };
 
-extern bool isDisabled;
-extern uint32_t lastROSHeartbeatTime;
-static Servo SARGripper; // NOLINT
+    // Define functions
+    void startUp();
+    void disable();
+    void enable();
+    bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
+    // void moveBase(Direction direction);
+    // void moveShoulder(Direction direction);
+    // void moveElbow(Direction direction);
 
-extern float diff1PercentSpeed;
-extern float diff2PercentSpeed;
-extern float clawPercentSpeed;
+    // /* FORWARD is down   |   REVERSE is up */
+    // void bendWrist(Dynamixel2Arduino dyna, Direction direction);
 
-extern int gripperPos;
+    // /* FORWARD is counter-clockwise   |    REVERSE is clockwise*/
+    // void twistWrist(Dynamixel2Arduino dyna, Direction direction);
+
+
+    void bendWrist(Dynamixel2Arduino dyna, float position);
+    void twistWrist(Dynamixel2Arduino dyna, float position);
+    void moveClaw(Dynamixel2Arduino dyna, float position);
+    void moveSolenoid(int state);
+
+    extern bool isDisabled;
+    extern uint32_t lastROSHeartbeatTime;
 
 }
-// class Arm
-// {
-// public:
-// 	enum Direction
-// 	{
-// 		FORWARD = 1,
-// 		REVERSE = 0,
-// 		OFF = 2
-// 	};
-// 	Arm();
-// 	~Arm();
-// 	void startUp();
-// 	// functions to move the harmonic drives. These are the exact same but with different pin outputs
-// 	// Functions work by setting timer output at either 50% duty cycle
-// 	void moveShoulder(Direction direction);
-// 	void moveElbow(Direction direction);
-// 	void moveBase(Direction direction);
-// 	void moveClaw(Direction direction);
-
-// 	// void moveWrist(Direction direction); // OLD
-// 	// doesn't work with new setup as their is no "moveWrist"
-// 	// void moveArm(Direction shoulderDirection, Direction wristDirection, Direction baseDirection, Direction clawDirection);
-
-// 	void disable();
-
-// 	void bendWrist(Direction direction);
-// 	void twistWrist(Direction direction);
-
-// 	bool changeDynamixelMotorID(uint8_t oldId, uint8_t newId);
-
-// 	// // stepper motor
-// 	// TicI2C tic{CLAW_I2C_ID};
-// private:
-// 	// if disable flag is true then stop all arm motion and prevent the arm from moving
-// 	bool m_disabled = false;
-
-// 	// Changing this time will change the motor speeds 30 us seems to be a good starting speed
-// 	int time = 80; // time in microseconds <- lower num mean faster fun
-
-// float diffAPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
-
-// float diffBPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
-
-// float clawPercentSpeed = DYNAMIXEL_SPEED_PERCENT;
-
-// Dynamixel2Arduino dyna;
-
-// enum Dynamixel2MotorIDs
-// {
-// 	DIFFERENCIAL_A = 1,
-// 	DIFFERENCIAL_B = 2,
-// 	CLAW = 3
-// };
-// };
 
 #endif
