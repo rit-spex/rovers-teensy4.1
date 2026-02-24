@@ -51,7 +51,7 @@ namespace Arm {
         k_twst = 2 * 3.14159265 / 4096;
         k_grip = 2 * 3.14159265 / 4096;
 
-        update_encoder_angles();
+        updateEncoderAngles();
 
         // Prepare target variables
         targetM1 = enc1;
@@ -63,7 +63,7 @@ namespace Arm {
     }
 
 
-    void update_encoder_angles()
+    void updateEncoderAngles()
     {
         // Define encoder positions
         enc1 = dyna.getPresentPosition(WRIST_1) - b_1;

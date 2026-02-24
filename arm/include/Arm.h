@@ -28,7 +28,7 @@ namespace Arm {
 
     // Define functions
     void startUp();
-    void update_encoder_angles();
+    void updateEncoderAngles();
     void disable();
     void enable();
     void bendWrist(Dynamixel2Arduino dyna, float position);
