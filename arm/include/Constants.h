@@ -10,7 +10,7 @@
 
 // ---------------------- Timing ----------------------
 #define LED_BLINK_INTERVAL 500  // milliseconds
-#define TIMEOUT_DURAITON 1000 // ms
+#define TIMEOUT_DURAITON 2000 // ms
 
 // ---------------------- Pinout ----------------------
 

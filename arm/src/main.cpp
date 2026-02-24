@@ -84,15 +84,20 @@ void loop()
         );
     }
 
-    // Read can data for callbacks (i think)
-    can->poll();
 
-    if (currentMillis - Arm::lastROSHeartbeatTime >= TIMEOUT_DURAITON
+    if (abs(currentMillis - Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
         && Arm::lastROSHeartbeatTime != 0
         && !Arm::isDisabled) {
+                Serial.printf("looping %d", currentMillis);
+                Serial.printf("looping %d", Arm::lastROSHeartbeatTime);
+
         Arm::disable();
 #if ENABLE_SERIAL
         Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
 #endif
+
     }
+
+    // Read can data for callbacks (i think)
+    can->poll();
 }

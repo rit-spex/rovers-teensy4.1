@@ -5,7 +5,6 @@
 #include "Arm.h"
 #include "CAN/messages/arm.h"
 #include "Constants.h"
-#include "core_pins.h"
 
 #define ENABLE_SERIAL 1
 
