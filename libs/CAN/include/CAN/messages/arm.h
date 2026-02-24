@@ -75,6 +75,7 @@ enum class ClawState : uint8_t
 struct __attribute__((packed)) MoveClawMsg
 {
     ClawState state;
+    uint32_t position;
 };
 
 struct __attribute__((packed)) MoveSolenoidMsg

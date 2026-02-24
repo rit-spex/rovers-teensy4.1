@@ -75,12 +75,7 @@ namespace CANHandlers {
     }
 
     void moveClaw(const MoveClawMsg &msg) {
-        if (msg.state == ClawState::Open) {
-            // TODO: FIND ACTUAL VALUES
-            Arm::bendWrist(dyna, 0);
-        } else if (msg.state == ClawState::Closed) {
-            Arm::bendWrist(dyna, gripTarget);
-        }
+        Arm::moveClaw(dyna, msg.position);
     }
 
     void moveSolenoid(const MoveSolenoidMsg &msg) {
