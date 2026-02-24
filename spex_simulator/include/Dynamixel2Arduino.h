@@ -12,6 +12,7 @@
 
 #define UNIT_PERCENT 1
 #define OP_PWM 1
+#define OP_POSITION 3
 #define Serial3 1
 
 #include <stdio.h>
@@ -21,6 +22,8 @@ class Dynamixel2Arduino
 public:
     Dynamixel2Arduino(int serial, int pin);
     void setGoalPWM(int pin, int speed, int unit);
+    bool setGoalPosition(int id, float value);
+    float getPresentPosition(int id);
     int setOperatingMode(int val1, int val2);
     int setPortProtocolVersion(int version);
     int setID(int oldID, int newID);

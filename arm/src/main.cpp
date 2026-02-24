@@ -71,7 +71,14 @@ void loop()
         }
 
 
-        can->send(HeartbeatMsg{.source = SubSystemID::ARM, .uptime_ms = (u_int32_t)millis(), .enabled = !Arm::isDisabled,}, MessageID::TEENSY_STATUS);
+        can->send(
+            HeartbeatMsg{
+                .source = SubSystemID::ARM,
+                .uptime_ms = (uint32_t)millis(),
+                .enabled = (uint8_t)(!Arm::isDisabled),
+            },
+            MessageID::TEENSY_HEARTBEAT
+        );
     }
 
     // Read can data for callbacks (i think)

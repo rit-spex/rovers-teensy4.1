@@ -6,6 +6,7 @@
 
 namespace CANHandlers {
 void eStop(const EStopMsg &msg);
+void heartbeat(const HeartbeatMsg &msg);
 void enableArm(const EnableArmMsg &msg);
 // void moveBase(const MoveBaseMsg &msg);
 // void moveShoulder(const MoveShoulderMsg &msg);

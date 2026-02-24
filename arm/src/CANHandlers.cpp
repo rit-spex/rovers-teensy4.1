@@ -20,8 +20,8 @@ namespace CANHandlers {
     }
 
     // Respond to the heartbeat
-    void Heartbeat(const HeartbeatMsg &msg) {
-        if(msg.source == SubSystemID::ROS) {
+    void heartbeat(const HeartbeatMsg &msg) {
+        if (msg.source == SubSystemID::ROS) {
             Arm::lastROSHeartbeatTime = msg.uptime_ms;
             #if ENABLE_SERIAL
                 Serial.printf("Heartbeat received from ROS with uptime: %l ms", msg.uptime_ms);
@@ -38,7 +38,7 @@ namespace CANHandlers {
 
     // Activate arm
     void enableArm(const EnableArmMsg &msg) {
-        if (msg.enable) {
+        if (static_cast<bool>(msg.enable)) {
             #if ENABLE_SERIAL
                 Serial.println("Enabling Arm");
             #endif
@@ -75,11 +75,16 @@ namespace CANHandlers {
     }
 
     void moveClaw(const MoveClawMsg &msg) {
-        Arm::moveClaw(dyna, msg.position);
+        if (msg.state == ClawState::Open) {
+            // TODO: FIND ACTUAL VALUES
+            Arm::bendWrist(dyna, 0);
+        } else if (msg.state == ClawState::Closed) {
+            Arm::bendWrist(dyna, gripTarget);
+        }
     }
 
     void moveSolenoid(const MoveSolenoidMsg &msg) {
-        Arm::moveSolenoid(static_cast<int>(msg.state));
+        Arm::moveSolenoid(static_cast<int>(msg.enabled));
     }
 
 }

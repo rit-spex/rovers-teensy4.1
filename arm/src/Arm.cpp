@@ -4,38 +4,6 @@
 
 namespace Arm {
 
-    // Offset for motor encoders
-    float b_1;
-    float b_2;
-    float b_3;
-
-    // Conversion between ticks and radians
-    float k_bend;
-    float k_twst;
-    float k_grip;
-
-    // Encoder positions
-    float enc1;
-    float enc2;
-    float enc3;
-
-    // Calculated joint angles
-    float bendAngle;
-    float twstAngle;
-    float gripAngle;
-
-    // Motor targets
-    float targetM1;
-    float targetM2;
-    float targetM3;
-
-    // Joint targets
-    float bendTarget;
-    float twstTarget;
-    float gripTarget;
-
-
-
     void startUp()
     {
         // // Prepare Limit Switch Pin
