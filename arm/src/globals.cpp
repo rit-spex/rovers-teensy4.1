@@ -1,7 +1,7 @@
 #include "Constants.h"
 #include "Arm.h"
 
-Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
+Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, -1);
 
 // set all of the externs to their initial values
 bool Arm::isDisabled = true;

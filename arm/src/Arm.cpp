@@ -2,6 +2,8 @@
 
 #include "Constants.h"
 
+#define TEST_DELAY_MS 10000
+
 namespace Arm {
 
     void startUp()
@@ -111,6 +113,9 @@ namespace Arm {
         // Set wrist positions
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
+
+        delay(TEST_DELAY_MS);
+        updateEncoderAngles();
     }
 
     void twistWrist(Dynamixel2Arduino dyna, float position)
@@ -125,6 +130,9 @@ namespace Arm {
         // Set wrist positions
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
+
+        delay(TEST_DELAY_MS);
+        updateEncoderAngles();
     }
 
 
@@ -135,6 +143,9 @@ namespace Arm {
         gripTarget = position;
         targetM3 = gripTarget/k_grip + b_3;
         dyna.setGoalPosition(CLAW, static_cast<int>(targetM3));
+
+        delay(TEST_DELAY_MS);
+        updateEncoderAngles();
     }
 
 
@@ -146,6 +157,9 @@ namespace Arm {
             return;
         }
         digitalWrite(SOLENOID_PIN, state);
+
+        delay(TEST_DELAY_MS);
+        updateEncoderAngles();
     }
 
     // These two function are only needed for setting the motor IDs in the development stage, they will remember on power cycle

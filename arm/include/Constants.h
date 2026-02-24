@@ -6,7 +6,7 @@
 // ---------------------- Dynamixel ----------------------
 #define DYNAMIXEL_PROTOCOL_VERSION 2.0
 #define DYNAMIXEL_BAUD_RATE 57600
-#define DYNAMIXEL_MOTORS_SERIAL Serial2      // hardware UART for Dynamixels
+#define DYNAMIXEL_MOTORS_SERIAL Serial4      // hardware UART for Dynamixels
 
 // ---------------------- Timing ----------------------
 #define LED_BLINK_INTERVAL 500  // milliseconds

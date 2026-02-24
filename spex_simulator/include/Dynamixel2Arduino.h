@@ -13,6 +13,7 @@
 #define UNIT_PERCENT 1
 #define OP_PWM 1
 #define OP_POSITION 3
+#define Serial4 1
 #define Serial3 1
 #define Serial2 1
 
