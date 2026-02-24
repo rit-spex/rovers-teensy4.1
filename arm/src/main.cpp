@@ -84,7 +84,9 @@ void loop()
         );
     }
 
-    if (currentMillis - Arm::lastROSHeartbeatTime >= TIMEOUT_DURAITON && !Arm::isDisabled) {
+    if (currentMillis - Arm::lastROSHeartbeatTime >= TIMEOUT_DURAITON
+        && Arm::lastROSHeartbeatTime != 0
+        && !Arm::isDisabled) {
         Arm::disable();
 #if ENABLE_SERIAL
         Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
