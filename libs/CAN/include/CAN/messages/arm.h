@@ -82,6 +82,21 @@ struct __attribute__((packed)) MoveSolenoidMsg
     uint8_t enabled;
 };
 
+// struct __attribute__((packed)) ReadBaseMsg
+// {
+//     float position;
+// };
+
+// struct __attribute__((packed)) ReadShoulderMsg
+// {
+//     float position;
+// };
+
+// struct __attribute__((packed)) ReadElbowMsg
+// {
+//     float position;
+// };
+
 struct __attribute__((packed)) ReadWristBendMsg
 {
     uint32_t position;
@@ -97,5 +112,7 @@ struct __attribute__((packed)) ReadClawMsg
     ClawState state;
     uint32_t position;
 };
+
+
 
 #endif // SPEX_CAN_MESSAGES_ARM_H

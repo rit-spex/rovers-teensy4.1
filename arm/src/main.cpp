@@ -28,6 +28,18 @@ void setup()
     // Define CAN callbacks
     can = std::make_shared<CAN>();
     can->startCAN();
+    delay(10);
+
+    // Send-out initial encoder data
+    ReadBendMsg msg1; msg1.position = bendAngle;
+    can->send(msg1, MessageID::BEND_POS);
+    ReadTwistMsg msg2; msg2.position = twstAngle;
+    can->send(msg2, MessageID::TWIST_POS);
+    ReadClawMsg msg3; msg3.position = gripAngle;
+    can->send(msg3, MessageID::CLAW_POS);
+
+    // Setup callbacks
+
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
     can->onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
     can->onMessage<EnableArmMsg>(MessageID::ENABLE_ARM, CANHandlers::enableArm);

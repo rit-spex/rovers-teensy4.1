@@ -14,7 +14,7 @@ namespace CANHandlers {
     // Handle a E-STOP action
     void eStop(const EStopMsg &msg) {
         #if ENABLE_SERIAL
-            Serial.println("ESTOP ENCOUNTERED");
+            Serial.println("E-STOP ENCOUNTERED");
         #endif
         Arm::disable();
     }

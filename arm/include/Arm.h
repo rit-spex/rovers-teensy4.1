@@ -12,12 +12,12 @@
 namespace Arm {
 
     // Enumerates
-    enum Direction
-    {
-        REVERSE = 0,
-        FORWARD = 1,
-        OFF = 2
-    };
+    // enum Direction
+    // {
+    //     REVERSE = 0,
+    //     FORWARD = 1,
+    //     OFF = 2
+    // };
 
     enum Dynamixel2MotorIDs
     {
@@ -28,9 +28,23 @@ namespace Arm {
 
     // Define functions
     void startUp();
+    void update_encoder_angles();
     void disable();
     void enable();
+    void bendWrist(Dynamixel2Arduino dyna, float position);
+    void twistWrist(Dynamixel2Arduino dyna, float position);
+    void moveClaw(Dynamixel2Arduino dyna, float position);
+    void moveSolenoid(int state);
     bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
+    void scanDynaBus(Dynamixel2Arduino dyna);
+
+    // Define globals
+    extern bool isDisabled;
+    extern uint32_t lastROSHeartbeatTime;
+
+
+}
+
     // void moveBase(Direction direction);
     // void moveShoulder(Direction direction);
     // void moveElbow(Direction direction);
@@ -42,14 +56,7 @@ namespace Arm {
     // void twistWrist(Dynamixel2Arduino dyna, Direction direction);
 
 
-    void bendWrist(Dynamixel2Arduino dyna, float position);
-    void twistWrist(Dynamixel2Arduino dyna, float position);
-    void moveClaw(Dynamixel2Arduino dyna, float position);
-    void moveSolenoid(int state);
 
-    extern bool isDisabled;
-    extern uint32_t lastROSHeartbeatTime;
 
-}
 
 #endif

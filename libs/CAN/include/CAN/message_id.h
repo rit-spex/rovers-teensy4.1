@@ -33,6 +33,9 @@ enum class MessageID : uint32_t
     MOVE_CLAW = (uint32_t)26,
     MOVE_SOLENOID = (uint32_t)27,
 
+    READ_BASE = (uint32_t)30,
+    READ_SHOULDER = (uint32_t)31,
+    READ_ELBOW = (uint32_t)32,
     READ_WRIST_BEND = (uint32_t)33,
     READ_WRIST_TWIST = (uint32_t)34,
     READ_CLAW = (uint32_t)35,

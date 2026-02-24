@@ -4,11 +4,12 @@
 
 namespace Arm {
 
-
+    // Offset for motor encoders
     float b_1;
     float b_2;
     float b_3;
 
+    // Conversion between ticks and radians
     float k_bend;
     float k_twst;
     float k_grip;
@@ -18,15 +19,17 @@ namespace Arm {
     float enc2;
     float enc3;
 
-    // Calculated angles
+    // Calculated joint angles
     float bendAngle;
     float twstAngle;
     float gripAngle;
 
-    // Targets
+    // Motor targets
     float targetM1;
     float targetM2;
     float targetM3;
+
+    // Joint targets
     float bendTarget;
     float twstTarget;
     float gripTarget;
@@ -35,17 +38,21 @@ namespace Arm {
 
     void startUp()
     {
-        // Prepare IO Pins
-        pinMode(LIMIT_SWITCH_PIN, INPUT);
-        pinMode(SOLENOID_PIN, OUTPUT);
+        // // Prepare Limit Switch Pin
+        // pinMode(LIMIT_SWITCH_PIN, INPUT);
 
-        // Light pins
+        // Solenoid pin
+        pinMode(SOLENOID_PIN, OUTPUT);
+        digitalWrite(SOLENOID_PIN, LOW);        // Just to be sure
+
+        // Light pin
         pinMode(STATUS_LIGHT_PIN, OUTPUT);
         digitalWrite(STATUS_LIGHT_PIN, HIGH);
 
         // Prepare all dynamixel motors
         dyna.begin(DYNAMIXEL_BAUD_RATE);
         Serial.printf("set protocol ver: %d\n", dyna.setPortProtocolVersion(DYNAMIXEL_PROTOCOL_VERSION));
+        scanDynaBus(dyna);
         Serial.printf("set torque off 1: %d\n", dyna.torqueOff(1));
         Serial.printf("set torque off 2: %d\n", dyna.torqueOff(2));
         Serial.printf("set torque off 3: %d\n", dyna.torqueOff(3));
@@ -72,10 +79,24 @@ namespace Arm {
         b_3 = 0.0;
 
         // Define tick-motor coefficients
-        k_bend = 2 * 3.14159265 / 4096;  // assuming 4096 counts = 2*pi radians
+        k_bend = 2 * 3.14159265 / 4096;         // assuming 4096 [ticks] = 2*pi [radians]
         k_twst = 2 * 3.14159265 / 4096;
         k_grip = 2 * 3.14159265 / 4096;
 
+        update_encoder_angles();
+
+        // Prepare target variables
+        targetM1 = enc1;
+        targetM2 = enc2;
+        targetM3 = enc3;
+        bendTarget = bendAngle;
+        twstTarget = twstAngle;
+        gripTarget = gripAngle;
+    }
+
+
+    void update_encoder_angles()
+    {
         // Define encoder positions
         enc1 = dyna.getPresentPosition(WRIST_1) - b_1;
         enc2 = dyna.getPresentPosition(WRIST_2) - b_2;
@@ -90,21 +111,7 @@ namespace Arm {
         Serial.print("Bend  : "); Serial.println(bendAngle*57.295);
         Serial.print("Twist : "); Serial.println(twstAngle*57.295);
         Serial.print("Grip  : "); Serial.println(gripAngle*57.295);
-
-        // NOTE: Need to output encoder data on request
-
-        // Prepare target constants
-        targetM1 = enc1;
-        targetM2 = enc2;
-        targetM3 = enc3;
-
-        bendTarget = bendAngle;
-        twstTarget = twstAngle;
-        gripTarget = gripAngle;
     }
-
-
-
 
 
 
@@ -123,19 +130,17 @@ namespace Arm {
         isDisabled = false;
     }
 
-    bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID)
-    {
-        return dyna.setID(oldID, newID);
-    }
-
 
     void bendWrist(Dynamixel2Arduino dyna, float position)
     {
         if (isDisabled) { return; }
 
+        // Compute motor targets
         bendTarget = position;
         targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + b_1;
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
+
+        // Set wrist positions
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
     }
@@ -144,9 +149,12 @@ namespace Arm {
     {
         if (isDisabled) { return; }
 
+        // Compute motor targets
         twstTarget = position;
         targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + b_1;
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
+
+        // Set wrist positions
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
     }
@@ -172,15 +180,33 @@ namespace Arm {
         digitalWrite(SOLENOID_PIN, state);
     }
 
+    // These two function are only needed for setting the motor IDs in the development stage, they will remember on power cycle
+    bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID)
+    {
+        return dyna.setID(oldID, newID);
+    }
+
+    void scanDynaBus(Dynamixel2Arduino dyna)
+    {
+        for (uint8_t id = 0; id < 253; id++)
+        {
+            if (dyna.ping(id))
+            {
+                Serial.printf("Motor found with ID: %d\n", id);
+            }
+        }
+    }
+
 }
 
 
 
 
 
-// This code was old ways of driving motors
 
-    // ******** COMMENTS END AROUND LINE 275 **********
+
+
+// This code was old ways of driving motors
 
     // // Move chinese-ium motors
 
