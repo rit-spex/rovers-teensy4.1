@@ -49,6 +49,9 @@ void Serial_Class::println(std::string message)
 {
     spdlog::debug(message);
 }
+void Serial_Class::println()
+{
+}
 
 int Serial_Class::printf(const char *format, ...)
 {

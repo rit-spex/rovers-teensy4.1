@@ -56,8 +56,8 @@
 #endif
 
 // The percent Increase or Decrease per cycle
-#define SPARK_MAX_RAMP_UP_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_UP_TIME_MS / UPDATE_RATE_MS))
-#define SPARK_MAX_RAMP_DOWN_PER_CYCLE ((1.00) / (SPARK_MAX_RAMP_DOWN_TIME_MS / UPDATE_RATE_MS))
+#define SPARK_MAX_RAMP_UP_PER_CYCLE 1.00
+#define SPARK_MAX_RAMP_DOWN_PER_CYCLE 1.00
 
 // The max the percent on each side can differ before the rover tips
 #define DRIVEBASE_MAX_DIFFERENCE_PERCENT 1.00
@@ -125,8 +125,8 @@ constexpr double KD5 = 0.0005;
 #define FAN_MIN_PWM 51
 
 //********************************************************* CAN CONSTANTS *******************************************************
-#define ActiveCAN CAN::CAN_MODE::CAN2
-#define CAN_BAUDRATE 500000
+// #define ActiveCAN CAN::CAN_MODE::CAN2
+// #define CAN_BAUDRATE 500000
 #define MSG_LENGTH 8
 
 #endif // CONSTANTS_H

@@ -1,101 +1,86 @@
+// Defines root teensy file to run
+// Mainly sets callbacks for each CAN message
 
+
+// Include packages
 #include "main.h"
+#include "CAN/message_id.h"
+#include "CAN/CAN.h"
+#include "CANHandlers.h"
+#include "Constants.h"
 
+// Define constants
 unsigned long previousMillis = 0;
-unsigned long currentRunCycle = 0;
 std::shared_ptr<CAN> can;
-Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, FULL_DUPLEX_DIR_PIN);
 
 void setup()
 {
-#if ENABLE_SERIAL
-    Serial.begin(9600);
-    Serial.println("Arm");
-    delay(1000);
-#endif
-    startUp(dyna);
+    // Serial output
+    #if ENABLE_SERIAL
+        Serial.begin(9600);
+        Serial.println("Arm");
+        delay(1000);
+    #endif
 
-    can = std::make_shared<CAN>(&currentRunCycle);
-    // *can = CAN(&currentRunCycle);
+    // Activate Arm
+    Arm::startUp();
+
+    // Define CAN callbacks
+    can = std::make_shared<CAN>();
     can->startCAN();
+    delay(10);
+
+    // Send-out initial encoder data
+    ReadWristBendMsg msg1; msg1.position = bendAngle;
+    can->send(msg1, MessageID::READ_WRIST_BEND);
+    ReadWristTwistMsg msg2; msg2.position = twstAngle;
+    can->send(msg2, MessageID::READ_WRIST_TWIST);
+    ReadClawMsg msg3; msg3.position = gripAngle;
+    can->send(msg3, MessageID::READ_CLAW);
+
+    // Setup callbacks
+
+    // XXX: surely a way to infer the type for onMessage given the callback's argument type
+    can->onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
+    can->onMessage<EnableArmMsg>(MessageID::ENABLE_ARM, CANHandlers::enableArm);
+    // can->onMessage<MoveBaseMsg>(MessageID::MOVE_BASE, CANHandlers::moveBase);
+    // can->onMessage<MoveShoulderMsg>(MessageID::MOVE_SHOULDER, CANHandlers::moveShoulder);
+    // can->onMessage<MoveElbowMsg>(MessageID::MOVE_ELBOW, CANHandlers::moveElbow);
+    can->onMessage<BendWristMsg>(MessageID::BEND_WRIST, CANHandlers::bendWrist);
+    can->onMessage<TwistWristMsg>(MessageID::TWIST_WRIST, CANHandlers::twistWrist);
+    can->onMessage<MoveClawMsg>(MessageID::MOVE_CLAW, CANHandlers::moveClaw);
+    can->onMessage<MoveSolenoidMsg>(MessageID::MOVE_SOLENOID, CANHandlers::moveSolenoid);
 }
 
 void loop()
 {
-    // Need to call this to read and "sniff" each message
-    can->readMsgBuffer();
-    if (can->isNewMessage(CAN::ARM_E_STOP))
-    {
-#if ENABLE_SERIAL
-        Serial.println("ESTOP ENCOUNTERED");
-#endif
-        disable(dyna);
-    }
-
-    // Updated status light
+    // Prepare LED Control and heartbeat signal
     unsigned long currentMillis = millis();
-    if (isDisabled())
+    if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
     {
-        digitalWrite(STATUS_LIGHT_PIN, HIGH);
-#if ENABLE_SERIAL
-        Serial.println("Status light: Solid");
-#endif
-    }
-    else
-    {
-        if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
+        // Update time variable
+        previousMillis = currentMillis;
+        // Updated status light
+        if (Arm::isDisabled)
         {
-            previousMillis = currentMillis;
+            digitalWrite(STATUS_LIGHT_PIN, HIGH);
+        }
+        else
+        {
             digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
         }
+
+
+        can->send(
+            HeartbeatMsg{
+                .source = SubSystemID::ARM,
+                .uptime_ms = (uint32_t)millis(),
+                .enabled = (uint8_t)(!Arm::isDisabled),
+            },
+            MessageID::TEENSY_HEARTBEAT
+        );
     }
 
-    for (int i = 10; i < 18; ++i)
-    {
-        if (can->isNewMessage((CAN::Message_ID)i))
-        {
-            uint8_t *data;
-            data = can->getUnpackedData((CAN::Message_ID)i);
-#if ENABLE_SERIAL
-            Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
-#endif
-            Direction direction = (Direction)data[1];
-            if (!(bool)data[0])
-            {
-                direction = OFF;
-            }
-
-            // Activate specific motors based on arbitration ID
-            switch (i)
-            {
-            case 11:
-                moveBase(direction);
-                break;
-            case 12:
-                moveShoulder(direction);
-                break;
-            case 13:
-                moveElbow(direction);
-                break;
-            case 14:
-                bendWrist(dyna, direction);
-                break;
-            case 15:
-                twistWrist(dyna, direction);
-                break;
-            case 16:
-                moveSARClaw(direction);
-                break;
-            case 17:
-                moveSolenoid(data[0]);
-                break;
-            default:
-#if ENABLE_SERIAL
-                Serial.printf("message type not accounted for %d\n", i);
-#endif
-                disable(dyna);
-                break;
-            }
-        }
-    }
+    // Read can data for callbacks (i think)
+    can->poll();
 }

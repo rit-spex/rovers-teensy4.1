@@ -39,6 +39,7 @@ public:
     void println(const char *message);
     void println(const int message);
     void println(std::string message);
+    void println();
 
     // printf
     int printf(const char *format, ...);
