@@ -77,4 +77,40 @@ struct __attribute__((packed)) MoveSolenoidMsg
     ArmDir direction;
 };
 
+
+
+
+// struct __attribute__((packed)) ReadBaseMsg
+// {
+//     float position;
+// };
+
+// struct __attribute__((packed)) ReadShoulderMsg
+// {
+//     float position;
+// };
+
+// struct __attribute__((packed)) ReadElbowMsg
+// {
+//     float position;
+// };
+
+
+struct __attribute__((packed)) ReadBendMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadTwistMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadClawMsg
+{
+    float position;
+};
+
+
+
 #endif // SPEX_CAN_MESSAGES_ARM_H

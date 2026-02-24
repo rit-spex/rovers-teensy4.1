@@ -6,18 +6,17 @@
 // ---------------------- Dynamixel ----------------------
 #define DYNAMIXEL_PROTOCOL_VERSION 2.0
 #define DYNAMIXEL_BAUD_RATE 57600
-#define DYNAMIXEL_MOTORS_SERIAL Serial3      // hardware UART for Dynamixels
-#define FULL_DUPLEX_DIR_PIN 2         // GPIO controlling half/full duplex TX/RX
-
+#define DYNAMIXEL_MOTORS_SERIAL Serial2      // hardware UART for Dynamixels
 
 // ---------------------- Timing ----------------------
 #define LED_BLINK_INTERVAL 500  // milliseconds
 
 // ---------------------- Pinout ----------------------
 
-#define LIMIT_SWITCH_PIN 1
-#define SOLENOID_PIN 27
-#define STATUS_LIGHT_PIN 13
+#define FULL_DUPLEX_DIR_PIN 2         // GPIO controlling half/full duplex TX/RX
+#define LIMIT_SWITCH_PIN 5
+#define SOLENOID_PIN 29
+#define STATUS_LIGHT_PIN 13     // This is on the Teensy, not an ACTUAL pin
 
 // ---------------------- Globals ----------------------
 extern Dynamixel2Arduino dyna;

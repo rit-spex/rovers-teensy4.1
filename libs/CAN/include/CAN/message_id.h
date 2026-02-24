@@ -33,7 +33,12 @@ enum class MessageID : uint32_t
     TWIST_WRIST = (uint32_t)25,
     MOVE_CLAW = (uint32_t)26,
     MOVE_SOLENOID = (uint32_t)27,
-    BASE_POS = (uint32_t)28,
+    BASE_POS = (uint32_t)30,
+    SHOULDER_POS = (uint32_t)31,
+    ELBOW_POS = (uint32_t)32,
+    BEND_POS = (uint32_t)33,
+    TWIST_POS = (uint32_t)34,
+    CLAW_POS = (uint32_t)35,
 
     // science
     ENABLE_SCIENCE = (uint32_t)40,
