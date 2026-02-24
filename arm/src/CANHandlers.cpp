@@ -5,6 +5,7 @@
 #include "Arm.h"
 #include "CAN/messages/arm.h"
 #include "Constants.h"
+#include "core_pins.h"
 
 #define ENABLE_SERIAL 1
 
@@ -22,7 +23,7 @@ namespace CANHandlers {
     // Respond to the heartbeat
     void heartbeat(const HeartbeatMsg &msg) {
         if (msg.source == SubSystemID::ROS) {
-            Arm::lastROSHeartbeatTime = msg.uptime_ms;
+            Arm::lastROSHeartbeatTime = millis();
             #if ENABLE_SERIAL
                 Serial.printf("Heartbeat received from ROS with uptime: %d ms", msg.uptime_ms);
             #endif
