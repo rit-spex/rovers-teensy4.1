@@ -4,10 +4,12 @@
 
 // Include packages
 #include "main.h"
+#include "Arm.h"
 #include "CAN/message_id.h"
 #include "CAN/CAN.h"
 #include "CANHandlers.h"
 #include "Constants.h"
+#include <iterator>
 
 // Define constants
 unsigned long previousMillis = 0;
@@ -80,6 +82,13 @@ void loop()
             },
             MessageID::TEENSY_HEARTBEAT
         );
+    }
+
+    if (currentMillis - Arm::lastROSHeartbeatTime >= TIMEOUT_DURAITON) {
+        Arm::disable();
+#if ENABLE_SERIAL
+        Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
+#endif
     }
 
     // Read can data for callbacks (i think)
