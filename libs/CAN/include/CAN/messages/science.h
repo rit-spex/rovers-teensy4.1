@@ -111,7 +111,7 @@ struct __attribute__((packed)) EnableVibrationMsg
 
 struct __attribute__((packed)) ReadAugerMsg
 {
-    uint8_t position;
+    uint32_t position;
     uint8_t limitSwitch;
 };
 
