@@ -26,35 +26,35 @@ struct __attribute__((packed)) EnableArmMsg
 
 // ARM COMMANDS
 
-// enum class ArmState : uint8_t
-// {
-//     Active = 0,
-//     Stop = 1,
-// };
+enum class ArmState : uint8_t
+{
+    Active = 0,
+    Stop = 1,
+};
 
-// enum class ArmDir : uint8_t
-// {
-//     Reverse = 0,
-//     Forward = 1,
-// };
+enum class ArmDir : uint8_t
+{
+    Reverse = 0,
+    Forward = 1,
+};
 
-// struct __attribute__((packed)) MoveBaseMsg
-// {
-//     ArmState state;
-//     ArmDir direction;
-// };
+struct __attribute__((packed)) MoveBaseMsg
+{
+    ArmState state;
+    ArmDir direction;
+};
 
-// struct __attribute__((packed)) MoveShoulderMsg
-// {
-//     ArmState state;
-//     ArmDir direction;
-// };
+struct __attribute__((packed)) MoveShoulderMsg
+{
+    ArmState state;
+    ArmDir direction;
+};
 
-// struct __attribute__((packed)) MoveElbowMsg
-// {
-//     ArmState state;
-//     ArmDir direction;
-// };
+struct __attribute__((packed)) MoveElbowMsg
+{
+    ArmState state;
+    ArmDir direction;
+};
 
 struct __attribute__((packed)) BendWristMsg
 {
@@ -83,20 +83,20 @@ struct __attribute__((packed)) MoveSolenoidMsg
     uint8_t enabled;
 };
 
-// struct __attribute__((packed)) ReadBaseMsg
-// {
-//     float position;
-// };
+struct __attribute__((packed)) ReadBaseMsg
+{
+    float position;
+};
 
-// struct __attribute__((packed)) ReadShoulderMsg
-// {
-//     float position;
-// };
+struct __attribute__((packed)) ReadShoulderMsg
+{
+    float position;
+};
 
-// struct __attribute__((packed)) ReadElbowMsg
-// {
-//     float position;
-// };
+struct __attribute__((packed)) ReadElbowMsg
+{
+    float position;
+};
 
 struct __attribute__((packed)) ReadWristBendMsg
 {

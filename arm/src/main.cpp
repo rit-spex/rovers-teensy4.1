@@ -31,12 +31,12 @@ void setup()
     delay(10);
 
     // Send-out initial encoder data
-    ReadBendMsg msg1; msg1.position = bendAngle;
-    can->send(msg1, MessageID::BEND_POS);
-    ReadTwistMsg msg2; msg2.position = twstAngle;
-    can->send(msg2, MessageID::TWIST_POS);
+    ReadWristBendMsg msg1; msg1.position = bendAngle;
+    can->send(msg1, MessageID::READ_WRIST_BEND);
+    ReadWristTwistMsg msg2; msg2.position = twstAngle;
+    can->send(msg2, MessageID::READ_WRIST_TWIST);
     ReadClawMsg msg3; msg3.position = gripAngle;
-    can->send(msg3, MessageID::CLAW_POS);
+    can->send(msg3, MessageID::READ_CLAW);
 
     // Setup callbacks
 
