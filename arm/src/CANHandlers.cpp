@@ -24,7 +24,7 @@ namespace CANHandlers {
         if (msg.source == SubSystemID::ROS) {
             Arm::lastROSHeartbeatTime = msg.uptime_ms;
             #if ENABLE_SERIAL
-                Serial.printf("Heartbeat received from ROS with uptime: %l ms", msg.uptime_ms);
+                Serial.printf("Heartbeat received from ROS with uptime: %d ms", msg.uptime_ms);
             #endif
         }
         if (!msg.enabled)
