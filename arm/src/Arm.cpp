@@ -76,9 +76,9 @@ namespace Arm {
         gripAngle = k_grip *  enc3;
 
         // Print angles
-        Serial.print("Bend  : "); Serial.println(bendAngle*57.295);
-        Serial.print("Twist : "); Serial.println(twstAngle*57.295);
-        Serial.print("Grip  : "); Serial.println(gripAngle*57.295);
+        Serial.printf("Bend  : %f\n", bendAngle*57.295);
+        Serial.printf("Twist : %f\n", twstAngle*57.295);
+        Serial.printf("Grip  : %f\n", gripAngle*57.295);
     }
 
 

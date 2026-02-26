@@ -33,6 +33,9 @@ public:
     int torqueOn(int pin);
     int ping(int val);
     int ping();
+
+private:
+    float presentPosition[3] = {0.0};
 };
 
 #endif // DYNAMIXEL_2_ARDUNIO_H

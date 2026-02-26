@@ -121,14 +121,14 @@ bool CANbus::receive(CANMessage &message)
         dataStr += std::to_string(message.data[i]) + " ";
     }
 
-    spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len, dataStr);
+    // spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len, dataStr);
 
     return true;
 }
 
 bool CANbus::tryToSend(CANMessage message)
 {
-    spdlog::debug("CANbus.tryToSend called");
+    // spdlog::debug("CANbus.tryToSend called");
 
     if (m_sock < 0)
     {
