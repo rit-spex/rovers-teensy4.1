@@ -20,6 +20,8 @@
 
 // Pumps
 #define NUM_PUMPS 3
-constexpr int32_t PUMP_SPEED = (-1);
+// Currently all pumps use the same speed, but if you just construct Pump with
+// a different speed it can be customized
+#define PUMP_SPEED 0
 
 #endif // CONSTANTS_H

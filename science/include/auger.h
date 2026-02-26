@@ -16,21 +16,14 @@ public:
     Auger();
     ~Auger();
 
-    enum class Direction
-    {
-        Up,
-        Down,
-    };
-
     void startUp();
 
     void goHome();
-    bool isHomed();
 
-    void updateSubsystems();
+    void update();
 
-    void updateHeight(int32_t pos);
-    void updateSpinning(bool isSpinning);
+    void setHeight(int32_t pos);
+    void setSpinning(bool isSpinning);
 
 private:
     Servo m_drillMotor;

@@ -38,17 +38,17 @@ void Auger::goHome()
 #endif
 }
 
-void Auger::updateSubsystems()
+void Auger::update()
 {
     m_stepper.resetCommandTimeout(); // Must be called at least once per second
 }
 
-void Auger::updateHeight(int32_t pos)
+void Auger::setHeight(int32_t pos)
 {
     m_stepper.setTargetPosition(pos);
 }
 
-void Auger::updateSpinning(bool isSpinning)
+void Auger::setSpinning(bool isSpinning)
 {
     if (isSpinning)
     {

@@ -49,25 +49,6 @@ void Science::startUp()
 
 void Science::updateSubsystems()
 {
-// #if ENABLE_SERIAL
-//     if (Serial.available() > 1)
-//     {
-//         String input = Serial.readString();
-//
-//         if (input == "off\n" || input == "disable\n") {
-//             disable();
-//         } else if (input == "on\n" || input == "enable\n") {
-//             enable();
-//         } else if (input == "auger up\n") {
-//             m_auger.updateHeight(Auger::Direction::Up);
-//         } else if (input == "auger down\n") {
-//             m_auger.updateHeight(Auger::Direction::Down);
-//         } else if (input == "auger home\n") {
-//             m_auger.goHome();
-//         }
-//     }
-// #endif
-
     // Update status light regardless of enabled
     updateStatusLight();
 
@@ -78,10 +59,10 @@ void Science::updateSubsystems()
     }
 
     // Auger
-    m_auger.updateSubsystems();
+    m_auger.update();
 
     // Sample slide
-    m_sampleSlide.updateSubsystems();
+    m_sampleSlide.update();
 
     // Pumps
     for (size_t i = 0; i < NUM_PUMPS; i++) {
@@ -124,7 +105,6 @@ void Science::updateStatusLight()
     else if (currentMillis - m_prevMillis >= LED_BLINK_INTERVAL)
     {
         m_prevMillis = currentMillis;
-        // Serial.printf("Status light: %d\n", digitalRead(STATUS_LIGHT_PIN));;
         digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
     }
 }
@@ -140,11 +120,11 @@ void Science::handleMoveAuger(const MoveAugerMsg &msg) {
         return;
     }
 
-    this->m_auger.updateHeight(static_cast<uint32_t>(msg.position));
+    this->m_auger.setHeight(static_cast<uint32_t>(msg.position));
 }
 
 void Science::handleEnableDrill(const EnableDrillMsg &msg) {
-    this->m_auger.updateSpinning(static_cast<bool>(msg.enable));
+    this->m_auger.setSpinning(static_cast<bool>(msg.enable));
 }
 
 void Science::handleMoveSlide(const MoveSlideMsg &msg) {

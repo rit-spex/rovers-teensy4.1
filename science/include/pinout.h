@@ -15,7 +15,5 @@
 #define PUMP_1_ADDR 0x0A
 #define PUMP_2_ADDR 0x0B
 #define PUMP_3_ADDR 0x0C
-// Currently all pumps use the same speed, but if you just construct Pump with
-// a different speed it can be customized
 
 #endif // PINOUT_H
