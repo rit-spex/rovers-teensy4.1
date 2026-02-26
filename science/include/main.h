@@ -7,12 +7,10 @@
 #include <cmath>
 #include <memory>
 
-static unsigned long currentRunCycle = 0;
 static std::shared_ptr<Science> science;
+static uint32_t prevMillis = millis();
 
 void setup();
 void loop();
-
-#define ENABLE_CAN 0
 
 #endif // MAIN_H

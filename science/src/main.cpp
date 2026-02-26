@@ -2,18 +2,17 @@
 
 void setup()
 {
-    science = std::make_shared<Science>(&currentRunCycle);
+    science = std::make_shared<Science>();
     science->startUp();
-    currentRunCycle = floor(millis() / UPDATE_RATE_MS);
 }
 
 void loop()
 {
     science->runBackgroundProcesses();
-    if (millis() >= UPDATE_RATE_MS * currentRunCycle)
+    if (uint32_t currMillis = millis(); currMillis - prevMillis >= UPDATE_RATE_MS)
     {
+        prevMillis = currMillis;
         science->updateSubsystems();
-        currentRunCycle++;
     }
 }
 

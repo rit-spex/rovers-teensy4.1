@@ -68,8 +68,6 @@ void Science::updateSubsystems()
     // Update status light regardless of enabled
     updateStatusLight();
 
-    m_can.poll();
-
     // Disabled
     if (!m_enabled)
     {
