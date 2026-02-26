@@ -36,7 +36,7 @@ extern std::queue<char> inputQueue;
 
 int main()
 {
-    spdlog::set_level(spdlog::level::info);
+    spdlog::set_level(spdlog::level::debug);
     clearFile();
     inputQueue.push('a');
     setup();

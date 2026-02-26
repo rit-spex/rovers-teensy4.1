@@ -1,0 +1,104 @@
+// ============================================================================
+// File: arm.h
+//
+// Authors:
+//     - Lucas Newcomb (@pants721)
+//
+// Description:
+//     Provides the types for CAN messages related the Arm subsystem.
+// Note:
+//     Message structs MUST have `__attribute__((packed))` in order to avoid
+//     the compiler inserting padding, which would make our encoding and
+//     decoding compiler dependent which is a big no-no.
+// ============================================================================
+
+#ifndef SPEX_CAN_MESSAGES_ARM_H
+#define SPEX_CAN_MESSAGES_ARM_H
+
+#include "CAN/codec.h"
+
+#include <cstdint>
+
+struct __attribute__((packed)) EnableArmMsg
+{
+    uint8_t enable;
+};
+
+// ARM COMMANDS
+
+struct __attribute__((packed)) MoveBaseMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) MoveShoulderMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) MoveElbowMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) BendWristMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) TwistWristMsg
+{
+    float position;
+};
+
+enum class ClawState : uint8_t
+{
+    Open = 0,
+    Closed = 1,
+};
+
+struct __attribute__((packed)) MoveClawMsg
+{
+    ClawState state;
+    float position;
+};
+
+struct __attribute__((packed)) MoveSolenoidMsg
+{
+    uint8_t enabled;
+};
+
+struct __attribute__((packed)) ReadBaseMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadShoulderMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadElbowMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadWristBendMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadWristTwistMsg
+{
+    float position;
+};
+
+struct __attribute__((packed)) ReadClawMsg
+{
+    ClawState state;
+    float position;
+};
+
+
+
+#endif // SPEX_CAN_MESSAGES_ARM_H

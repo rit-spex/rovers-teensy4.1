@@ -20,6 +20,16 @@ void Dynamixel2Arduino::setGoalPWM(int pin, int speed, int unit)
     spdlog::debug("Dynamixel2Arduino setGoalPWM: pin {}, speed {}, unit {}", pin, speed, unit);
 }
 
+bool Dynamixel2Arduino::setGoalPosition(int id, float value) {
+    spdlog::debug("Dynamixel2Arduino setGoalPosition: id {}, value {}", id, value);
+    return true;
+}
+
+float Dynamixel2Arduino::getPresentPosition(int id) {
+    spdlog::debug("Dynamixel2Arduino getPresentPosition: id {}", id);
+    return 0;
+}
+
 int Dynamixel2Arduino::setOperatingMode(int val1, int val2)
 {
     spdlog::debug("Dynamixel2Arduino setOperatingMode val1: {}, val2: {}", val1, val2);

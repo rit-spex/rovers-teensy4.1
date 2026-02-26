@@ -12,15 +12,15 @@
 
 // Debugging
 #define ENABLE_SERIAL 1
+#define ARM_CAN
 
 #include <Arduino.h>
 #include <Dynamixel2Arduino.h>
 #include <memory>
 
 #include "Arm.h"
-#include "CAN.h"
+#include "CAN/CAN.h"
 #include "Constants.h"
-#include "Pinout.h"
 
 void setup();
 void loop();

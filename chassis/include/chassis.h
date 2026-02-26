@@ -18,6 +18,8 @@
 #include <math.h>
 
 // Local Includes
+#include "CAN/messages/chassis.h"
+#include "CAN/messages/misc.h"
 #include "DEBUG.h"
 #include "constants.h"
 #include "pinout.h"
@@ -27,13 +29,9 @@
 #include "./drivebase/drivebase.h"
 #endif
 
-#if ENABLE_TEMP
-#include "./temperature/tempSubsystem.h"
-#endif
-
 // Libs Includes
 #if ENABLE_CAN
-#include "CAN.h"
+#include "CAN/CAN.h"
 #endif
 
 class Chassis
@@ -65,6 +63,13 @@ public:
     // check if the mbb is disabled
     bool isDisabled();
 
+    // CAN Handlers
+#if ENABLE_CAN
+    void handleEStopMsg(const EStopMsg &msg);
+    void handleEnableChassisMsg(const EnableChassisMsg &msg);
+    void handleDrivePowerMsg(const DrivePowerMsg &msg);
+#endif
+
 // Drives the rover based on the left and right joystick values
 #if ENABLE_DRIVEBASE
     void drive(float left_axis, float right_axis);
@@ -85,14 +90,6 @@ private:
     DriveBase m_drive_base = DriveBase(&m_can);
 #else
     DriveBase m_drive_base = DriveBase();
-#endif
-#endif
-
-#if ENABLE_TEMP
-#if ENABLE_CAN
-    TempSubsystem m_temp_subsystem = TempSubsystem(&m_can);
-#else
-    TempSubsystem m_temp_subsystem = TempSubsystem();
 #endif
 #endif
 };

@@ -51,6 +51,9 @@ void Serial_Class::println(std::string message)
 {
     spdlog::info(message);
 }
+void Serial_Class::println()
+{
+}
 
 int Serial_Class::printf(const char *format, ...)
 {
@@ -140,7 +143,7 @@ void delay(int milliseconds)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 
-    spdlog::debug("Delay called with milliseconds: {}", milliseconds);
+    // spdlog::debug("Delay called with milliseconds: {}", milliseconds);
 }
 
 unsigned long millis()

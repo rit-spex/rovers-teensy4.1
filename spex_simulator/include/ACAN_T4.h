@@ -48,7 +48,7 @@ class CANbus
 public:
     CANbus(void);
     void begin(ACAN_T4_Settings acan_t4_settings);
-    bool receive(CANMessage message);
+    bool receive(CANMessage &message);
     bool tryToSend(CANMessage message);
 
 private:
