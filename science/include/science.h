@@ -1,18 +1,20 @@
 #ifndef SCIENCE_H
 #define SCIENCE_H
 
+#include <array>
+
+#include "CAN/messages/science.h"
 #include "auger.h"
+#include "constants.h"
 #include "pump.h"
 #include "sampleSlide.h"
 
-#if ENABLE_CAN
-#include "CAN.h"
-#endif
+#include "CAN/CAN.h"
 
 class Science
 {
 public:
-    Science(unsigned long *currentCyclePtr);
+    Science();
     ~Science();
 
     void startUp();
@@ -24,23 +26,29 @@ public:
     bool isEnabled() const;
 
     void updateStatusLight();
-#if ENABLE_CAN
-    void processCANMessages();
-#endif
+
+    // CAN Handlers
+    void handleEnableScience(const EnableScienceMsg &msg);
+    void handleMoveAuger(const MoveAugerMsg &msg);
+    void handleEnableDrill(const EnableDrillMsg &msg);
+    void handleMoveSlide(const MoveSlideMsg &msg);
+    void handleEnablePump(const EnablePumpMsg &msg);
+    void handleMoveSpectrometerSlide(const MoveSpectrometerSlideMsg &msg);
+    void handleMoveFluorometerSlide(const MoveFluorometerSlideMsg &msg);
+    void handleEnableFluorometerMicroPump(const EnableFluorometerMicroPumpMsg &msg);
+    void handleEnablePrimer(const EnablePrimerMsg &msg);
+    void handleEnableVibration(const EnableVibrationMsg &msg);
 private:
+    // Subsystems
     SampleSlide m_sampleSlide;
     Auger m_auger;
-    Pump m_pump1;
-    Pump m_pump2;
+    std::array<Pump, NUM_PUMPS> m_pumps;
 
     bool m_enabled = true;
 
     unsigned long m_prevMillis = 0; // For status light blinking
 
-#if ENABLE_CAN
     CAN m_can;
-#endif
-    unsigned long *m_currentCyclePtr;
 };
 
 // #include "TICT249.h"

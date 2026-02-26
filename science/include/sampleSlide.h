@@ -1,19 +1,11 @@
 #ifndef SAMPLE_SLIDE_H
 #define SAMPLE_SLIDE_H
 
+#include "CAN/messages/science.h"
 #include "Tic.h"
 class SampleSlide
 {
 public:
-    enum class Position
-    {
-        Home = 0,
-        OpenSample = 1,
-        SampleCache = 2,
-        MiddleContainer = 3,
-        EndSample = 4,
-    };
-
     SampleSlide();
     ~SampleSlide();
 
@@ -23,11 +15,11 @@ public:
     void goHome();
     bool isHomed();
 
-    Position getPosition();
-    void goToPosition(Position pos);
+    SlideStage getStage();
+    void goToStage(SlideStage pos);
 
 private:
-    Position m_currentPos;
+    SlideStage m_currentStage;
     TicI2C m_stepper;
 };
 

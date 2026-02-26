@@ -1,42 +1,13 @@
 #include "sampleSlide.h"
 
 #include <Arduino.h>
+#include "CAN/messages/science.h"
 #include "constants.h"
 #include "pinout.h"
 
-char *posToString(SampleSlide::Position pos)
-{
-    switch (pos) {
-        case SampleSlide::Position::Home: {
-            return (char *)"Home";
-            break;
-        }
-        case SampleSlide::Position::OpenSample: {
-            return (char *)"Open Sample";
-            break;
-        }
-        case SampleSlide::Position::SampleCache: {
-            return (char *)"Sample Cache";
-            break;
-        }
-        case SampleSlide::Position::MiddleContainer: {
-            return (char *)"Middle Container";
-            break;
-        }
-        case SampleSlide::Position::EndSample: {
-            return (char *)"End Sample";
-            break;
-        }
-        default: {
-            return (char *)"Unimplemented Position";
-            break;
-        }
-    }
-}
-
 SampleSlide::SampleSlide()
 {
-    m_currentPos = Position::Home;
+    m_currentStage = SlideStage::Home;
 }
 
 SampleSlide::~SampleSlide()
@@ -50,6 +21,7 @@ void SampleSlide::startUp()
 #if ENABLE_SERIAL
     Serial.println("Sample Slide start up completed");
 #endif
+    this->goHome();
 }
 
 void SampleSlide::updateSubsystems()
@@ -59,45 +31,41 @@ void SampleSlide::updateSubsystems()
 
 void SampleSlide::goHome()
 {
-    goToPosition(Position::Home);
+    goToStage(SlideStage::Home);
 }
 
 bool SampleSlide::isHomed()
 {
-    return m_currentPos == Position::Home;
+    return m_currentStage == SlideStage::Home;
 }
 
-SampleSlide::Position SampleSlide::getPosition()
+SlideStage SampleSlide::getStage()
 {
-    return m_currentPos;
+    return m_currentStage;
 }
 
-void SampleSlide::goToPosition(Position pos)
+void SampleSlide::goToStage(SlideStage stage)
 {
-#if ENABLE_SERIAL
-    Serial.printf("Moving sample slide to %s", posToString(pos));
-#endif
-
-    m_currentPos = pos;
-    switch (pos) {
-        case Position::Home: {
+    m_currentStage = stage;
+    switch (stage) {
+        case SlideStage::Home: {
             m_stepper.goHomeReverse();
             break;
         }
-        case Position::OpenSample: {
-            m_stepper.setTargetPosition(SS_OPEN_SAMPLE);
+        case SlideStage::Collection1: {
+            m_stepper.setTargetPosition(SS_COLLECTION1_POS);
             break;
         }
-        case Position::SampleCache: {
-            m_stepper.setTargetPosition(SS_SAMPLE_CACHE);
+        case SlideStage::Collection2: {
+            m_stepper.setTargetPosition(SS_COLLECTION2_POS);
             break;
         }
-        case Position::MiddleContainer: {
-            m_stepper.setTargetPosition(SS_MIDDLE_CONTAINER);
+        case SlideStage::Purge: {
+            m_stepper.setTargetPosition(SS_PURGE_POS);
             break;
         }
-        case Position::EndSample: {
-            m_stepper.setTargetPosition(SS_END_SAMPLE);
+        case SlideStage::SampleCache: {
+            m_stepper.setTargetPosition(SS_SAMPLE_CACHE_POS);
             break;
         }
         default: {

@@ -12,9 +12,13 @@
 #define AUGER_DRILL_IDLE_SIGNAL 1500
 
 // Sample Slide
-#define SS_OPEN_SAMPLE 25
-#define SS_SAMPLE_CACHE 50
-#define SS_MIDDLE_CONTAINER 75
-#define SS_END_SAMPLE 100
+// TODO: actual values
+#define SS_COLLECTION1_POS 0
+#define SS_COLLECTION2_POS 0
+#define SS_PURGE_POS 0
+#define SS_SAMPLE_CACHE_POS 0
+
+// Pumps
+# define NUM_PUMPS 3
 
 #endif // CONSTANTS_H

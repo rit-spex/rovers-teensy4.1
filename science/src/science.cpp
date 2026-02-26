@@ -5,16 +5,14 @@
 #include <Wire.h>
 #include <cstdint>
 
+#include "CAN/messages/science.h"
 #include "auger.h"
 #include "constants.h"
 #include "pinout.h"
+#include "pump.h"
+#include "sampleSlide.h"
 
-Science::Science(unsigned long *currentCyclePtr)
-    : m_auger(),
-#if ENABLE_CAN
-      m_can(currentCyclePtr),
-#endif
-      m_currentCyclePtr(currentCyclePtr)
+Science::Science()
 {
 }
 
@@ -34,10 +32,7 @@ void Science::startUp()
 
     pinMode(STATUS_LIGHT_PIN, OUTPUT);
 
-#if ENABLE_CAN
-    m_can = CAN(m_currentCyclePtr);
     m_can.startCAN();
-#endif
 
 #if ENABLE_SERIAL
     Serial.println("Science start up completed");
@@ -46,36 +41,35 @@ void Science::startUp()
 
 void Science::updateSubsystems()
 {
-#if ENABLE_SERIAL
-    if (Serial.available() > 1)
-    {
-        String input = Serial.readString();
+// #if ENABLE_SERIAL
+//     if (Serial.available() > 1)
+//     {
+//         String input = Serial.readString();
+//
+//         if (input == "off\n" || input == "disable\n") {
+//             disable();
+//         } else if (input == "on\n" || input == "enable\n") {
+//             enable();
+//         } else if (input == "auger up\n") {
+//             m_auger.updateHeight(Auger::Direction::Up);
+//         } else if (input == "auger down\n") {
+//             m_auger.updateHeight(Auger::Direction::Down);
+//         } else if (input == "auger home\n") {
+//             m_auger.goHome();
+//         }
+//     }
+// #endif
 
-        if (input == "off\n" || input == "disable\n") {
-            disable();
-        } else if (input == "on\n" || input == "enable\n") {
-            enable();
-        } else if (input == "auger up\n") {
-            m_auger.updateHeight(Auger::Direction::Up);
-        } else if (input == "auger down\n") {
-            m_auger.updateHeight(Auger::Direction::Down);
-        } else if (input == "auger home\n") {
-            m_auger.goHome();
-        }
-    }
-#endif
     // Update status light regardless of enabled
     updateStatusLight();
+
+    m_can.poll();
 
     // Disabled
     if (!m_enabled)
     {
         return;
     }
-
-#if ENABLE_CAN
-    processCANMessages();
-#endif
 
     // Auger
     m_auger.updateSubsystems();
@@ -125,6 +119,38 @@ void Science::updateStatusLight()
         digitalWrite(STATUS_LIGHT_PIN, !digitalRead(STATUS_LIGHT_PIN));
     }
 }
+
+
+void Science::handleEnableScience(const EnableScienceMsg &msg) {
+    this->m_enabled = static_cast<bool>(msg.enable);
+}
+
+void Science::handleMoveAuger(const MoveAugerMsg &msg) {
+    if (static_cast<bool>(msg.home)) {
+        this->m_auger.goHome();
+        return;
+    }
+
+    this->m_auger.updateHeight(static_cast<uint32_t>(msg.position));
+}
+
+void Science::handleEnableDrill(const EnableDrillMsg &msg) {
+    this->m_auger.updateSpinning(static_cast<bool>(msg.enable));
+}
+
+void Science::handleMoveSlide(const MoveSlideMsg &msg) {
+    this->m_sampleSlide.goToStage(msg.stage);
+}
+
+void Science::handleEnablePump(const EnablePumpMsg &msg) {
+    Pump pump = this->m_pumps[msg.id];
+    if (static_cast<bool>(msg.enable)) {
+        pump.enable();
+    } else {
+        pump.disable();
+    }
+}
+
 
 #if ENABLE_CAN
 void Science::processCANMessages()

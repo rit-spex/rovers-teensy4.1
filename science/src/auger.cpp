@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <Tic.h>
+#include <cstdint>
 
 Auger::Auger()
 {
@@ -35,7 +36,7 @@ void Auger::startUp()
 
 void Auger::goHome()
 {
-    m_stepper.goHomeForward();
+    m_stepper.goHomeReverse();
 #if ENABLE_SERIAL
     Serial.println("Auger began homing");
 #endif
@@ -46,31 +47,9 @@ void Auger::updateSubsystems()
     m_stepper.resetCommandTimeout(); // Must be called at least once per second
 }
 
-void Auger::updateHeight(Direction dir)
+void Auger::updateHeight(int32_t pos)
 {
-    if (m_stepper.getCurrentPosition() >= AUGER_DRILL_IDLE_SIGNAL * 2)
-    {
-        m_stepper.setTargetVelocity(0);
-        return;
-    }
-
-    switch (dir)
-    {
-        case Direction::Up: {
-            m_stepper.setTargetVelocity(AUGER_SPEED);
-#if ENABLE_SERIAL
-            Serial.println("Auger moving up");
-#endif
-            break;
-        }
-        case Direction::Down: {
-            m_stepper.setTargetVelocity(-AUGER_SPEED);
-#if ENABLE_SERIAL
-            Serial.println("Auger moving down");
-#endif
-            break;
-        }
-    };
+    m_stepper.setTargetPosition(pos);
 }
 
 void Auger::updateSpinning(bool isSpinning)

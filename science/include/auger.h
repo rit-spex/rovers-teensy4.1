@@ -6,7 +6,10 @@
 
 #include <Arduino.h>
 #include <Tic.h>
+#include <cstdint>
 
+// Tic Forward = Down in the world
+// Home is up or Tic Backward
 class Auger
 {
 public:
@@ -26,7 +29,7 @@ public:
 
     void updateSubsystems();
 
-    void updateHeight(Direction dir);
+    void updateHeight(int32_t pos);
     void updateSpinning(bool isSpinning);
 
 private:
