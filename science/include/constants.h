@@ -20,6 +20,6 @@
 
 // Pumps
 #define NUM_PUMPS 3
-constexpr int32_t PUMP_SPEED = (-1);
+#define PUMP_SPEED 0
 
 #endif // CONSTANTS_H

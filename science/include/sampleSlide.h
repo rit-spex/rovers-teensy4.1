@@ -10,7 +10,7 @@ public:
     ~SampleSlide();
 
     void startUp();
-    void updateSubsystems();
+    void update();
 
     void goHome();
     bool isHomed();

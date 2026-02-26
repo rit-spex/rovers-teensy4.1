@@ -34,7 +34,7 @@ void SampleSlide::startUp() {
     this->goHome();
 }
 
-void SampleSlide::updateSubsystems() {
+void SampleSlide::update() {
     m_stepper.resetCommandTimeout();
 }
 

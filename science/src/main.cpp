@@ -1,5 +1,7 @@
 #include "main.h"
 
+static uint32_t prevMillis = millis();
+
 void setup()
 {
     science = std::make_shared<Science>();
