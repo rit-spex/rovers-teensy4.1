@@ -1,5 +1,11 @@
-#include "main.h"
+#include "constants.h"
+#include "config.h"
+#include "science.h"
+#include <Arduino.h>
+#include <cmath>
+#include <memory>
 
+static std::shared_ptr<Science> science;
 static uint32_t prevMillis = millis();
 
 void setup()
