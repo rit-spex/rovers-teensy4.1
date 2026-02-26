@@ -41,11 +41,6 @@ void setup()
 
     // TESTING STUFF (Maybe)
     #if TESTING_LIMITS
-        Serial.println("Zero out");
-        Arm::bendWrist(dyna, 0 * 3.14159265/180);
-        Arm::twistWrist(dyna, 0 * 3.14159265/180);
-        delay(5000);
-
         Serial.println("--- Beginning Limit Testing Sequence ---");
         delay(3000);
 
@@ -73,6 +68,12 @@ void setup()
         // // Arm::moveGripper(dyna, pos * 3.14159265/180);
         delay(5000);
 
+
+        pos = 100;
+        Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        delay(5000);
 
         pos = 100;
         Arm::bendWrist(dyna, pos * 3.14159265/180);
