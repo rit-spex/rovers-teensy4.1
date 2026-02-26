@@ -1,6 +1,22 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+// which teensy are we on
+#define TEENSY_ID 1
+
+#if TEENSY_ID == 1
+
+#define ENABLE_AUGER
+#define ENABLE_SAMPLE_SLIDE
+#define ENABLE_PUMPS
+
+#elif TEENSY_ID == 2
+
+#define ENABLE_SPECTROMETER
+#define ENABLE_VIBRATOR
+
+#endif
+
 #define ENABLE_SERIAL 1
 
 #define LED_BLINK_INTERVAL 500 // ms
