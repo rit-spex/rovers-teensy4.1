@@ -133,8 +133,8 @@ void loop()
             can->send(msg1, MessageID::READ_WRIST_BEND);
             ReadWristTwistMsg msg2; msg2.position = twstAngle;
             can->send(msg2, MessageID::READ_WRIST_TWIST);
-            ReadClawMsg msg3; msg3.position = gripAngle; msg3.state = (gripAngle > 0.1) ? ClawState::Closed : ClawState::Open;
-            can->send(msg3, MessageID::READ_CLAW);
+            ReadGripperMsg msg3; msg3.position = gripAngle; msg3.state = (gripAngle > 0.1) ? GripperState::Closed : GripperState::Open;
+            can->send(msg3, MessageID::READ_GRIPPER);
         }
     }
 
