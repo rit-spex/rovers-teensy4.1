@@ -9,7 +9,7 @@
 
 Auger::Auger()
 {
-    m_stepper = TicI2C(AUGER_TIC_PIN);
+    m_stepper = TicI2C(AUGER_TIC_ADDR);
 }
 
 Auger::~Auger()
@@ -18,13 +18,9 @@ Auger::~Auger()
 
 void Auger::startUp()
 {
-    // Pin states
-    pinMode(AUGER_DRILL_MOTOR_PIN, OUTPUT);
-    pinMode(AUGER_TIC_PIN, OUTPUT);
-
-
     m_stepper.exitSafeStart();
     m_drillMotor.attach(AUGER_DRILL_MOTOR_PIN);
+    delay(AUGER_DRILL_INIT_DELAY_MS);
     m_drillMotor.write(AUGER_DRILL_IDLE_SIGNAL);
 
     // Home auger
@@ -56,7 +52,6 @@ void Auger::updateSpinning(bool isSpinning)
 {
     if (isSpinning)
     {
-        // XXX: what the fuck
         m_drillMotor.write(AUGER_DRILL_IDLE_SIGNAL + AUGER_DRILL_SPEED);
 #if ENABLE_SERIAL
         Serial.println("Began spinning drill");

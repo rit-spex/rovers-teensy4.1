@@ -7,9 +7,9 @@
 #define UPDATE_RATE_MS 40
 
 // Auger
-#define AUGER_SPEED 15000000
 #define AUGER_DRILL_SPEED 50
 #define AUGER_DRILL_IDLE_SIGNAL 1500
+#define AUGER_DRILL_INIT_DELAY_MS 20
 
 // Sample Slide
 // TODO: actual values
