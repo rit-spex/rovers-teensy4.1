@@ -214,13 +214,13 @@ namespace Arm {
 
 
     // These two function are only needed for setting the motor IDs in the development stage, they will remember on power cycle
-    bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID)
+    bool changeDynamixelMotorID(Dynamixel2Arduino& dyna, uint8_t oldID, uint8_t newID)
     {
         return dyna.setID(oldID, newID);
     }
 
 
-    void scanDynaBus(Dynamixel2Arduino dyna)
+    void scanDynaBus(Dynamixel2Arduino& dyna)
     {
         Serial.println("Testing DYNAMIXEL Bus");
         for (uint8_t id = 0; id < 255; id++)

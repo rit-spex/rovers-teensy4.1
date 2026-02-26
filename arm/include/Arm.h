@@ -35,8 +35,8 @@ namespace Arm {
     void twistWrist(Dynamixel2Arduino& dyna, float position);
     void moveGripper(Dynamixel2Arduino& dyna, float position);
     void moveSolenoid(int state);
-    bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
-    void scanDynaBus(Dynamixel2Arduino dyna);
+    bool changeDynamixelMotorID(Dynamixel2Arduino& dyna, uint8_t oldID, uint8_t newID);
+    void scanDynaBus(Dynamixel2Arduino& dyna);
 
     // Define globals
     extern bool isDisabled;
