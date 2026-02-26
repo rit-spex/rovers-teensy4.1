@@ -21,7 +21,7 @@ void Dynamixel2Arduino::setGoalPWM(int pin, int speed, int unit)
 }
 
 bool Dynamixel2Arduino::setGoalPosition(int id, float value) {
-    // spdlog::debug("Dynamixel2Arduino setGoalPosition: id {}, value {}", id, value);
+    spdlog::debug("Dynamixel2Arduino setGoalPosition: id {}, value {}", id, value);
     presentPosition[id] = value;
     return true;
 }
