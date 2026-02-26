@@ -92,16 +92,10 @@ namespace Arm {
         gripAngle = k_grip *  enc3;
 
         // Print angles
-        Serial.println("Updating Encoders");
         #if ENABLE_SERIAL
-
-            Serial.print(    " M1  : "); Serial.print(enc1);
-            Serial.print("  |  M2 : "); Serial.print(enc2);
-            Serial.print("  |  M3  : "); Serial.println(enc3);
-
-            Serial.printf(    " Bend  : %f", bendAngle*57.295);
-            Serial.printf("  |  Twist : %f", twstAngle*57.295);
-            Serial.printf("  |  Grip  : %f\n", gripAngle*57.295);
+            Serial.println("Updating Encoders");
+            Serial.printf(    " M1  : %f  |  M2  : %f  |  M3   : %f\n", enc1, enc2, enc3);
+            Serial.printf(    " Bend: %f  | Twist: %f  |  Grip : %f\n", bendAngle*57.295, twstAngle*57.295, gripAngle*57.295);
         #endif
 
     }
