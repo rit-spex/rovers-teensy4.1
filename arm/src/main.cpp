@@ -32,14 +32,6 @@ void setup()
     can->startCAN();
     delay(10);
 
-    // Send-out initial encoder data
-    ReadWristBendMsg msg1; msg1.position = bendAngle;
-    can->send(msg1, MessageID::READ_WRIST_BEND);
-    ReadWristTwistMsg msg2; msg2.position = twstAngle;
-    can->send(msg2, MessageID::READ_WRIST_TWIST);
-    ReadClawMsg msg3; msg3.position = gripAngle;
-    can->send(msg3, MessageID::READ_CLAW);
-
     // Setup callbacks
 
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
@@ -82,6 +74,18 @@ void loop()
             },
             MessageID::TEENSY_HEARTBEAT
         );
+
+        if (!Arm::isDisabled) 
+        {
+            // Send-out encoder data
+            Arm::updateEncoderAngles();
+            ReadWristBendMsg msg1; msg1.position = bendAngle;
+            can->send(msg1, MessageID::READ_WRIST_BEND);
+            ReadWristTwistMsg msg2; msg2.position = twstAngle;
+            can->send(msg2, MessageID::READ_WRIST_TWIST);
+            ReadClawMsg msg3; msg3.position = gripAngle;
+            can->send(msg3, MessageID::READ_CLAW);
+        }
     }
 
 
