@@ -18,7 +18,7 @@ inline String slideStageToString(SlideStage stage) {
 
 SampleSlide::SampleSlide() {
     m_currentStage = SlideStage::Home;
-    m_stepper = TicI2C(SS_TIC_ADDR);
+    m_stepper = TicI2C(SS_I2C_ADDR);
 }
 
 SampleSlide::~SampleSlide() {

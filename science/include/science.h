@@ -44,9 +44,9 @@ private:
     SampleSlide m_sampleSlide;
     Auger m_auger;
     std::array<Pump, NUM_PUMPS> m_pumps = {
-        Pump(PUMP_0_ADDR, PUMP_SPEED),
-        Pump(PUMP_1_ADDR, PUMP_SPEED),
-        Pump(PUMP_2_ADDR, PUMP_SPEED),
+        Pump(PUMP_0_I2C_ADDR, PUMP_SPEED),
+        Pump(PUMP_1_I2C_ADDR, PUMP_SPEED),
+        Pump(PUMP_2_I2C_ADDR, PUMP_SPEED),
     };
 
     bool m_enabled = true;

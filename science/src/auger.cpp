@@ -9,7 +9,7 @@
 
 Auger::Auger()
 {
-    m_stepper = TicI2C(AUGER_TIC_ADDR);
+    m_stepper = TicI2C(AUGER_I2C_ADDR);
 }
 
 Auger::~Auger()
