@@ -33,6 +33,11 @@ void Science::startUp()
     pinMode(STATUS_LIGHT_PIN, OUTPUT);
 
     m_can.startCAN();
+    m_can.onMessage<EnableScienceMsg>(MessageID::ENABLE_SCIENCE, [&](const EnableScienceMsg &msg) { this->handleEnableScience(msg); });
+    m_can.onMessage<MoveAugerMsg>(MessageID::MOVE_AUGER, [&](const MoveAugerMsg &msg) { this->handleMoveAuger(msg); });
+    m_can.onMessage<EnableDrillMsg>(MessageID::ENABLE_DRILL, [&](const EnableDrillMsg &msg) { this->handleEnableDrill(msg); });
+    m_can.onMessage<MoveSlideMsg>(MessageID::MOVE_SLIDE, [&](const MoveSlideMsg &msg) { this->handleMoveSlide(msg); });
+    m_can.onMessage<EnablePumpMsg>(MessageID::ENABLE_PUMP, [&](const EnablePumpMsg &msg) { this->handleEnablePump(msg); });
 
 #if ENABLE_SERIAL
     Serial.println("Science start up completed");
@@ -80,9 +85,7 @@ void Science::updateSubsystems()
 
 void Science::runBackgroundProcesses()
 {
-#if ENABLE_CAN
-    m_can.readMsgBuffer();
-#endif
+    m_can.poll();
 }
 
 void Science::enable()
@@ -143,72 +146,10 @@ void Science::handleMoveSlide(const MoveSlideMsg &msg) {
 }
 
 void Science::handleEnablePump(const EnablePumpMsg &msg) {
-    Pump pump = this->m_pumps[msg.id];
+    Pump &pump = this->m_pumps[msg.id];
     if (static_cast<bool>(msg.enable)) {
         pump.enable();
     } else {
         pump.disable();
     }
 }
-
-
-#if ENABLE_CAN
-void Science::processCANMessages()
-{
-    if (m_can.isNewMessage(CAN::E_STOP))
-    {
-        disable();
-        return;
-    }
-
-    for (int i = 20; i < 30; i++)
-    {
-        if (!m_can.isNewMessage((CAN::Message_ID)i))
-        {
-            continue;
-        }
-
-        uint8_t *data;
-        data = m_can.getUnpackedData((CAN::Message_ID)i);
-#if ENABLE_SERIAL
-        Serial.printf("ID %d: [%d, %d]\n", i, data[0], data[1]);
-#endif
-        CAN::Message_ID msgId =  static_cast<CAN::Message_ID>(i);
-        switch (msgId)
-        {
-            case CAN::Message_ID::ENABLE_SCIENCE: {
-                if (!(bool)data[0])
-                {
-                    disable();
-                }
-                break;
-            }
-            case CAN::Message_ID::MOVE_AUGER: {
-                Auger::Direction dir = (Auger::Direction)data[1];
-                m_auger.updateHeight(dir);
-                break;
-            }
-            case CAN::Message_ID::HOME_AUGER: {
-                m_auger.goHome();
-                break;
-            }
-            case CAN::Message_ID::ENABLE_DRILL: {
-                m_auger.updateSpinning((bool)data[1]);
-                break;
-            }
-            case CAN::Message_ID::MOVE_SLIDE: {
-                SampleSlide::Position pos = (SampleSlide::Position)data[1];
-                m_sampleSlide.goToPosition(pos);
-                break;
-            }
-            default: {
-#if ENABLE_SERIAL
-                Serial.printf("CAN message type not accounted for %d\n", i);
-#endif
-                disable();
-                break;
-            }
-        }
-    }
-}
-#endif
