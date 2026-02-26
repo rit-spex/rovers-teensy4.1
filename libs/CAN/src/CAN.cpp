@@ -81,8 +81,10 @@ void CAN::poll()
 
     if (received)
     {
+#if ENABLE_SERIAL
+        Serial.println("Received CAN frame");
+#endif
         dispatch(frame);
-        Serial.println("received frame");
     }
 }
 
@@ -119,7 +121,10 @@ void CAN::poll()
 
 void CAN::dispatch(CANMessage &frame)
 {
-    MessageID id = static_cast<MessageID>(frame.id);
+    auto id = static_cast<MessageID>(frame.id);
+#if ENABLE_SERIAL
+    Serial.printf("Dispatching CAN Frame. Message ID: %s\n", id);
+#endif
     // Attempts to locate `id` as a key in `m_dispatcher`
     auto it = m_dispatcher.find(id);
     // If `m_dispatcher` contains `id`
