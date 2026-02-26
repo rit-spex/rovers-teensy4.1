@@ -17,6 +17,7 @@ public:
 
     SlideStage getStage();
     void goToStage(SlideStage pos);
+    uint32_t getStepperPos();
 
 private:
     SlideStage m_currentStage;

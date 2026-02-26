@@ -5,47 +5,55 @@
 #include "constants.h"
 #include "pinout.h"
 
-SampleSlide::SampleSlide()
-{
+inline String slideStageToString(SlideStage stage) {
+    switch (stage) {
+        case SlideStage::Home: return "Home";
+        case SlideStage::Collection1: return "Collection 1";
+        case SlideStage::Collection2: return "Collection 2";
+        case SlideStage::Purge: return "Purge";
+        case SlideStage::SampleCache: return "Sample Cache";
+        default: return "";
+    }
+}
+
+SampleSlide::SampleSlide() {
     m_currentStage = SlideStage::Home;
+    m_stepper = TicI2C(SS_TIC_ADDR);
 }
 
-SampleSlide::~SampleSlide()
-{
+SampleSlide::~SampleSlide() {
 }
 
-void SampleSlide::startUp()
-{
-    pinMode(SS_TIC_PIN, OUTPUT);
+void SampleSlide::startUp() {
     m_stepper.exitSafeStart();
+    delay(STEPPER_INIT_DELAY_MS);
+
 #if ENABLE_SERIAL
     Serial.println("Sample Slide start up completed");
 #endif
     this->goHome();
 }
 
-void SampleSlide::updateSubsystems()
-{
+void SampleSlide::updateSubsystems() {
     m_stepper.resetCommandTimeout();
 }
 
-void SampleSlide::goHome()
-{
+void SampleSlide::goHome() {
     goToStage(SlideStage::Home);
 }
 
-bool SampleSlide::isHomed()
-{
-    return m_currentStage == SlideStage::Home;
+bool SampleSlide::isHomed() {
+    return m_currentStage == SlideStage::Home && !m_stepper.getHomingActive();
 }
 
-SlideStage SampleSlide::getStage()
-{
+SlideStage SampleSlide::getStage() {
     return m_currentStage;
 }
 
-void SampleSlide::goToStage(SlideStage stage)
-{
+void SampleSlide::goToStage(SlideStage stage) {
+#if ENABLE_SERIAL
+    Serial.printf("Sample slide going to %s stage", slideStageToString(stage).c_str());
+#endif
     m_currentStage = stage;
     switch (stage) {
         case SlideStage::Home: {
@@ -72,4 +80,9 @@ void SampleSlide::goToStage(SlideStage stage)
             break;
         }
     }
+}
+
+uint32_t SampleSlide::getStepperPos() {
+    // TODO: maybe account for position uncertain
+    return m_stepper.getCurrentPosition();
 }

@@ -5,11 +5,11 @@
 
 #define LED_BLINK_INTERVAL 500 // ms
 #define UPDATE_RATE_MS 40
+#define STEPPER_INIT_DELAY_MS 20
 
 // Auger
 #define AUGER_DRILL_SPEED 50
 #define AUGER_DRILL_IDLE_SIGNAL 1500
-#define AUGER_DRILL_INIT_DELAY_MS 20
 
 // Sample Slide
 // TODO: actual values

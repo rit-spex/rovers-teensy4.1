@@ -8,6 +8,6 @@
 #define AUGER_DRILL_MOTOR_PIN 7
 
 // Sample Slide
-#define SS_TIC_PIN 16
+#define SS_TIC_ADDR 0x0F
 
 #endif // PINOUT_H

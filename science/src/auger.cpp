@@ -20,7 +20,7 @@ void Auger::startUp()
 {
     m_stepper.exitSafeStart();
     m_drillMotor.attach(AUGER_DRILL_MOTOR_PIN);
-    delay(AUGER_DRILL_INIT_DELAY_MS);
+    delay(STEPPER_INIT_DELAY_MS);
     m_drillMotor.write(AUGER_DRILL_IDLE_SIGNAL);
 
     // Home auger
