@@ -29,6 +29,9 @@ void Science::startUp()
 
     m_auger.startUp();
     m_sampleSlide.startUp();
+    for (auto &pump : m_pumps) {
+        pump.start();
+    }
 
     pinMode(STATUS_LIGHT_PIN, OUTPUT);
 
@@ -79,6 +82,11 @@ void Science::updateSubsystems()
 
     // Sample slide
     m_sampleSlide.updateSubsystems();
+
+    // Pumps
+    for (size_t i = 0; i < NUM_PUMPS; i++) {
+        m_pumps[i].update();
+    }
 }
 
 void Science::runBackgroundProcesses()
@@ -146,8 +154,8 @@ void Science::handleMoveSlide(const MoveSlideMsg &msg) {
 void Science::handleEnablePump(const EnablePumpMsg &msg) {
     Pump &pump = this->m_pumps[msg.id];
     if (static_cast<bool>(msg.enable)) {
-        pump.enable();
+        pump.start();
     } else {
-        pump.disable();
+        pump.stop();
     }
 }

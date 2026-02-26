@@ -6,6 +6,7 @@
 #include "CAN/messages/science.h"
 #include "auger.h"
 #include "constants.h"
+#include "pinout.h"
 #include "pump.h"
 #include "sampleSlide.h"
 
@@ -42,7 +43,11 @@ private:
     // Subsystems
     SampleSlide m_sampleSlide;
     Auger m_auger;
-    std::array<Pump, NUM_PUMPS> m_pumps;
+    std::array<Pump, NUM_PUMPS> m_pumps = {
+        Pump(PUMP_0_ADDR, PUMP_SPEED),
+        Pump(PUMP_1_ADDR, PUMP_SPEED),
+        Pump(PUMP_2_ADDR, PUMP_SPEED),
+    };
 
     bool m_enabled = true;
 

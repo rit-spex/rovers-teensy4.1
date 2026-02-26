@@ -1,35 +1,41 @@
 #include "pump.h"
 
-Pump::Pump()
+#include "constants.h"
+
+Pump::Pump(const uint8_t addr, const int32_t speed) : m_stepper(addr), m_speed(speed)
 {
-    m_flow = Flow::Sucking;
 }
 
 Pump::~Pump()
 {
 }
 
-bool Pump::isEnabled() const
-{
-    return m_enabled;
+void Pump::startUp() {
+    m_stepper.exitSafeStart();
+    delay(INIT_DELAY_MS);
+    m_stepper.setTargetVelocity(0);
 }
 
-void Pump::enable()
-{
-    m_enabled = true;
+void Pump::update() {
+    m_stepper.resetCommandTimeout();
 }
 
-void Pump::disable()
-{
-    m_enabled = false;
+void Pump::start() {
+    m_stepper.setTargetVelocity(m_speed);
 }
 
-Pump::Flow Pump::getFlow() const
-{
-    return m_flow;
+void Pump::stop() {
+    m_stepper.setTargetVelocity(0);
 }
 
-void Pump::setFlow(Flow flow)
-{
-    m_flow = flow;
+int32_t Pump::getSpeed() const {
+    return m_speed;
+}
+
+void Pump::setSpeed(int32_t val) {
+    m_speed = val;
+    // Update speed if currently pumping
+    if (m_stepper.getCurrentVelocity() != 0) {
+        m_stepper.setTargetVelocity(m_speed);
+    }
 }

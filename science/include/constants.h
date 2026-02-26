@@ -5,7 +5,7 @@
 
 #define LED_BLINK_INTERVAL 500 // ms
 #define UPDATE_RATE_MS 40
-#define STEPPER_INIT_DELAY_MS 20
+#define INIT_DELAY_MS 20
 
 // Auger
 #define AUGER_DRILL_SPEED 50
@@ -19,6 +19,7 @@
 #define SS_SAMPLE_CACHE_POS 0
 
 // Pumps
-# define NUM_PUMPS 3
+#define NUM_PUMPS 3
+constexpr int32_t PUMP_SPEED = (-1);
 
 #endif // CONSTANTS_H

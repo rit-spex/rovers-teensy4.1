@@ -26,7 +26,7 @@ SampleSlide::~SampleSlide() {
 
 void SampleSlide::startUp() {
     m_stepper.exitSafeStart();
-    delay(STEPPER_INIT_DELAY_MS);
+    delay(INIT_DELAY_MS);
 
 #if ENABLE_SERIAL
     Serial.println("Sample Slide start up completed");

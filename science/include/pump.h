@@ -1,28 +1,24 @@
 #ifndef PUMP_H
 #define PUMP_H
+#include "Tic.h"
 
 class Pump
 {
 public:
-    enum class Flow
-    {
-        Sucking,
-        Filling,
-    };
-
-    Pump();
+    explicit Pump(const uint8_t addr, const int32_t speed);
     ~Pump();
 
-    bool isEnabled() const;
-    void enable();
-    void disable();
+    void startUp();
+    void update();
 
-    void setFlow(Flow flow);
-    Flow getFlow() const;
+    void start();
+    void stop();
+    int32_t getSpeed() const;
+    void setSpeed(int32_t val);
 
 private:
-    bool m_enabled;
-    Flow m_flow;
+    TicI2C m_stepper;
+    int32_t m_speed;
 };
 
 #endif // PUMP_H
