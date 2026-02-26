@@ -26,7 +26,7 @@
 
 // ---------------------- Globals ----------------------
 extern Dynamixel2Arduino dyna;
-
+extern bool solenoidEnabled;
 
 // Spin offsets
 extern float b_1;

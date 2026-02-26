@@ -13,6 +13,10 @@
 #include <cstdint>
 #include <iterator>
 
+// Should only need one of deez
+#include <cstdlib> // Required for integer types
+#include <cmath>
+
 // Define constants
 unsigned long previousMillis = 0;
 std::shared_ptr<CAN> can;
@@ -29,7 +33,6 @@ void setup()
 
     // Activate Arm
     Arm::startUp();
-    bool solenoidEnabled = false;       // FIXME: Move to constants???
 
     // Define CAN callbacks
     can = std::make_shared<CAN>();
@@ -100,7 +103,7 @@ void setup()
 void loop()
 {
     // Prepare LED Control and heartbeat signal
-    unsigned long currentMillis = millis();
+    long currentMillis = millis();
     if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
     {
         // Update time variable
@@ -125,7 +128,7 @@ void loop()
             MessageID::TEENSY_HEARTBEAT
         );
 
-        if (!Arm::isDisabled) 
+        if (!Arm::isDisabled)
         {
             // Send-out encoder data
             Arm::updateEncoderAngles();
@@ -139,16 +142,16 @@ void loop()
     }
 
 
-    if (abs(currentMillis - Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
+    if (abs(currentMillis - (long)Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
         && Arm::lastROSHeartbeatTime != 0
         && !Arm::isDisabled) {
                 Serial.printf("looping %d", currentMillis);
                 Serial.printf("looping %d", Arm::lastROSHeartbeatTime);
 
         Arm::disable();
-#if ENABLE_SERIAL
-        Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
-#endif
+        #if ENABLE_SERIAL
+                Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
+        #endif
 
     }
 

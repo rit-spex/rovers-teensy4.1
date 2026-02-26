@@ -3,6 +3,8 @@
 
 Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, -1);
 
+bool solenoidEnabled = false;
+
 // set all of the externs to their initial values
 #if (TESTING_LIMITS)
     bool Arm::isDisabled = false;
