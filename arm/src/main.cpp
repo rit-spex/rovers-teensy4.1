@@ -11,6 +11,7 @@
 #include "CANHandlers.h"
 #include "Constants.h"
 #include <cstdint>
+#include <iterator>
 
 // Define constants
 unsigned long previousMillis = 0;
@@ -34,14 +35,6 @@ void setup()
     can = std::make_shared<CAN>();
     can->startCAN();
     delay(10);
-
-    // Send-out initial encoder data
-    ReadWristBendMsg msg1; msg1.position = bendAngle;
-    can->send(msg1, MessageID::READ_WRIST_BEND);
-    ReadWristTwistMsg msg2; msg2.position = twstAngle;
-    can->send(msg2, MessageID::READ_WRIST_TWIST);
-    ReadGripperMsg msg3; msg3.position = gripAngle;
-    can->send(msg3, MessageID::READ_GRIPPER);
 
     // TESTING STUFF (Maybe)
     #if TESTING_LIMITS
@@ -91,6 +84,7 @@ void setup()
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
     can->onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
     can->onMessage<EnableArmMsg>(MessageID::ENABLE_ARM, CANHandlers::enableArm);
+    can->onMessage<HeartbeatMsg>(MessageID::ROS_HEARTBEAT, CANHandlers::heartbeat);
     // can->onMessage<MoveBaseMsg>(MessageID::MOVE_BASE, CANHandlers::moveBase);
     // can->onMessage<MoveShoulderMsg>(MessageID::MOVE_SHOULDER, CANHandlers::moveShoulder);
     // can->onMessage<MoveElbowMsg>(MessageID::MOVE_ELBOW, CANHandlers::moveElbow);
@@ -130,6 +124,31 @@ void loop()
             },
             MessageID::TEENSY_HEARTBEAT
         );
+
+        if (!Arm::isDisabled) 
+        {
+            // Send-out encoder data
+            Arm::updateEncoderAngles();
+            ReadWristBendMsg msg1; msg1.position = bendAngle;
+            can->send(msg1, MessageID::READ_WRIST_BEND);
+            ReadWristTwistMsg msg2; msg2.position = twstAngle;
+            can->send(msg2, MessageID::READ_WRIST_TWIST);
+            ReadClawMsg msg3; msg3.position = gripAngle; msg3.state = (gripAngle > 0.1) ? ClawState::Closed : ClawState::Open;
+            can->send(msg3, MessageID::READ_CLAW);
+        }
+    }
+
+
+    if (abs(currentMillis - Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
+        && Arm::lastROSHeartbeatTime != 0
+        && !Arm::isDisabled) {
+                Serial.printf("looping %d", currentMillis);
+                Serial.printf("looping %d", Arm::lastROSHeartbeatTime);
+
+        Arm::disable();
+#if ENABLE_SERIAL
+        Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
+#endif
 
     }
 

@@ -115,20 +115,20 @@ bool CANbus::receive(CANMessage &message)
     memcpy(&message.id, buf, ID_LEN);
     message.id = ntohl(message.id);
     memcpy(message.data, buf + (ID_LEN + DLC_LEN), message.len);
-    
+
     std::string dataStr;
     for (int i = 0; i < message.len; i++)    {
         dataStr += std::to_string(message.data[i]) + " ";
     }
 
-    spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len, dataStr);
+    // spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len, dataStr);
 
     return true;
 }
 
 bool CANbus::tryToSend(CANMessage message)
 {
-    spdlog::debug("CANbus.tryToSend called");
+    // spdlog::debug("CANbus.tryToSend called");
 
     if (m_sock < 0)
     {

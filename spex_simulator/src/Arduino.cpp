@@ -104,7 +104,7 @@ void digitalWrite(int pin, int value)
 {
     updateFile(PrinterData::PIN, pin, value);
     pinState.setPinValue(pin, value);
-    spdlog::debug("digitalWrite called with pin {} and value {}", pin, value);
+    // spdlog::debug("digitalWrite called with pin {} and value {}", pin, value);
 }
 
 int digitalRead(int pin)
@@ -117,7 +117,7 @@ void delay(int milliseconds)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 
-    spdlog::debug("Delay called with milliseconds: {}", milliseconds);
+    // spdlog::debug("Delay called with milliseconds: {}", milliseconds);
 }
 
 unsigned long millis()

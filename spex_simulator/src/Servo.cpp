@@ -7,8 +7,12 @@
 // last modified: 7/23/2025 - Tyler
 // --------------------------------------------------------------------
 
+#include "Servo.h"
+
 #include "spdlog/spdlog.h"
-#include <Servo.h>
+#include "PinState.h"
+
+extern PinState pinState;
 
 void Servo::attach(int pin, int min, int max)
 {
@@ -31,6 +35,7 @@ void Servo::writeMicroseconds(int microseconds)
 {
     // update the output file
     updateFile(PrinterData::PIN, pin, microseconds);
+    pinState.setPinValue(pin, microseconds);
 
     // update global file
 #if BUILD_CHASSIS
@@ -57,7 +62,7 @@ void Servo::writeMicroseconds(int microseconds)
     }
 #endif
 
-    spdlog::debug("writeMicroseconds called on pin: {} micro: {}", pin, microseconds);
+    // spdlog::debug("writeMicroseconds called on pin: {} micro: {}", pin, microseconds);
 }
 
 void Servo::write(int microseconds)

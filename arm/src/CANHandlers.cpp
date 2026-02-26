@@ -22,9 +22,9 @@ namespace CANHandlers {
     // Respond to the heartbeat
     void heartbeat(const HeartbeatMsg &msg) {
         if (msg.source == SubSystemID::ROS) {
-            Arm::lastROSHeartbeatTime = msg.uptime_ms;
+            Arm::lastROSHeartbeatTime = millis();
             #if ENABLE_SERIAL
-                Serial.printf("Heartbeat received from ROS with uptime: %l ms", msg.uptime_ms);
+                Serial.printf("Heartbeat received from ROS with uptime: %d ms", msg.uptime_ms);
             #endif
         }
         if (!msg.enabled)
@@ -67,13 +67,19 @@ namespace CANHandlers {
     // }
 
     void bendWrist(const BendWristMsg &msg) {
+        Serial.printf("Bend wrist received position: %f\n", msg.position);
+
         Arm::bendWrist(dyna, msg.position);
     }
 
     void twistWrist(const TwistWristMsg &msg) {
+        Serial.printf("Twist wrist received position: %f\n", msg.position);
         Arm::twistWrist(dyna, msg.position);
     }
 
+    void moveClaw(const MoveClawMsg &msg) {
+        Serial.printf("Move claw received position: %f\n", msg.position);
+        Arm::moveClaw(dyna, msg.position);
     void moveGripper(const MoveGripperMsg &msg) {
         Arm::moveGripper(dyna, msg.position);
     }
