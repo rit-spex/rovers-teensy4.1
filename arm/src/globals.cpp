@@ -4,14 +4,11 @@
 Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, -1);
 
 // set all of the externs to their initial values
-if (TESTING_LIMITS)
-{
+#if (TESTING_LIMITS)
     bool Arm::isDisabled = false;
-}
-else if
-{
+#else
     bool Arm::isDisabled = true;
-}
+#endif
 
 uint32_t Arm::lastROSHeartbeatTime = 0;
 
