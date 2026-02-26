@@ -74,8 +74,8 @@ namespace CANHandlers {
         Arm::twistWrist(dyna, msg.position);
     }
 
-    void moveClaw(const MoveClawMsg &msg) {
-        Arm::moveClaw(dyna, msg.position);
+    void moveGripper(const MoveGripperMsg &msg) {
+        Arm::moveGripper(dyna, msg.position);
     }
 
     void moveSolenoid(const MoveSolenoidMsg &msg) {

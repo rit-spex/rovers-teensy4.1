@@ -30,7 +30,7 @@ enum class MessageID : uint32_t
     MOVE_ELBOW = (uint32_t)23,
     BEND_WRIST = (uint32_t)24,
     TWIST_WRIST = (uint32_t)25,
-    MOVE_CLAW = (uint32_t)26,
+    MOVE_GRIPPER = (uint32_t)26,
     MOVE_SOLENOID = (uint32_t)27,
 
     READ_BASE = (uint32_t)30,
@@ -38,7 +38,7 @@ enum class MessageID : uint32_t
     READ_ELBOW = (uint32_t)32,
     READ_WRIST_BEND = (uint32_t)33,
     READ_WRIST_TWIST = (uint32_t)34,
-    READ_CLAW = (uint32_t)35,
+    READ_GRIPPER = (uint32_t)35,
 
     // science
     ENABLE_SCIENCE = (uint32_t)40,

@@ -4,7 +4,15 @@
 Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, -1);
 
 // set all of the externs to their initial values
-bool Arm::isDisabled = true;
+if (TESTING_LIMITS)
+{
+    bool Arm::isDisabled = false;
+}
+else if
+{
+    bool Arm::isDisabled = true;
+}
+
 uint32_t Arm::lastROSHeartbeatTime = 0;
 
 // arm movement stuff
@@ -12,10 +20,14 @@ float b_1 = 0.0;
 float b_2 = 0.0;
 float b_3 = 0.0;
 
-// Define tick-motor coefficients
-float k_bend = 2 * 3.14159265 / 4096;  // assuming 4096 counts = 2*pi radians
-float k_twst = 2 * 3.14159265 / 4096;
-float k_grip = 2 * 3.14159265 / 4096;
+float bend_offset = +00.0 * 3.14159265/180;
+float twst_offset = +00.0 * 3.14159265/180;
+float grip_offset = +00.0 * 3.14159265/180;
+
+// Define tick-motor coefficients [rad/tick]
+float k_bend =     3.14159265 / 526374;  // assuming (526,374 [tick] per 2π [rad]) except there are two motors so do half
+float k_twst =     3.14159265 / 526374;
+float k_grip = 52 * 2 * 3.14159265 / 4096;  // 13 threads per inch, for 1 inch, to go 90 deg
 
 // Encoder positions
 float enc1 = 0.0;

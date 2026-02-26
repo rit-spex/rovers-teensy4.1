@@ -11,7 +11,6 @@
 #define MAIN_H
 
 // Debugging
-#define ENABLE_SERIAL 1
 #define ARM_CAN
 
 #include <Arduino.h>

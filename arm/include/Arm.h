@@ -23,7 +23,7 @@ namespace Arm {
     {
         WRIST_1 = 1,
         WRIST_2 = 2,
-        CLAW = 3
+        GRIPPER = 254
     };
 
     // Define functions
@@ -31,9 +31,9 @@ namespace Arm {
     void updateEncoderAngles();
     void disable();
     void enable();
-    void bendWrist(Dynamixel2Arduino dyna, float position);
-    void twistWrist(Dynamixel2Arduino dyna, float position);
-    void moveClaw(Dynamixel2Arduino dyna, float position);
+    void bendWrist(Dynamixel2Arduino& dyna, float position);
+    void twistWrist(Dynamixel2Arduino& dyna, float position);
+    void moveGripper(Dynamixel2Arduino& dyna, float position);
     void moveSolenoid(int state);
     bool changeDynamixelMotorID(Dynamixel2Arduino dyna, uint8_t oldID, uint8_t newID);
     void scanDynaBus(Dynamixel2Arduino dyna);

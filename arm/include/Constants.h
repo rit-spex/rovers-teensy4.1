@@ -3,17 +3,22 @@
 
 #include <Dynamixel2Arduino.h>
 
+
+#define ENABLE_SERIAL 1
+#define TESTING_LIMITS 1
+
 // ---------------------- Dynamixel ----------------------
 #define DYNAMIXEL_PROTOCOL_VERSION 2.0
 #define DYNAMIXEL_BAUD_RATE 57600
 #define DYNAMIXEL_MOTORS_SERIAL Serial4      // hardware UART for Dynamixels
+
 
 // ---------------------- Timing ----------------------
 #define LED_BLINK_INTERVAL 500  // milliseconds
 
 // ---------------------- Pinout ----------------------
 
-#define FULL_DUPLEX_DIR_PIN 2         // GPIO controlling half/full duplex TX/RX
+// #define FULL_DUPLEX_DIR_PIN 2         // GPIO controlling half/full duplex TX/RX
 #define LIMIT_SWITCH_PIN 5
 #define SOLENOID_PIN 29
 #define STATUS_LIGHT_PIN 13     // This is on the Teensy, not an ACTUAL pin
@@ -26,6 +31,9 @@ extern Dynamixel2Arduino dyna;
 extern float b_1;
 extern float b_2;
 extern float b_3;
+extern float bend_offset;
+extern float twst_offset;
+extern float grip_offset;
 
 // Tick-motor coefficients
 extern float k_bend;

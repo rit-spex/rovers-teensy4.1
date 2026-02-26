@@ -21,12 +21,14 @@ void setup()
     // Serial output
     #if ENABLE_SERIAL
         Serial.begin(9600);
-        Serial.println("Arm");
+        delay(1000);
+        Serial.println("Arm activating");
         delay(1000);
     #endif
 
     // Activate Arm
     Arm::startUp();
+    bool solenoidEnabled = false;       // FIXME: Move to constants???
 
     // Define CAN callbacks
     can = std::make_shared<CAN>();
@@ -38,11 +40,54 @@ void setup()
     can->send(msg1, MessageID::READ_WRIST_BEND);
     ReadWristTwistMsg msg2; msg2.position = twstAngle;
     can->send(msg2, MessageID::READ_WRIST_TWIST);
-    ReadClawMsg msg3; msg3.position = gripAngle;
-    can->send(msg3, MessageID::READ_CLAW);
+    ReadGripperMsg msg3; msg3.position = gripAngle;
+    can->send(msg3, MessageID::READ_GRIPPER);
+
+    // TESTING STUFF (Maybe)
+    #if TESTING_LIMITS
+        Serial.println("Zero out");
+        Arm::bendWrist(dyna, 0 * 3.14159265/180);
+        Arm::twistWrist(dyna, 0 * 3.14159265/180);
+        delay(5000);
+
+        Serial.println("--- Beginning Limit Testing Sequence ---");
+        delay(3000);
+
+        float pos = 20;
+        // // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        delay(5000);
+
+        pos = 180;
+        // // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        delay(8000);
+
+        pos = 10;
+        Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        delay(5000);
+
+        pos = 30;
+        Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        delay(5000);
+
+
+        pos = 100;
+        Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        delay(5000);
+
+        Serial.println("--- Limit Testing Sequence Complete ---");
+    #endif
 
     // Setup callbacks
-
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
     can->onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
     can->onMessage<EnableArmMsg>(MessageID::ENABLE_ARM, CANHandlers::enableArm);
@@ -51,20 +96,11 @@ void setup()
     // can->onMessage<MoveElbowMsg>(MessageID::MOVE_ELBOW, CANHandlers::moveElbow);
     can->onMessage<BendWristMsg>(MessageID::BEND_WRIST, CANHandlers::bendWrist);
     can->onMessage<TwistWristMsg>(MessageID::TWIST_WRIST, CANHandlers::twistWrist);
-    can->onMessage<MoveClawMsg>(MessageID::MOVE_CLAW, CANHandlers::moveClaw);
+    can->onMessage<MoveGripperMsg>(MessageID::MOVE_GRIPPER, CANHandlers::moveGripper);
     can->onMessage<MoveSolenoidMsg>(MessageID::MOVE_SOLENOID, CANHandlers::moveSolenoid);
 
 
-    // TESTING STUFF
 
-    float pos = 0;
-
-    Arm::bendWrist(dyna, pos);
-    Arm::twistWrist(dyna, pos);
-    Arm::moveClaw(dyna, pos);
-
-    bool solenoidEnabled = false;
-    Arm::moveSolenoid((uint8_t)solenoidEnabled);
 }
 
 void loop()

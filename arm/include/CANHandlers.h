@@ -13,7 +13,7 @@ void enableArm(const EnableArmMsg &msg);
 // void moveElbow(const MoveElbowMsg &msg);
 void bendWrist(const BendWristMsg &msg);
 void twistWrist(const TwistWristMsg &msg);
-void moveClaw(const MoveClawMsg &msg);
+void moveGripper(const MoveGripperMsg &msg);
 void moveSolenoid(const MoveSolenoidMsg &msg);
 }
 
