@@ -99,9 +99,9 @@ namespace Arm {
             Serial.print("  |  M2 : "); Serial.print(enc2);
             Serial.print("  |  M3  : "); Serial.println(enc3);
 
-            Serial.print(    " Bend  : "); Serial.print(  bendAngle*57.295);
-            Serial.print("  |  Twist : "); Serial.print(  twstAngle*57.295);
-            Serial.print("  |  Grip  : "); Serial.print(gripAngle*57.295);
+            Serial.printf(    " Bend  : %f", bendAngle*57.295);
+            Serial.printf("  |  Twist : %f", twstAngle*57.295);
+            Serial.printf("  |  Grip  : %f\n", gripAngle*57.295);
         #endif
 
     }

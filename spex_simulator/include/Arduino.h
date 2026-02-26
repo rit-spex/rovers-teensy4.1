@@ -22,6 +22,8 @@
 #define INPUT_PULLUP 1
 #define INPUT_PULLDOWN 0
 
+#define SERIAL_8N1 0
+
 #define INPUT 0
 #define OUTPUT 1
 
@@ -29,6 +31,7 @@ class Serial_Class
 {
 public:
     void begin(int baudrate);
+    void begin(int baudrate, int parity);
 
     // print statements
     void print(const char *message);
@@ -57,5 +60,6 @@ void analogWrite(int pin, int pwm);
 float analogRead(int pin);
 
 static Serial_Class Serial;
+static Serial_Class Serial4;
 
 #endif

@@ -10,9 +10,9 @@
 #include "Dynamixel2Arduino.h"
 #include "spdlog/spdlog.h"
 
-Dynamixel2Arduino::Dynamixel2Arduino(int serial, int pin)
+Dynamixel2Arduino::Dynamixel2Arduino(Serial_Class serial, int pin)
 {
-    spdlog::debug("Dynamixel2Arduino constructor serial {}, pin {}", serial, pin);
+    spdlog::debug("Dynamixel2Arduino constructor, pin {}", pin);
 }
 
 void Dynamixel2Arduino::setGoalPWM(int pin, int speed, int unit)
@@ -55,6 +55,11 @@ int Dynamixel2Arduino::setID(int oldID, int newID)
 void Dynamixel2Arduino::begin(int baudrate)
 {
     spdlog::debug("Dynamixel2Arduino begin baudrate: {}", baudrate);
+}
+
+void Dynamixel2Arduino::begin()
+{
+    spdlog::debug("Dynamixel2Arduino begin");
 }
 
 int Dynamixel2Arduino::torqueOff(int pin)

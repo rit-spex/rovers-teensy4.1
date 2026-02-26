@@ -11,18 +11,26 @@
 #define DYNAMIXEL_2_ARDUNIO_H
 
 #define UNIT_PERCENT 1
-#define OP_PWM 1
-#define OP_POSITION 3
-#define Serial4 1
+// #define Serial4 1
 #define Serial3 1
 #define Serial2 1
 
+#include <Arduino.h>
 #include <stdio.h>
+
+enum OperatingMode{
+    OP_CURRENT = 0,
+    OP_VELOCITY = 1,
+    OP_POSITION = 3,
+    OP_EXTENDED_POSITION = 4,
+    OP_CURRENT_BASED_POSITION = 5,
+    OP_PWM = 16,
+};
 
 class Dynamixel2Arduino
 {
 public:
-    Dynamixel2Arduino(int serial, int pin);
+    Dynamixel2Arduino(Serial_Class serial, int pin);
     void setGoalPWM(int pin, int speed, int unit);
     bool setGoalPosition(int id, float value);
     float getPresentPosition(int id);
@@ -30,6 +38,7 @@ public:
     int setPortProtocolVersion(int version);
     int setID(int oldID, int newID);
     void begin(int baudrate);
+    void begin();
     int torqueOff(int pin);
     int torqueOn(int pin);
     int ping(int val);
