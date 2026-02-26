@@ -94,8 +94,8 @@ namespace Arm {
         // Print angles
         #if ENABLE_SERIAL
             Serial.println("Updating Encoders");
-            Serial.printf(    " M1  : %f  |  M2  : %f  |  M3   : %f\n", enc1, enc2, enc3);
-            Serial.printf(    " Bend: %f  | Twist: %f  |  Grip : %f\n", bendAngle*57.295, twstAngle*57.295, gripAngle*57.295);
+            Serial.printf(    " M1  : %6.2f  |  M2  : %6.2f  |  M3   : %6.2f\n", enc1, enc2, enc3);
+            Serial.printf(    " Bend: %6.2f  | Twist: %6.2f  |  Grip : %6.2f\n", bendAngle*57.295, twstAngle*57.295, gripAngle*57.295);
         #endif
 
     }
