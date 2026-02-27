@@ -38,6 +38,6 @@
 #define NUM_PUMPS 3
 // Currently all pumps use the same speed, but if you just construct Pump with
 // a different speed it can be customized
-#define PUMP_SPEED 0
+#define PUMP_SPEED 50
 
 #endif // CONSTANTS_H

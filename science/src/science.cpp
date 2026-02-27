@@ -52,7 +52,7 @@ void Science::startUp() {
         this->handleEnablePump(msg);
     });
     for (auto &pump: m_pumps) {
-        pump.start();
+        pump.startUp();
     }
 #endif
 

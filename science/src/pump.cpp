@@ -1,6 +1,7 @@
 #include "pump.h"
 
 #include "constants.h"
+#include <Arduino.h>
 
 Pump::Pump(const uint8_t addr, const int32_t speed) : m_stepper(addr), m_speed(speed)
 {
