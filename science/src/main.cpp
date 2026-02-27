@@ -21,6 +21,5 @@ void loop()
     {
         prevMillis = currMillis;
         science->updateSubsystems();
-        Serial.println("updated");
     }
 }

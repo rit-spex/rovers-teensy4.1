@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <cstdint>
 
+#include "CAN/messages/misc.h"
 #include "CAN/messages/science.h"
 #include "auger.h"
 #include "constants.h"
@@ -56,6 +57,8 @@ void Science::startUp() {
     }
 #endif
 
+    m_startMillis = millis();
+
 #if ENABLE_SERIAL
     Serial.println("Science start up completed");
 #endif
@@ -86,6 +89,9 @@ void Science::updateSubsystems() {
         m_pumps[i].update();
     }
 #endif
+
+    // Send our heartbeat
+    m_can.send(HeartbeatMsg { .source = SubSystemID::SCIENCE, .uptime_ms = millis() - m_startMillis, .enabled = m_enabled }, MessageID::TEENSY_HEARTBEAT);
 }
 
 void Science::runBackgroundProcesses() {

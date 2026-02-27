@@ -51,6 +51,7 @@ private:
 
     bool m_enabled = true;
 
+    uint32_t m_startMillis = 0;
     unsigned long m_prevMillis = 0; // For status light blinking
 
     CAN m_can;
