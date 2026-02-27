@@ -10,7 +10,6 @@
 #include "ACAN_T4.h"
 #include "Arduino.h"
 #include "PinState.h"
-#include "main.h"
 
 #include "Printer.h"
 #include "spdlog/spdlog-inl.h"

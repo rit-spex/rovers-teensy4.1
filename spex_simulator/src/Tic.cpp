@@ -9,6 +9,7 @@
 
 #include <Tic.h>
 
+#include <cstdint>
 #include <spdlog/spdlog.h>
 
 TicI2C::TicI2C()
@@ -65,4 +66,12 @@ void TicI2C::goHomeReverse()
 void TicI2C::resetCommandTimeout()
 {
     // spdlog::debug("TicI2C resetCommandTimeout called");
+}
+
+int32_t TicI2C::getCurrentVelocity() {
+    return 0;
+}
+
+bool TicI2C::getHomingActive() {
+    return false;
 }

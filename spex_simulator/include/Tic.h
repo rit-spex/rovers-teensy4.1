@@ -20,10 +20,12 @@ public:
     TicI2C(int address);
     void exitSafeStart();
     void setTargetVelocity(int velocity);
+    int32_t getCurrentVelocity();
     void setTargetPosition(int pos);
     void haltAndHold();
     void haltAndSetPosition(int pos);
     int getCurrentPosition();
+    bool getHomingActive();
     void goHomeForward();
     void goHomeReverse();
     void resetCommandTimeout();
