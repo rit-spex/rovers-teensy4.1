@@ -25,6 +25,10 @@ public:
     void setHeight(int32_t pos);
     void setSpinning(bool isSpinning);
 
+    bool isDrillEnabled();
+
+    uint32_t getPos();
+
 private:
     Servo m_drillMotor;
     TicI2C m_stepper;

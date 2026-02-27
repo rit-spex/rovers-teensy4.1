@@ -40,3 +40,7 @@ void Pump::setSpeed(int32_t val) {
         m_stepper.setTargetVelocity(m_speed);
     }
 }
+
+bool Pump::isEnabled() {
+    return m_stepper.getTargetVelocity() != 0;
+}

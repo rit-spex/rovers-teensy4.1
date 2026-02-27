@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <cstdint>
 
+#include "CAN/message_id.h"
 #include "CAN/messages/misc.h"
 #include "CAN/messages/science.h"
 #include "auger.h"
@@ -76,11 +77,32 @@ void Science::updateSubsystems() {
     // Auger
 #ifdef ENABLE_AUGER
     m_auger.update();
+    m_can.send(
+        ReadAugerMsg {
+            .position = this->m_auger.getPos(),
+            .limitSwitch = (uint8_t)false,
+        },
+        MessageID::READ_AUGER
+    );
+    m_can.send(
+        ReadDrillMsg {
+            .enabled = m_auger.isDrillEnabled(),
+        },
+        MessageID::READ_DRILL
+    );
 #endif
 
     // Sample slide
 #ifdef ENABLE_SAMPLE_SLIDE
     m_sampleSlide.update();
+    m_can.send(
+        ReadSlideMsg {
+            .stage = m_sampleSlide.getStage(),
+            .position = m_sampleSlide.getStepperPos(),
+            .limitSwitch = (uint8_t)false,
+        },
+        MessageID::READ_SLIDE
+    );
 #endif
 
     // Pumps
@@ -88,10 +110,28 @@ void Science::updateSubsystems() {
     for (size_t i = 0; i < NUM_PUMPS; i++) {
         m_pumps[i].update();
     }
+    m_can.send(
+        ReadPumpsMsg {
+            .pump1Enabled = m_pumps[0].isEnabled(),
+            .pump2Enabled = m_pumps[1].isEnabled(),
+            .pump3Enabled = m_pumps[2].isEnabled(),
+            .pump4Enabled = m_pumps[3].isEnabled()
+        },
+        MessageID::READ_PUMPS
+    );
 #endif
 
     // Send our heartbeat
-    m_can.send(HeartbeatMsg { .source = SubSystemID::SCIENCE, .uptime_ms = millis() - m_startMillis, .enabled = m_enabled }, MessageID::TEENSY_HEARTBEAT);
+#if TEENSY_ID == 1
+    m_can.send(
+        HeartbeatMsg{
+            .source = SubSystemID::SCIENCE,
+            .uptime_ms = millis() - m_startMillis,
+            .enabled = m_enabled
+        },
+        MessageID::TEENSY_HEARTBEAT
+    );
+#endif
 }
 
 void Science::runBackgroundProcesses() {

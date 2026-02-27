@@ -66,3 +66,11 @@ void Auger::setSpinning(bool isSpinning)
 #endif
     }
 }
+
+uint32_t Auger::getPos() {
+    return m_stepper.getCurrentPosition();
+}
+
+bool Auger::isDrillEnabled() {
+    return m_drillMotor.readMicroseconds() != AUGER_DRILL_IDLE_SIGNAL;
+}

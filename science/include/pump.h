@@ -16,6 +16,8 @@ public:
     int32_t getSpeed() const;
     void setSpeed(int32_t val);
 
+    bool isEnabled();
+
 private:
     TicI2C m_stepper;
     int32_t m_speed;
