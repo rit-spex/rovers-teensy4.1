@@ -31,6 +31,7 @@ public:
 
 private:
     Servo m_drillMotor;
+    bool m_motorEnabled = false;
     TicI2C m_stepper;
 };
 

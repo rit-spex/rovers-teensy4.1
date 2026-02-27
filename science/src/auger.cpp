@@ -65,6 +65,7 @@ void Auger::setSpinning(bool isSpinning)
         Serial.println("Stopped spinning drill");
 #endif
     }
+    m_motorEnabled = isSpinning;
 }
 
 uint32_t Auger::getPos() {
@@ -72,5 +73,5 @@ uint32_t Auger::getPos() {
 }
 
 bool Auger::isDrillEnabled() {
-    return m_drillMotor.readMicroseconds() != AUGER_DRILL_IDLE_SIGNAL;
+    return m_motorEnabled;
 }

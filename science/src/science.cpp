@@ -127,7 +127,7 @@ void Science::updateSubsystems() {
         HeartbeatMsg{
             .source = SubSystemID::SCIENCE,
             .uptime_ms = millis() - m_startMillis,
-            .enabled = m_enabled
+            .enabled = static_cast<uint8_t>(m_enabled)
         },
         MessageID::TEENSY_HEARTBEAT
     );
