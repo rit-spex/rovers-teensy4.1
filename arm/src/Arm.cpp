@@ -25,41 +25,65 @@ namespace Arm {
         delay(50);
         dyna.begin();
         delay(50);
-        dyna.setPortProtocolVersion(2.0);
-        delay(50);
 
         // Initial Serial Messages
         #if ENABLE_SERIAL
 
-            // Scan for ALL IDs on bus
-            scanDynaBus(dyna);
-            delay(10);
+            // // Scan for ALL IDs on bus
+            // scanDynaBus(dyna);
+            // delay(50);
 
-            // Ping each motor
+            // Initialize WRIST_1 (Protocol 2.0)
+            dyna.setPortProtocolVersion(2.0);
+            delay(50);
             Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
-            Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
-            Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
-            delay(10);
-
-
-            // Disable Torque
+            delay(50);
             Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
-            Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
-            Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
-            delay(10);
-
-            // Set Position Control
+            delay(50);
             Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
-            Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
-            Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
-            delay(10);
-
-            // Re-enable torque
+            delay(50);
             Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
-            Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
-            Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
-            delay(10);
+            delay(50);
 
+            // Initialize WRIST_2 (Protocol 2.0)
+            dyna.setPortProtocolVersion(2.0);
+            delay(50);
+            Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
+            delay(50);
+            Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
+            delay(50);
+            Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
+            delay(50);
+            Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
+            delay(50);
+
+            // Initialize GRIPPER (Protocol 1.0)
+            dyna.setPortProtocolVersion(2.0);
+
+            delay(50);
+            scanDynaBus(dyna);
+            delay(50);
+
+            delay(50);
+            Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
+            delay(50);
+            Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
+            delay(50);
+            Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
+            delay(50);
+            Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
+            delay(50);
+
+            uint8_t addrs[] = {0,2,3,4,5,6,8,14,30,32,36,38,40,42,43};
+            for (size_t  i = 0; i < sizeof(addrs)/sizeof(addrs[0]); i++) {
+                int32_t val = dyna.readControlTableItem(addrs[i], GRIPPER);
+                Serial.print("Addr "); Serial.print(addrs[i]);
+                Serial.print(" = "); Serial.println(val);
+                delay(10);
+            }
+
+            Serial.print("Present Position: "); Serial.println(dyna.getPresentPosition(GRIPPER));
+            Serial.print("Present Speed   : "); Serial.println(dyna.getPresentVelocity(GRIPPER));
         #endif
 
         Serial.println("Zero out");
@@ -82,8 +106,12 @@ namespace Arm {
     void updateEncoderAngles()
     {
         // Define encoder positions
+        dyna.setPortProtocolVersion(2.0);
+        delay(50);
         enc1 = dyna.getPresentPosition(WRIST_1) - b_1;
         enc2 = dyna.getPresentPosition(WRIST_2) - b_2;
+        dyna.setPortProtocolVersion(1.0);
+        delay(50);
         enc3 = dyna.getPresentPosition(GRIPPER) - b_3;
 
         // Interpret angles for differential drive
@@ -96,6 +124,15 @@ namespace Arm {
             Serial.println("Updating Encoders");
             Serial.printf(    " M1  : %6.2f  |  M2  : %6.2f  |  M3   : %6.2f\n", enc1, enc2, enc3);
             Serial.printf(    " Bend: %6.2f  | Twist: %6.2f  |  Grip : %6.2f\n", bendAngle*57.295, twstAngle*57.295, gripAngle*57.295);
+            // for (int i=1; i< 50; i++) {
+            //     Serial.print(i); Serial.print(": ");
+            // dyna.setPortProtocolVersion(1.0);
+            // delay(50);
+            //     Serial.println(dyna.readControlTableItem(i, GRIPPER));
+            // }
+
+            Serial.println("");
+
         #endif
 
     }
@@ -106,8 +143,12 @@ namespace Arm {
         // moveBase(OFF);
         // moveShoulder(OFF);
         // moveElbow(OFF);
+        dyna.setPortProtocolVersion(2.0);
+        delay(50);
         dyna.torqueOff(WRIST_1);
         dyna.torqueOff(WRIST_2);
+        dyna.setPortProtocolVersion(1.0);
+        delay(50);
         dyna.torqueOff(GRIPPER);
         isDisabled = true;
     }
@@ -143,8 +184,11 @@ namespace Arm {
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
 
         // Set wrist positions
+        dyna.setPortProtocolVersion(2.0);
+        delay(50);
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
+        delay(50);
     }
 
 
@@ -173,8 +217,11 @@ namespace Arm {
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
 
         // Set wrist positions
+        dyna.setPortProtocolVersion(2.0);
+        delay(50);
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
+        delay(50);
     }
 
 
@@ -199,7 +246,11 @@ namespace Arm {
 
         gripTarget = position;
         targetM3 = gripTarget/k_grip + b_3;
+        delay(50);
+        dyna.setPortProtocolVersion(1.0);
+        delay(50);
         dyna.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
+        delay(50);
     }
 
 
