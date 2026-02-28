@@ -23,7 +23,7 @@ namespace Arm {
     {
         WRIST_1 = 1,
         WRIST_2 = 2,
-        GRIPPER = 254
+        GRIPPER = 3
     };
 
     // Define functions

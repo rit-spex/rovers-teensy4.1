@@ -25,6 +25,8 @@ namespace Arm {
         delay(50);
         dyna.begin();
         delay(50);
+        dyna.setPortProtocolVersion(2.0);
+        delay(50);
 
         // Initial Serial Messages
         #if ENABLE_SERIAL
@@ -58,11 +60,11 @@ namespace Arm {
             delay(50);
 
             // Initialize GRIPPER (Protocol 1.0)
-            dyna.setPortProtocolVersion(2.0);
+            dyna.setPortProtocolVersion(1.0);
 
-            delay(50);
-            scanDynaBus(dyna);
-            delay(50);
+            // delay(50);
+            // scanDynaBus(dyna);
+            // delay(50);
 
             delay(50);
             Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
@@ -74,13 +76,13 @@ namespace Arm {
             Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
             delay(50);
 
-            uint8_t addrs[] = {0,2,3,4,5,6,8,14,30,32,36,38,40,42,43};
-            for (size_t  i = 0; i < sizeof(addrs)/sizeof(addrs[0]); i++) {
-                int32_t val = dyna.readControlTableItem(addrs[i], GRIPPER);
-                Serial.print("Addr "); Serial.print(addrs[i]);
-                Serial.print(" = "); Serial.println(val);
-                delay(10);
-            }
+            // uint8_t addrs[] = {0,2,3,4,5,6,8,14,30,32,36,38,40,42,43};
+            // for (size_t  i = 0; i < sizeof(addrs)/sizeof(addrs[0]); i++) {
+            //     int32_t val = dyna.readControlTableItem(addrs[i], GRIPPER);
+            //     Serial.print("Addr "); Serial.print(addrs[i]);
+            //     Serial.print(" = "); Serial.println(val);
+            //     delay(10);
+            // }
 
             Serial.print("Present Position: "); Serial.println(dyna.getPresentPosition(GRIPPER));
             Serial.print("Present Speed   : "); Serial.println(dyna.getPresentVelocity(GRIPPER));
@@ -89,7 +91,7 @@ namespace Arm {
         Serial.println("Zero out");
         Arm::bendWrist(dyna, 0 * 3.14159265/180);
         Arm::twistWrist(dyna, 0 * 3.14159265/180);
-        delay(5000);
+        delay(3000);
 
         updateEncoderAngles();
 
@@ -230,22 +232,26 @@ namespace Arm {
         if (isDisabled) { return; }
 
         // Bound angles to [0,90] degrees aka [0, 1.57079] radians
-        if (position < 0)
-        {
-            position = 0;
-        }
-        else if (position > 1.57079)
-        {
-            position = 1.57079;
-        }
+        // if (position < 0)
+        // {
+        //     position = 0;
+        // }
+        // else if (position > 1.57079)
+        // {
+        //     position = 1.57079;
+        // }
 
         // Print input
         #if ENABLE_SERIAL
             Serial.print("Gripper Angle set to "); Serial.println(position*57.3);
         #endif
 
+        // Serial.println(position, 8);
         gripTarget = position;
+        // Serial.println(gripTarget, 8);
+        // Serial.println(k_grip, 8);
         targetM3 = gripTarget/k_grip + b_3;
+        // Serial.println(targetM3);
         delay(50);
         dyna.setPortProtocolVersion(1.0);
         delay(50);

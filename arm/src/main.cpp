@@ -39,47 +39,71 @@ void setup()
     can->startCAN();
     delay(10);
 
+
     // TESTING STUFF (Maybe)
     #if TESTING_LIMITS
         Serial.println("--- Beginning Limit Testing Sequence ---");
         delay(3000);
 
-        float pos = 20;
-        // // Arm::bendWrist(dyna, pos * 3.14159265/180);
-        Arm::twistWrist(dyna, pos * 3.14159265/180);
-        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+
+        float pos = 0;
+        Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        Serial.println("Zero Out Gripper");
         delay(5000);
 
-        pos = 180;
-        // // Arm::bendWrist(dyna, pos * 3.14159265/180);
-        Arm::twistWrist(dyna, pos * 3.14159265/180);
-        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
-        delay(8000);
 
-        pos = 10;
-        Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Serial.println("0->90 Gripper");
+        // for (pos = 0; pos <= 90; pos = pos+15) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(2000);
+        //     Serial.println(dyna.getPresentPosition(3) - b_3);
+        // }
+
+        // Serial.println("90->0 Gripper");
+        // for (pos = 90; pos >= 0; pos = pos-15) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(2000);
+        //     Serial.println(dyna.getPresentPosition(3) - b_3);
+        // }
+        // Serial.println("Complete Cycle");
+
+
+        // pos = 20;
+        // // // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180.0);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+        // pos = 180;
+        // // // Arm::bendWrist(dyna, pos * 3.14159265/180);
         // Arm::twistWrist(dyna, pos * 3.14159265/180);
-        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
-        delay(5000);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(8000);
 
-        pos = 30;
-        Arm::bendWrist(dyna, pos * 3.14159265/180);
-        // Arm::twistWrist(dyna, pos * 3.14159265/180);
-        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
-        delay(5000);
+        // pos = 10;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+        // pos = 30;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
 
 
-        pos = 100;
-        Arm::bendWrist(dyna, pos * 3.14159265/180);
-        // Arm::twistWrist(dyna, pos * 3.14159265/180);
-        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
-        delay(5000);
+        // pos = 100;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
 
-        pos = 100;
-        Arm::bendWrist(dyna, pos * 3.14159265/180);
-        // Arm::twistWrist(dyna, pos * 3.14159265/180);
-        // // Arm::moveGripper(dyna, pos * 3.14159265/180);
-        delay(5000);
+        // pos = 100;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
 
         Serial.println("--- Limit Testing Sequence Complete ---");
     #endif

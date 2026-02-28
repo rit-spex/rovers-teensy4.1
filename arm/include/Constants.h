@@ -5,10 +5,10 @@
 
 
 #define ENABLE_SERIAL 1
-#define TESTING_LIMITS 1
+#define TESTING_LIMITS 0
 
 // ---------------------- Dynamixel ----------------------
-#define DYNAMIXEL_PROTOCOL_VERSION 2.0
+#define DYNAMIXEL_PROTOCOL_VERSION 1.0
 #define DYNAMIXEL_BAUD_RATE 57600
 #define DYNAMIXEL_MOTORS_SERIAL Serial4      // hardware UART for Dynamixels
 
