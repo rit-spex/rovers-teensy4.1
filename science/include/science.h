@@ -47,6 +47,7 @@ private:
         Pump(PUMP_0_I2C_ADDR, PUMP_SPEED),
         Pump(PUMP_1_I2C_ADDR, PUMP_SPEED),
         Pump(PUMP_2_I2C_ADDR, PUMP_SPEED),
+        Pump(PUMP_3_I2C_ADDR, PUMP_SPEED)
     };
 
     bool m_enabled = true;

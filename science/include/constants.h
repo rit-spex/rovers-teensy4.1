@@ -35,7 +35,7 @@
 #define SS_SAMPLE_CACHE_POS 0
 
 // Pumps
-#define NUM_PUMPS 3
+#define NUM_PUMPS 4
 // Currently all pumps use the same speed, but if you just construct Pump with
 // a different speed it can be customized
 #define PUMP_SPEED 15
