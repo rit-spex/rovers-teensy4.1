@@ -8,7 +8,8 @@
 #define TESTING_LIMITS 0
 
 // ---------------------- Dynamixel ----------------------
-#define DYNAMIXEL_PROTOCOL_VERSION 1.0
+#define DYNA1_PROTOCOL_VERSION 1.0
+#define DYNA2_PROTOCOL_VERSION 2.0
 #define DYNAMIXEL_BAUD_RATE 57600
 #define DYNAMIXEL_MOTORS_SERIAL Serial4      // hardware UART for Dynamixels
 
@@ -25,7 +26,8 @@
 #define STATUS_LIGHT_PIN 13     // This is on the Teensy, not an ACTUAL pin
 
 // ---------------------- Globals ----------------------
-extern Dynamixel2Arduino dyna;
+extern Dynamixel2Arduino dyna1;
+extern Dynamixel2Arduino dyna2;
 extern bool solenoidEnabled;
 
 // Spin offsets

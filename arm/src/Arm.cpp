@@ -23,9 +23,11 @@ namespace Arm {
         #endif
         DYNAMIXEL_MOTORS_SERIAL.begin(DYNAMIXEL_BAUD_RATE, SERIAL_8N1);
         delay(50);
-        dyna.begin();
+        dyna1.begin();
+        dyna2.begin();
         delay(50);
-        dyna.setPortProtocolVersion(2.0);
+        dyna1.setPortProtocolVersion(DYNA1_PROTOCOL_VERSION);
+        dyna2.setPortProtocolVersion(DYNA2_PROTOCOL_VERSION);
         delay(50);
 
         // Initial Serial Messages
@@ -36,44 +38,41 @@ namespace Arm {
             // delay(50);
 
             // Initialize WRIST_1 (Protocol 2.0)
-            dyna.setPortProtocolVersion(2.0);
             delay(50);
-            Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
+            Serial.printf("ping 1: %d\n", dyna2.ping(WRIST_1));
             delay(50);
-            Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
+            Serial.printf("set torque off 1: %d\n", dyna2.torqueOff(WRIST_1));
             delay(50);
-            Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
+            Serial.printf("operating mode 1: %d\n", dyna2.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
             delay(50);
-            Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
+            Serial.printf("set torque on 1: %d\n", dyna2.torqueOn(WRIST_1));
             delay(50);
 
             // Initialize WRIST_2 (Protocol 2.0)
-            dyna.setPortProtocolVersion(2.0);
             delay(50);
-            Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
+            Serial.printf("ping 2: %d\n", dyna2.ping(WRIST_2));
             delay(50);
-            Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
+            Serial.printf("set torque off 2: %d\n", dyna2.torqueOff(WRIST_2));
             delay(50);
-            Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
+            Serial.printf("operating mode 2: %d\n", dyna2.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
             delay(50);
-            Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
+            Serial.printf("set torque on 2: %d\n", dyna2.torqueOn(WRIST_2));
             delay(50);
 
             // Initialize GRIPPER (Protocol 1.0)
-            dyna.setPortProtocolVersion(1.0);
 
             // delay(50);
             // scanDynaBus(dyna);
             // delay(50);
 
             delay(50);
-            Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
+            Serial.printf("ping 3: %d\n", dyna1.ping(GRIPPER));
             delay(50);
-            Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
+            Serial.printf("set torque off 3: %d\n", dyna1.torqueOff(GRIPPER));
             delay(50);
-            Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
+            Serial.printf("operating mode 3: %d\n", dyna1.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
             delay(50);
-            Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
+            Serial.printf("set torque on 3: %d\n", dyna1.torqueOn(GRIPPER));
             delay(50);
 
             // uint8_t addrs[] = {0,2,3,4,5,6,8,14,30,32,36,38,40,42,43};
@@ -84,13 +83,13 @@ namespace Arm {
             //     delay(10);
             // }
 
-            Serial.print("Present Position: "); Serial.println(dyna.getPresentPosition(GRIPPER));
-            Serial.print("Present Speed   : "); Serial.println(dyna.getPresentVelocity(GRIPPER));
+            Serial.print("Present Position: "); Serial.println(dyna1.getPresentPosition(GRIPPER));
+            Serial.print("Present Speed   : "); Serial.println(dyna1.getPresentVelocity(GRIPPER));
         #endif
 
         Serial.println("Zero out");
-        Arm::bendWrist(dyna, 0 * 3.14159265/180);
-        Arm::twistWrist(dyna, 0 * 3.14159265/180);
+        Arm::bendWrist(dyna2, 0 * 3.14159265/180);
+        Arm::twistWrist(dyna2, 0 * 3.14159265/180);
         delay(3000);
 
         updateEncoderAngles();
@@ -107,14 +106,13 @@ namespace Arm {
 
     void updateEncoderAngles()
     {
-        // Define encoder positions
-        dyna.setPortProtocolVersion(2.0);
+        // Define encoder positions (protocol 2.0)
         delay(50);
-        enc1 = dyna.getPresentPosition(WRIST_1) - b_1;
-        enc2 = dyna.getPresentPosition(WRIST_2) - b_2;
-        dyna.setPortProtocolVersion(1.0);
+        enc1 = dyna2.getPresentPosition(WRIST_1) - b_1;
+        enc2 = dyna2.getPresentPosition(WRIST_2) - b_2;
+        // (protocol 1.0)
         delay(50);
-        enc3 = dyna.getPresentPosition(GRIPPER) - b_3;
+        enc3 = dyna1.getPresentPosition(GRIPPER) - b_3;
 
         // Interpret angles for differential drive
         bendAngle = k_bend * (enc1 - enc2) / 2.0;
@@ -145,13 +143,13 @@ namespace Arm {
         // moveBase(OFF);
         // moveShoulder(OFF);
         // moveElbow(OFF);
-        dyna.setPortProtocolVersion(2.0);
+        // (protocol 2.0)
         delay(50);
-        dyna.torqueOff(WRIST_1);
-        dyna.torqueOff(WRIST_2);
-        dyna.setPortProtocolVersion(1.0);
+        dyna2.torqueOff(WRIST_1);
+        dyna2.torqueOff(WRIST_2);
+        // (protocol 1.0)
         delay(50);
-        dyna.torqueOff(GRIPPER);
+        dyna1.torqueOff(GRIPPER);
         isDisabled = true;
     }
 
@@ -161,6 +159,7 @@ namespace Arm {
     }
 
 
+    // protocol 2
     void bendWrist(Dynamixel2Arduino& dyna, float position)
     {
         if (isDisabled) { return; }
@@ -186,14 +185,13 @@ namespace Arm {
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
 
         // Set wrist positions
-        dyna.setPortProtocolVersion(2.0);
-        delay(50);
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
         delay(50);
     }
 
 
+    // protocol 2
     void twistWrist(Dynamixel2Arduino& dyna, float position)
     {
         if (isDisabled) { return; }
@@ -219,14 +217,13 @@ namespace Arm {
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
 
         // Set wrist positions
-        dyna.setPortProtocolVersion(2.0);
-        delay(50);
         dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
         delay(50);
     }
 
 
+    // protocol 1
     void moveGripper(Dynamixel2Arduino& dyna, float position)
     {
         if (isDisabled) { return; }
@@ -252,8 +249,6 @@ namespace Arm {
         // Serial.println(k_grip, 8);
         targetM3 = gripTarget/k_grip + b_3;
         // Serial.println(targetM3);
-        delay(50);
-        dyna.setPortProtocolVersion(1.0);
         delay(50);
         dyna.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
         delay(50);

@@ -1,7 +1,9 @@
 #include "Constants.h"
 #include "Arm.h"
+#include "Dynamixel2Arduino.h"
 
-Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, -1);
+Dynamixel2Arduino dyna1(DYNAMIXEL_MOTORS_SERIAL, -1);
+Dynamixel2Arduino dyna2(DYNAMIXEL_MOTORS_SERIAL, -1);
 
 bool solenoidEnabled = false;
 

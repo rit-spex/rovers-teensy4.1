@@ -69,17 +69,17 @@ namespace CANHandlers {
     void bendWrist(const BendWristMsg &msg) {
         Serial.printf("Bend wrist received position: %f\n", msg.position);
 
-        Arm::bendWrist(dyna, msg.position);
+        Arm::bendWrist(dyna2, msg.position);
     }
 
     void twistWrist(const TwistWristMsg &msg) {
         Serial.printf("Twist wrist received position: %f\n", msg.position);
-        Arm::twistWrist(dyna, msg.position);
+        Arm::twistWrist(dyna2, msg.position);
     }
-    
+
     void moveGripper(const MoveGripperMsg &msg) {
         Serial.printf("Move gripper received position: %f\n", msg.position);
-        Arm::moveGripper(dyna, msg.position);
+        Arm::moveGripper(dyna1, msg.position);
     }
 
     void moveSolenoid(const MoveSolenoidMsg &msg) {
