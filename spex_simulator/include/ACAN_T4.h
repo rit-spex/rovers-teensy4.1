@@ -19,6 +19,7 @@
 #define RECV_PORT 8000
 #define UDP_IP "127.0.0.1"
 #define SEND_PORT 8001
+#define RESEND_PORT 8002
 #define UDP_BUF_SIZE 1024
 
 // # of uint8s that each part of the CAN message should take when converted to
@@ -57,6 +58,9 @@ private:
     std::string m_ip;
     sockaddr_in m_dest{};
     int m_sendPort;
+    int m_resendPort;
+    sockaddr_in m_resend_dest{};
+
 };
 
 class ACAN_T4

@@ -40,6 +40,7 @@ void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
     m_port = RECV_PORT;
     m_ip = UDP_IP;
     m_sendPort = SEND_PORT;
+    m_resendPort = RESEND_PORT;
 
     spdlog::debug("CANbus.begin called");
     spdlog::info("Opening CAN UDP server on {}:{}", m_ip, m_port);
@@ -81,7 +82,12 @@ void CANbus::begin(ACAN_T4_Settings acan_t4_settings)
     m_dest.sin_family = AF_INET;
     m_dest.sin_port = htons(m_sendPort);
     m_dest.sin_addr.s_addr = inet_addr(m_ip.c_str());
-    // inet_pton(AF_INET, m_ip.c_str(), &m_dest.sin_addr);
+
+    memset(&m_resend_dest, 0, sizeof(m_resend_dest));
+    m_resend_dest.sin_family = AF_INET;
+    m_resend_dest.sin_port = htons(m_resendPort);
+    m_resend_dest.sin_addr.s_addr = inet_addr(m_ip.c_str());
+    // inet_pton(AF_INET, m_ip.c_str(), &m_resend_dest.sin_addr);
 }
 
 bool CANbus::receive(CANMessage &message)
@@ -119,6 +125,19 @@ bool CANbus::receive(CANMessage &message)
     std::string dataStr;
     for (int i = 0; i < message.len; i++)    {
         dataStr += std::to_string(message.data[i]) + " ";
+    }
+
+    // if message is for OPENCan then resend to OPENCAN
+    if (message.id >= 0x590 && message.id < 0x610) {
+        // spdlog::debug("Message is for OPENCan, resending to OPENCAN");
+        // Send packet
+        ssize_t sent = sendto(m_sock, buf, sizeof(buf), MSG_CONFIRM, (const struct sockaddr *)&m_resend_dest, sizeof(m_resend_dest));
+
+        if (sent < 0)
+        {
+            spdlog::error("Error resending UDP packet: {}", strerror(errno));
+            return false;
+        }
     }
 
     // spdlog::info("Received CAN message: ID {} LEN {} DATA {}", message.id, message.len, dataStr);

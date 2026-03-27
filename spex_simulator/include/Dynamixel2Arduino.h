@@ -34,6 +34,7 @@ public:
     void setGoalPWM(int pin, int speed, int unit);
     bool setGoalPosition(int id, float value);
     float getPresentPosition(int id);
+    float getPresentVelocity(int id);
     int setOperatingMode(int val1, int val2);
     int setPortProtocolVersion(int version);
     int setID(int oldID, int newID);

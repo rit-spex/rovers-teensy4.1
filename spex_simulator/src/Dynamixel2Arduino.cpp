@@ -89,3 +89,9 @@ int Dynamixel2Arduino::ping()
 
     return 1;
 }
+
+float Dynamixel2Arduino::getPresentVelocity(int id)
+{
+    // spdlog::debug("Dynamixel2Arduino getPresentVelocity: id {}", id);
+    return 0.0;
+}
