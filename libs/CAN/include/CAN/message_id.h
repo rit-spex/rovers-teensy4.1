@@ -28,8 +28,7 @@ enum class MessageID : uint32_t
     MOVE_BASE = (uint32_t)21,
     MOVE_SHOULDER = (uint32_t)22,
     MOVE_ELBOW = (uint32_t)23,
-    BEND_WRIST = (uint32_t)24,
-    TWIST_WRIST = (uint32_t)25,
+    MOVE_WRIST = (uint32_t)24,
     MOVE_GRIPPER = (uint32_t)26,
     MOVE_SOLENOID = (uint32_t)27,
 

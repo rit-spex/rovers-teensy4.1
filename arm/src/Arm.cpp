@@ -160,59 +160,25 @@ namespace Arm {
 
 
     // protocol 2
-    void bendWrist(Dynamixel2Arduino& dyna, float position)
+    void moveWrist(Dynamixel2Arduino& dyna, float bend_position, float twist_position)
     {
         if (isDisabled) { return; }
 
         // Bound angles to [-30,30] degrees aka [-0.52359,0.52359] radians
-        if (position < -0.52359)
-        {
-            position = -0.52359;
-        }
-        else if (position > 0.52359)
-        {
-            position = 0.52359;
-        }
-
-        // Print input
-        #if ENABLE_SERIAL
-            Serial.print("Bend Angle set to "); Serial.println(position*57.3);
-        #endif
-
-        // Compute motor targets
-        bendTarget = position;
-        targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + b_1;
-        targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
-
-        // Set wrist positions
-        dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
-        dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
-        delay(50);
-    }
-
-
-    // protocol 2
-    void twistWrist(Dynamixel2Arduino& dyna, float position)
-    {
-        if (isDisabled) { return; }
+        bend_position = constrain(bend_position, -0.52359, 0.52359);
 
         // Bound angles to [-90,90] degrees aka [-1.57079, 1.57079] radians
-        if (position < -1.57079)
-        {
-            position = -1.57079;
-        }
-        else if (position > 1.57079)
-        {
-            position = 1.57079;
-        }
+        twist_position = constrain(twist_position, -1.57079, 1.57079);
 
         // Print input
         #if ENABLE_SERIAL
-            Serial.print("Twist Angle set to "); Serial.println(position*57.3);
+            Serial.print("Bend Angle set to "); Serial.println(bend_position*57.3);
+            Serial.print("Twist Angle set to "); Serial.println(twist_position*57.3);
         #endif
 
         // Compute motor targets
-        twstTarget = position;
+        bendTarget = bend_position;
+        twstTarget = twist_position;
         targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + b_1;
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
 
@@ -221,7 +187,6 @@ namespace Arm {
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
         delay(50);
     }
-
 
     // protocol 1
     void moveGripper(Dynamixel2Arduino& dyna, float position)
