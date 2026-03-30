@@ -17,37 +17,39 @@
 
 extern PinState pinState;
 
+std::queue<char> inputQueue = {};
+
 //////////////////////////////////////////// Serial_Class /////////////////////////
 void Serial_Class::begin(int baudrate)
 {
-    spdlog::debug("Serial begin called with baudrate: {}", baudrate);
+    spdlog::info("Serial begin called with baudrate: {}", baudrate);
 }
 // print statements
 void Serial_Class::print(const char *message)
 {
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 }
 void Serial_Class::print(const int message)
 {
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 }
 void Serial_Class::print(const float message)
 {
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 }
 
 // println statements
 void Serial_Class::println(const char *message)
 {
-    spdlog::debug(message);
+    spdlog::info(message);
 }
 void Serial_Class::println(const int message)
 {
-    spdlog::debug(message);
+    spdlog::info(message);
 }
 void Serial_Class::println(std::string message)
 {
-    spdlog::debug(message);
+    spdlog::info(message);
 }
 void Serial_Class::println()
 {
@@ -88,9 +90,33 @@ int Serial_Class::printf(const char *format, ...)
     }
 
     // Log the formatted message
-    spdlog::debug("{}", message);
+    spdlog::info("{}", message);
 
     return result;
+}
+
+int Serial_Class::available() {
+    if (inputQueue.empty()) {
+        return 0;
+    }
+    return (int)inputQueue.size();
+}
+
+String Serial_Class::readString() {
+    String s;
+
+    while (!inputQueue.empty() && inputQueue.front() != '\n')
+    {
+        char front = inputQueue.front();
+        s += front;
+        inputQueue.pop();
+    }
+
+    if (!inputQueue.empty()) {
+        inputQueue.pop(); // pop the '\n'
+    }
+
+    return s;
 }
 
 // define global functions

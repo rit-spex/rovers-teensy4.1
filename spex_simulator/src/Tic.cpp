@@ -9,6 +9,7 @@
 
 #include <Tic.h>
 
+#include <cstdint>
 #include <spdlog/spdlog.h>
 
 TicI2C::TicI2C()
@@ -31,12 +32,46 @@ void TicI2C::setTargetVelocity(int velocity)
     spdlog::debug("TicI2C setTargetVelocity called with velocity: {}", velocity);
 }
 
+void TicI2C::setTargetPosition(int pos)
+{
+    spdlog::debug("TicI2C setTargetPos called with pos: {}", pos);
+}
+
 void TicI2C::haltAndHold()
 {
     spdlog::debug("TicI2C haltAndHold called");
 }
 
+void TicI2C::haltAndSetPosition(int pos)
+{
+    spdlog::debug("TicI2C haldAndSetPosition called with pos: {}", pos);
+}
+
+int TicI2C::getCurrentPosition()
+{
+    spdlog::debug("TicI2C getCurrentPosition called");
+    return 0;
+}
+
+void TicI2C::goHomeForward()
+{
+    spdlog::debug("TicI2C goHomeForward called");
+}
+
+void TicI2C::goHomeReverse()
+{
+    spdlog::debug("TicI2C goHomeReverse called");
+}
+
 void TicI2C::resetCommandTimeout()
 {
-    spdlog::debug("TicI2C resetCommandTimeout called");
+    // spdlog::debug("TicI2C resetCommandTimeout called");
+}
+
+int32_t TicI2C::getCurrentVelocity() {
+    return 0;
+}
+
+bool TicI2C::getHomingActive() {
+    return false;
 }

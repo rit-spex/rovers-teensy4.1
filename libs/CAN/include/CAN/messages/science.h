@@ -63,7 +63,6 @@ enum class SlideStage : uint8_t
 struct __attribute__((packed)) MoveSlideMsg
 {
     SlideStage stage;
-    uint8_t home;
 };
 
 struct __attribute__((packed)) EnablePumpMsg

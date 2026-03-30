@@ -10,13 +10,13 @@
 #include "ACAN_T4.h"
 #include "Arduino.h"
 #include "PinState.h"
-#include "main.h"
 
 #include "Printer.h"
 #include "spdlog/spdlog-inl.h"
 #include "spdlog/spdlog.h"
 #include <cstdint>
 #include <cstring>
+#include <queue>
 
 #ifdef ENABLE_GUI
 #include "Gui.h"
@@ -31,11 +31,13 @@ extern void setup();
 extern void loop();
 
 extern PinState pinState;
+extern std::queue<char> inputQueue;
 
 int main()
 {
     spdlog::set_level(spdlog::level::debug);
     clearFile();
+    inputQueue.push('a');
     setup();
 
 #ifdef ENABLE_GUI
