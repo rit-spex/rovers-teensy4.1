@@ -232,14 +232,14 @@ namespace Arm {
         if (isDisabled) { return; }
 
         // Bound angles to [0,90] degrees aka [0, 1.57079] radians
-        // if (position < 0)
-        // {
-        //     position = 0;
-        // }
-        // else if (position > 1.57079)
-        // {
-        //     position = 1.57079;
-        // }
+        if (position < 0.01)
+        {
+            position = 0.01;
+        }
+        else if (position > 1.57079)
+        {
+            position = 1.57079;
+        }
 
         // Print input
         #if ENABLE_SERIAL
@@ -255,7 +255,9 @@ namespace Arm {
         delay(50);
         dyna.setPortProtocolVersion(1.0);
         delay(50);
-        dyna.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
+        float tickLim = 26000.0;
+        float clamped = max(-tickLim, min(tickLim, targetM3));
+        dyna.setGoalPosition(GRIPPER, static_cast<int>(clamped));
         delay(50);
     }
 
