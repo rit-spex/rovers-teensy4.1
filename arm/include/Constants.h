@@ -29,9 +29,9 @@ extern Dynamixel2Arduino dyna;
 extern bool solenoidEnabled;
 
 // Spin offsets
-extern float b_1;
-extern float b_2;
-extern float b_3;
+extern float dE_1;
+extern float dE_2;
+extern float dE_3;
 extern float bend_offset;
 extern float twst_offset;
 extern float grip_offset;

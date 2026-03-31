@@ -76,21 +76,15 @@ namespace Arm {
             Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
             delay(50);
 
-            // uint8_t addrs[] = {0,2,3,4,5,6,8,14,30,32,36,38,40,42,43};
-            // for (size_t  i = 0; i < sizeof(addrs)/sizeof(addrs[0]); i++) {
-            //     int32_t val = dyna.readControlTableItem(addrs[i], GRIPPER);
-            //     Serial.print("Addr "); Serial.print(addrs[i]);
-            //     Serial.print(" = "); Serial.println(val);
-            //     delay(10);
-            // }
-
             Serial.print("Present Position: "); Serial.println(dyna.getPresentPosition(GRIPPER));
             Serial.print("Present Speed   : "); Serial.println(dyna.getPresentVelocity(GRIPPER));
         #endif
 
         Serial.println("Zero out");
-        Arm::bendWrist(dyna, 0 * 3.14159265/180);
-        Arm::twistWrist(dyna, 0 * 3.14159265/180);
+        updateEncoderAngles();
+        Arm::bendWrist(dyna, 0 / 57.3);
+        Arm::twistWrist(dyna, 0 / 57.3);
+        Arm::moveGripper(dyna, 45 / 57.3);
         delay(3000);
 
         updateEncoderAngles();
@@ -110,11 +104,11 @@ namespace Arm {
         // Define encoder positions
         dyna.setPortProtocolVersion(2.0);
         delay(50);
-        enc1 = dyna.getPresentPosition(WRIST_1) - b_1;
-        enc2 = dyna.getPresentPosition(WRIST_2) - b_2;
+        enc1 = dyna.getPresentPosition(WRIST_1) - dE_1;
+        enc2 = dyna.getPresentPosition(WRIST_2) - dE_2;
         dyna.setPortProtocolVersion(1.0);
         delay(50);
-        enc3 = dyna.getPresentPosition(GRIPPER) - b_3;
+        enc3 = dyna.getPresentPosition(GRIPPER) - dE_3;
 
         // Interpret angles for differential drive
         bendAngle = k_bend * (enc1 - enc2) / 2.0;
@@ -124,17 +118,11 @@ namespace Arm {
         // Print angles
         #if ENABLE_SERIAL
             Serial.println("Updating Encoders");
-            Serial.printf(    " M1  : %6.2f  |  M2  : %6.2f  |  M3   : %6.2f\n", enc1, enc2, enc3);
-            Serial.printf(    " Bend: %6.2f  | Twist: %6.2f  |  Grip : %6.2f\n", bendAngle*57.295, twstAngle*57.295, gripAngle*57.295);
-            // for (int i=1; i< 50; i++) {
-            //     Serial.print(i); Serial.print(": ");
-            // dyna.setPortProtocolVersion(1.0);
-            // delay(50);
-            //     Serial.println(dyna.readControlTableItem(i, GRIPPER));
-            // }
-
+            Serial.printf(    " M1   : %6.2f  |  M2  : %6.2f  |  M3   : %6.2f |\n", enc1, enc2, enc3);
+            Serial.printf(    " Bend : %6.2f  | ",   bendAngle*57.3);
+            Serial.printf(    " Twist: %6.2f  | ",   twstAngle*57.3);
+            Serial.printf(    " Grip : %6.2f  |\n", gripAngle*57.3);
             Serial.println("");
-
         #endif
 
     }
@@ -182,8 +170,8 @@ namespace Arm {
 
         // Compute motor targets
         bendTarget = position;
-        targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + b_1;
-        targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
+        targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + dE_1;
+        targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + dE_2;
 
         // Set wrist positions
         dyna.setPortProtocolVersion(2.0);
@@ -215,8 +203,8 @@ namespace Arm {
 
         // Compute motor targets
         twstTarget = position;
-        targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + b_1;
-        targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + b_2;
+        targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + dE_1;
+        targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + dE_2;
 
         // Set wrist positions
         dyna.setPortProtocolVersion(2.0);
@@ -250,7 +238,7 @@ namespace Arm {
         gripTarget = position;
         // Serial.println(gripTarget, 8);
         // Serial.println(k_grip, 8);
-        targetM3 = gripTarget/k_grip + b_3;
+        targetM3 = gripTarget/k_grip + dE_3;
         // Serial.println(targetM3);
         delay(50);
         dyna.setPortProtocolVersion(1.0);
