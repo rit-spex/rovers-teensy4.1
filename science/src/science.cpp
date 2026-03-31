@@ -43,9 +43,9 @@ void Science::startUp() {
 #endif
 
     // Setup sample slide
-#ifdef ENABLE_SAMPLE_SLIDE
+#ifdef ENABLE_AUGER_SLIDE
     m_sampleSlide.startUp();
-    m_can.onMessage<MoveSlideMsg>(MessageID::MOVE_SLIDE, [&](const MoveSlideMsg &msg) { this->handleMoveSlide(msg); });
+    m_can.onMessage<MoveAugerSlideMsg>(MessageID::MOVE_AUGER_SLIDE, [&](const MoveAugerSlideMsg &msg) { this->handleMoveAugerSlide(msg); });
 #endif
 
     // Setup pumps
@@ -59,6 +59,37 @@ void Science::startUp() {
 #endif
 
     m_startMillis = millis();
+
+#ifdef ENABLE_SPECTROMETER_SLIDE
+    m_can.onMessage<MoveSpectrometerSlideMsg>(MessageID::MOVE_SPECTROMETER_SLIDE, [&](const MoveSpectrometerSlideMsg &msg) {
+        this->handleMoveSpectrometerSlide(msg);
+    });
+#endif
+
+#ifdef ENABLE_FLUOROMETER_SLIDE
+    m_can.onMessage<MoveFluorometerSlideMsg>(MessageID::MOVE_FLUOROMETER_SLIDE, [&](const MoveFluorometerSlideMsg &msg) {
+        this->handleMoveFluorometerSlide(msg);
+    });
+#endif
+
+#ifdef ENABLE_FLUOROMETER_MICRO_PUMP
+    m_can.onMessage<EnableFluorometerMicroPumpMsg>(MessageID::ENABLE_FLUOROMETER_MICRO_PUMP, [&](const EnableFluorometerMicroPumpMsg &msg) {
+        this->handleEnableFluorometerMicroPump(msg);
+    });
+#endif
+
+#ifdef ENABLE_PRIMER
+    m_can.onMessage<EnablePrimerMsg>(MessageID::ENABLE_PRIMER, [&](const EnablePrimerMsg &msg) {
+        this->handleEnablePrimer(msg);
+    });
+#endif
+
+#ifdef ENABLE_VIBRATION
+    m_can.onMessage<EnableVibrationMsg>(MessageID::ENABLE_VIBRATION, [&](const EnableVibrationMsg &msg) {
+        this->handleEnableVibration(msg);
+    });
+#endif
+
 
 #if ENABLE_SERIAL
     Serial.println("Science start up completed");
@@ -92,8 +123,8 @@ void Science::updateSubsystems() {
     );
 #endif
 
-    // Sample slide
-#ifdef ENABLE_SAMPLE_SLIDE
+    // Auger slide
+#ifdef ENABLE_AUGER_SLIDE
     m_sampleSlide.update();
     m_can.send(
         ReadSlideMsg {
@@ -184,7 +215,7 @@ void Science::handleEnableDrill(const EnableDrillMsg &msg) {
     this->m_auger.setSpinning(static_cast<bool>(msg.enable));
 }
 
-void Science::handleMoveSlide(const MoveSlideMsg &msg) {
+void Science::handleMoveAugerSlide(const MoveAugerSlideMsg &msg) {
     this->m_sampleSlide.goToStage(msg.stage);
 }
 
@@ -194,5 +225,37 @@ void Science::handleEnablePump(const EnablePumpMsg &msg) {
         pump.start();
     } else {
         pump.stop();
+    }
+}
+
+void Science::handleMoveSpectrometerSlide(const MoveSpectrometerSlideMsg &msg) {
+    // Implementation for handling spectrometer slide movement
+}
+
+void Science::handleMoveFluorometerSlide(const MoveFluorometerSlideMsg &msg) {
+    // Implementation for handling fluorometer slide movement
+}
+
+void Science::handleEnableFluorometerMicroPump(const EnableFluorometerMicroPumpMsg &msg) {
+    if (static_cast<bool>(msg.enable)) {
+        m_fluorometerMicroPump.start();
+    } else {
+        m_fluorometerMicroPump.stop();
+    }
+}
+
+void Science::handleEnablePrimer(const EnablePrimerMsg &msg) {
+    if (static_cast<bool>(msg.enable)) {
+        m_primer.start();
+    } else {
+        m_primer.stop();
+    }
+}
+
+void Science::handleEnableVibration(const EnableVibrationMsg &msg) {
+    if (static_cast<bool>(msg.enable)) {
+        m_vibrator.start();
+    } else {
+        m_vibrator.stop();
     }
 }
