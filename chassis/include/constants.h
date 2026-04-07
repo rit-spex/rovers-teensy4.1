@@ -44,7 +44,7 @@
 
 // The Direction of the motor
 #define MOTOR_LEFT_SIGN -1 // positive 1 or negitive -1
-#define MOTOR_RIGHT_SIGN 1 // positive 1 or negitive -1
+#define MOTOR_RIGHT_SIGN -1 // positive 1 or negitive -1
 
 // the time it takes to go from 0 to 100
 #if AUTO

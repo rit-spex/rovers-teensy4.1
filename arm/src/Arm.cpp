@@ -256,6 +256,10 @@ namespace Arm {
         {
             return;
         }
+        #if ENABLE_SERIAL
+        Serial.printf("Solenoid State %d", state);
+        #endif
+
         digitalWrite(SOLENOID_PIN, state);
     }
 
