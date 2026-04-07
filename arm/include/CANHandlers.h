@@ -11,8 +11,7 @@ void enableArm(const EnableArmMsg &msg);
 // void moveBase(const MoveBaseMsg &msg);
 // void moveShoulder(const MoveShoulderMsg &msg);
 // void moveElbow(const MoveElbowMsg &msg);
-void bendWrist(const BendWristMsg &msg);
-void twistWrist(const TwistWristMsg &msg);
+void moveWrist(const MoveWristMsg &msg);
 void moveGripper(const MoveGripperMsg &msg);
 void moveSolenoid(const MoveSolenoidMsg &msg);
 }

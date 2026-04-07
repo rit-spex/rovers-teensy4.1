@@ -116,8 +116,7 @@ void setup()
     // can->onMessage<MoveBaseMsg>(MessageID::MOVE_BASE, CANHandlers::moveBase);
     // can->onMessage<MoveShoulderMsg>(MessageID::MOVE_SHOULDER, CANHandlers::moveShoulder);
     // can->onMessage<MoveElbowMsg>(MessageID::MOVE_ELBOW, CANHandlers::moveElbow);
-    can->onMessage<BendWristMsg>(MessageID::BEND_WRIST, CANHandlers::bendWrist);
-    can->onMessage<TwistWristMsg>(MessageID::TWIST_WRIST, CANHandlers::twistWrist);
+    can->onMessage<MoveWristMsg>(MessageID::MOVE_WRIST, CANHandlers::moveWrist);
     can->onMessage<MoveGripperMsg>(MessageID::MOVE_GRIPPER, CANHandlers::moveGripper);
     can->onMessage<MoveSolenoidMsg>(MessageID::MOVE_SOLENOID, CANHandlers::moveSolenoid);
 

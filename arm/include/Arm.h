@@ -31,8 +31,7 @@ namespace Arm {
     void updateEncoderAngles();
     void disable();
     void enable();
-    void bendWrist(Dynamixel2Arduino& dyna, float position);
-    void twistWrist(Dynamixel2Arduino& dyna, float position);
+    void moveWrist(Dynamixel2Arduino& dyna, float bend, float twist);
     void moveGripper(Dynamixel2Arduino& dyna, float position);
     void moveSolenoid(int state);
     bool changeDynamixelMotorID(Dynamixel2Arduino& dyna, uint8_t oldID, uint8_t newID);

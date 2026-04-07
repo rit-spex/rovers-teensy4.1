@@ -82,8 +82,7 @@ namespace Arm {
 
         Serial.println("Zero out");
         updateEncoderAngles();
-        Arm::bendWrist(dyna, 0 / 57.3);
-        Arm::twistWrist(dyna, 0 / 57.3);
+        Arm::moveWrist(dyna, 0 / 57.3, 0 / 57.3);
         Arm::moveGripper(dyna, 45 / 57.3);
         delay(3000);
 
@@ -149,60 +148,39 @@ namespace Arm {
     }
 
 
-    void bendWrist(Dynamixel2Arduino& dyna, float position)
+    void moveWrist(Dynamixel2Arduino& dyna, float bend, float twist)
     {
         if (isDisabled) { return; }
 
         // Bound angles to [-30,30] degrees aka [-0.52359,0.52359] radians
-        if (position < -0.52359)
+        if (bend < -0.52359)
         {
-            position = -0.52359;
+            bend = -0.52359;
         }
-        else if (position > 0.52359)
+        else if (bend > 0.52359)
         {
-            position = 0.52359;
+            bend = 0.52359;
         }
-
-        // Print input
-        #if ENABLE_SERIAL
-            Serial.print("Bend Angle set to "); Serial.println(position*57.3);
-        #endif
-
-        // Compute motor targets
-        bendTarget = position;
-        targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + dE_1;
-        targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + dE_2;
-
-        // Set wrist positions
-        dyna.setPortProtocolVersion(2.0);
-        delay(50);
-        dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
-        dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
-        delay(50);
-    }
-
-
-    void twistWrist(Dynamixel2Arduino& dyna, float position)
-    {
-        if (isDisabled) { return; }
 
         // Bound angles to [-90,90] degrees aka [-1.57079, 1.57079] radians
-        if (position < -1.57079)
+        if (twist < -1.57079)
         {
-            position = -1.57079;
+            twist = -1.57079;
         }
-        else if (position > 1.57079)
+        else if (twist > 1.57079)
         {
-            position = 1.57079;
+            twist = 1.57079;
         }
 
         // Print input
         #if ENABLE_SERIAL
-            Serial.print("Twist Angle set to "); Serial.println(position*57.3);
+            Serial.print("Bend Angle set to "); Serial.println(bend*57.3);
+            Serial.print("Twist Angle set to "); Serial.println(twist*57.3);
         #endif
 
         // Compute motor targets
-        twstTarget = position;
+        bendTarget = bend;
+        twstTarget = twist;
         targetM1 = ( bendTarget/k_bend + twstTarget/k_twst) + dE_1;
         targetM2 = (-bendTarget/k_bend + twstTarget/k_twst) + dE_2;
 
@@ -213,7 +191,6 @@ namespace Arm {
         dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
         delay(50);
     }
-
 
     void moveGripper(Dynamixel2Arduino& dyna, float position)
     {

@@ -41,14 +41,10 @@ struct __attribute__((packed)) MoveElbowMsg
     float position;
 };
 
-struct __attribute__((packed)) BendWristMsg
+struct __attribute__((packed)) MoveWristMsg
 {
-    float position;
-};
-
-struct __attribute__((packed)) TwistWristMsg
-{
-    float position;
+    float position_bend;
+    float position_twist;
 };
 
 enum class GripperState : uint8_t
