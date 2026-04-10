@@ -28,6 +28,7 @@ namespace Arm {
         dyna.setPortProtocolVersion(2.0);
         delay(50);
 
+        // FIXME: If enable serial goes off, the start up for the motors will not run
         // Initial Serial Messages
         #if ENABLE_SERIAL
 
@@ -87,9 +88,8 @@ namespace Arm {
         dyna.setGoalPosition(WRIST_2, static_cast<int>(0));
         delay(50);
         dyna.setPortProtocolVersion(1.0);
-        dyna.setGoalPosition(GRIPPER, static_cast<int>(0));
-        // Arm::moveGripper(dyna, 45 / 57.3);
-        delay(3000);
+        Arm::moveGripper(dyna, 45 / 57.3);
+        delay(5000);
 
         updateEncoderAngles();
 
@@ -108,6 +108,7 @@ namespace Arm {
         // Define encoder positions
         dyna.setPortProtocolVersion(2.0);
         delay(50);
+
         enc1 = dyna.getPresentPosition(WRIST_1) - dE_1;
         enc2 = dyna.getPresentPosition(WRIST_2) - dE_2;
         dyna.setPortProtocolVersion(1.0);
@@ -196,6 +197,7 @@ namespace Arm {
         // dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
         delay(50);
     }
+
 
     void moveGripper(Dynamixel2Arduino& dyna, float position)
     {

@@ -18,12 +18,12 @@ uint32_t Arm::lastROSHeartbeatTime = 0;
 // deltaEncoder Basically the tick number for zero degrees
 float dE_1 = 0.0;
 float dE_2 = 0.0;
-float dE_3 = 0*13305.0;   // Should make -45 deg 0 ticks
+float dE_3 = -19965.0;   // Should make 45 deg 0 ticks kinda
 
 // Define tick-motor coefficients [rad/tick]
 float k_bend =     3.14159265 / 526374.0;  // assuming (526,374 [tick] per 2π [rad]) except there are two motors so do half
 float k_twst =     3.14159265 / 526374.0;
-float k_grip = 0.00005899926;  // 13 threads per inch, for 1 inch, to go 90 deg
+float k_grip = 0.00003933284;  // 13 threads per inch, for 1 inch, to go 90 deg
 
 // Encoder positions
 float enc1 = 0.0;

@@ -43,29 +43,77 @@ void setup()
     // TESTING STUFF (Maybe)
     #if TESTING_LIMITS
         Serial.println("--- Beginning Limit Testing Sequence ---");
-        delay(3000);
+        Serial.println("Wait 10 secs");
+        delay(5000);
+        Serial.println("Another 5 to go");
+        delay(5000);
 
 
-        float pos = 0;
-        // Arm::moveGripper(dyna, pos * 3.14159265/180.0);
-        // Serial.println("Zero Out Gripper");
-        // delay(5000);
+        float pos = 45;
+        Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        Serial.println("Zero Out Gripper (45deg)");
+        delay(5000);
+        Serial.println("Another 5 to go");
+        delay(5000);
 
 
-        Serial.println("0->90 Gripper");
-        for (pos = 0; pos <= 90; pos = pos+2) {
+        Serial.println("45->90 Gripper");
+        for (pos = 45; pos <= 120; pos = pos+5) {
             Arm::moveGripper(dyna, pos * 3.14159265/180.0);
             delay(1000);
+            Serial.print("Enc3: ");
+            Serial.print(dyna.getPresentPosition(3));
+
+            Serial.print("    Offset: ");
             Serial.println(dyna.getPresentPosition(3) - dE_3);
+            Serial.println(" ");
         }
 
-        // Serial.println("90->0 Gripper");
-        // for (pos = 90; pos >= 0; pos = pos-15) {
-        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
-        //     delay(2000);
-        //     Serial.println(dyna.getPresentPosition(3) - dE_3);
-        // }
-        // Serial.println("Complete Cycle");
+        delay(2000);
+        Arm::updateEncoderAngles();
+        delay(1000);
+        Arm::updateEncoderAngles();
+        delay(2000);
+
+        Serial.println("90->0 Gripper");
+        for (pos = 90; pos >= 0; pos = pos-5) {
+            Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+            delay(1000);
+            Serial.print("Enc3: ");
+            Serial.print(dyna.getPresentPosition(3));
+
+            Serial.print("    Offset: ");
+            Serial.println(dyna.getPresentPosition(3) - dE_3);
+            Serial.println(" ");
+
+        }
+
+
+        delay(2000);
+        Arm::updateEncoderAngles();
+        delay(1000);
+        Arm::updateEncoderAngles();
+        delay(2000);
+
+        Serial.println("0->45 Gripper");
+        for (pos = 0; pos <= 45; pos = pos+5) {
+            Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+            delay(1000);
+            Serial.print("Enc3: ");
+            Serial.print(dyna.getPresentPosition(3));
+
+            Serial.print("    Offset: ");
+            Serial.println(dyna.getPresentPosition(3) - dE_3);
+            Serial.println(" ");
+
+        }
+
+
+
+
+
+
+        Serial.println("Complete Cycle");
 
 
         // pos = 20;
