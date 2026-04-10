@@ -39,6 +39,8 @@ namespace CANHandlers {
     // Activate arm
     void enableArm(const EnableArmMsg &msg) {
         if (static_cast<bool>(msg.enable)) {
+            // set the last heartbeat time to now, to prevent the timeout from immediately disabling the arm
+            Arm::lastROSHeartbeatTime = millis();
             #if ENABLE_SERIAL
                 Serial.println("Enabling Arm");
             #endif

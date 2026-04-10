@@ -82,8 +82,13 @@ namespace Arm {
 
         Serial.println("Zero out");
         updateEncoderAngles();
-        Arm::moveWrist(dyna, 0 / 57.3, 0 / 57.3);
-        Arm::moveGripper(dyna, 45 / 57.3);
+        dyna.setPortProtocolVersion(2.0);
+        dyna.setGoalPosition(WRIST_1, static_cast<int>(0));
+        dyna.setGoalPosition(WRIST_2, static_cast<int>(0));
+        delay(50);
+        dyna.setPortProtocolVersion(1.0);
+        dyna.setGoalPosition(GRIPPER, static_cast<int>(0));
+        // Arm::moveGripper(dyna, 45 / 57.3);
         delay(3000);
 
         updateEncoderAngles();
@@ -187,8 +192,8 @@ namespace Arm {
         // Set wrist positions
         dyna.setPortProtocolVersion(2.0);
         delay(50);
-        dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
-        dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
+        // dyna.setGoalPosition(WRIST_1, static_cast<int>(targetM1));
+        // dyna.setGoalPosition(WRIST_2, static_cast<int>(targetM2));
         delay(50);
     }
 
@@ -221,8 +226,8 @@ namespace Arm {
         dyna.setPortProtocolVersion(1.0);
         delay(50);
         float tickLim = 26000.0;
-        float clamped = max(-tickLim, min(tickLim, targetM3));
-        dyna.setGoalPosition(GRIPPER, static_cast<int>(clamped));
+        targetM3 = max(-tickLim, min(tickLim, targetM3));
+        dyna.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
         delay(50);
     }
 

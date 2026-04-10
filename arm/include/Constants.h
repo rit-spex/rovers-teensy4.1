@@ -5,7 +5,7 @@
 
 
 #define ENABLE_SERIAL 1
-#define TESTING_LIMITS 0
+#define TESTING_LIMITS 1
 
 // ---------------------- Dynamixel ----------------------
 #define DYNAMIXEL_PROTOCOL_VERSION 1.0
@@ -14,7 +14,7 @@
 
 
 // ---------------------- Timing ----------------------
-#define LED_BLINK_INTERVAL 500  // milliseconds
+#define LED_BLINK_INTERVAL 250  // milliseconds
 #define TIMEOUT_DURAITON 2000 // ms
 
 // ---------------------- Pinout ----------------------
