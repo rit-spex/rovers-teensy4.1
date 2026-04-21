@@ -19,6 +19,7 @@
 
 // Update rate for the rover
 #define UPDATE_RATE_MS 40 // 40 // BLOWING FRAMES IN SIMULATOR SO IT WAS SLOWED Down TODO: Fix
+#define TIMEOUT_DURAITON 2000 // ms
 
 // milliseconds in a minute
 #define MS_IN_MIN 60000

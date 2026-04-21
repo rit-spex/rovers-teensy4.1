@@ -63,11 +63,13 @@ public:
     // check if the mbb is disabled
     bool isDisabled();
 
+    void checkHeartbeat();
     // CAN Handlers
 #if ENABLE_CAN
     void handleEStopMsg(const EStopMsg &msg);
     void handleEnableChassisMsg(const EnableChassisMsg &msg);
     void handleDrivePowerMsg(const DrivePowerMsg &msg);
+    void handleHeartbeatMsg(const HeartbeatMsg &msg);
 #endif
 
 // Drives the rover based on the left and right joystick values
@@ -77,7 +79,8 @@ public:
 private:
     bool m_statusLightOn = false;
     int m_statusLightWait = 0;
-    bool m_disabled = false;
+    bool m_disabled = true;
+    uint32_t lastROSHeartbeatTime;
 
 #if ENABLE_CAN
     CAN m_can;

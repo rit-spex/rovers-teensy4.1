@@ -15,10 +15,12 @@
 #include "CAN/message_id.h"
 #include "CAN/messages/misc.h"
 #include "CAN/messages/chassis.h"
+#include <cmath>
 
 #if ENABLE_CAN
 Chassis::Chassis(unsigned long *currentCycle) : m_currentCyclePtr(currentCycle)
 {
+    lastROSHeartbeatTime = 0;
 }
 #else
 Chassis::Chassis(unsigned long *currentCycle) : m_currentCyclePtr(currentCycle)
@@ -45,6 +47,8 @@ void Chassis::startUp()
     m_can.onMessage<EStopMsg>(MessageID::E_STOP, [this](const EStopMsg& msg) { this->handleEStopMsg(msg); });
     m_can.onMessage<EnableChassisMsg>(MessageID::ENABLE_CHASSIS, [this](const EnableChassisMsg& msg) { this->handleEnableChassisMsg(msg); });
     m_can.onMessage<DrivePowerMsg>(MessageID::DRIVE_POWER, [this](const DrivePowerMsg& msg) { this->handleDrivePowerMsg(msg); });
+    m_can.onMessage<HeartbeatMsg>(MessageID::ROS_HEARTBEAT, [this](const HeartbeatMsg& msg) { this->handleHeartbeatMsg(msg); });
+
 #endif
 }
 
@@ -73,6 +77,14 @@ void Chassis::blinkStatusLight()
 
 void Chassis::updateSubsystems(int timeInterval_ms)
 {
+    m_can.send(
+        HeartbeatMsg{
+            .source = SubSystemID::CHASSIS,
+            .uptime_ms = (uint32_t)millis(),
+            .enabled = (uint8_t)(!m_disabled),
+        },
+        MessageID::TEENSY_HEARTBEAT
+    );
     if (!m_disabled)
     {
         blinkStatusLight();
@@ -99,9 +111,27 @@ void Chassis::updateSubsystems(int timeInterval_ms)
 
 void Chassis::runBackgroundProcess()
 {
+    checkHeartbeat();
 #if ENABLE_CAN
     m_can.poll();
 #endif
+}
+
+void Chassis::checkHeartbeat()
+{
+    long currentMillis = millis();
+    if (abs(currentMillis - (long)lastROSHeartbeatTime) >= TIMEOUT_DURAITON
+    && lastROSHeartbeatTime != 0
+    && m_disabled) {
+            Serial.printf("looping %d", currentMillis);
+            Serial.printf("looping %d", lastROSHeartbeatTime);
+
+            disable();
+    #if ENABLE_SERIAL
+            Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
+    #endif
+
+    }
 }
 
 #if ENABLE_DRIVEBASE
@@ -154,5 +184,22 @@ void Chassis::handleDrivePowerMsg(const DrivePowerMsg &msg)
         m_drive_base.drive(msg.left_power, msg.right_power);
         Serial.printf("left %f", msg.left_power);
         Serial.printf("right %f", msg.right_power);
+    }
+}
+
+void Chassis::handleHeartbeatMsg(const HeartbeatMsg &msg)
+{
+    if (msg.source == SubSystemID::ROS) {
+        lastROSHeartbeatTime = millis();
+        #if ENABLE_SERIAL
+            Serial.printf("Heartbeat received from ROS with uptime: %d ms\n", msg.uptime_ms);
+        #endif
+    }
+    if (!msg.enabled)
+    {
+        #if ENABLE_SERIAL
+            Serial.println("ROS is disabled. Disabling chassis.");
+        #endif
+        disable();
     }
 }
