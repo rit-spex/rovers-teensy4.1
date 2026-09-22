@@ -5,9 +5,7 @@
 #include "Arm.h"
 #include "CAN/messages/arm.h"
 #include "Constants.h"
-
-#define ENABLE_SERIAL 1
-
+#include "globals.h"
 
 namespace CANHandlers {
 
@@ -39,6 +37,8 @@ namespace CANHandlers {
     // Activate arm
     void enableArm(const EnableArmMsg &msg) {
         if (static_cast<bool>(msg.enable)) {
+            // set the last heartbeat time to now, to prevent the timeout from immediately disabling the arm
+            Arm::lastROSHeartbeatTime = millis();
             #if ENABLE_SERIAL
                 Serial.println("Enabling Arm");
             #endif
@@ -51,30 +51,10 @@ namespace CANHandlers {
         }
     }
 
-    // void moveBase(const MoveBaseMsg &msg) {
-    //     Arm::Direction dir = armStateAndDirToDirection(msg.state, msg.direction);
-    //     Arm::moveBase(dir);
-    // }
+    void moveWrist(const MoveWristMsg &msg) {
+        Serial.printf("Wrist received position: bend %f, twist %f\n", msg.position_bend, msg.position_twist);
 
-    // void moveShoulder(const MoveShoulderMsg &msg) {
-    //     Arm::Direction dir = armStateAndDirToDirection(msg.state, msg.direction);
-    //     Arm::moveShoulder(dir);
-    // }
-
-    // void moveElbow(const MoveElbowMsg &msg) {
-    //     Arm::Direction dir = armStateAndDirToDirection(msg.state, msg.direction);
-    //     Arm::moveElbow(dir);
-    // }
-
-    void bendWrist(const BendWristMsg &msg) {
-        Serial.printf("Bend wrist received position: %f\n", msg.position);
-
-        Arm::bendWrist(dyna, msg.position);
-    }
-
-    void twistWrist(const TwistWristMsg &msg) {
-        Serial.printf("Twist wrist received position: %f\n", msg.position);
-        Arm::twistWrist(dyna, msg.position);
+        Arm::moveWrist(dyna, msg.position_bend, msg.position_twist);
     }
     
     void moveGripper(const MoveGripperMsg &msg) {
