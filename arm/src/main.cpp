@@ -9,6 +9,7 @@
 #include "CAN/messages/arm.h"
 #include "CANHandlers.h"
 #include "Constants.h"
+#include "globals.h"
 #include <cstdint>
 #include <iterator>
 

@@ -1,5 +1,6 @@
 #include "Arm.h"
 #include "Constants.h"
+#include "globals.h"
 
 namespace Arm {
 
@@ -32,8 +33,6 @@ namespace Arm {
         SNVS_LPGPR3 = static_cast<uint32_t>(absolute_M2);
     }
 
-
-
     void startUp()
     {
 
@@ -59,37 +58,26 @@ namespace Arm {
         dyna.begin();
         delay(10);
 
-        // FIXME: If enable serial goes off, the start up for the motors will not run
-        // Initial Serial Messages
-        #if ENABLE_SERIAL
+        // Initialize WRIST_1 (Protocol 2.0)
+        dyna.setPortProtocolVersion(2.0);
+        Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
+        Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
+        Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
+        Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
 
-            // // Scan for ALL IDs on bus
-            // scanDynaBus(dyna);
-            // delay(10);
+        // Initialize WRIST_2 (Protocol 2.0)
+        dyna.setPortProtocolVersion(2.0);
+        Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
+        Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
+        Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
+        Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
 
-            // Initialize WRIST_1 (Protocol 2.0)
-            dyna.setPortProtocolVersion(2.0);
-            Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
-            Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
-            Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
-            Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
-
-            // Initialize WRIST_2 (Protocol 2.0)
-            dyna.setPortProtocolVersion(2.0);
-            Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
-            Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
-            Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
-            Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
-
-            // Initialize GRIPPER (Protocol 1.0)
-            dyna.setPortProtocolVersion(1.0);
-            Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
-            Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
-            Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
-            Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
-        #endif
-
-
+        // Initialize GRIPPER (Protocol 1.0)
+        dyna.setPortProtocolVersion(1.0);
+        Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
+        Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
+        Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
+        Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
 
         // ==========================================
         // RESTORE RAM MULTI-TURN & OFFSETS
@@ -114,8 +102,6 @@ namespace Arm {
         wrap_offset_M1 = restored_M1 - raw_M1;
         wrap_offset_M2 = restored_M2 - raw_M2;
 
-
-
         #if ENABLE_SERIAL
             Serial.printf("Loaded M1 Stored: %d\n", saved_M1);
             Serial.printf("Loaded M2 Stored: %d\n", saved_M2);
@@ -127,47 +113,11 @@ namespace Arm {
             Serial.println("Zeroing out wrist");
         #endif
 
-
         #if ZERO_OUT_WRIST
-        // DO NOT FUCKING DELETE THIS, WE WILL NEED THIS EVENTUALLY
-        // DO NOT FUCKING DELETE THIS, WE WILL NEED THIS EVENTUALLY
-
-        // RE-ZERO OUT
-        Serial.println("Pre-Zero Read");
-        updateEncoderAngles();
-        dyna.setPortProtocolVersion(2.0);
-        dyna.setGoalPosition(WRIST_1, 0);
-        dyna.setGoalPosition(WRIST_2, 0);
-        for (int i = 0; i<10; i++) {
-            updateEncoderAngles();
-            delay(500);
-        }
-        Serial.println("Post-Zero Read");
-        updateEncoderAngles();
-        Serial.print("Raw Wrist 1: ");
-        Serial.println(dyna.getPresentPosition(WRIST_1));
-        Serial.print("Raw Wrist 2: ");
-        Serial.println(dyna.getPresentPosition(WRIST_2));
-        saveContinuousWristData(0, 0);
-        Serial.println("RAM Set to Zero");
-        int32_t a = 69;
-        int32_t b = 69;
-        loadStoredMotorData(a, b);
-        Serial.print("RAM1: ");
-        Serial.print(a);
-        Serial.print("  RAM2: ");
-        Serial.println(b);
-        Serial.println("Kill Power");
-        delay(10000000);
-
-        // DO NOT FUCKING DELETE THIS, WE WILL NEED THIS EVENTUALLY
-        // DO NOT FUCKING DELETE THIS, WE WILL NEED THIS EVENTUALLY
+            zeroGripper();
         #endif
 
-
-        #if ENABLE_GRIPPER
         Arm::homeGripper(dyna);
-        #endif
 
         // Update Wrist
         updateEncoderAngles();
@@ -177,7 +127,6 @@ namespace Arm {
             delay(500);
         }
 
-
         // Prepare target variables
         targetM1 = enc1;
         targetM2 = enc2;
@@ -186,132 +135,11 @@ namespace Arm {
         twstTarget = twstAngle;
         gripTarget = gripAngle;
 
-
-
         // TESTING STUFF (Maybe)
         #if TESTING_LIMITS
-            Serial.println("--- Beginning Limit Testing Sequence ---");
-            Serial.println("In like 5 secondos");
-            delay(5000);
-
-            int pos = 45;
-            // Serial.println("45->90 Gripper");
-            // for (pos = 45; pos <= 120; pos = pos+5) {
-            //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
-            //     delay(1000);
-            //     Serial.print("Enc3: ");
-            //     Serial.print(dyna.getPresentPosition(3));
-
-            //     Serial.print("    Offset: ");
-            //     Serial.println(dyna.getPresentPosition(3) - dE_3);
-            //     Serial.println(" ");
-            // }
-
-            // delay(2000);
-            // Arm::updateEncoderAngles();
-            // delay(1000);
-            // Arm::updateEncoderAngles();
-            // delay(2000);
-
-            // Serial.println("90->0 Gripper");
-            // for (pos = 90; pos >= 0; pos = pos-5) {
-            //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
-            //     delay(1000);
-            //     Serial.print("Enc3: ");
-            //     Serial.print(dyna.getPresentPosition(3));
-
-            //     Serial.print("    Offset: ");
-            //     Serial.println(dyna.getPresentPosition(3) - dE_3);
-            //     Serial.println(" ");
-
-            // }
-
-
-            // delay(2000);
-            // Arm::updateEncoderAngles();
-            // delay(1000);
-            // Arm::updateEncoderAngles();
-            // delay(2000);
-
-            // Serial.println("0->45 Gripper");
-            // for (pos = 0; pos <= 45; pos = pos+5) {
-            //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
-            //     delay(1000);
-            //     Serial.print("Enc3: ");
-            //     Serial.print(dyna.getPresentPosition(3));
-
-            //     Serial.print("    Offset: ");
-            //     Serial.println(dyna.getPresentPosition(3) - dE_3);
-            //     Serial.println(" ");
-
-            // }
-
-            // Serial.println("Complete Cycle");
-            pos = 10;
-            Arm::moveWrist(dyna, pos * 3.14159265/180, pos*2 * 3.14159265/180.0);
-
-            // Arm::moveGripper(dyna, pos * 3.14159265/180);
-            for (int i = 0; i<10; i++) {
-                updateEncoderAngles();
-                delay(500);
-            }
-
-            pos = 20;
-            Arm::moveWrist(dyna, pos * 3.14159265/180, pos*3 * 3.14159265/180.0);
-            // Arm::moveGripper(dyna, pos * 3.14159265/180);
-            for (int i = 0; i<10; i++) {
-                updateEncoderAngles();
-                delay(500);
-            }
-
-            updateEncoderAngles();
-
-            pos = 30;
-            Arm::moveWrist(dyna, pos * 3.14159265/180, pos*4 * 3.14159265/180.0);
-            // Arm::moveGripper(dyna, pos * 3.14159265/180);
-            for (int i = 0; i<10; i++) {
-                updateEncoderAngles();
-                delay(500);
-            }
-
-            updateEncoderAngles();
-
-            pos = 50;
-            Arm::moveWrist(dyna, pos * 3.14159265/180, pos*5 * 3.14159265/180.0);
-            // Arm::moveGripper(dyna, pos * 3.14159265/180);
-            for (int i = 0; i<10; i++) {
-                updateEncoderAngles();
-                delay(500);
-            }
-
-            updateEncoderAngles();
-
-
-
-            pos = 0;
-            Arm::moveWrist(dyna, pos * 3.14159265/180, pos*5 * 3.14159265/180.0);
-            // Arm::moveGripper(dyna, pos * 3.14159265/180);
-            for (int i = 0; i<10; i++) {
-                updateEncoderAngles();
-                delay(500);
-            }
-
-            pos = -90;
-            Arm::moveWrist(dyna, pos * 3.14159265/180, pos*5 * 3.14159265/180.0);
-            // Arm::moveGripper(dyna, pos * 3.14159265/180);
-            for (int i = 0; i<10; i++) {
-                updateEncoderAngles();
-                delay(500);
-            }
-
-            updateEncoderAngles();
-
-
-            Serial.println("--- Limit Testing Sequence Complete ---");
+            testingLimits();
         #endif
-
     }
-
 
     void updateEncoderAngles()
     {
@@ -511,8 +339,6 @@ namespace Arm {
                 Serial.println("Moving to 45 deg to escape the hardware wrap boundary...\n");
             #endif
 
-
-
             // Manually move the gripper back
             float tickLim = 26000.0;
             gripTarget = 0;
@@ -541,9 +367,6 @@ namespace Arm {
             delay(1);
             dyna_ref.torqueOn(GRIPPER);
             delay(100);
-
-            // Serial.print("After reanchor: ");
-            // Serial.println(dyna_ref.getPresentPosition(GRIPPER));
 
             // --- STEP D: FINAL CALIBRATION AT 45 DEG ---
             #if ENABLE_SERIAL
@@ -596,19 +419,14 @@ namespace Arm {
         gripTarget = position;
         targetM3 = max(-tickLim, min(tickLim, gripTarget/k_grip + dE_3));
 
-        #if ENABLE_GRIPPER
         dyna_ref.setPortProtocolVersion(1.0);
         dyna_ref.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
-        #endif
     }
 
 
     void moveSolenoid(int state)
     {
-        if (isDisabled)
-        {
-            return;
-        }
+        if (isDisabled) {return;}
         #if ENABLE_SERIAL
         Serial.printf("Solenoid State %d", state);
         #endif
@@ -635,6 +453,164 @@ namespace Arm {
                 Serial.printf("Motor found with ID: %d\n", id);
             }
         }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                   Debugging Functions
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    void zeroGripper()
+    {
+        // RE-ZERO OUT
+        Serial.println("Pre-Zero Read");
+        Arm::updateEncoderAngles();
+        dyna.setPortProtocolVersion(2.0);
+        dyna.setGoalPosition(Arm::Dynamixel2MotorIDs::WRIST_1, 0);
+        dyna.setGoalPosition(Arm::Dynamixel2MotorIDs::WRIST_2, 0);
+        for (int i = 0; i<10; i++) 
+        {
+            Arm::updateEncoderAngles();
+            delay(500);
+        }
+        Serial.println("Post-Zero Read");
+        Arm::updateEncoderAngles();
+        Serial.print("Raw Wrist 1: ");
+        Serial.println(dyna.getPresentPosition(Arm::Dynamixel2MotorIDs::WRIST_1));
+        Serial.print("Raw Wrist 2: ");
+        Serial.println(dyna.getPresentPosition(Arm::Dynamixel2MotorIDs::WRIST_2));
+        Arm::saveContinuousWristData(0, 0);
+        Serial.println("RAM Set to Zero");
+        int32_t a = 69;
+        int32_t b = 69;
+        Arm::loadStoredMotorData(a, b);
+        Serial.print("RAM1: ");
+        Serial.print(a);
+        Serial.print("  RAM2: ");
+        Serial.println(b);
+        Serial.println("Kill Power");
+        delay(10000000);
+    }
+
+    void testingLimits()
+    {
+        Serial.println("--- Beginning Limit Testing Sequence ---");
+        Serial.println("In like 5 secondos");
+        delay(5000);
+
+        int pos = 45;
+        // Serial.println("45->90 Gripper");
+        // for (pos = 45; pos <= 120; pos = pos+5) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(1000);
+        //     Serial.print("Enc3: ");
+        //     Serial.print(dyna.getPresentPosition(3));
+
+        //     Serial.print("    Offset: ");
+        //     Serial.println(dyna.getPresentPosition(3) - dE_3);
+        //     Serial.println(" ");
+        // }
+
+        // delay(2000);
+        // Arm::updateEncoderAngles();
+        // delay(1000);
+        // Arm::updateEncoderAngles();
+        // delay(2000);
+
+        // Serial.println("90->0 Gripper");
+        // for (pos = 90; pos >= 0; pos = pos-5) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(1000);
+        //     Serial.print("Enc3: ");
+        //     Serial.print(dyna.getPresentPosition(3));
+
+        //     Serial.print("    Offset: ");
+        //     Serial.println(dyna.getPresentPosition(3) - dE_3);
+        //     Serial.println(" ");
+
+        // }
+
+
+        // delay(2000);
+        // Arm::updateEncoderAngles();
+        // delay(1000);
+        // Arm::updateEncoderAngles();
+        // delay(2000);
+
+        // Serial.println("0->45 Gripper");
+        // for (pos = 0; pos <= 45; pos = pos+5) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(1000);
+        //     Serial.print("Enc3: ");
+        //     Serial.print(dyna.getPresentPosition(3));
+
+        //     Serial.print("    Offset: ");
+        //     Serial.println(dyna.getPresentPosition(3) - dE_3);
+        //     Serial.println(" ");
+
+        // }
+
+        // Serial.println("Complete Cycle");
+        pos = 10;
+        Arm::moveWrist(dyna, pos * 3.14159265/180, pos*2 * 3.14159265/180.0);
+
+        // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        for (int i = 0; i<10; i++) {
+            updateEncoderAngles();
+            delay(500);
+        }
+
+        pos = 20;
+        Arm::moveWrist(dyna, pos * 3.14159265/180, pos*3 * 3.14159265/180.0);
+        // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        for (int i = 0; i<10; i++) {
+            updateEncoderAngles();
+            delay(500);
+        }
+
+        updateEncoderAngles();
+
+        pos = 30;
+        Arm::moveWrist(dyna, pos * 3.14159265/180, pos*4 * 3.14159265/180.0);
+        // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        for (int i = 0; i<10; i++) {
+            updateEncoderAngles();
+            delay(500);
+        }
+
+        updateEncoderAngles();
+
+        pos = 50;
+        Arm::moveWrist(dyna, pos * 3.14159265/180, pos*5 * 3.14159265/180.0);
+        // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        for (int i = 0; i<10; i++) {
+            updateEncoderAngles();
+            delay(500);
+        }
+
+        updateEncoderAngles();
+
+
+
+        pos = 0;
+        Arm::moveWrist(dyna, pos * 3.14159265/180, pos*5 * 3.14159265/180.0);
+        // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        for (int i = 0; i<10; i++) {
+            updateEncoderAngles();
+            delay(500);
+        }
+
+        pos = -90;
+        Arm::moveWrist(dyna, pos * 3.14159265/180, pos*5 * 3.14159265/180.0);
+        // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        for (int i = 0; i<10; i++) {
+            updateEncoderAngles();
+            delay(500);
+        }
+
+        updateEncoderAngles();
+
+
+        Serial.println("--- Limit Testing Sequence Complete ---");
     }
 
 }

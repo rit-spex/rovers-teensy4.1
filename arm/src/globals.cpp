@@ -1,4 +1,4 @@
-#include "Constants.h"
+#include "globals.h"
 #include "Arm.h"
 
 // Instantiate global Dynamixel object

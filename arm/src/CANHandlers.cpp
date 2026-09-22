@@ -5,9 +5,7 @@
 #include "Arm.h"
 #include "CAN/messages/arm.h"
 #include "Constants.h"
-
-#define ENABLE_SERIAL 1
-
+#include "globals.h"
 
 namespace CANHandlers {
 
@@ -52,21 +50,6 @@ namespace CANHandlers {
             Arm::disable();
         }
     }
-
-    // void moveBase(const MoveBaseMsg &msg) {
-    //     Arm::Direction dir = armStateAndDirToDirection(msg.state, msg.direction);
-    //     Arm::moveBase(dir);
-    // }
-
-    // void moveShoulder(const MoveShoulderMsg &msg) {
-    //     Arm::Direction dir = armStateAndDirToDirection(msg.state, msg.direction);
-    //     Arm::moveShoulder(dir);
-    // }
-
-    // void moveElbow(const MoveElbowMsg &msg) {
-    //     Arm::Direction dir = armStateAndDirToDirection(msg.state, msg.direction);
-    //     Arm::moveElbow(dir);
-    // }
 
     void moveWrist(const MoveWristMsg &msg) {
         Serial.printf("Wrist received position: bend %f, twist %f\n", msg.position_bend, msg.position_twist);
