@@ -12,52 +12,25 @@
 
 void setup()
 {
-    // *chassis = Chassis{&currentRunCycle};
-    chassis = std::make_shared<Chassis>(&currentRunCycle);
-    // start up the main body board, this will turn the status light off
-    chassis->startUp();
-
-#if ENABLE_SERIAL
     // this is the connection to the computer
     Serial.begin(9600);
-    Serial.println("Chassis");
-#endif
 
-#if ENABLE_DEMO_ENCODER
-    demo_encoder.begin();
-#endif
+    // start the logger
+    Log.begin(LOG_LEVEL_VERBOSE, &Serial);
+    Log.info("Chassis Boot Up\n");
 
-    // update the currentRunCycle to be synced with the current time
-    currentRunCycle = floor(millis() / UPDATE_RATE_MS);
+    // start up the main body board, this will turn the status light off
+    Chassis::startUp();
+
+    // start Heartbeat timer
+    heartbeatTimer = IntervalTimer();
+    heartbeatTimer.begin(Chassis::checkHeartbeat, HEARTBEAT_RATE_MS);
+
+    // setup CAN
+    can.startCAN();    
 }
 
 void loop()
 {
-    chassis->runBackgroundProcess();
-    if (millis() >= UPDATE_RATE_MS * currentRunCycle)
-    {
-#if ENABLE_SERIAL
-        Serial.print("current cycle: ");
-        Serial.println((int)currentRunCycle);
-
-#if ENABLE_DEMO_ENCODER
-        Serial.print("Demo Encoder RPM: ");
-        Serial.println(demo_encoder.getRPM(millis() - UPDATE_RATE_MS * (currentRunCycle - 1)));
-#endif
-#endif // ENABLE_SERIAL
-
-        unsigned long startTime = millis();
-
-        // subtract the current cycle by one to get the entire timeframe
-
-        // chassis->updateSubsystems(millis() - UPDATE_RATE_MS * (currentRunCycle - 1));
-        chassis->updateSubsystems((currentRunCycle - 1));
-
-#if ENABLE_SERIAL
-        Serial.printf("time spent in loop: %d\n", millis() - startTime);
-#endif
-
-        // the increment to the next cycle
-        currentRunCycle++;
-    }
+    can.poll();
 }

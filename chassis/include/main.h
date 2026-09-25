@@ -16,22 +16,9 @@
 #include <memory>
 
 // Local Includes
-#include "DEBUG.h"
-#include "chassis.h" // The drivebase is the chassis
+#include "chassis.h"
 #include "constants.h"
-
-#if ENABLE_DEMO_ENCODER
-#include "quadDecoder.h"
-#endif
-
-#if ENABLE_DEMO_ENCODER
-// #define ENCODER_RUN_CYCLE_MICROSEC 1000
-// IntervalTimer encoderTimer;
-static QuadratureDecoder demo_encoder{ENC_A_PIN_0, ENC_B_PIN_0};
-#endif
-
-// create the main body board
-static unsigned long currentRunCycle = 0;
-static std::shared_ptr<Chassis> chassis;
+#include "CAN/CAN.h"
+#include "ArduinoLog.h"
 
 #endif // MAIN_H
