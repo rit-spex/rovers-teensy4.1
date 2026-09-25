@@ -16,85 +16,41 @@
 // System Includes
 #include <Arduino.h>
 #include <math.h>
+#include <cmath>
+#include <Servo.h>
 
 // Local Includes
 #include "CAN/messages/chassis.h"
 #include "CAN/messages/misc.h"
-#include "DEBUG.h"
+#include "CAN/CAN.h"
+#include "CAN/message_id.h"
 #include "constants.h"
 #include "pinout.h"
-
-// All of the subsystems
-#if ENABLE_DRIVEBASE
-#include "./drivebase/drivebase.h"
-#endif
+#include "globals.h"
+#include "ArduinoLog.h"
 
 // Libs Includes
-#if ENABLE_CAN
 #include "CAN/CAN.h"
-#endif
 
-class Chassis
+namespace Chassis 
 {
-public:
-    /*
-    * Constructor for the Chassis class.
-    * Initializes the drive base, temp subsystem.
-    @param pointer to the currentRunCycle
-    */
-    Chassis(unsigned long *currentCycle);
-    ~Chassis();
-
     // startup for all of the subsystems
     void startUp();
 
     // increments a time then will blink the status light
-    void blinkStatusLight();
+    void updateStatusLight();
 
-    // updates all of the subsystems
-    void updateSubsystems(int timeInterval_ms);
+    // checks that the heartbeat is valid
+    void checkHeartbeat();
 
-    // run any background process while it is not doing main tasks
-    void runBackgroundProcess();
+    // enables the teensy
+    void enable();
 
     // disables the teensy
     void disable();
 
-    // check if the mbb is disabled
-    bool isDisabled();
-
-    void checkHeartbeat();
-    // CAN Handlers
-#if ENABLE_CAN
-    void handleEStopMsg(const EStopMsg &msg);
-    void handleEnableChassisMsg(const EnableChassisMsg &msg);
-    void handleDrivePowerMsg(const DrivePowerMsg &msg);
-    void handleHeartbeatMsg(const HeartbeatMsg &msg);
-#endif
-
-// Drives the rover based on the left and right joystick values
-#if ENABLE_DRIVEBASE
+    // Drives the rover based on the left and right joystick values
     void drive(float left_axis, float right_axis);
-#endif
-private:
-    bool m_statusLightOn = false;
-    int m_statusLightWait = 0;
-    bool m_disabled = true;
-    uint32_t lastROSHeartbeatTime;
-
-#if ENABLE_CAN
-    CAN m_can;
-#endif
-
-    unsigned long *m_currentCyclePtr;
-
-#if ENABLE_DRIVEBASE
-#if ENABLE_CAN
-    DriveBase m_drive_base = DriveBase(&m_can);
-#else
-    DriveBase m_drive_base = DriveBase();
-#endif
-#endif
 };
 
 #endif // CHASSIS_H
