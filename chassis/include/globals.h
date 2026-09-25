@@ -8,14 +8,14 @@
 
 // ---------------------- Globals ----------------------
 extern CAN can;
-extern bool disabled; 
+extern volatile bool disabled; 
 extern uint32_t lastROSHeartbeatTime; // make heartbeat manager
 extern IntervalTimer heartbeatTimer;
 
 // ---------------------- Chassis ----------------------
 extern bool m_statusLightOn;
 extern IntervalTimer m_statusLEDTimer;
-    
+
 // An array of the rover's wheels
 extern Servo m_wheels[NUM_WHEELS];
 

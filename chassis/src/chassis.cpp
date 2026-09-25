@@ -65,19 +65,20 @@ void Chassis::checkHeartbeat()
 
 void Chassis::drive(float left_axis, float right_axis)
 {
+    // make sure that left and right are capped at -1 to 1
+    left_axis = min(1.0, max(-1.0, left_axis));
+    right_axis = min(1.0, max(-1.0, right_axis));
+
+    // Prevent the case when heartbeat causes the robot to stop 
+    // moving before in the middle of drive update is complete 
+    noInterrupts(); 
+
     // if disabled then make the axis sets to be 0
     if (disabled) 
     {
         left_axis = 0.0;
         right_axis = 0.0;
     }
-
-    // make sure that left and right are capped at -1 to 1
-    left_axis = min(1.0, max(-1.0, left_axis));
-    right_axis = min(1.0, max(-1.0, right_axis));
-
-    // log the drive info for debugging
-    Log.trace("Left Axis: %f Right Axis: %f\n", left_axis, right_axis);
 
     // find the microseconds for the left and right sides
     int leftMicro = NEUTRAL_DUTY_CYCLE + floor((MAX_DUTY_CYCLE - NEUTRAL_DUTY_CYCLE) * left_axis * MOTOR_LEFT_SIGN);
@@ -89,6 +90,13 @@ void Chassis::drive(float left_axis, float right_axis)
     m_wheels[3].writeMicroseconds(rightMicro);
     m_wheels[4].writeMicroseconds(rightMicro);
     m_wheels[5].writeMicroseconds(rightMicro);
+
+    // After seting motors enable interupts
+    interrupts();
+
+    // log the drive info for debugging
+    Log.trace("Left Axis: %f Right Axis: %f\n", left_axis, right_axis);
+
 }
 
 void Chassis::enable()
