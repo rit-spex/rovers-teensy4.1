@@ -20,5 +20,6 @@
 #include "constants.h"
 #include "CAN/CAN.h"
 #include "ArduinoLog.h"
+#include "CANHandlers.h"
 
 #endif // MAIN_H
