@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------
-//                           SPEX ROVER 2025
-// --------------------------------------------------------------------
-// file name    : constants.h
-// purpose      : This file contains all constants used in the system
-// created on   : 8/14/2025 - Tyler
-// last modified: 9/8/2025 - Tyler
-// --------------------------------------------------------------------
-
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 

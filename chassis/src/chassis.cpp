@@ -1,15 +1,3 @@
-// --------------------------------------------------------------------
-//                           SPEX ROVER 2025
-// --------------------------------------------------------------------
-// file name    : chassis.cpp
-// purpose      : This file defines the chassis class for the rover.
-//                The chassis is responsible for:
-//                  - controlling the drive wheels with encoder feedback
-//                  - reading the temperature of the thermistors
-// created on   : 1/23/2024 - Ryan Barry
-// last modified: 8/14/2025 - Tyler
-// --------------------------------------------------------------------
-
 #include "../include/chassis.h"
 
 void Chassis::startUp()

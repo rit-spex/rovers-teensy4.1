@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------
-//                           SPEX ROVER 2025
-// --------------------------------------------------------------------
-// file name    : pinout.h
-// purpose      : This file contains all of the pin slots used in the system
-// created on   : 8/14/2025 - Tyler
-// last modified: 8/14/2025 - Tyler
-// --------------------------------------------------------------------
-
 #ifndef PINOUT_H
 #define PINOUT_H
 

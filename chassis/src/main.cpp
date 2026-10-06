@@ -1,13 +1,3 @@
-// --------------------------------------------------------------------
-//                           SPEX ROVER 2025
-// --------------------------------------------------------------------
-// file name    : main.cpp
-// purpose      : This the main file for the chassis.
-//                This is the file arduino looks for main
-// created on   : 8/14/2025 - Tyler
-// last modified: 8/14/2025 - Tyler
-// --------------------------------------------------------------------
-
 #include "../include/main.h"
 
 void setup()
