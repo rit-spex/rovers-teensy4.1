@@ -27,9 +27,10 @@ enum PINOUT
     EMPTY_9 = 9,
 
     // 10s
-    EMPTY_10 = 10,
-    EMPTY_11 = 11,
-    EMPTY_12 = 12,
+    //confirm that I use 3 pins.
+    TELEOP_LIGHT_PIN = 10,
+    AUTONOMOUS_LIGHT_PIN = 11,
+    ARRIVAL_LIGHT_PIN = 12,
     STATUS_LIGHT_PIN = 13,
     EMPTY_14 = 14,
     EMPTY_15 = 15,

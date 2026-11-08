@@ -16,6 +16,7 @@ void Chassis::startUp()
 {
     // set up the status light
     pinMode(STATUS_LIGHT_PIN, OUTPUT);
+    
 
     // set the status light to stay on
     digitalWrite(STATUS_LIGHT_PIN, HIGH);
@@ -24,6 +25,9 @@ void Chassis::startUp()
     // setup the timer
     m_statusLEDTimer = IntervalTimer();
     m_statusLEDTimer.begin(Chassis::updateStatusLight, STATUS_LIGHT_FREQUENCY_MS);
+
+    //setup the auto led's timer
+    m_arrivalLEDTimer = IntervalTimer();
 
     // setup the servos
     for (int motor_idx = 0; motor_idx < NUM_WHEELS; motor_idx++)
@@ -48,6 +52,46 @@ void Chassis::updateStatusLight()
     m_statusLightOn = !m_statusLightOn;
     digitalWrite(STATUS_LIGHT_PIN, m_statusLightOn);
 }
+
+void Chassis::updateAutoLed(uint8_t mode)
+{
+
+    switch(mode){
+        case 1:
+            digitalWrite(TELEOP_LIGHT_PIN, HIGH);
+            digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
+            digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
+            break;
+        case 2:
+            digitalWrite(TELEOP_LIGHT_PIN, LOW);
+            digitalWrite(AUTONOMOUS_LIGHT_PIN, HIGH);
+            digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
+            break;
+        case 3:
+            digitalWrite(TELEOP_LIGHT_PIN, LOW);
+            digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
+            digitalWrite(ARRIVAL_LIGHT_PIN, HIGH);
+            break;
+        default:
+            digitalWrite(TELEOP_LIGHT_PIN, LOW);
+            digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
+            digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
+            break;
+    }
+    
+    
+    
+    
+    if(disabled)
+    {
+        digitalWrite(TELEOP_LIGHT_PIN, LOW);
+        digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
+        digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
+        return;
+    }
+
+}
+
 
 void Chassis::checkHeartbeat()
 {

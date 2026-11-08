@@ -40,6 +40,9 @@ namespace Chassis
     // increments a time then will blink the status light
     void updateStatusLight();
 
+    //updates the LED depending on the mode its in. (Teleop, autonomous, arrival)
+    void updateAutoLed(uint8_t mode);
+
     // checks that the heartbeat is valid
     void checkHeartbeat();
 

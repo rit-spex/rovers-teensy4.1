@@ -16,6 +16,9 @@ extern IntervalTimer heartbeatTimer;
 extern bool m_statusLightOn;
 extern IntervalTimer m_statusLEDTimer;
 
+extern bool m_arrivalLightOn;
+extern IntervalTimer m_arrivalLEDTimer;
+
 // An array of the rover's wheels
 extern Servo m_wheels[NUM_WHEELS];
 
