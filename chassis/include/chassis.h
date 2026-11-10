@@ -39,9 +39,11 @@ namespace Chassis
 
     // increments a time then will blink the status light
     void updateStatusLight();
+    //When the rover arrives it updates the LED and makes it blink.
+    void blinkingAutoLED();
 
     //updates the LED depending on the mode its in. (Teleop, autonomous, arrival)
-    void updateAutoLed(uint8_t mode);
+    void updateAutoLED(uint8_t mode);
 
     // checks that the heartbeat is valid
     void checkHeartbeat();

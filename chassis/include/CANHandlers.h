@@ -17,6 +17,7 @@ namespace CANHandlers
     void heartbeat(const HeartbeatMsg &msg);
     void enableChassis(const EnableChassisMsg &msg);
     void drivePower(const DrivePowerMsg &msg);
+    void autoled(const AutoLEDMsg &msg);
 }
 
 #endif // CHASSIS_CAN_HANDLERS_H

@@ -28,6 +28,7 @@ void Chassis::startUp()
 
     //setup the auto led's timer
     m_arrivalLEDTimer = IntervalTimer();
+    m_arrivalLightOn = false;
 
     // setup the servos
     for (int motor_idx = 0; motor_idx < NUM_WHEELS; motor_idx++)
@@ -53,16 +54,24 @@ void Chassis::updateStatusLight()
     digitalWrite(STATUS_LIGHT_PIN, m_statusLightOn);
 }
 
-void Chassis::updateAutoLed(uint8_t mode)
-{
+void Chassis::blinkingAutoLED(){
+    m_arrivalLightOn = !m_arrivalLightOn;
+    digitalWrite(ARRIVAL_LIGHT_PIN, m_arrivalLightOn);
+}
+
+void Chassis::updateAutoLED(uint8_t mode)
+{ // you can just create a seperate function for lighting it up. Idk what you wanna do.
 
     switch(mode){
         case 1:
+            m_arrivalLEDTimer.end();
             digitalWrite(TELEOP_LIGHT_PIN, HIGH);
             digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
             digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
+            
             break;
         case 2:
+            m_arrivalLEDTimer.end();
             digitalWrite(TELEOP_LIGHT_PIN, LOW);
             digitalWrite(AUTONOMOUS_LIGHT_PIN, HIGH);
             digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
@@ -70,9 +79,14 @@ void Chassis::updateAutoLed(uint8_t mode)
         case 3:
             digitalWrite(TELEOP_LIGHT_PIN, LOW);
             digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
-            digitalWrite(ARRIVAL_LIGHT_PIN, HIGH);
+
+            digitalWrite(ARRIVAL_LIGHT_PIN, m_arrivalLightOn);
+            m_arrivalLEDTimer.begin(Chassis::blinkingAutoLed, STATUS_LIGHT_FREQUENCY_MS);
+            
+
             break;
         default:
+            m_arrivalLEDTimer.end();
             digitalWrite(TELEOP_LIGHT_PIN, LOW);
             digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
             digitalWrite(ARRIVAL_LIGHT_PIN, LOW);
