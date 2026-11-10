@@ -1,13 +1,3 @@
-// --------------------------------------------------------------------
-//                           SPEX ROVER 2025
-// --------------------------------------------------------------------
-// file name    : main.cpp
-// purpose      : This the main file for the chassis.
-//                This is the file arduino looks for main
-// created on   : 8/14/2025 - Tyler
-// last modified: 8/14/2025 - Tyler
-// --------------------------------------------------------------------
-
 #include "../include/main.h"
 
 void setup()
@@ -28,6 +18,13 @@ void setup()
     
     // setup CAN
     can.startCAN();    
+
+    // setup callback
+    can.onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
+    can.onMessage<HeartbeatMsg>(MessageID::ROS_HEARTBEAT, CANHandlers::heartbeat);
+    can.onMessage<DrivePowerMsg>(MessageID::DRIVE_POWER, CANHandlers::drivePower);
+    can.onMessage<EnableChassisMsg>(MessageID::ENABLE_CHASSIS, CANHandlers::enableChassis);
+
 }
 
 void loop()

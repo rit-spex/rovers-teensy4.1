@@ -1,6 +1,5 @@
 #include "globals.h"
 
-
 CAN can = CAN();
 bool disabled = true; 
 uint32_t lastROSHeartbeatTime = 0; // make heartbeat manager
