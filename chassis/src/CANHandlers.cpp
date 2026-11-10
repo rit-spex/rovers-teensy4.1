@@ -40,9 +40,9 @@ namespace CANHandlers {
     {
         Chassis::drive(msg.left_power, msg.right_power);
     }
-    void autoled(const AutoLedMsg &msg)
+    void autoled(const AutoLEDMsg &msg)
     {
-        Chassis::updateAutoLed(msg.mode);
+        Chassis::updateAutoLED(msg.mode);
     }
 
 

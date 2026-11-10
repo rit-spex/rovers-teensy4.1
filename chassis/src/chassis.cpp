@@ -60,7 +60,7 @@ void Chassis::blinkingAutoLED(){
 }
 
 void Chassis::updateAutoLED(uint8_t mode)
-{ // you can just create a seperate function for lighting it up. Idk what you wanna do.
+{ 
 
     switch(mode){
         case 1:
@@ -81,7 +81,7 @@ void Chassis::updateAutoLED(uint8_t mode)
             digitalWrite(AUTONOMOUS_LIGHT_PIN, LOW);
 
             digitalWrite(ARRIVAL_LIGHT_PIN, m_arrivalLightOn);
-            m_arrivalLEDTimer.begin(Chassis::blinkingAutoLed, STATUS_LIGHT_FREQUENCY_MS);
+            m_arrivalLEDTimer.begin(Chassis::blinkingAutoLED, STATUS_LIGHT_FREQUENCY_MS);
             
 
             break;

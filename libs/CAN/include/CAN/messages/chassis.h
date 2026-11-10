@@ -27,5 +27,9 @@ struct __attribute__((packed)) DrivePowerMsg
     float left_power;
     float right_power;
 };
+struct __attribute__((packed)) AutoLEDMsg
+{
+    uint8_t mode;
+};
 
 #endif // SPEX_CAN_MESSAGES_CHASSIS_H
