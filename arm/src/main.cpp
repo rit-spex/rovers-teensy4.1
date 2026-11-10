@@ -7,9 +7,15 @@
 #include "Arm.h"
 #include "CAN/message_id.h"
 #include "CAN/CAN.h"
+#include "CAN/messages/arm.h"
 #include "CANHandlers.h"
 #include "Constants.h"
+#include <cstdint>
 #include <iterator>
+
+// Should only need one of deez
+#include <cstdlib> // Required for integer types
+#include <cmath>
 
 // Define constants
 unsigned long previousMillis = 0;
@@ -20,7 +26,8 @@ void setup()
     // Serial output
     #if ENABLE_SERIAL
         Serial.begin(9600);
-        Serial.println("Arm");
+        delay(1000);
+        Serial.println("Arm activating");
         delay(1000);
     #endif
 
@@ -32,8 +39,76 @@ void setup()
     can->startCAN();
     delay(10);
 
-    // Setup callbacks
 
+    // TESTING STUFF (Maybe)
+    #if TESTING_LIMITS
+        Serial.println("--- Beginning Limit Testing Sequence ---");
+        delay(3000);
+
+
+        float pos = 0;
+        Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        Serial.println("Zero Out Gripper");
+        delay(5000);
+
+
+        // Serial.println("0->90 Gripper");
+        // for (pos = 0; pos <= 90; pos = pos+15) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(2000);
+        //     Serial.println(dyna.getPresentPosition(3) - b_3);
+        // }
+
+        // Serial.println("90->0 Gripper");
+        // for (pos = 90; pos >= 0; pos = pos-15) {
+        //     Arm::moveGripper(dyna, pos * 3.14159265/180.0);
+        //     delay(2000);
+        //     Serial.println(dyna.getPresentPosition(3) - b_3);
+        // }
+        // Serial.println("Complete Cycle");
+
+
+        // pos = 20;
+        // // // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180.0);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+        // pos = 180;
+        // // // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(8000);
+
+        // pos = 10;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+        // pos = 30;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+
+        // pos = 100;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+        // pos = 100;
+        // Arm::bendWrist(dyna, pos * 3.14159265/180);
+        // // Arm::twistWrist(dyna, pos * 3.14159265/180);
+        // // // Arm::moveGripper(dyna, pos * 3.14159265/180);
+        // delay(5000);
+
+        Serial.println("--- Limit Testing Sequence Complete ---");
+    #endif
+
+    // Setup callbacks
     // XXX: surely a way to infer the type for onMessage given the callback's argument type
     can->onMessage<EStopMsg>(MessageID::E_STOP, CANHandlers::eStop);
     can->onMessage<EnableArmMsg>(MessageID::ENABLE_ARM, CANHandlers::enableArm);
@@ -43,14 +118,17 @@ void setup()
     // can->onMessage<MoveElbowMsg>(MessageID::MOVE_ELBOW, CANHandlers::moveElbow);
     can->onMessage<BendWristMsg>(MessageID::BEND_WRIST, CANHandlers::bendWrist);
     can->onMessage<TwistWristMsg>(MessageID::TWIST_WRIST, CANHandlers::twistWrist);
-    can->onMessage<MoveClawMsg>(MessageID::MOVE_CLAW, CANHandlers::moveClaw);
+    can->onMessage<MoveGripperMsg>(MessageID::MOVE_GRIPPER, CANHandlers::moveGripper);
     can->onMessage<MoveSolenoidMsg>(MessageID::MOVE_SOLENOID, CANHandlers::moveSolenoid);
+
+
+
 }
 
 void loop()
 {
     // Prepare LED Control and heartbeat signal
-    unsigned long currentMillis = millis();
+    long currentMillis = millis();
     if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
     {
         // Update time variable
@@ -75,7 +153,7 @@ void loop()
             MessageID::TEENSY_HEARTBEAT
         );
 
-        if (!Arm::isDisabled) 
+        if (!Arm::isDisabled)
         {
             // Send-out encoder data
             Arm::updateEncoderAngles();
@@ -83,22 +161,22 @@ void loop()
             can->send(msg1, MessageID::READ_WRIST_BEND);
             ReadWristTwistMsg msg2; msg2.position = twstAngle;
             can->send(msg2, MessageID::READ_WRIST_TWIST);
-            ReadClawMsg msg3; msg3.position = gripAngle; msg3.state = (gripAngle > 0.1) ? ClawState::Closed : ClawState::Open;
-            can->send(msg3, MessageID::READ_CLAW);
+            ReadGripperMsg msg3; msg3.position = gripAngle; msg3.state = (gripAngle > 0.1) ? GripperState::Closed : GripperState::Open;
+            can->send(msg3, MessageID::READ_GRIPPER);
         }
     }
 
 
-    if (abs(currentMillis - Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
+    if (abs(currentMillis - (long)Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
         && Arm::lastROSHeartbeatTime != 0
         && !Arm::isDisabled) {
                 Serial.printf("looping %d", currentMillis);
                 Serial.printf("looping %d", Arm::lastROSHeartbeatTime);
 
         Arm::disable();
-#if ENABLE_SERIAL
-        Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
-#endif
+        #if ENABLE_SERIAL
+                Serial.printf("ROS heartbeat timeout at %lu", currentMillis);
+        #endif
 
     }
 

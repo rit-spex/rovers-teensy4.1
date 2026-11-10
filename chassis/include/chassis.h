@@ -1,97 +1,49 @@
-// --------------------------------------------------------------------
-//                           SPEX ROVER 2025
-// --------------------------------------------------------------------
-// file name    : chassis.h
-// purpose      : This file defines the chassis class for the rover.
-//                The chassis is responsible for:
-//                  - controlling the drive wheels with encoder feedback
-//                  - reading the temperature of the thermistors
-// created on   : 1/23/2024 - Ryan Barry
-// last modified: 8/14/2025 - Tyler
-// --------------------------------------------------------------------
-
 #ifndef CHASSIS_H
 #define CHASSIS_H
 
 // System Includes
 #include <Arduino.h>
 #include <math.h>
+#include <cmath>
+#include <Servo.h>
 
 // Local Includes
 #include "CAN/messages/chassis.h"
 #include "CAN/messages/misc.h"
-#include "DEBUG.h"
+#include "CAN/CAN.h"
+#include "CAN/message_id.h"
 #include "constants.h"
 #include "pinout.h"
-
-// All of the subsystems
-#if ENABLE_DRIVEBASE
-#include "./drivebase/drivebase.h"
-#endif
+#include "globals.h"
+#include "ArduinoLog.h"
 
 // Libs Includes
-#if ENABLE_CAN
 #include "CAN/CAN.h"
-#endif
 
-class Chassis
+namespace Chassis 
 {
-public:
-    /*
-    * Constructor for the Chassis class.
-    * Initializes the drive base, temp subsystem.
-    @param pointer to the currentRunCycle
-    */
-    Chassis(unsigned long *currentCycle);
-    ~Chassis();
-
     // startup for all of the subsystems
     void startUp();
 
     // increments a time then will blink the status light
-    void blinkStatusLight();
+    void updateStatusLight();
+    //When the rover arrives it updates the LED and makes it blink.
+    void blinkingAutoLED();
 
-    // updates all of the subsystems
-    void updateSubsystems(int timeInterval_ms);
+    //updates the LED depending on the mode its in. (Teleop, autonomous, arrival)
+    void updateAutoLED(uint8_t mode);
 
-    // run any background process while it is not doing main tasks
-    void runBackgroundProcess();
+    // checks that the heartbeat is valid
+    void checkHeartbeat();
+
+    // enables the teensy
+    void enable();
 
     // disables the teensy
     void disable();
 
-    // check if the mbb is disabled
-    bool isDisabled();
-
-    // CAN Handlers
-#if ENABLE_CAN
-    void handleEStopMsg(const EStopMsg &msg);
-    void handleEnableChassisMsg(const EnableChassisMsg &msg);
-    void handleDrivePowerMsg(const DrivePowerMsg &msg);
-#endif
-
-// Drives the rover based on the left and right joystick values
-#if ENABLE_DRIVEBASE
+    // Drives the rover based on the left and right joystick values
     void drive(float left_axis, float right_axis);
-#endif
-private:
-    bool m_statusLightOn = false;
-    int m_statusLightWait = 0;
-    bool m_disabled = false;
-
-#if ENABLE_CAN
-    CAN m_can;
-#endif
-
-    unsigned long *m_currentCyclePtr;
-
-#if ENABLE_DRIVEBASE
-#if ENABLE_CAN
-    DriveBase m_drive_base = DriveBase(&m_can);
-#else
-    DriveBase m_drive_base = DriveBase();
-#endif
-#endif
 };
 
 #endif // CHASSIS_H

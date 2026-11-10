@@ -22,6 +22,12 @@ void Serial_Class::begin(int baudrate)
 {
     spdlog::debug("Serial begin called with baudrate: {}", baudrate);
 }
+
+void Serial_Class::begin(int baudrate, int parity)
+{
+    spdlog::debug("Serial begin called with baudrate: {} and parity: {}", baudrate, parity);
+}
+
 // print statements
 void Serial_Class::print(const char *message)
 {

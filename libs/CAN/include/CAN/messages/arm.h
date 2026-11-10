@@ -51,15 +51,15 @@ struct __attribute__((packed)) TwistWristMsg
     float position;
 };
 
-enum class ClawState : uint8_t
+enum class GripperState : uint8_t
 {
     Open = 0,
     Closed = 1,
 };
 
-struct __attribute__((packed)) MoveClawMsg
+struct __attribute__((packed)) MoveGripperMsg
 {
-    ClawState state;
+    GripperState state;
     float position;
 };
 
@@ -93,9 +93,9 @@ struct __attribute__((packed)) ReadWristTwistMsg
     float position;
 };
 
-struct __attribute__((packed)) ReadClawMsg
+struct __attribute__((packed)) ReadGripperMsg
 {
-    ClawState state;
+    GripperState state;
     float position;
 };
 
