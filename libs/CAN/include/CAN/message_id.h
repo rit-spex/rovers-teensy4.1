@@ -22,6 +22,8 @@ enum class MessageID : uint32_t
     // chassis
     ENABLE_CHASSIS = (uint32_t)10,
     DRIVE_POWER = (uint32_t)13,
+    AUTO_LED = (uint32_t)14,
+    
 
     // arm
     ENABLE_ARM = (uint32_t)20,

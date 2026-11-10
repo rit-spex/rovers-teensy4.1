@@ -24,7 +24,7 @@ void setup()
     can.onMessage<HeartbeatMsg>(MessageID::ROS_HEARTBEAT, CANHandlers::heartbeat);
     can.onMessage<DrivePowerMsg>(MessageID::DRIVE_POWER, CANHandlers::drivePower);
     can.onMessage<EnableChassisMsg>(MessageID::ENABLE_CHASSIS, CANHandlers::enableChassis);
-
+    can.onMessage<AutoLEDMsg>(MessageID::AUTO_LED, CANHandlers::autoLED);
 }
 
 void loop()
