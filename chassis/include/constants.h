@@ -1,8 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-// #define LOG_LEVEL LOG_LEVEL_VERBOSE
-#define LOG_LEVEL LOG_LEVEL_INFO
+#define LOG_LEVEL LOG_LEVEL_VERBOSE
+// #define LOG_LEVEL LOG_LEVEL_INFO
 // #define LOG_LEVEL LOG_LEVEL_ERROR
 
 //********************************************************* GENERAL CONSTANTS *******************************************************

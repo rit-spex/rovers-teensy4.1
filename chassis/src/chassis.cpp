@@ -19,6 +19,9 @@ void Chassis::startUp()
         m_wheels[motor_idx].attach(MOTOR_PWM_PINS[motor_idx], MAX_DUTY_CYCLE, MIN_DUTY_CYCLE);
     }
 
+    // wait some time for the wheels to get setup before setting drive to 0.0
+    delay(2.0);
+
     // make sure that we start at driving at zero
     drive(0.0,0.0);
 }
@@ -39,6 +42,7 @@ void Chassis::updateStatusLight()
 
 void Chassis::checkHeartbeat()
 {
+
     long currentMillis = millis();
     if (abs(currentMillis - (long)lastROSHeartbeatTime) >= TIMEOUT_DURAITON
             && lastROSHeartbeatTime != 0 && disabled) 
@@ -46,6 +50,11 @@ void Chassis::checkHeartbeat()
         Log.error("ROS heartbeat timeout at %lu\n", currentMillis);
         disable();
     }
+
+    // if(disabled)
+    // {
+    //     Chassis::drive(0.0,0.0);
+    // }
 
     // after checking the heartbeat send the new status
     can.send(HeartbeatMsg{.source = SubSystemID::CHASSIS, .uptime_ms = millis(), .enabled = !disabled}, MessageID::TEENSY_HEARTBEAT);
@@ -83,8 +92,7 @@ void Chassis::drive(float left_axis, float right_axis)
     interrupts();
 
     // log the drive info for debugging
-    Log.trace("Left Axis: %f Right Axis: %f\n", left_axis, right_axis);
-
+    Log.trace("Left Axis: %F Right Axis: %F\n", left_axis, right_axis);
 }
 
 void Chassis::enable()

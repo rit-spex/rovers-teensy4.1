@@ -15,7 +15,7 @@ namespace CANHandlers {
         if (msg.source == SubSystemID::ROS) 
         {
             lastROSHeartbeatTime = millis();
-            Log.verbose("Heartbeat received from ROS with uptime: %d ms\n", msg.uptime_ms);
+            Log.verbose("Heartbeat received from ROS with uptime: %D ms\n", msg.uptime_ms);
             
             if (!msg.enabled)
             {

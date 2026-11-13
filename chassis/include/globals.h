@@ -8,7 +8,7 @@
 
 // ---------------------- Globals ----------------------
 extern CAN can;
-extern volatile bool disabled; 
+extern bool disabled; 
 extern uint32_t lastROSHeartbeatTime; // make heartbeat manager
 extern IntervalTimer heartbeatTimer;
 
