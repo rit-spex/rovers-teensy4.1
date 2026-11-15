@@ -11,7 +11,7 @@ void Chassis::startUp()
 
     // setup the timer
     m_statusLEDTimer = IntervalTimer();
-    m_statusLEDTimer.begin(Chassis::updateStatusLight, STATUS_LIGHT_FREQUENCY_MS);
+    m_statusLEDTimer.begin(Chassis::updateStatusLight, MS_2_US(STATUS_LIGHT_FREQUENCY_MS));
 
     // setup the servos
     for (int motor_idx = 0; motor_idx < NUM_WHEELS; motor_idx++)
@@ -51,11 +51,6 @@ void Chassis::checkHeartbeat()
         disable();
     }
 
-    // if(disabled)
-    // {
-    //     Chassis::drive(0.0,0.0);
-    // }
-
     // after checking the heartbeat send the new status
     can.send(HeartbeatMsg{.source = SubSystemID::CHASSIS, .uptime_ms = millis(), .enabled = !disabled}, MessageID::TEENSY_HEARTBEAT);
 }
@@ -68,7 +63,7 @@ void Chassis::drive(float left_axis, float right_axis)
 
     // Prevent the case when heartbeat causes the robot to stop 
     // moving before in the middle of drive update is complete 
-    noInterrupts(); 
+    // noInterrupts(); 
 
     // if disabled then make the axis sets to be 0
     if (disabled) 
@@ -89,7 +84,7 @@ void Chassis::drive(float left_axis, float right_axis)
     m_wheels[5].writeMicroseconds(rightMicro);
 
     // After seting motors enable interupts
-    interrupts();
+    // interrupts();
 
     // log the drive info for debugging
     Log.trace("Left Axis: %F Right Axis: %F\n", left_axis, right_axis);

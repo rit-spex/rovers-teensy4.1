@@ -14,7 +14,7 @@ void setup()
 
     // start Heartbeat timer
     heartbeatTimer = IntervalTimer();
-    heartbeatTimer.begin(Chassis::checkHeartbeat, HEARTBEAT_RATE_MS);
+    heartbeatTimer.begin(Chassis::checkHeartbeat, MS_2_US(HEARTBEAT_RATE_MS));
 
     // setup CAN
     can.startCAN();    

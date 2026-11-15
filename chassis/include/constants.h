@@ -11,6 +11,8 @@
 #define STATUS_LIGHT_FREQUENCY_MS 200
 #define TIMEOUT_DURAITON 2000 // ms
 
+#define MS_2_US(milli) milli * 1000
+
 //********************************************************* DRIVETRAIN CONSTANTS *******************************************************
 // The max percent of the motors
 #define DRIVE_PERCENT_MAX 1.0
