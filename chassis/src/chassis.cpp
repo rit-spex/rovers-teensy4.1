@@ -16,7 +16,7 @@ void Chassis::startUp()
     // setup the servos
     for (int motor_idx = 0; motor_idx < NUM_WHEELS; motor_idx++)
     {
-        m_wheels[motor_idx].attach(MOTOR_PWM_PINS[motor_idx], MAX_DUTY_CYCLE, MIN_DUTY_CYCLE);
+        m_wheels[motor_idx].attach(MOTOR_PWM_PINS[motor_idx], MIN_DUTY_CYCLE, MAX_DUTY_CYCLE);
     }
 
     // wait some time for the wheels to get setup before setting drive to 0.0
