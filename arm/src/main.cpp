@@ -116,7 +116,7 @@ void loop()
     }
 
     // Safely check timeout using unsigned math (removed abs() which breaks on rollover)
-    if ((currentMillis - Arm::lastROSHeartbeatTime) >= TIMEOUT_DURAITON
+    if ((currentMillis - Arm::lastROSHeartbeatTime) >= TIMEOUT_DURATION
         && Arm::lastROSHeartbeatTime != 0
         && !Arm::isDisabled)
     {

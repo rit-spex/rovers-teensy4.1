@@ -25,8 +25,12 @@ namespace Arm {
     void moveSolenoid(int state);
     bool changeDynamixelMotorID(Dynamixel2Arduino& dyna_ref, uint8_t oldID, uint8_t newID);
     void scanDynaBus(Dynamixel2Arduino& dyna_ref);
-    void loadStoredMotorData(int32_t& out_saved_M1, int32_t& out_saved_M2);
-    void saveContinuousWristData(int32_t absolute_M1, int32_t absolute_M2);
+
+    // Debug-only; only called when ZERO_OUT_WRIST is enabled.
+    void zeroGripper();
+
+    // Debug-only; only called when TESTING_LIMITS is enabled.
+    void testingLimits();
 
     // Define globals
     extern bool isDisabled;
