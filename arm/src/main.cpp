@@ -121,6 +121,10 @@ void loop()
         Arm::disable();
     }
 
+    // If gripper commands stop arriving, hold the current position instead of
+    // continuing towards a stale target.
+    Arm::updateGripperWatchdog();
+
     #if !TESTING_LIMITS
         // Read can data for callbacks safely within scope
         can->poll();

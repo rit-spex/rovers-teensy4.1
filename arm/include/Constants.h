@@ -38,6 +38,19 @@ constexpr float MIN_GRIPPER_ANGLE = 0.01f; // radians
 constexpr float MAX_GRIPPER_ANGLE = 90.0f * DEG_TO_RAD;
 constexpr float GRIPPER_TICK_LIMIT = 26000.0f;
 
+// Each wrist motor may not be commanded outside +/- half a revolution.
+constexpr int32_t WRIST_TICK_LIMIT = 263187;
+
+// ---------------------- Gripper homing / watchdog ----------------------
+constexpr int GRIPPER_HOME_VELOCITY = 1000;
+constexpr unsigned long GRIPPER_HOME_TIMEOUT_MS = 15000;   // max time to reach the switch
+constexpr unsigned long GRIPPER_SWITCH_POLL_MS = 10;       // limit switch poll interval
+constexpr unsigned long GRIPPER_STOP_SETTLE_MS = 100;      // let the motor stop before reading
+constexpr unsigned long GRIPPER_COMMAND_TIMEOUT_MS = 500;  // hold if ROS stops commanding
+
+// ---------------------- E-stop ----------------------
+constexpr unsigned long ESTOP_CLEAR_DELAY_MS = 1000; // quiet time before an e-stop can be cleared
+
 // ---------------------- Dynamixel ----------------------
 #define DYNAMIXEL_PROTOCOL_VERSION 1.0
 #define DYNAMIXEL_BAUD_RATE 57600

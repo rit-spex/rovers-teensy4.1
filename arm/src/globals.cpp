@@ -13,7 +13,16 @@ Dynamixel2Arduino dyna(DYNAMIXEL_MOTORS_SERIAL, -1);
     bool Arm::isDisabled = true;
 #endif
 
+bool Arm::isEStopped = false;
+
 uint32_t Arm::lastROSHeartbeatTime = 0;
+
+// Gripper command watchdog state
+unsigned long Arm::lastGripperCmdTime = 0;
+bool Arm::gripperCmdPending = false;
+
+// Time of the last latched e-stop, used to rate-limit clearing it
+unsigned long Arm::lastEStopTime = 0;
 
 // ---------------------- Multi-Turn Wrap Tracking (PM42-010-S260-R) ----------------------
 // TODO: These offsets are no longer read from or written to battery-backed RAM.
@@ -21,7 +30,6 @@ uint32_t Arm::lastROSHeartbeatTime = 0;
 // rotation number and offset the motor ticks accordingly.
 int32_t wrap_offset_M1 = 0;
 int32_t wrap_offset_M2 = 0;
-int32_t wrap_offset_M3 = 0;
 
 // ---------------------- Calibration & Tracking Offsets ----------------------
 // Hardcode your mechanical zeros for the wrist here (if they are slightly off-center physically)

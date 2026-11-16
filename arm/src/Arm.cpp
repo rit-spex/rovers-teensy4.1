@@ -4,6 +4,36 @@
 
 namespace Arm {
 
+    // The limit switch uses a pull-up, so a LOW reading means it is pressed.
+    bool isLimitSwitchPressed()
+    {
+        return digitalRead(LIMIT_SWITCH_PIN) == LOW;
+    }
+
+    // Position -> velocity -> position. The motors will not accept position
+    // goals unless the operating mode is cycled like this first. The mode
+    // register can only be written with torque off.
+    bool setPositionMode(Dynamixel2Arduino& dyna_ref, uint8_t motorID,
+                         bool torqueOnAfter)
+    {
+        dyna_ref.torqueOff(motorID);
+        delay(5);
+        dyna_ref.setOperatingMode(motorID, OP_EXTENDED_POSITION);
+        delay(5);
+        dyna_ref.setOperatingMode(motorID, OP_VELOCITY);
+        delay(5);
+        bool modeOk = dyna_ref.setOperatingMode(motorID, OP_EXTENDED_POSITION);
+        delay(5);
+
+        if (!torqueOnAfter)
+        {
+            return modeOk;
+        }
+
+        bool torqueOk = dyna_ref.torqueOn(motorID);
+        return modeOk && torqueOk;
+    }
+
     void startUp()
     {
         // Prepare Limit Switch Pin
@@ -30,42 +60,30 @@ namespace Arm {
         dyna.setPortProtocolVersion(2.0);
         #if ENABLE_SERIAL
             Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
-            Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
-            Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
-            Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
+            Serial.printf("set position mode 1: %d\n", setPositionMode(dyna, WRIST_1, true));
         #else
             dyna.ping(WRIST_1);
-            dyna.torqueOff(WRIST_1);
-            dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION);
-            dyna.torqueOn(WRIST_1);
+            setPositionMode(dyna, WRIST_1, true);
         #endif
 
         // Initialize WRIST_2 (Protocol 2.0)
         dyna.setPortProtocolVersion(2.0);
         #if ENABLE_SERIAL
             Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
-            Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
-            Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
-            Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
+            Serial.printf("set position mode 2: %d\n", setPositionMode(dyna, WRIST_2, true));
         #else
             dyna.ping(WRIST_2);
-            dyna.torqueOff(WRIST_2);
-            dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION);
-            dyna.torqueOn(WRIST_2);
+            setPositionMode(dyna, WRIST_2, true);
         #endif
 
         // Initialize GRIPPER (Protocol 1.0)
         dyna.setPortProtocolVersion(1.0);
         #if ENABLE_SERIAL
             Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
-            Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
-            Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
-            Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
+            Serial.printf("set position mode 3: %d\n", setPositionMode(dyna, GRIPPER, true));
         #else
             dyna.ping(GRIPPER);
-            dyna.torqueOff(GRIPPER);
-            dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION);
-            dyna.torqueOn(GRIPPER);
+            setPositionMode(dyna, GRIPPER, true);
         #endif
 
         // ==========================================
@@ -204,19 +222,132 @@ namespace Arm {
         // Fail-safe: de-energize the solenoid whenever the arm is disabled.
         digitalWrite(SOLENOID_PIN, LOW);
 
+        gripperCmdPending = false;
         isDisabled = true;
     }
 
 
-    void enable() {
-        // Re-apply torque: disable() turns it off and the motors ignore goal
-        // positions until it is turned back on.
+    // Latch the arm off until a deliberate enable request arrives.
+    void eStop()
+    {
+        isEStopped = true;
+        lastEStopTime = millis();
+
+        #if ENABLE_SERIAL
+            Serial.println("E-STOP latched");
+        #endif
+
+        gripperCmdPending = false;
+
+        if (!isDisabled)
+        {
+            disable();
+        }
+        else
+        {
+            digitalWrite(SOLENOID_PIN, LOW);
+        }
+    }
+
+
+    bool enable()
+    {
+        // Repeated enable requests must not re-latch the goals mid-motion.
+        if (!isDisabled && !isEStopped)
+        {
+            return true;
+        }
+
+        if (isEStopped)
+        {
+            // Require a short quiet period so a held or repeated e-stop cannot be
+            // cleared by the next enable request.
+            if (millis() - lastEStopTime < ESTOP_CLEAR_DELAY_MS)
+            {
+                #if ENABLE_SERIAL
+                    Serial.println("Enable refused: e-stop is still latched");
+                #endif
+                return false;
+            }
+
+        }
+
+        // Read every joint first so we can hold position instead of snapping to
+        // a stale target. If any motor cannot be read, stay disabled.
         dyna.setPortProtocolVersion(2.0);
+        int32_t wrist1 = static_cast<int32_t>(dyna.getPresentPosition(WRIST_1));
+        bool wrist1Ok = (dyna.getLastLibErrCode() == DXL_LIB_OK);
+        int32_t wrist2 = static_cast<int32_t>(dyna.getPresentPosition(WRIST_2));
+        bool wrist2Ok = (dyna.getLastLibErrCode() == DXL_LIB_OK);
+
+        dyna.setPortProtocolVersion(1.0);
+        int32_t gripper = static_cast<int32_t>(dyna.getPresentPosition(GRIPPER));
+        bool gripperOk = (dyna.getLastLibErrCode() == DXL_LIB_OK);
+
+        if (!wrist1Ok || !wrist2Ok || !gripperOk)
+        {
+            #if ENABLE_SERIAL
+                Serial.println("Enable refused: could not read motor positions");
+            #endif
+            return false;
+        }
+
+        // Latch every goal to its current position before applying torque, so a
+        // joint does not snap towards a stale target left over from before the
+        // disable.
+        dyna.setPortProtocolVersion(2.0);
+        dyna.setGoalPosition(WRIST_1, wrist1);
+        dyna.setGoalPosition(WRIST_2, wrist2);
         dyna.torqueOn(WRIST_1);
         dyna.torqueOn(WRIST_2);
+
         dyna.setPortProtocolVersion(1.0);
+        dyna.setGoalPosition(GRIPPER, gripper);
         dyna.torqueOn(GRIPPER);
+
+        if (isEStopped)
+        {
+            isEStopped = false;
+            #if ENABLE_SERIAL
+                Serial.println("E-stop latch cleared");
+            #endif
+        }
+
+        gripperCmdPending = false;
         isDisabled = false;
+        return true;
+    }
+
+
+    // Called every loop: if commands stop arriving, stop chasing the stale goal
+    // and hold the gripper where it is.
+    void updateGripperWatchdog()
+    {
+        if (isDisabled || !gripperCmdPending)
+        {
+            return;
+        }
+
+        if (millis() - lastGripperCmdTime < GRIPPER_COMMAND_TIMEOUT_MS)
+        {
+            return;
+        }
+
+        dyna.setPortProtocolVersion(1.0);
+        int32_t current = static_cast<int32_t>(dyna.getPresentPosition(GRIPPER));
+
+        if (dyna.getLastLibErrCode() == DXL_LIB_OK)
+        {
+            dyna.setGoalPosition(GRIPPER, current);
+            targetM3 = static_cast<float>(current);
+            gripTarget = K_GRIP * (static_cast<float>(current) - dE_3);
+        }
+
+        gripperCmdPending = false;
+
+        #if ENABLE_SERIAL
+            Serial.println("Gripper command timeout: holding position");
+        #endif
     }
 
 
@@ -256,129 +387,108 @@ namespace Arm {
         targetM1 = ( bendTarget/K_BEND + twstTarget/K_TWST) + dE_1;
         targetM2 = (-bendTarget/K_BEND + twstTarget/K_TWST) + dE_2;
 
-        // Strip the multi-turn wrap software offset before sending back to hardware
+        // Strip the multi-turn wrap software offset before sending back to
+        // hardware, then keep each motor inside its +/- limit.
+        int32_t goalM1 = static_cast<int32_t>(targetM1 - wrap_offset_M1);
+        int32_t goalM2 = static_cast<int32_t>(targetM2 - wrap_offset_M2);
+        goalM1 = max(-WRIST_TICK_LIMIT, min(WRIST_TICK_LIMIT, goalM1));
+        goalM2 = max(-WRIST_TICK_LIMIT, min(WRIST_TICK_LIMIT, goalM2));
+
         dyna_ref.setPortProtocolVersion(2.0);
-        dyna_ref.setGoalPosition(WRIST_1, static_cast<int>(targetM1 - wrap_offset_M1));
-        dyna_ref.setGoalPosition(WRIST_2, static_cast<int>(targetM2 - wrap_offset_M2));
+        dyna_ref.setGoalPosition(WRIST_1, goalM1);
+        dyna_ref.setGoalPosition(WRIST_2, goalM2);
     }
 
+    // Drive the gripper into its limit switch, then treat that position as the
+    // zero. The gripper ends up at its calibrated rest position.
     void homeGripper(Dynamixel2Arduino& dyna_ref) {
         #if ENABLE_SERIAL
-            Serial.println("--- Homing Gripper (to 90 Deg) ---");
+            Serial.println("--- Homing Gripper ---");
         #endif
 
-        // 1. Prepare Limit Switch Pin
         pinMode(LIMIT_SWITCH_PIN, INPUT_PULLUP);
 
-        // 2. Set Gripper to Velocity Mode to drive it continuously
-        delay(5);
         dyna_ref.setPortProtocolVersion(1.0);
         dyna_ref.torqueOff(GRIPPER);
         delay(5);
-        dyna_ref.setOperatingMode(GRIPPER, OP_VELOCITY);
+
+        // If the button is already pressed, there is nothing to drive.
+        bool homed = false;
+        if (isLimitSwitchPressed())
+        {
+            delay(GRIPPER_SWITCH_POLL_MS);
+            homed = isLimitSwitchPressed();
+        }
+
+        if (!homed)
+        {
+            // Drive towards the button in velocity mode.
+            dyna_ref.setOperatingMode(GRIPPER, OP_VELOCITY);
+            delay(5);
+            dyna_ref.setGoalVelocity(GRIPPER, GRIPPER_HOME_VELOCITY);
+            dyna_ref.torqueOn(GRIPPER);
+
+            // A press only counts once two consecutive readings agree, so a
+            // bounce cannot stop the motor early.
+            bool wasPressed = false;
+            unsigned long start = millis();
+            while (millis() - start < GRIPPER_HOME_TIMEOUT_MS)
+            {
+                bool pressed = isLimitSwitchPressed();
+
+                if (pressed && wasPressed)
+                {
+                    homed = true;
+                    break;
+                }
+
+                wasPressed = pressed;
+                delay(GRIPPER_SWITCH_POLL_MS);
+            }
+
+            // Stop where the button was hit and let the motor settle.
+            dyna_ref.setGoalVelocity(GRIPPER, 0);
+            delay(GRIPPER_STOP_SETTLE_MS);
+            dyna_ref.torqueOff(GRIPPER);
+            delay(5);
+        }
+
+        // Always leave the motor in position mode, so a later enable does not
+        // run it away in velocity mode.
+        setPositionMode(dyna_ref, GRIPPER);
+
+        if (!homed)
+        {
+            #if ENABLE_SERIAL
+                Serial.println("ERROR: Gripper never reached the limit switch");
+            #endif
+            return;
+        }
+
+        int32_t switchTicks = static_cast<int32_t>(dyna_ref.getPresentPosition(GRIPPER));
+        if (dyna_ref.getLastLibErrCode() != DXL_LIB_OK)
+        {
+            #if ENABLE_SERIAL
+                Serial.println("ERROR: Could not read the gripper at the limit switch");
+            #endif
+            return;
+        }
+
+        // The calibrated zero sits GRIPPER_ZERO_OFFSET ticks from the button.
+        dE_3 = static_cast<float>(switchTicks) + GRIPPER_ZERO_OFFSET;
+
+        #if ENABLE_SERIAL
+            Serial.printf("Gripper switch at %ld ticks, zero at %.0f\n",
+                          static_cast<long>(switchTicks), dE_3);
+        #endif
+
+        // Move off the button to the rest position; the main loop takes over.
+        gripTarget = 0.0f;
+        targetM3 = max(-GRIPPER_TICK_LIMIT,
+                       min(GRIPPER_TICK_LIMIT, gripTarget / K_GRIP + dE_3));
+        dyna_ref.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
         delay(5);
         dyna_ref.torqueOn(GRIPPER);
-
-        // 3. Command the gripper to move towards the switch
-        delay(5);
-        dyna_ref.setGoalVelocity(GRIPPER, 1000);        // 1000 towards limit   2000 away from limit
-        delay(5);
-        // 4. Wait for the limit switch to trigger
-        unsigned long homingStart = millis();
-        bool homingSuccess = false;
-        delay(500);
-
-        while (millis() - homingStart < 15000) {
-            if (digitalRead(LIMIT_SWITCH_PIN) == LOW) {
-                homingSuccess = true;
-                break;
-            }
-            delay(10);
-        }
-
-        // 5. Stop the motor immediately
-        dyna_ref.setGoalVelocity(GRIPPER, 0);
-        delay(5);
-        dyna_ref.torqueOff(GRIPPER);
-
-        // 6. Handle Homing Result
-        if (homingSuccess) {
-            #if ENABLE_SERIAL
-                Serial.println("Limit Switch Hit! Performing temporary calibration...");
-            #endif
-
-            // --- STEP A: TEMPORARY CALIBRATION AT 90 DEG ---
-            // We must temporarily calibrate here just so we can safely use moveGripper()
-            dyna_ref.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION);
-            delay(5);
-            dyna_ref.torqueOn(GRIPPER);
-            delay(100);
-
-            int32_t raw_90 = dyna_ref.getPresentPosition(GRIPPER);
-            delay(5);
-            dE_3 = GRIPPER_ZERO_OFFSET;
-            wrap_offset_M3 = -GRIPPER_ZERO_OFFSET - raw_90;
-
-            // --- STEP B: MOVE TO 45 DEGREES ---
-            #if ENABLE_SERIAL
-                Serial.println(raw_90);
-                Serial.println(dE_3);
-                Serial.println(wrap_offset_M3);
-                Serial.println("Moving to 45 deg to escape the hardware wrap boundary...\n");
-            #endif
-
-            // Manually move the gripper back
-            const float tickLim = GRIPPER_TICK_LIMIT;
-            gripTarget = 0;
-            targetM3 = max(-tickLim, min(tickLim, gripTarget/K_GRIP + dE_3));
-            dyna_ref.setPortProtocolVersion(1.0);
-            dyna_ref.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
-
-            // CRITICAL: You must wait long enough for your highly-geared motor to
-            // physically reach the 45 degree mark before executing Step C!
-            // Adjust this delay if 10 seconds isn't long enough.
-
-            delay(10000);
-
-            // --- STEP C: RE-ANCHOR THE DYNAMIXEL ---
-            // Turning torque off and re-applying Extended Position Mode at 45 degrees forces
-            // the Dynamixel firmware to reset its "0 rotation" wrap boundary to this new, safe location!
-            // Serial.print("Before reanchor: ");
-            // Serial.println(dyna_ref.getPresentPosition(GRIPPER));
-
-            dyna_ref.torqueOff(GRIPPER);
-            delay(1);
-            dyna_ref.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION);
-            delay(1);
-            dyna_ref.setOperatingMode(GRIPPER, OP_VELOCITY);
-            delay(1);
-            dyna_ref.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION);
-            delay(1);
-            dyna_ref.torqueOn(GRIPPER);
-            delay(100);
-
-            // --- STEP D: FINAL CALIBRATION AT 45 DEG ---
-            #if ENABLE_SERIAL
-                Serial.println("Re-anchored! Calculating final offsets...");
-            #endif
-
-            int32_t raw_45 = dyna_ref.getPresentPosition(GRIPPER);
-
-            // Calculate where 45 degrees *should* be in ticks based on your existing moveGripper math:
-            int32_t ideal_45_ticks = static_cast<int32_t>((45.0 * DEG_TO_RAD) / K_GRIP + GRIPPER_ZERO_OFFSET);
-
-            // Bridge the gap from the new hardware center
-            wrap_offset_M3 = ideal_45_ticks - raw_45;
-
-            #if ENABLE_SERIAL
-                Serial.println("Homing and Wrap Reset Complete!");
-            #endif
-
-        } else {
-            #if ENABLE_SERIAL
-                Serial.println("ERROR: Gripper Homing Timeout! Limit switch never triggered.");
-            #endif
-        }
     }
 
     void moveGripper(Dynamixel2Arduino& dyna_ref, float position)
@@ -407,6 +517,10 @@ namespace Arm {
 
         dyna_ref.setPortProtocolVersion(1.0);
         dyna_ref.setGoalPosition(GRIPPER, static_cast<int>(targetM3));
+
+        // Feed the command watchdog.
+        lastGripperCmdTime = millis();
+        gripperCmdPending = true;
     }
 
 

@@ -17,7 +17,6 @@ extern Dynamixel2Arduino dyna;
 // Set once a gearboxed potentiometer is used to measure the rotation number.
 extern int32_t wrap_offset_M1;
 extern int32_t wrap_offset_M2;
-extern int32_t wrap_offset_M3;
 
 extern int32_t last_raw_M1;
 extern int32_t last_raw_M2;

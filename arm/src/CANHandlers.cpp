@@ -12,9 +12,9 @@ namespace CANHandlers {
     // Handle a E-STOP action
     void eStop(const EStopMsg &msg) {
         #if ENABLE_SERIAL
-            Serial.println("E-STOP ENCOUNTERED");
+            Serial.printf("E-STOP received from subsystem %u\n", static_cast<unsigned>(msg.source));
         #endif
-        Arm::disable();
+        Arm::eStop();
     }
 
     // Respond to the heartbeat
@@ -45,7 +45,11 @@ namespace CANHandlers {
             #if ENABLE_SERIAL
                 Serial.println("Enabling Arm");
             #endif
-            Arm::enable();
+            if (!Arm::enable()) {
+                #if ENABLE_SERIAL
+                    Serial.println("Arm stays disabled");
+                #endif
+            }
         } else {
             #if ENABLE_SERIAL
                 Serial.println("Disabling Arm");
