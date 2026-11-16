@@ -28,24 +28,45 @@ namespace Arm {
 
         // Initialize WRIST_1 (Protocol 2.0)
         dyna.setPortProtocolVersion(2.0);
-        Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
-        Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
-        Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
-        Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
+        #if ENABLE_SERIAL
+            Serial.printf("ping 1: %d\n", dyna.ping(WRIST_1));
+            Serial.printf("set torque off 1: %d\n", dyna.torqueOff(WRIST_1));
+            Serial.printf("operating mode 1: %d\n", dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION));
+            Serial.printf("set torque on 1: %d\n", dyna.torqueOn(WRIST_1));
+        #else
+            dyna.ping(WRIST_1);
+            dyna.torqueOff(WRIST_1);
+            dyna.setOperatingMode(WRIST_1, OP_EXTENDED_POSITION);
+            dyna.torqueOn(WRIST_1);
+        #endif
 
         // Initialize WRIST_2 (Protocol 2.0)
         dyna.setPortProtocolVersion(2.0);
-        Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
-        Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
-        Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
-        Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
+        #if ENABLE_SERIAL
+            Serial.printf("ping 2: %d\n", dyna.ping(WRIST_2));
+            Serial.printf("set torque off 2: %d\n", dyna.torqueOff(WRIST_2));
+            Serial.printf("operating mode 2: %d\n", dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION));
+            Serial.printf("set torque on 2: %d\n", dyna.torqueOn(WRIST_2));
+        #else
+            dyna.ping(WRIST_2);
+            dyna.torqueOff(WRIST_2);
+            dyna.setOperatingMode(WRIST_2, OP_EXTENDED_POSITION);
+            dyna.torqueOn(WRIST_2);
+        #endif
 
         // Initialize GRIPPER (Protocol 1.0)
         dyna.setPortProtocolVersion(1.0);
-        Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
-        Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
-        Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
-        Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
+        #if ENABLE_SERIAL
+            Serial.printf("ping 3: %d\n", dyna.ping(GRIPPER));
+            Serial.printf("set torque off 3: %d\n", dyna.torqueOff(GRIPPER));
+            Serial.printf("operating mode 3: %d\n", dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION));
+            Serial.printf("set torque on 3: %d\n", dyna.torqueOn(GRIPPER));
+        #else
+            dyna.ping(GRIPPER);
+            dyna.torqueOff(GRIPPER);
+            dyna.setOperatingMode(GRIPPER, OP_EXTENDED_POSITION);
+            dyna.torqueOn(GRIPPER);
+        #endif
 
         // ==========================================
         // WRIST MULTI-TURN OFFSETS
@@ -179,6 +200,10 @@ namespace Arm {
         dyna.torqueOff(WRIST_2);
         dyna.setPortProtocolVersion(1.0);
         dyna.torqueOff(GRIPPER);
+
+        // Fail-safe: de-energize the solenoid whenever the arm is disabled.
+        digitalWrite(SOLENOID_PIN, LOW);
+
         isDisabled = true;
     }
 
@@ -312,6 +337,7 @@ namespace Arm {
             // CRITICAL: You must wait long enough for your highly-geared motor to
             // physically reach the 45 degree mark before executing Step C!
             // Adjust this delay if 10 seconds isn't long enough.
+
             delay(10000);
 
             // --- STEP C: RE-ANCHOR THE DYNAMIXEL ---
@@ -427,7 +453,7 @@ namespace Arm {
         dyna.setPortProtocolVersion(2.0);
         dyna.setGoalPosition(Arm::Dynamixel2MotorIDs::WRIST_1, 0);
         dyna.setGoalPosition(Arm::Dynamixel2MotorIDs::WRIST_2, 0);
-        for (int i = 0; i<10; i++) 
+        for (int i = 0; i<10; i++)
         {
             Arm::updateEncoderAngles();
             delay(500);

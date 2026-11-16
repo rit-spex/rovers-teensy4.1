@@ -25,10 +25,13 @@ namespace CANHandlers {
                 Serial.printf("Heartbeat received from ROS with uptime: %d ms\n", msg.uptime_ms);
             #endif
         }
-        if (!msg.enabled)
+        // Any subsystem reporting itself disabled is a shutdown signal. Only act
+        // on the transition so an already disabled arm is not re-disabled on
+        // every heartbeat.
+        if (!msg.enabled && !Arm::isDisabled)
         {
             #if ENABLE_SERIAL
-                Serial.println("ROS is disabled. Disabling arm.");
+                Serial.println("Heartbeat reports disabled. Disabling arm.");
             #endif
             Arm::disable();
         }

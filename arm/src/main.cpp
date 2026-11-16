@@ -63,8 +63,6 @@ void loop()
 
     if (currentMillis - previousMillis >= LED_BLINK_INTERVAL)
     {
-        Serial.print("Number of bits in my ass: ");
-        Serial.println(Serial4.available());
         // Update time variable
         previousMillis = currentMillis;
         // Serial.println(currentMillis); // Optional: uncomment if you want constant terminal spam
@@ -91,27 +89,22 @@ void loop()
                 MessageID::TEENSY_HEARTBEAT
             );
 
-            if (!Arm::isDisabled)
-            {
-                // Send-out encoder data
-                Arm::updateEncoderAngles();
-                // Arm::moveWrist(dyna, bendAngle, twstAngle);
-                // Arm::moveGripper(dyna, gripAngle);
+            // Refresh feedback every cycle, even while disabled, so ROS can
+            // still see where the arm is.
+            Arm::updateEncoderAngles();
 
-                // Added Arm:: scope resolution so the compiler knows where to find the variables
-                ReadWristBendMsg msg1;
-                msg1.position = bendAngle;
-                can->send(msg1, MessageID::READ_WRIST_BEND);
+            ReadWristBendMsg msg1;
+            msg1.position = bendAngle;
+            can->send(msg1, MessageID::READ_WRIST_BEND);
 
-                ReadWristTwistMsg msg2;
-                msg2.position = twstAngle;
-                can->send(msg2, MessageID::READ_WRIST_TWIST);
+            ReadWristTwistMsg msg2;
+            msg2.position = twstAngle;
+            can->send(msg2, MessageID::READ_WRIST_TWIST);
 
-                ReadGripperMsg msg3;
-                msg3.position = gripAngle;
-                msg3.state = (gripAngle > 0.1) ? GripperState::Closed : GripperState::Open;
-                can->send(msg3, MessageID::READ_GRIPPER);
-            }
+            ReadGripperMsg msg3;
+            msg3.position = gripAngle;
+            msg3.state = (gripAngle > 0.1) ? GripperState::Closed : GripperState::Open;
+            can->send(msg3, MessageID::READ_GRIPPER);
         #endif
     }
 
@@ -120,14 +113,12 @@ void loop()
         && Arm::lastROSHeartbeatTime != 0
         && !Arm::isDisabled)
     {
-        Serial.printf("cur mills %lu\n", currentMillis);
-        Serial.printf("last heartbeat %lu\n", Arm::lastROSHeartbeatTime);
+        #if ENABLE_SERIAL
+            Serial.printf("ROS heartbeat timeout at %lu ms\n", currentMillis);
+            Serial.printf("last heartbeat: %lu ms\n", Arm::lastROSHeartbeatTime);
+        #endif
 
         Arm::disable();
-
-        #if ENABLE_SERIAL
-            Serial.printf("ROS heartbeat timeout at %lu\n", currentMillis);
-        #endif
     }
 
     #if !TESTING_LIMITS
