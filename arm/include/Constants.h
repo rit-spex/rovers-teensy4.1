@@ -19,7 +19,7 @@ constexpr float RAD_TO_DEG = 180.0f / PI_F;
 
 // ---------------------- Motor properties ----------------------
 // PM42-010-S260-R resolution (ticks per revolution).
-constexpr int32_t WRIST_TICKS_PER_REV = 526374;
+constexpr int32_t WRIST_TICKS_PER_REV = 526374 * 0.95f;
 
 // Tick <-> radian coefficients. All joint angles are stored in radians.
 constexpr float K_BEND = PI_F / WRIST_TICKS_PER_REV;
